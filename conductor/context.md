@@ -3,7 +3,7 @@
 > Domain glossary and ubiquitous language for **DittoDatto**.
 > Updated by `/grill` and `/new-track` sessions.
 >
-> **Last refined:** 2026-05-26 (`/grill foundation`) — sharpened during the post-disruption foundation grill: namespace rename (`titan`/`enceladus` → `companies`/`users`), surface inventory locked (Flutter primary, Nuxt = landing only), TheOracle scrubbed (non-concept), Saturn staging architecture committed.
+> **Last refined:** 2026-05-26 (`/grill admin-panel`) — Admin Panel reframed as "breaker box" (2-user private tool), Inbox clarified as within-platform messaging, MasterDatto refined as future AI escalation agent, SearchAnalytics added as separate project, Business Portal dogfooding clarified.
 >
 > **Authoritative legacy starting point:** `conductor/docs/legacy/CONTEXT.md` — superseded by this file as of the foundation grill.
 
@@ -60,9 +60,11 @@
 | **UCP (Universal Commerce Protocol)** | Future agent-to-agent interoperability protocol — agent-mediated commerce instead of SEO/browsing. | API (avoid), webhook (avoid) |
 | **Public Marketplace (Flutter)** | The consumer-facing native app (iOS + Android). **THE canonical consumer surface** for DittoDatto. | webapp (avoid), frontend (avoid) |
 | **`dittodatto.no` landing page** | The Nuxt 4 / Vue 3 web surface at `dittodatto.no` (Cloud Run-hosted). **Public marketing/landing page only** — NOT a co-equal product surface. Polished AFTER the Flutter app reaches feature completeness. | Public Marketplace (web) — *deprecated framing*, Web Shell — *deprecated framing* |
-| **Business Portal** | Merchant dashboard for managing establishments, services, staff, bookings. **Flutter (planned, full replacement of legacy Nuxt webapp).** | admin dashboard (avoid), merchant app (avoid) |
-| **Admin Panel** | Internal platform operations and analytics — Merkurial Studio super-admin tool. **Flutter** (`apps/admin/`), cross-platform (Android + iOS + Linux desktop + Web). The tablet form-factor is a convenient test surface, not a design constraint. Migration from legacy Nuxt complete on the 4 shipped screens (S19–S20: Dashboard / Users / Companies / Categories). | back-office (avoid), control panel (avoid) |
-| **MasterDatto** | A future cross-Establishment Datto for platform-wide super-business agents. Inbox slot is reserved in the Flutter Admin Panel. | (none yet) |
+| **Business Portal** | Merchant dashboard for managing establishments, services, staff, bookings. **Flutter (planned, full replacement of legacy Nuxt webapp).** Merkurial Studio dogfoods the Business Portal as a company on the platform — "we use our own system to administrate others with the same system." The Business Portal is where Merkurial Studio manages its business relationships; the Admin Panel is the infrastructure breaker box. | admin dashboard (avoid), merchant app (avoid) |
+| **Admin Panel** | The platform's **"breaker box"** — a 2-user private tool (Arnar + Höddi) for platform infrastructure operations. NOT a customer-facing product. **Flutter** (`apps/admin/`), targets: Android + Linux desktop + Web (same codebase, no iOS). 5 screens: Dashboard / Users / Companies / Categories / Inbox. Login: email + password only, maximum opacity (no branding, no error feedback). Explicitly excludes establishment/booking/service management (→ Business Portal). Replaces `panel.dittodatto.no` (Nuxt) when Flutter web build is ready. See ADR-0006, ADR-0013, PRD v1.0. | back-office (avoid), control panel (avoid), breaker box (informal) |
+| **MasterDatto** | A future AI agent operated by Merkurial Studio — Merkurial's own Datto instance that other companies' Datto agents communicate with for critical support escalation and platform-level coordination. The human precursor is the Inbox screen in the Admin Panel. Not v1 scope. | (none yet) |
+| **Inbox** (Admin Panel) | Within-platform messaging screen where platform administrators (Arnar + Höddi) receive feedback, support messages, and notifications from businesses and users on the platform. Future home for System Alerts. The human precursor to MasterDatto's AI-mediated inbox. Distinct from any future Business Portal messaging. | admin inbox, support inbox |
+| **SearchAnalytics** | Separate project (`predict.dittodatto.no`, `~/Projects/SearchAnalytics`) for Shadow Demand analytics and Zero-Result Signal visualization. Currently a bare Nuxt webapp under conceptualization. Whether to merge into Admin Panel is an open question for a future session. | demand dashboard, analytics panel |
 | **BankID** | Norwegian digital identity verification via Vipps Login (OIDC). Mandatory for self-service consumer transactions. NOT required for staff-created walk-in customer accounts. | ID verification (avoid), identity check (avoid) |
 | **Tracer Bullet** | A single, thin end-to-end path through every layer of the system that proves the architecture works. Term from *The Pragmatic Programmer*. v1.0 IS the tracer bullet. | steel thread (avoid), proof of concept (avoid) |
 | **Vertical Slice** | A development unit that cuts through all layers (UI → API → DB) for one feature, independently shippable. | horizontal slice (avoid) |
@@ -131,12 +133,7 @@
 
 ### Deferred to per-surface grills
 
-1. **`/grill admin-panel`:**
-   - BankID re-auth for super-admin actions? (ADR-0005 open question)
-   - Tablet-only super-admin restrictions?
-   - Super-admin → operator impersonation pattern?
-   - Audit log depth for admin/super-admin actions?
-   - Inbox screen scope (MasterDatto messaging surface).
+1. ~~**`/grill admin-panel`:**~~ ✅ **Resolved 2026-05-26** — All 4 ADR-0005 open questions answered "no" (2-user private tool). Inbox = within-platform messaging (human precursor to MasterDatto). Scope locked to 5 screens. See ADR-0013, PRD v1.0.
 
 2. **`/grill business-portal`:**
    - Full PRD from scratch (legacy never had one).

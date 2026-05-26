@@ -6,6 +6,7 @@
 - [Workflow](./workflow.md)
 - [Code Style Guides](./code_styleguides/)
 - [Domain Glossary](./context.md)
+- [Product Requirements](./prd.md)
 
 ## Decisions
 
