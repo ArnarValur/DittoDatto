@@ -4,6 +4,17 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-26 21:35 (PlutoII Flutter dev ready)
+
+- **Session:** PlutoII Flutter dev environment setup (Hermes on Antigravity, Opus 4.6 Thinking).
+- **Tracks touched:** None (no tracks exist yet).
+- **Status:** **PlutoII is Flutter-dev-ready.** Flutter 3.44.0 / Dart 3.12.0 / JDK 21 / Android SDK 36.1.0 / Linux desktop toolchain all green on `flutter doctor -v`. PATH wired in `~/.zshrc`. System symlinks at `/usr/local/bin/{dart,flutter}`. Dart MCP server configured for Antigravity with absolute path. Chrome (Flatpak) wired via `CHROME_EXECUTABLE`.
+- **Decisions:** None (0 ADRs — all operational, classified at checkpoint).
+- **Artifacts:** `setup-flutter-dev.sh` at workspace root — disposable, can be trashed.
+- **Next:** `/grill admin-panel` (user is opening a new window for this). Dev environment is fully unblocked for Flutter builds.
+
+---
+
 ## 2026-05-26 20:49 (Saturn Hub deployed)
 
 - **Session:** Conductor resume + Saturn DittoDatto Hub deployment (Hermes on Antigravity, Opus 4.6 Thinking).

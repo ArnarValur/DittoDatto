@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-05-26 20:49 (post Saturn Hub deployment)
-**Session Focus:** Conductor resume + Saturn DittoDatto Hub deployment
+**Last Updated:** 2026-05-26 21:35 (post PlutoII Flutter dev setup)
+**Session Focus:** PlutoII Flutter dev environment setup
 
 ## 🚀 Active Tracks
 
@@ -9,6 +9,7 @@ _No tracks yet. The foundation grill cleared the path; per-surface tracks land v
 
 ## ✅ Recently Completed
 
+- **2026-05-26 (late evening)** — **PlutoII Flutter dev environment setup.** Flutter 3.44.0 / Dart 3.12.0 confirmed at `~/Flutter/flutter/`. JDK 21 (OpenJDK) installed. Android SDK 36.1.0 cmdline-tools installed + licenses accepted. Linux desktop toolchain (clang 18 + cmake 3.28 + ninja 1.11) installed. PATH wired in `~/.zshrc`. Chrome (Flatpak) wired via `CHROME_EXECUTABLE`. System symlinks at `/usr/local/bin/{dart,flutter}`. Dart MCP server configured for Antigravity (`~/.gemini/config/mcp_config.json`, absolute path). `flutter doctor -v` all green. Setup script at `setup-flutter-dev.sh` (disposable).
 - **2026-05-26 (evening)** — **DittoDatto Hub deployed on Saturn.** SurrealDB 3.0 (RocksDB) running in Docker container `dittodatto-hub` on `dittodatto-net` network, bound to Tailnet IP `100.87.99.59:8001`. Remote smoke test from PlutoII: 200 OK via `saturn:8001`. OpenWebUI on `:8080` confirmed healthy. SSH key auth established PlutoII → Saturn. Tailscale Service `dittodatto` defined (ports `tcp:8001-8005`), Saturn tagged `tag:dittodatto-hub`. `saturn-setup-runbook.md` cleaned up (6 stale references: ADR-XXXX → ADR-0003, titan/enceladus → companies/users, "to be written" → settled). Hub intentionally empty — schemas deferred to MercuryEngine migration track.
 - **2026-05-26 (pm)** — **`/grill foundation` complete.** 12 canonical ADRs written to `conductor/adr/`. Surface inventory locked. SurrealDB namespaces renamed `titan/enceladus` → `companies/users`. Saturn locked as staging. `context.md` consolidated; `project-context.md` synced. Runbook shipped at `saturn-setup-runbook.md`.
 - **2026-05-26 (am)** — Conductor v2.1 scaffolded. Identity-first `project-context.md` written. Brownfield `context.md` seeded. Legacy reference material migrated to `conductor/docs/legacy/`. Workflow set to **Strict**.
@@ -39,6 +40,7 @@ _None._ Saturn Hub is live — staging-environment verification is unblocked.
 - *2026-05-26* — Tailscale Service `dittodatto` defined with ports `tcp:8001-8005`; Saturn tagged `tag:dittodatto-hub` in Tailscale ACL _(operational)_
 - *2026-05-26* — SurrealDB root credentials: user `dittodatto_root`, password stored in Bitwarden (entry: "DittoDatto Hub — SurrealDB root, Saturn") _(operational)_
 - *2026-05-26* — SSH key auth PlutoII → Saturn established; config at `~/.ssh/config` host `saturn`, user `arnar` _(operational)_
+- *2026-05-26* — PlutoII Flutter dev environment: Flutter 3.44.0 at `~/Flutter/flutter/`, JDK 21, Android SDK 36.1.0, Linux toolchain. PATH in `~/.zshrc`. Symlinks at `/usr/local/bin/{dart,flutter}`. Chrome via Flatpak (`CHROME_EXECUTABLE`). Dart MCP server in Antigravity uses absolute path _(operational)_
 
 ## 📋 Next Session Suggestions
 
