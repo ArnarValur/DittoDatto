@@ -3,7 +3,7 @@
 > Domain glossary and ubiquitous language for **DittoDatto**.
 > Updated by `/grill` and `/new-track` sessions.
 >
-> **Last refined:** 2026-05-26 (`/grill admin-panel`) — Admin Panel reframed as "breaker box" (2-user private tool), Inbox clarified as within-platform messaging, MasterDatto refined as future AI escalation agent, SearchAnalytics added as separate project, Business Portal dogfooding clarified.
+> **Last refined:** 2026-05-27 (`/grill flutter-design-system`) — Shared Flutter design system (`ditto_design`) defined: tokens + theme + layout utilities + `DittoDashboardShell`. SolarTheme acknowledged as future layer. `DittoWindowClass` breakpoint enum added. ADR-0014.
 >
 > **Authoritative legacy starting point:** `conductor/docs/legacy/CONTEXT.md` — superseded by this file as of the foundation grill.
 
@@ -76,6 +76,10 @@
 | **`companies` namespace** | The SurrealDB namespace holding all non-PII platform data: per-company databases (`companies/{slug}`), the cross-company DittoBar aggregator (`companies/discovery`), and the platform registry (`companies/registry` — company list, system alerts, audit log, icon collections). Replaces the legacy `titan` codename. | (formerly `titan`) |
 | **`users` namespace** | The SurrealDB namespace holding consumer PII (`users/profiles` — `vipps_sub`, name, email, phone). GDPR-isolated from `companies` via SurrealDB namespace-level user credentials. Replaces the legacy `enceladus` codename. | (formerly `enceladus`) |
 | **Tailscale** | Mesh VPN used by the Merkurial Studio team + AI agents to reach Saturn-hosted staging services. Paid subscription tier; MagicDNS enabled (services reach via `http://saturn:<port>`). No public exposure. | (none) |
+| **`ditto_design`** | Shared Flutter design system package (`packages/ditto_design/`). Provides design tokens (Moody Blue palette, spacing grid, border radii, animation durations), theme (`DittoTheme.dark` + `DittoTheme.light` from Moody Blue `#6F71CC` seed), layout utilities (breakpoints, `DittoWindowClass`), and `DittoDashboardShell`. Sibling to `mercury_client`. Domain-specific widgets graduate into the package organically when cross-app need is proven. See ADR-0014. | design system, shared theme (avoid) |
+| **SolarTheme** | A time-of-day-aware theme system that switches between dark and light modes based on solar position at the user's Norwegian location (Drammen, 59.74°N, 10.20°E). Uses SunCalc for sun altitude → lightness mapping, golden hour hue override, saturation damping. Includes a star field renderer with real celestial projection (30-star catalog, sidereal time calculation). Originally built for Nuxt (`DittoDatto-old/packages/ui/themes/SolarTheme/`). Future `ditto_design` layer for the Public Marketplace — pre-launch polish, not v1 scope. | night mode, solar mode |
+| **`DittoDashboardShell`** | Shared responsive dashboard shell widget in `ditto_design`. Flutter equivalent of the Nuxt UI `DashboardSidebar` + `DashboardPanel` + `DashboardNavbar` layout — permanent collapsible sidebar, nav groups with expandable children, header/footer slots, main content panel. On narrow screens (`DittoWindowClass.compact`), sidebar collapses to a drawer. Consumed by Admin Panel and Business Portal. Public Marketplace uses its own consumer shell (3-tab bottom nav). | dashboard layout, sidebar scaffold |
+| **`DittoWindowClass`** | Enum in `ditto_design` classifying window width into Material 3 canonical breakpoints: `compact` (<600px), `medium` (600–839px), `expanded` (840–1199px), `large` (≥1200px). Apps use `LayoutBuilder` + `windowClassOf(width)` to make responsive layout decisions. Shared by all 3 Flutter surfaces. | breakpoint class, window size class |
 
 ---
 

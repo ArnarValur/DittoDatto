@@ -39,11 +39,12 @@ The Admin Panel is DittoDatto's internal **"breaker box"** — a 2-user private 
 - **Theme:** Material 3 `ColorScheme.fromSeed(seedColor: #6f71cc)`, dark mode only
 - **Typography:** Inter (Google Fonts)
 
-### Shared Package
+### Shared Packages
 
 - `packages/mercury_client/` — HTTP client, JWT injection, auth service, models, admin API endpoints
-- Consumed by Admin Panel, future Business Portal, and future Marketplace
-- Path dependency: `path: ../../packages/mercury_client`
+- `packages/ditto_design/` — Design tokens, `DittoTheme.dark`, `DittoDashboardShell`, breakpoints, typography (ADR-0014)
+- Both consumed by Admin Panel, future Business Portal, and future Marketplace
+- Path dependencies: `path: ../../packages/mercury_client`, `path: ../../packages/ditto_design`
 
 ### Auth
 
@@ -105,3 +106,4 @@ The Admin Panel is DittoDatto's internal **"breaker box"** — a 2-user private 
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-05-26 | Initial PRD from `/grill admin-panel` session. 5 screens + Inbox locked. Platform targets, auth, exclusions defined. |
+| 1.1 | 2026-05-27 | `/grill flutter-design-system`: Added `ditto_design` as shared package dependency (ADR-0014). |
