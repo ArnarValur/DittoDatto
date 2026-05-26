@@ -4,6 +4,27 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-26 22:38 (`/grill admin-panel` complete)
+
+- **Session:** `/grill admin-panel` domain refinement (Hermes on Antigravity, Claude Opus 4.6 Thinking).
+- **Tracks touched:** None (no tracks exist yet — `/new-track admin-panel` is the next step).
+- **Status:** **Admin Panel grill complete.** PRD v1.0 locked. ADR-0013 written. Glossary updated (6 terms). All ADR-0005 open questions resolved.
+- **Key outcomes:**
+  - Admin Panel = **"breaker box"** — 2-user private tool (Arnar + Höddi only). Not multi-role.
+  - Platform targets: Android + Linux desktop + Web (same Flutter codebase). No iOS.
+  - Login: lock icon + email + password + Sign In. No branding text. No error feedback. Maximum opacity.
+  - Scope: 5 screens (Dashboard, Users, Companies, Categories, Inbox). Explicitly excludes establishments/bookings/services (→ Business Portal).
+  - Business Portal = where Merkurial Studio manages its own business relationships. Admin Panel = infrastructure breaker box.
+  - Responsive shell from day one (LayoutBuilder + Material 3 adaptive nav). Old 240px fixed sidebar is replaced.
+  - Migration: fresh `flutter create` at `apps/admin/`, port from `DittoDatto-old/`. Version bump to Flutter 3.44 / Dart 3.12.
+  - Inbox = within-platform messaging (human precursor to MasterDatto). System Alerts → future Inbox feature.
+  - SearchAnalytics (`predict.dittodatto.no`) stays separate; merge decision deferred.
+- **Decisions:** 1 ADR — 0013 (admin panel scope & access model). 0 unhandled decisions at checkpoint.
+- **Artifacts:** PRD v1.0 at `conductor/prd.md`.
+- **Next:** `/new-track admin-panel` in a fresh session. The spec is the PRD. Dart MCP server + Flutter 3.44 dev environment are ready on PlutoII.
+
+---
+
 ## 2026-05-26 21:35 (PlutoII Flutter dev ready)
 
 - **Session:** PlutoII Flutter dev environment setup (Hermes on Antigravity, Opus 4.6 Thinking).
