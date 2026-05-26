@@ -1,0 +1,25 @@
+{
+  "common": {
+    "back": "Wstecz",
+    "loading": "Ładowanie...",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "search": "Szukaj",
+    "close": "Zamknij"
+  },
+  "dattoBar": {
+    "askDatto": "Zapytaj Datto o cokolwiek...",
+    "back": "Wstecz"
+  },
+  "preview": {
+    "title": "Podgląd sklepu",
+    "menuServices": "Menu / Usługi",
+    "aboutUs": "O nas",
+    "noServices": "Brak skonfigurowanych usług.",
+    "addServicesHint": "Dodaj usługi na stronie zarządzania sklepem.",
+    "closed": "Zamknięte dzisiaj",
+    "hoursNotSet": "Godziny nie ustawione"
+  }
+}

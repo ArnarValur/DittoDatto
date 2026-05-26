@@ -1,0 +1,1019 @@
+{
+  "users": [
+    {
+      "id": "user_981587",
+      "name": "Anna Isaksen",
+      "email": "jonas81@example.com",
+      "phone": "97 36 05 96",
+      "photoUrl": "https://picsum.photos/seed/8ac3864f/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_80da35",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:30:15.560868Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_80da35"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:30:15.560868Z",
+      "updatedAt": "2025-12-19T08:30:15.560868+00:00"
+    },
+    {
+      "id": "user_e9a4c0",
+      "name": "Magne Dahl",
+      "email": "ruth23@example.com",
+      "phone": "+4737459327",
+      "photoUrl": "https://picsum.photos/seed/163b909e/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_36d3ee",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:30:24.600028Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_36d3ee"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:30:24.600028Z",
+      "updatedAt": "2025-12-19T08:30:24.600028+00:00"
+    },
+    {
+      "id": "user_3a1dd3",
+      "name": "Martin Isaksen",
+      "email": "juliebirkeland@example.org",
+      "phone": "+47 18 34 80 62",
+      "photoUrl": "https://picsum.photos/seed/9b107731/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_f60cd6",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:30:33.532905Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_f60cd6"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:30:33.532905Z",
+      "updatedAt": "2025-12-19T08:30:33.532905+00:00"
+    },
+    {
+      "id": "user_d7f2ea",
+      "name": "Anne Jacobsen-Sørensen",
+      "email": "myhrerune@example.com",
+      "phone": "59 97 61 39",
+      "photoUrl": "https://picsum.photos/seed/802575fc/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_b62aa7",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:30:43.844432Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_b62aa7"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:30:43.844432Z",
+      "updatedAt": "2025-12-19T08:30:43.844432+00:00"
+    },
+    {
+      "id": "user_9c8e5d",
+      "name": "Robert-Olav Andersen",
+      "email": "elise09@example.org",
+      "phone": "41667282",
+      "photoUrl": "https://picsum.photos/seed/f0239f22/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_9fa81e",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:30:52.215089Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_9fa81e"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:30:52.215089Z",
+      "updatedAt": "2025-12-19T08:30:52.215089+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_80da35",
+      "ownerId": "user_981587",
+      "ownerEmail": "jonas81@example.com",
+      "name": "Åssiden Venue",
+      "description": "Åssiden Venue er en flink og dyrebare sted å holde arrangementer, konferanser eller festligheter i en unik atmosfære.",
+      "website": "http://andreassen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "mona73@ali.org",
+      "phone": "97009187",
+      "logoUrl": "https://picsum.photos/seed/39cfb5b8/512/512",
+      "category": "Venues",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:30:15.560868Z",
+      "updatedAt": "2025-12-19T08:30:15.560868Z",
+      "managerIds": [
+        "user_981587"
+      ],
+      "memberIds": [
+        "user_981587"
+      ]
+    },
+    {
+      "id": "comp_36d3ee",
+      "ownerId": "user_e9a4c0",
+      "ownerEmail": "ruth23@example.com",
+      "name": "Strøm Lokaler",
+      "description": "Strøm Lokaler er en flink og dynamisk scenefunksjonstjeneste som tilbyr høyverdig teknisk utstyr og personale for alle dine arrangementer i Oslo.",
+      "website": "http://mathisen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "khauge@berg-nilsen.no",
+      "phone": "+4710075370",
+      "logoUrl": "https://picsum.photos/seed/dbaedb05/512/512",
+      "category": "Venues",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:30:24.600028Z",
+      "updatedAt": "2025-12-19T08:30:24.600028Z",
+      "managerIds": [
+        "user_e9a4c0"
+      ],
+      "memberIds": [
+        "user_e9a4c0"
+      ]
+    },
+    {
+      "id": "comp_f60cd6",
+      "ownerId": "user_3a1dd3",
+      "ownerEmail": "juliebirkeland@example.org",
+      "name": "Drammen Selskapslokale",
+      "description": "Drammen Selskapslokale er en populær arrangement- og festplakse i Drammen, kjent for sin vennlige service og varierende utvalg av rom.",
+      "website": "https://www.gundersen-eide.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "alihanne@jenssen.com",
+      "phone": "83479124",
+      "logoUrl": "https://picsum.photos/seed/a775a645/512/512",
+      "category": "Venues",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:30:33.532905Z",
+      "updatedAt": "2025-12-19T08:30:33.532905Z",
+      "managerIds": [
+        "user_3a1dd3"
+      ],
+      "memberIds": [
+        "user_3a1dd3"
+      ]
+    },
+    {
+      "id": "comp_b62aa7",
+      "ownerId": "user_d7f2ea",
+      "ownerEmail": "myhrerune@example.com",
+      "name": "Kristiansen og Sønner & co.",
+      "description": "Kristiansen og Sønner & co. er en etablert scenegjenstand med lang erfaring innenfor arrangementsbransjen.",
+      "website": "http://antonsen-saether.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "bruud@danielsen-gundersen.com",
+      "phone": "466 46 596",
+      "logoUrl": "https://picsum.photos/seed/e34af3e2/512/512",
+      "category": "Venues",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:30:43.844432Z",
+      "updatedAt": "2025-12-19T08:30:43.844432Z",
+      "managerIds": [
+        "user_d7f2ea"
+      ],
+      "memberIds": [
+        "user_d7f2ea"
+      ]
+    },
+    {
+      "id": "comp_9fa81e",
+      "ownerId": "user_9c8e5d",
+      "ownerEmail": "elise09@example.org",
+      "name": "Birkeland Lokaler",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "http://johannessen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "tor37@martinsen-bakke.no",
+      "phone": "31177659",
+      "logoUrl": "https://picsum.photos/seed/a18cb389/512/512",
+      "category": "Venues",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:30:52.215089Z",
+      "updatedAt": "2025-12-19T08:30:52.215089Z",
+      "managerIds": [
+        "user_9c8e5d"
+      ],
+      "memberIds": [
+        "user_9c8e5d"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_930ab1",
+      "companyId": "comp_80da35",
+      "name": "Åssiden Venue - Krokstadelva",
+      "slug": "assiden-venue-krokstadelva",
+      "address": "Danielsenløkka 4",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.721411,
+        "lng": 10.242771
+      },
+      "geoHash": null,
+      "about": "Åssiden Venue er en flink og dyrebare sted å holde arrangementer, konferanser eller festligheter i en unik atmosfære.",
+      "images": [
+        "https://picsum.photos/seed/store_930ab1-1/800/600",
+        "https://picsum.photos/seed/store_930ab1-2/800/600",
+        "https://picsum.photos/seed/store_930ab1-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "venue",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:30:15.560868Z",
+      "updatedAt": "2025-12-19T08:30:15.560868Z"
+    },
+    {
+      "id": "store_d80ab2",
+      "companyId": "comp_36d3ee",
+      "name": "Strøm Lokaler - Åskollen",
+      "slug": "strom-lokaler-askollen",
+      "address": "Hansenstien 1",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.758589,
+        "lng": 10.22938
+      },
+      "geoHash": null,
+      "about": "Strøm Lokaler er en flink og dynamisk scenefunksjonstjeneste som tilbyr høyverdig teknisk utstyr og personale for alle dine arrangementer i Oslo.",
+      "images": [
+        "https://picsum.photos/seed/store_d80ab2-1/800/600",
+        "https://picsum.photos/seed/store_d80ab2-2/800/600",
+        "https://picsum.photos/seed/store_d80ab2-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "venue",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:30:24.600028Z",
+      "updatedAt": "2025-12-19T08:30:24.600028Z"
+    },
+    {
+      "id": "store_dc8f0b",
+      "companyId": "comp_f60cd6",
+      "name": "Drammen Selskapslokale - Åssiden",
+      "slug": "drammen-selskapslokale-assiden",
+      "address": "Nguyenstykket 3",
+      "zip": "3048",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.732835,
+        "lng": 10.186814
+      },
+      "geoHash": null,
+      "about": "Drammen Selskapslokale er en populær arrangement- og festplakse i Drammen, kjent for sin vennlige service og varierende utvalg av rom.",
+      "images": [
+        "https://picsum.photos/seed/store_dc8f0b-1/800/600",
+        "https://picsum.photos/seed/store_dc8f0b-2/800/600",
+        "https://picsum.photos/seed/store_dc8f0b-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "venue",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:30:33.532905Z",
+      "updatedAt": "2025-12-19T08:30:33.532905Z"
+    },
+    {
+      "id": "store_14e114",
+      "companyId": "comp_b62aa7",
+      "name": "Kristiansen og Sønner & co. - Mjøndalen",
+      "slug": "kristiansen-og-sonner-co-mjondalen",
+      "address": "Nilsenstubben 43",
+      "zip": "3037",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.753093,
+        "lng": 10.187986
+      },
+      "geoHash": null,
+      "about": "Kristiansen og Sønner & co. er en etablert scenegjenstand med lang erfaring innenfor arrangementsbransjen.",
+      "images": [
+        "https://picsum.photos/seed/store_14e114-1/800/600",
+        "https://picsum.photos/seed/store_14e114-2/800/600",
+        "https://picsum.photos/seed/store_14e114-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "venue",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:30:43.844432Z",
+      "updatedAt": "2025-12-19T08:30:43.844432Z"
+    },
+    {
+      "id": "store_2fdb25",
+      "companyId": "comp_9fa81e",
+      "name": "Birkeland Lokaler - Bragernes",
+      "slug": "birkeland-lokaler-bragernes",
+      "address": "Karlsengata 050",
+      "zip": "3015",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.744028,
+        "lng": 10.199362
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_2fdb25-1/800/600",
+        "https://picsum.photos/seed/store_2fdb25-2/800/600",
+        "https://picsum.photos/seed/store_2fdb25-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "venue",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:30:52.215089Z",
+      "updatedAt": "2025-12-19T08:30:52.215089Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_4229e8",
+      "storeId": "store_930ab1",
+      "userId": null,
+      "name": "Kristian Danielsen",
+      "roles": "Vert",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_4229e8/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_b2a3f2",
+      "storeId": "store_930ab1",
+      "userId": null,
+      "name": "Thea Moen",
+      "roles": "Vert",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_b2a3f2/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_06e710",
+      "storeId": "store_930ab1",
+      "userId": null,
+      "name": "Ole Berg",
+      "roles": "Vert",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_06e710/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_634e55",
+      "storeId": "store_14e114",
+      "userId": null,
+      "name": "Helge Strand",
+      "roles": "Vert",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_634e55/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_2428c6",
+      "storeId": "store_930ab1",
+      "personId": "pers_b2a3f2",
+      "title": "Befaring",
+      "description": "Åssiden Venue er en flink og dyrebare sted å holde arrangementer, konferanser eller festligheter i en unik atmosfære.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "flink",
+        "dyrebare",
+        "arrangement",
+        "konferanse",
+        "festlighet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 823,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8a8a84",
+      "storeId": "store_930ab1",
+      "personId": "pers_06e710",
+      "title": "Leie (heldag)",
+      "description": "Åssiden Venue er en flink og dyrebare sted å holde arrangementer, konferanser eller festligheter i en unik atmosfære.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "flink",
+        "dyrebare",
+        "arrangement",
+        "konferanse",
+        "festlighet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 522,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_434db6",
+      "storeId": "store_930ab1",
+      "personId": "pers_b2a3f2",
+      "title": "Leie (kveld)",
+      "description": "Åssiden Venue er en flink og dyrebare sted å holde arrangementer, konferanser eller festligheter i en unik atmosfære.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "flink",
+        "dyrebare",
+        "arrangement",
+        "konferanse",
+        "festlighet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 766,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_5aab6b",
+      "storeId": "store_d80ab2",
+      "personId": null,
+      "title": "Befaring",
+      "description": "Strøm Lokaler er en flink og dynamisk scenefunksjonstjeneste som tilbyr høyverdig teknisk utstyr og personale for alle dine arrangementer i Oslo.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "strøm lokaler",
+        "scenefunktion",
+        "oslo",
+        "arrangement",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1410,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_271c80",
+      "storeId": "store_d80ab2",
+      "personId": null,
+      "title": "Leie (heldag)",
+      "description": "Strøm Lokaler er en flink og dynamisk scenefunksjonstjeneste som tilbyr høyverdig teknisk utstyr og personale for alle dine arrangementer i Oslo.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "strøm lokaler",
+        "scenefunktion",
+        "oslo",
+        "arrangement",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1578,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_4c2675",
+      "storeId": "store_d80ab2",
+      "personId": null,
+      "title": "Leie (kveld)",
+      "description": "Strøm Lokaler er en flink og dynamisk scenefunksjonstjeneste som tilbyr høyverdig teknisk utstyr og personale for alle dine arrangementer i Oslo.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "strøm lokaler",
+        "scenefunktion",
+        "oslo",
+        "arrangement",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 969,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_3ccacb",
+      "storeId": "store_dc8f0b",
+      "personId": null,
+      "title": "Befaring",
+      "description": "Drammen Selskapslokale er en populær arrangement- og festplakse i Drammen, kjent for sin vennlige service og varierende utvalg av rom.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "lokale",
+        "arrangementer",
+        "fest",
+        "rom",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1791,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ecbbbe",
+      "storeId": "store_dc8f0b",
+      "personId": null,
+      "title": "Leie (heldag)",
+      "description": "Drammen Selskapslokale er en populær arrangement- og festplakse i Drammen, kjent for sin vennlige service og varierende utvalg av rom.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "lokale",
+        "arrangementer",
+        "fest",
+        "rom",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 950,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_960a27",
+      "storeId": "store_dc8f0b",
+      "personId": null,
+      "title": "Leie (kveld)",
+      "description": "Drammen Selskapslokale er en populær arrangement- og festplakse i Drammen, kjent for sin vennlige service og varierende utvalg av rom.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "lokale",
+        "arrangementer",
+        "fest",
+        "rom",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 986,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c8fe49",
+      "storeId": "store_14e114",
+      "personId": "pers_634e55",
+      "title": "Befaring",
+      "description": "Kristiansen og Sønner & co. er en etablert scenegjenstand med lang erfaring innenfor arrangementsbransjen.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kristiansen",
+        "sønner",
+        "venues",
+        "scenescene",
+        "experience"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1158,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_17fadc",
+      "storeId": "store_14e114",
+      "personId": "pers_634e55",
+      "title": "Leie (heldag)",
+      "description": "Kristiansen og Sønner & co. er en etablert scenegjenstand med lang erfaring innenfor arrangementsbransjen.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kristiansen",
+        "sønner",
+        "venues",
+        "scenescene",
+        "experience"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1260,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2a6c2c",
+      "storeId": "store_14e114",
+      "personId": "pers_634e55",
+      "title": "Leie (kveld)",
+      "description": "Kristiansen og Sønner & co. er en etablert scenegjenstand med lang erfaring innenfor arrangementsbransjen.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kristiansen",
+        "sønner",
+        "venues",
+        "scenescene",
+        "experience"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1994,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_210333",
+      "storeId": "store_2fdb25",
+      "personId": null,
+      "title": "Befaring",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1422,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_540930",
+      "storeId": "store_2fdb25",
+      "personId": null,
+      "title": "Leie (heldag)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1547,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_209f6a",
+      "storeId": "store_2fdb25",
+      "personId": null,
+      "title": "Leie (kveld)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Venues"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1489,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

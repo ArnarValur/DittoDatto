@@ -1,0 +1,790 @@
+{
+  "users": [
+    {
+      "id": "user_dec4ba",
+      "name": "Ingeborg Madsen",
+      "email": "emilie83@example.org",
+      "phone": "79 13 32 60",
+      "photoUrl": "https://picsum.photos/seed/fe56f9f6/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_eecec4",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T07:36:53.336678Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_eecec4"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T07:36:53.336678Z",
+      "updatedAt": "2025-12-19T07:36:53.336678+00:00"
+    },
+    {
+      "id": "user_ee7122",
+      "name": "Martine Tveit",
+      "email": "trondlarsen@example.org",
+      "phone": "59049526",
+      "photoUrl": "https://picsum.photos/seed/0436a779/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_2121fb",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T07:37:08.395274Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_2121fb"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T07:37:08.395274Z",
+      "updatedAt": "2025-12-19T07:37:08.395274+00:00"
+    },
+    {
+      "id": "user_d44f82",
+      "name": "Steinar Berg",
+      "email": "uisaksen@example.net",
+      "phone": "31208184",
+      "photoUrl": "https://picsum.photos/seed/bf5e4a3d/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_a134aa",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T07:37:23.422115Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_a134aa"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T07:37:23.422115Z",
+      "updatedAt": "2025-12-19T07:37:23.422115+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_eecec4",
+      "ownerId": "user_dec4ba",
+      "ownerEmail": "emilie83@example.org",
+      "name": "Drammen Rådgiver",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "https://sivertsen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "kristianhenriksen@berge.org",
+      "phone": "931 91 277",
+      "logoUrl": "https://picsum.photos/seed/21d6f211/512/512",
+      "category": "Counseling",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T07:36:53.336678Z",
+      "updatedAt": "2025-12-19T07:36:53.336678Z",
+      "managerIds": [
+        "user_dec4ba"
+      ],
+      "memberIds": [
+        "user_dec4ba"
+      ]
+    },
+    {
+      "id": "comp_2121fb",
+      "ownerId": "user_ee7122",
+      "ownerEmail": "trondlarsen@example.org",
+      "name": "Jørgensen Rådgivning",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "https://ruud-hansen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "simen48@ellingsen-berntsen.no",
+      "phone": "972 10 215",
+      "logoUrl": "https://picsum.photos/seed/40cfa06d/512/512",
+      "category": "Counseling",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T07:37:08.395274Z",
+      "updatedAt": "2025-12-19T07:37:08.395274Z",
+      "managerIds": [
+        "user_ee7122"
+      ],
+      "memberIds": [
+        "user_ee7122"
+      ]
+    },
+    {
+      "id": "comp_a134aa",
+      "ownerId": "user_d44f82",
+      "ownerEmail": "uisaksen@example.net",
+      "name": "Drammen Rådgiver",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "https://olsen.net/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "hans79@aasen.com",
+      "phone": "973 44 983",
+      "logoUrl": "https://picsum.photos/seed/92ee0118/512/512",
+      "category": "Counseling",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T07:37:23.422115Z",
+      "updatedAt": "2025-12-19T07:37:23.422115Z",
+      "managerIds": [
+        "user_d44f82"
+      ],
+      "memberIds": [
+        "user_d44f82"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_a6c7b3",
+      "companyId": "comp_eecec4",
+      "name": "Drammen Rådgiver - Åskollen",
+      "slug": "drammen-radgiver-askollen",
+      "address": "Henriksenroa 01",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.730123,
+        "lng": 10.195247
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_a6c7b3-1/800/600",
+        "https://picsum.photos/seed/store_a6c7b3-2/800/600",
+        "https://picsum.photos/seed/store_a6c7b3-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T07:36:53.336678Z",
+      "updatedAt": "2025-12-19T07:36:53.336678Z"
+    },
+    {
+      "id": "store_6ca093",
+      "companyId": "comp_eecec4",
+      "name": "Drammen Rådgiver - Konnerud",
+      "slug": "drammen-radgiver-konnerud",
+      "address": "Antonsenrøa 996",
+      "zip": "3031",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.747651,
+        "lng": 10.222643
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_6ca093-1/800/600",
+        "https://picsum.photos/seed/store_6ca093-2/800/600",
+        "https://picsum.photos/seed/store_6ca093-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T07:36:53.336678Z",
+      "updatedAt": "2025-12-19T07:36:53.336678Z"
+    },
+    {
+      "id": "store_1ee667",
+      "companyId": "comp_2121fb",
+      "name": "Jørgensen Rådgivning - Åskollen",
+      "slug": "jorgensen-radgivning-askollen",
+      "address": "Myklebustalléen 1",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.74238,
+        "lng": 10.231171
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_1ee667-1/800/600",
+        "https://picsum.photos/seed/store_1ee667-2/800/600",
+        "https://picsum.photos/seed/store_1ee667-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T07:37:08.395274Z",
+      "updatedAt": "2025-12-19T07:37:08.395274Z"
+    },
+    {
+      "id": "store_866ee7",
+      "companyId": "comp_a134aa",
+      "name": "Drammen Rådgiver - Gulskogen",
+      "slug": "drammen-radgiver-gulskogen",
+      "address": "Moelunden 8",
+      "zip": "3014",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.745081,
+        "lng": 10.201326
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_866ee7-1/800/600",
+        "https://picsum.photos/seed/store_866ee7-2/800/600",
+        "https://picsum.photos/seed/store_866ee7-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T07:37:23.422115Z",
+      "updatedAt": "2025-12-19T07:37:23.422115Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_891945",
+      "storeId": "store_1ee667",
+      "userId": null,
+      "name": "Thomas Ahmed",
+      "roles": "Rådgiver",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_891945/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_3a1cfa",
+      "storeId": "store_1ee667",
+      "userId": null,
+      "name": "Stig Haug",
+      "roles": "Rådgiver",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_3a1cfa/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_0c7ce4",
+      "storeId": "store_1ee667",
+      "userId": null,
+      "name": "Eva Strøm",
+      "roles": "Rådgiver",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_0c7ce4/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_977b57",
+      "storeId": "store_866ee7",
+      "userId": null,
+      "name": "Marianne-Marianne Moe",
+      "roles": "Rådgiver",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_977b57/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_d915d1",
+      "storeId": "store_866ee7",
+      "userId": null,
+      "name": "Stein Brekke",
+      "roles": "Rådgiver",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_d915d1/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_147ff1",
+      "storeId": "store_a6c7b3",
+      "personId": null,
+      "title": "Veiledning (45 min)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 607,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_225306",
+      "storeId": "store_a6c7b3",
+      "personId": null,
+      "title": "Oppfølging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1055,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1269e4",
+      "storeId": "store_a6c7b3",
+      "personId": null,
+      "title": "Kartlegging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 754,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ff2cf7",
+      "storeId": "store_6ca093",
+      "personId": null,
+      "title": "Veiledning (45 min)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 545,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d19358",
+      "storeId": "store_6ca093",
+      "personId": null,
+      "title": "Oppfølging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 741,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_92321d",
+      "storeId": "store_6ca093",
+      "personId": null,
+      "title": "Kartlegging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1721,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e74212",
+      "storeId": "store_1ee667",
+      "personId": "pers_3a1cfa",
+      "title": "Veiledning (45 min)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1081,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_33a30f",
+      "storeId": "store_1ee667",
+      "personId": "pers_0c7ce4",
+      "title": "Oppfølging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1430,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b7aae2",
+      "storeId": "store_1ee667",
+      "personId": "pers_0c7ce4",
+      "title": "Kartlegging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 668,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1edae6",
+      "storeId": "store_866ee7",
+      "personId": "pers_977b57",
+      "title": "Veiledning (45 min)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1480,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_907609",
+      "storeId": "store_866ee7",
+      "personId": "pers_d915d1",
+      "title": "Oppfølging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 846,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6da5e7",
+      "storeId": "store_866ee7",
+      "personId": "pers_d915d1",
+      "title": "Kartlegging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Counseling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 766,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

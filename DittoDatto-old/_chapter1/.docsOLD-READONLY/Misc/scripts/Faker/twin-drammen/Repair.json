@@ -1,0 +1,1703 @@
+{
+  "users": [
+    {
+      "id": "user_9164a8",
+      "name": "Anette Lunde",
+      "email": "toreaas@example.org",
+      "phone": "72210586",
+      "photoUrl": "https://picsum.photos/seed/c0b9edd5/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_4026cb",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:14:59.613463Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_4026cb"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:14:59.613463Z",
+      "updatedAt": "2025-12-19T08:14:59.613463+00:00"
+    },
+    {
+      "id": "user_42631f",
+      "name": "Vegard Lunde",
+      "email": "sirirasmussen@example.net",
+      "phone": "08998053",
+      "photoUrl": "https://picsum.photos/seed/7d3cac55/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_4457ea",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:15:12.580602Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_4457ea"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:15:12.580602Z",
+      "updatedAt": "2025-12-19T08:15:12.580602+00:00"
+    },
+    {
+      "id": "user_f6f12a",
+      "name": "Vilde Haugland",
+      "email": "berntsenmona@example.com",
+      "phone": "68142298",
+      "photoUrl": "https://picsum.photos/seed/66ce811d/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_ef95ce",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:15:21.361231Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_ef95ce"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:15:21.361231Z",
+      "updatedAt": "2025-12-19T08:15:21.361231+00:00"
+    },
+    {
+      "id": "user_9ddfc2",
+      "name": "Grete Bakke",
+      "email": "markus84@example.net",
+      "phone": "50 82 20 74",
+      "photoUrl": "https://picsum.photos/seed/73154906/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_38dcec",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:15:21.362171Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_38dcec"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:15:21.362171Z",
+      "updatedAt": "2025-12-19T08:15:21.362171+00:00"
+    },
+    {
+      "id": "user_06defc",
+      "name": "Silje-Sofie Abrahamsen",
+      "email": "haugenfrode@example.org",
+      "phone": "+47 23 72 22 94",
+      "photoUrl": "https://picsum.photos/seed/9c510820/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_bb3914",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:15:21.362764Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_bb3914"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:15:21.362764Z",
+      "updatedAt": "2025-12-19T08:15:21.362764+00:00"
+    },
+    {
+      "id": "user_d21272",
+      "name": "Steinar Haug-Strand",
+      "email": "nguyenodd@example.net",
+      "phone": "430 46 967",
+      "photoUrl": "https://picsum.photos/seed/8abf95ec/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_8637c4",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:15:21.363451Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_8637c4"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:15:21.363451Z",
+      "updatedAt": "2025-12-19T08:15:21.363451+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_4026cb",
+      "ownerId": "user_9164a8",
+      "ownerEmail": "toreaas@example.org",
+      "name": "Drammen Fix & Service",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "website": "http://www.jenssen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "paas@eliassen.no",
+      "phone": "+47 42 41 56 03",
+      "logoUrl": "https://picsum.photos/seed/7e4ca924/512/512",
+      "category": "Repair",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:14:59.613463Z",
+      "updatedAt": "2025-12-19T08:14:59.613463Z",
+      "managerIds": [
+        "user_9164a8"
+      ],
+      "memberIds": [
+        "user_9164a8"
+      ]
+    },
+    {
+      "id": "comp_4457ea",
+      "ownerId": "user_42631f",
+      "ownerEmail": "sirirasmussen@example.net",
+      "name": "Strømsø Vaktmester",
+      "description": "Strømsø Vaktmester er en lokal bedrift som er spesielt avansert innen reparasjonstjenester for husdyrehelse og jordbruk.",
+      "website": "http://tangen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "myhredaniel@ellingsen-isaksen.no",
+      "phone": "79175234",
+      "logoUrl": "https://picsum.photos/seed/03f81397/512/512",
+      "category": "Repair",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:15:12.580602Z",
+      "updatedAt": "2025-12-19T08:15:12.580602Z",
+      "managerIds": [
+        "user_42631f"
+      ],
+      "memberIds": [
+        "user_42631f"
+      ]
+    },
+    {
+      "id": "comp_ef95ce",
+      "ownerId": "user_f6f12a",
+      "ownerEmail": "berntsenmona@example.com",
+      "name": "Drammen Fix & Service",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "website": "https://larsen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "gro79@gulbrandsen.no",
+      "phone": "16 30 31 17",
+      "logoUrl": "https://picsum.photos/seed/c705a710/512/512",
+      "category": "Repair",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:15:21.361231Z",
+      "updatedAt": "2025-12-19T08:15:21.361231Z",
+      "managerIds": [
+        "user_f6f12a"
+      ],
+      "memberIds": [
+        "user_f6f12a"
+      ]
+    },
+    {
+      "id": "comp_38dcec",
+      "ownerId": "user_9ddfc2",
+      "ownerEmail": "markus84@example.net",
+      "name": "Drammen Fix & Service",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "website": "https://www.amundsen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "gulbrandsenkarl@lien.no",
+      "phone": "44439852",
+      "logoUrl": "https://picsum.photos/seed/4fb8defc/512/512",
+      "category": "Repair",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:15:21.362171Z",
+      "updatedAt": "2025-12-19T08:15:21.362171Z",
+      "managerIds": [
+        "user_9ddfc2"
+      ],
+      "memberIds": [
+        "user_9ddfc2"
+      ]
+    },
+    {
+      "id": "comp_bb3914",
+      "ownerId": "user_06defc",
+      "ownerEmail": "haugenfrode@example.org",
+      "name": "Drammen Fix & Service",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "website": "https://evensen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "siv28@dahl-berg.no",
+      "phone": "31 62 14 20",
+      "logoUrl": "https://picsum.photos/seed/25b2ef2d/512/512",
+      "category": "Repair",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:15:21.362764Z",
+      "updatedAt": "2025-12-19T08:15:21.362764Z",
+      "managerIds": [
+        "user_06defc"
+      ],
+      "memberIds": [
+        "user_06defc"
+      ]
+    },
+    {
+      "id": "comp_8637c4",
+      "ownerId": "user_d21272",
+      "ownerEmail": "nguyenodd@example.net",
+      "name": "Mjøndalen Vaktmester",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "website": "https://ruud.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "johansenanna@solberg.com",
+      "phone": "99307672",
+      "logoUrl": "https://picsum.photos/seed/e97b82b4/512/512",
+      "category": "Repair",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:15:21.363451Z",
+      "updatedAt": "2025-12-19T08:15:21.363451Z",
+      "managerIds": [
+        "user_d21272"
+      ],
+      "memberIds": [
+        "user_d21272"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_fde7b1",
+      "companyId": "comp_4026cb",
+      "name": "Drammen Fix & Service - Konnerud",
+      "slug": "drammen-fix-service-konnerud",
+      "address": "Larsenholtet 64",
+      "zip": "3031",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.749603,
+        "lng": 10.209807
+      },
+      "geoHash": null,
+      "about": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "images": [
+        "https://picsum.photos/seed/store_fde7b1-1/800/600",
+        "https://picsum.photos/seed/store_fde7b1-2/800/600",
+        "https://picsum.photos/seed/store_fde7b1-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:14:59.613463Z",
+      "updatedAt": "2025-12-19T08:14:59.613463Z"
+    },
+    {
+      "id": "store_0b380a",
+      "companyId": "comp_4457ea",
+      "name": "Strømsø Vaktmester - Skoger",
+      "slug": "stromso-vaktmester-skoger",
+      "address": "Andresentunet 7",
+      "zip": "3079",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.755902,
+        "lng": 10.177564
+      },
+      "geoHash": null,
+      "about": "Strømsø Vaktmester er en lokal bedrift som er spesielt avansert innen reparasjonstjenester for husdyrehelse og jordbruk.",
+      "images": [
+        "https://picsum.photos/seed/store_0b380a-1/800/600",
+        "https://picsum.photos/seed/store_0b380a-2/800/600",
+        "https://picsum.photos/seed/store_0b380a-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:15:12.580602Z",
+      "updatedAt": "2025-12-19T08:15:12.580602Z"
+    },
+    {
+      "id": "store_38bf61",
+      "companyId": "comp_ef95ce",
+      "name": "Drammen Fix & Service - Svelvik",
+      "slug": "drammen-fix-service-svelvik",
+      "address": "Edvardsenløkka 6",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.750858,
+        "lng": 10.189755
+      },
+      "geoHash": null,
+      "about": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "images": [
+        "https://picsum.photos/seed/store_38bf61-1/800/600",
+        "https://picsum.photos/seed/store_38bf61-2/800/600",
+        "https://picsum.photos/seed/store_38bf61-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:15:21.361231Z",
+      "updatedAt": "2025-12-19T08:15:21.361231Z"
+    },
+    {
+      "id": "store_dac5ab",
+      "companyId": "comp_ef95ce",
+      "name": "Drammen Fix & Service - Gulskogen",
+      "slug": "drammen-fix-service-gulskogen",
+      "address": "Sandvikrøa 59",
+      "zip": "3014",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.752111,
+        "lng": 10.225355
+      },
+      "geoHash": null,
+      "about": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "images": [
+        "https://picsum.photos/seed/store_dac5ab-1/800/600",
+        "https://picsum.photos/seed/store_dac5ab-2/800/600",
+        "https://picsum.photos/seed/store_dac5ab-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:15:21.361231Z",
+      "updatedAt": "2025-12-19T08:15:21.361231Z"
+    },
+    {
+      "id": "store_baa4a0",
+      "companyId": "comp_38dcec",
+      "name": "Drammen Fix & Service - Åssiden",
+      "slug": "drammen-fix-service-assiden",
+      "address": "Bøegata 248",
+      "zip": "3048",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.730167,
+        "lng": 10.232561
+      },
+      "geoHash": null,
+      "about": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "images": [
+        "https://picsum.photos/seed/store_baa4a0-1/800/600",
+        "https://picsum.photos/seed/store_baa4a0-2/800/600",
+        "https://picsum.photos/seed/store_baa4a0-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:15:21.362171Z",
+      "updatedAt": "2025-12-19T08:15:21.362171Z"
+    },
+    {
+      "id": "store_883995",
+      "companyId": "comp_bb3914",
+      "name": "Drammen Fix & Service - Mjøndalen",
+      "slug": "drammen-fix-service-mjondalen",
+      "address": "Larsenlyngen 2",
+      "zip": "3037",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.758851,
+        "lng": 10.181034
+      },
+      "geoHash": null,
+      "about": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "images": [
+        "https://picsum.photos/seed/store_883995-1/800/600",
+        "https://picsum.photos/seed/store_883995-2/800/600",
+        "https://picsum.photos/seed/store_883995-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:15:21.362764Z",
+      "updatedAt": "2025-12-19T08:15:21.362764Z"
+    },
+    {
+      "id": "store_7bde3f",
+      "companyId": "comp_8637c4",
+      "name": "Mjøndalen Vaktmester - Svelvik",
+      "slug": "mjondalen-vaktmester-svelvik",
+      "address": "Nielsenrøa 4",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.733501,
+        "lng": 10.244494
+      },
+      "geoHash": null,
+      "about": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "images": [
+        "https://picsum.photos/seed/store_7bde3f-1/800/600",
+        "https://picsum.photos/seed/store_7bde3f-2/800/600",
+        "https://picsum.photos/seed/store_7bde3f-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:15:21.363451Z",
+      "updatedAt": "2025-12-19T08:15:21.363451Z"
+    },
+    {
+      "id": "store_c47519",
+      "companyId": "comp_8637c4",
+      "name": "Mjøndalen Vaktmester - Mjøndalen",
+      "slug": "mjondalen-vaktmester-mjondalen",
+      "address": "Sørensenhagen 4",
+      "zip": "3037",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.733473,
+        "lng": 10.199805
+      },
+      "geoHash": null,
+      "about": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "images": [
+        "https://picsum.photos/seed/store_c47519-1/800/600",
+        "https://picsum.photos/seed/store_c47519-2/800/600",
+        "https://picsum.photos/seed/store_c47519-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:15:21.363451Z",
+      "updatedAt": "2025-12-19T08:15:21.363451Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_c91b3a",
+      "storeId": "store_38bf61",
+      "userId": null,
+      "name": "Rita Sæther",
+      "roles": "Håndverker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c91b3a/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_41ca67",
+      "storeId": "store_38bf61",
+      "userId": null,
+      "name": "Maria Kristiansen",
+      "roles": "Håndverker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_41ca67/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_72aaf6",
+      "storeId": "store_7bde3f",
+      "userId": null,
+      "name": "Tonje Kristoffersen",
+      "roles": "Håndverker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_72aaf6/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_4ef8a7",
+      "storeId": "store_7bde3f",
+      "userId": null,
+      "name": "Hanne Evensen",
+      "roles": "Håndverker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_4ef8a7/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_b018aa",
+      "storeId": "store_c47519",
+      "userId": null,
+      "name": "Dr. Dag Berntsen",
+      "roles": "Håndverker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_b018aa/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_bb09cf",
+      "storeId": "store_fde7b1",
+      "personId": null,
+      "title": "Småreparasjoner",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1886,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0c2bda",
+      "storeId": "store_fde7b1",
+      "personId": null,
+      "title": "Montering",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1968,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_61e79e",
+      "storeId": "store_fde7b1",
+      "personId": null,
+      "title": "Vaktmestertjenester",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 832,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b0aaef",
+      "storeId": "store_fde7b1",
+      "personId": null,
+      "title": "Utrykning",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 780,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b0e477",
+      "storeId": "store_0b380a",
+      "personId": null,
+      "title": "Småreparasjoner",
+      "description": "Strømsø Vaktmester er en lokal bedrift som er spesielt avansert innen reparasjonstjenester for husdyrehelse og jordbruk.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "reparasjon",
+        "husdyrehelse",
+        "jordbruk",
+        "lokale",
+        "spesialisering"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 569,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2df2b0",
+      "storeId": "store_0b380a",
+      "personId": null,
+      "title": "Montering",
+      "description": "Strømsø Vaktmester er en lokal bedrift som er spesielt avansert innen reparasjonstjenester for husdyrehelse og jordbruk.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "reparasjon",
+        "husdyrehelse",
+        "jordbruk",
+        "lokale",
+        "spesialisering"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 865,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c98ba4",
+      "storeId": "store_0b380a",
+      "personId": null,
+      "title": "Vaktmestertjenester",
+      "description": "Strømsø Vaktmester er en lokal bedrift som er spesielt avansert innen reparasjonstjenester for husdyrehelse og jordbruk.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "reparasjon",
+        "husdyrehelse",
+        "jordbruk",
+        "lokale",
+        "spesialisering"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1370,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6385fd",
+      "storeId": "store_0b380a",
+      "personId": null,
+      "title": "Utrykning",
+      "description": "Strømsø Vaktmester er en lokal bedrift som er spesielt avansert innen reparasjonstjenester for husdyrehelse og jordbruk.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "reparasjon",
+        "husdyrehelse",
+        "jordbruk",
+        "lokale",
+        "spesialisering"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 776,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e36978",
+      "storeId": "store_38bf61",
+      "personId": "pers_c91b3a",
+      "title": "Småreparasjoner",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1592,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8280a4",
+      "storeId": "store_38bf61",
+      "personId": "pers_41ca67",
+      "title": "Montering",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 643,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_179c0b",
+      "storeId": "store_38bf61",
+      "personId": "pers_c91b3a",
+      "title": "Vaktmestertjenester",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 729,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_3711c9",
+      "storeId": "store_38bf61",
+      "personId": "pers_41ca67",
+      "title": "Utrykning",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 950,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9c7a37",
+      "storeId": "store_dac5ab",
+      "personId": null,
+      "title": "Småreparasjoner",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1447,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_636aed",
+      "storeId": "store_dac5ab",
+      "personId": null,
+      "title": "Montering",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1563,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_96cf54",
+      "storeId": "store_dac5ab",
+      "personId": null,
+      "title": "Vaktmestertjenester",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 593,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_82b188",
+      "storeId": "store_dac5ab",
+      "personId": null,
+      "title": "Utrykning",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1289,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_81ff42",
+      "storeId": "store_baa4a0",
+      "personId": null,
+      "title": "Småreparasjoner",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 995,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_057145",
+      "storeId": "store_baa4a0",
+      "personId": null,
+      "title": "Montering",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1182,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e54e91",
+      "storeId": "store_baa4a0",
+      "personId": null,
+      "title": "Vaktmestertjenester",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1092,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_40479f",
+      "storeId": "store_baa4a0",
+      "personId": null,
+      "title": "Utrykning",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1597,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6636ba",
+      "storeId": "store_883995",
+      "personId": null,
+      "title": "Småreparasjoner",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 994,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_70fbb2",
+      "storeId": "store_883995",
+      "personId": null,
+      "title": "Montering",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 746,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9c766d",
+      "storeId": "store_883995",
+      "personId": null,
+      "title": "Vaktmestertjenester",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 689,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_94cbbe",
+      "storeId": "store_883995",
+      "personId": null,
+      "title": "Utrykning",
+      "description": "Vi er Drammen Fix & Service, et tillitsvernende forretning som tilbyr profesjonell service og reparasjon av både teknologi og annet utstyr. Vi legger vekt på å drive med integritet og pga oss vedlikehold, sørger vi for at dine apparater er på toppnivå.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "forretning",
+        "service",
+        "reparasjon",
+        "teknologi",
+        "tilbakehold"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 704,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6ba6f6",
+      "storeId": "store_7bde3f",
+      "personId": "pers_4ef8a7",
+      "title": "Småreparasjoner",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "mjøndalen vaktmester",
+        "reparasjon",
+        "norsk",
+        "tjeneste",
+        "kunde"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1575,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_45f493",
+      "storeId": "store_7bde3f",
+      "personId": "pers_4ef8a7",
+      "title": "Montering",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "mjøndalen vaktmester",
+        "reparasjon",
+        "norsk",
+        "tjeneste",
+        "kunde"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1821,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_fcca93",
+      "storeId": "store_7bde3f",
+      "personId": "pers_4ef8a7",
+      "title": "Vaktmestertjenester",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "mjøndalen vaktmester",
+        "reparasjon",
+        "norsk",
+        "tjeneste",
+        "kunde"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1730,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9b5232",
+      "storeId": "store_7bde3f",
+      "personId": "pers_72aaf6",
+      "title": "Utrykning",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "mjøndalen vaktmester",
+        "reparasjon",
+        "norsk",
+        "tjeneste",
+        "kunde"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 723,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_89dbdf",
+      "storeId": "store_c47519",
+      "personId": "pers_b018aa",
+      "title": "Småreparasjoner",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "mjøndalen vaktmester",
+        "reparasjon",
+        "norsk",
+        "tjeneste",
+        "kunde"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1040,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_20d7b0",
+      "storeId": "store_c47519",
+      "personId": "pers_b018aa",
+      "title": "Montering",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "mjøndalen vaktmester",
+        "reparasjon",
+        "norsk",
+        "tjeneste",
+        "kunde"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 929,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e7d713",
+      "storeId": "store_c47519",
+      "personId": "pers_b018aa",
+      "title": "Vaktmestertjenester",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "mjøndalen vaktmester",
+        "reparasjon",
+        "norsk",
+        "tjeneste",
+        "kunde"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1499,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_15f280",
+      "storeId": "store_c47519",
+      "personId": "pers_b018aa",
+      "title": "Utrykning",
+      "description": "Vi er Mjøndalen Vaktmester, et profesjonelt selskap innen reparasjonstjenester. Vi tilbyr utmerket kundestotte og høyverdige løsninger på alle dine behov.",
+      "serviceType": [
+        "Repair"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "mjøndalen vaktmester",
+        "reparasjon",
+        "norsk",
+        "tjeneste",
+        "kunde"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 770,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

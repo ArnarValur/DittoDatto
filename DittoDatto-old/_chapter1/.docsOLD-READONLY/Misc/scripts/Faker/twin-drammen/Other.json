@@ -1,0 +1,533 @@
+{
+  "users": [
+    {
+      "id": "user_ed1dd9",
+      "name": "Ivar Thorsen",
+      "email": "kristensenhelge@example.net",
+      "phone": "55 99 33 74",
+      "photoUrl": "https://picsum.photos/seed/33f2487a/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_e11f9b",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:31:34.342761Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_e11f9b"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:31:34.342761Z",
+      "updatedAt": "2025-12-19T08:31:34.342761+00:00"
+    },
+    {
+      "id": "user_cc7c08",
+      "name": "Karl Madsen",
+      "email": "elisabethmoe@example.org",
+      "phone": "+47 31 08 47 95",
+      "photoUrl": "https://picsum.photos/seed/f8d7bbd1/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_77a72f",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:31:44.568407Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_77a72f"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:31:44.568407Z",
+      "updatedAt": "2025-12-19T08:31:44.568407+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_e11f9b",
+      "ownerId": "user_ed1dd9",
+      "ownerEmail": "kristensenhelge@example.net",
+      "name": "Helland-Rasmussen ASA & co.",
+      "description": "Helland-Rasmussen ASA & co. er en selskap fra andre sektoren, spekulert i ulike aktiviteter som ikke høres under tradisjonell bedriftskategori.",
+      "website": "https://www.iversen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "aunechristian@jakobsen.no",
+      "phone": "434 71 517",
+      "logoUrl": "https://picsum.photos/seed/2630b7ed/512/512",
+      "category": "Other",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:31:34.342761Z",
+      "updatedAt": "2025-12-19T08:31:34.342761Z",
+      "managerIds": [
+        "user_ed1dd9"
+      ],
+      "memberIds": [
+        "user_ed1dd9"
+      ]
+    },
+    {
+      "id": "comp_77a72f",
+      "ownerId": "user_cc7c08",
+      "ownerEmail": "elisabethmoe@example.org",
+      "name": "Nguyen-Haug og Sønner",
+      "description": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "website": "https://bakke.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "ssivertsen@ellingsen.org",
+      "phone": "917 69 893",
+      "logoUrl": "https://picsum.photos/seed/9f9835f8/512/512",
+      "category": "Other",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:31:44.568407Z",
+      "updatedAt": "2025-12-19T08:31:44.568407Z",
+      "managerIds": [
+        "user_cc7c08"
+      ],
+      "memberIds": [
+        "user_cc7c08"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_2e87d4",
+      "companyId": "comp_e11f9b",
+      "name": "Helland-Rasmussen ASA & co. - Bragernes",
+      "slug": "helland-rasmussen-asa-co-bragernes",
+      "address": "Eliassenjordet 3",
+      "zip": "3015",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.723185,
+        "lng": 10.227785
+      },
+      "geoHash": null,
+      "about": "Helland-Rasmussen ASA & co. er en selskap fra andre sektoren, spekulert i ulike aktiviteter som ikke høres under tradisjonell bedriftskategori.",
+      "images": [
+        "https://picsum.photos/seed/store_2e87d4-1/800/600",
+        "https://picsum.photos/seed/store_2e87d4-2/800/600",
+        "https://picsum.photos/seed/store_2e87d4-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:31:34.342761Z",
+      "updatedAt": "2025-12-19T08:31:34.342761Z"
+    },
+    {
+      "id": "store_0eec78",
+      "companyId": "comp_77a72f",
+      "name": "Nguyen-Haug og Sønner - Bragernes",
+      "slug": "nguyen-haug-og-sonner-bragernes",
+      "address": "Berntsenvika 175",
+      "zip": "3015",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.749463,
+        "lng": 10.217178
+      },
+      "geoHash": null,
+      "about": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "images": [
+        "https://picsum.photos/seed/store_0eec78-1/800/600",
+        "https://picsum.photos/seed/store_0eec78-2/800/600",
+        "https://picsum.photos/seed/store_0eec78-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:31:44.568407Z",
+      "updatedAt": "2025-12-19T08:31:44.568407Z"
+    },
+    {
+      "id": "store_42b8a2",
+      "companyId": "comp_77a72f",
+      "name": "Nguyen-Haug og Sønner - Svelvik",
+      "slug": "nguyen-haug-og-sonner-svelvik",
+      "address": "Bøelyngen 3",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.758906,
+        "lng": 10.179255
+      },
+      "geoHash": null,
+      "about": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "images": [
+        "https://picsum.photos/seed/store_42b8a2-1/800/600",
+        "https://picsum.photos/seed/store_42b8a2-2/800/600",
+        "https://picsum.photos/seed/store_42b8a2-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:31:44.568407Z",
+      "updatedAt": "2025-12-19T08:31:44.568407Z"
+    }
+  ],
+  "persons": [],
+  "services": [
+    {
+      "id": "serv_2f3b21",
+      "storeId": "store_2e87d4",
+      "personId": null,
+      "title": "Konsultasjon",
+      "description": "Helland-Rasmussen ASA & co. er en selskap fra andre sektoren, spekulert i ulike aktiviteter som ikke høres under tradisjonell bedriftskategori.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "andre sektoren",
+        "aktiviteter",
+        "selskap",
+        "drammen",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1867,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f5e087",
+      "storeId": "store_2e87d4",
+      "personId": null,
+      "title": "Oppdrag",
+      "description": "Helland-Rasmussen ASA & co. er en selskap fra andre sektoren, spekulert i ulike aktiviteter som ikke høres under tradisjonell bedriftskategori.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "andre sektoren",
+        "aktiviteter",
+        "selskap",
+        "drammen",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1127,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1e0160",
+      "storeId": "store_2e87d4",
+      "personId": null,
+      "title": "Timebestilling",
+      "description": "Helland-Rasmussen ASA & co. er en selskap fra andre sektoren, spekulert i ulike aktiviteter som ikke høres under tradisjonell bedriftskategori.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "andre sektoren",
+        "aktiviteter",
+        "selskap",
+        "drammen",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1513,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a86390",
+      "storeId": "store_0eec78",
+      "personId": null,
+      "title": "Konsultasjon",
+      "description": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norskt",
+        "bedrift",
+        "tjenester",
+        "kundekontakt",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1932,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2363bd",
+      "storeId": "store_0eec78",
+      "personId": null,
+      "title": "Oppdrag",
+      "description": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norskt",
+        "bedrift",
+        "tjenester",
+        "kundekontakt",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1523,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7301c8",
+      "storeId": "store_0eec78",
+      "personId": null,
+      "title": "Timebestilling",
+      "description": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norskt",
+        "bedrift",
+        "tjenester",
+        "kundekontakt",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 825,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9d605a",
+      "storeId": "store_42b8a2",
+      "personId": null,
+      "title": "Konsultasjon",
+      "description": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norskt",
+        "bedrift",
+        "tjenester",
+        "kundekontakt",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 762,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b8e857",
+      "storeId": "store_42b8a2",
+      "personId": null,
+      "title": "Oppdrag",
+      "description": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norskt",
+        "bedrift",
+        "tjenester",
+        "kundekontakt",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 735,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0dfa18",
+      "storeId": "store_42b8a2",
+      "personId": null,
+      "title": "Timebestilling",
+      "description": "Vi er et Norsk firma som tilbyr ulike tjenester innenfor ulike områder. Vi er stolt over å tjene både lokale og internasjonale kunder.",
+      "serviceType": [
+        "Other"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norskt",
+        "bedrift",
+        "tjenester",
+        "kundekontakt",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 935,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

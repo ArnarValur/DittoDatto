@@ -1,0 +1,91 @@
+{
+  "welcome": "Witaj w Panelu Administracyjnym",
+  "settings": "Ustawienia",
+  "nav": {
+    "users": "Użytkownicy",
+    "stores": "Sklepy",
+    "companies": "Firmy",
+    "mainboard": "Panel główny",
+    "inbox": "Skrzynka odbiorcza",
+    "user_lookup": "Wyszukiwanie użytkowników",
+    "new_company": "Nowa firma",
+    "overview": "Przegląd",
+    "bookings": "Rezerwacje",
+    "mercury_engine": "MercuryEngine",
+    "reviews": "Opinie",
+    "media": "Media",
+    "restaurants": "Restauracje",
+    "list": "Lista",
+    "events": "Wydarzenia",
+    "ticketing": "Bilety",
+    "general": "Ogólne",
+    "categories": "Kategorie",
+    "icon_manager": "Menedżer ikon",
+    "members": "Członkowie",
+    "notifications": "Powiadomienia",
+    "security": "Bezpieczeństwo",
+    "feedback": "Opinie",
+    "help_support": "Pomoc i wsparcie",
+    "go_to": "Przejdź do",
+    "code": "Kod",
+    "view_page_source": "Wyświetl źródło strony"
+  },
+  "dashboard": {
+    "new_mail": "Nowa wiadomość",
+    "new_customer": "Nowy klient",
+    "home": "Strona główna"
+  },
+  "user_menu": {
+    "logout": "Wyloguj się",
+    "profile": "Profil",
+    "billing": "Rozliczenia",
+    "settings": "Ustawienia",
+    "theme": "Motyw",
+    "primary": "Główny",
+    "neutral": "Neutralny",
+    "appearance": "Wygląd",
+    "light": "Jasny",
+    "dark": "Ciemny",
+    "templates": "Szablony",
+    "starter": "Starter",
+    "landing": "Landing",
+    "docs": "Dokumentacja",
+    "saas": "SaaS",
+    "dashboard": "Dashboard",
+    "chat": "Czat",
+    "portfolio": "Portfolio",
+    "changelog": "Historia zmian",
+    "documentation": "Dokumentacja",
+    "github_repo": "Repozytorium GitHub"
+  },
+  "login": {
+    "email": "E-mail",
+    "email_placeholder": "Wprowadź swój e-mail",
+    "password": "Hasło",
+    "password_placeholder": "Wprowadź swoje hasło",
+    "remember_me": "Zapamiętaj mnie",
+    "invalid_email": "Nieprawidłowy e-mail",
+    "password_required": "Hasło jest wymagane",
+    "title": "Dittodatto Admin",
+    "description": "Strefa zastrzeżona"
+  },
+  "authForm": {
+    "submit": "Zaloguj się",
+    "loading": "Weryfikowanie..."
+  },
+  "dashboardSearchButton": {
+    "label": "Szukaj"
+  },
+  "dashboardSearch": {
+    "placeholder": "Szukaj w panelu...",
+    "title": "Szukaj",
+    "description": "Szukaj czegokolwiek w panelu"
+  },
+  "commandPalette": {
+    "placeholder": "Wpisz komendę lub szukaj...",
+    "noMatch": "Brak wyników dla \"{searchTerm}\"",
+    "noData": "Brak wyników",
+    "back": "Wstecz",
+    "close": "Zamknij"
+  }
+}

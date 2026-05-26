@@ -1,0 +1,10 @@
+{
+  "track_id": "messaging_service_20251229",
+  "type": "feature",
+  "status": "paused",
+  "created_at": "2025-12-29T00:18:00Z",
+  "updated_at": "2025-12-29T01:52:00Z",
+  "description": "Smart Activity Hub - Card-based notification/activity feed for users with AI-ready architecture. Supports booking reminders, broadcasts, support, feedback, and event cards.",
+  "source_docs": [".docs/messaging/messaging_system_spec.md", ".docs/messaging/specification.md"],
+  "notes": "Reframed from traditional messaging to Smart Activity Hub during spec discussion."
+}

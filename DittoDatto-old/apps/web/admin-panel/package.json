@@ -1,0 +1,48 @@
+{
+  "name": "admin-panel",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@dittodatto/shared-types": "*",
+    "@dittodatto/ui": "*",
+    "@firebase/app-types": "^0.9.3",
+    "@nuxt/eslint": "^1.12.1",
+    "@nuxt/hints": "^1.0.0-alpha.3",
+    "@nuxt/image": "^2.0.0",
+    "@nuxt/scripts": "^0.13.0",
+    "@nuxt/test-utils": "^3.20.1",
+    "@nuxt/ui": "^4.4.0",
+    "@nuxtjs/i18n": "^10.2.1",
+    "@unhead/vue": "^2.0.19",
+    "@unovis/vue": "^1.6.2",
+    "@vueuse/nuxt": "^14.1.0",
+    "date-fns": "^4.1.0",
+    "firebase": "^12.7.0",
+    "firebase-admin": "^13.6.0",
+    "nuxt": "^4.3.1",
+    "nuxt-vuefire": "^1.1.0",
+    "vue": "^3.5.25",
+    "vue-router": "^4.6.3",
+    "vuefire": "^3.2.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.0",
+    "@iconify-json/material-symbols": "^1.2.50",
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "^9.39.1",
+    "happy-dom": "^20.0.11",
+    "playwright-core": "^1.57.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^3.2.1"
+  }
+}

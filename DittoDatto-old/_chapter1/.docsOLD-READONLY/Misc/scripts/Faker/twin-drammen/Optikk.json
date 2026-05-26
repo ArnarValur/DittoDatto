@@ -1,0 +1,891 @@
+{
+  "users": [
+    {
+      "id": "user_3ef37b",
+      "name": "Stian Rasmussen",
+      "email": "tsolheim@example.net",
+      "phone": "49 66 68 33",
+      "photoUrl": "https://picsum.photos/seed/7900391c/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_4295b4",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T06:46:03.256738Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_4295b4"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T06:46:03.256738Z",
+      "updatedAt": "2025-12-19T06:46:03.256738+00:00"
+    },
+    {
+      "id": "user_61b1c5",
+      "name": "Erik Thorsen",
+      "email": "andreamyhre@example.org",
+      "phone": "97891209",
+      "photoUrl": "https://picsum.photos/seed/f3eafc51/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_517c03",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T06:46:13.104423Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_517c03"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T06:46:13.104423Z",
+      "updatedAt": "2025-12-19T06:46:13.104423+00:00"
+    },
+    {
+      "id": "user_133d5a",
+      "name": "Turid Bøe",
+      "email": "larsmyklebust@example.com",
+      "phone": "+47 67 81 55 48",
+      "photoUrl": "https://picsum.photos/seed/80c1fae5/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_53e8cc",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T06:46:22.894914Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_53e8cc"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T06:46:22.894914Z",
+      "updatedAt": "2025-12-19T06:46:22.894914+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_4295b4",
+      "ownerId": "user_3ef37b",
+      "ownerEmail": "tsolheim@example.net",
+      "name": "Drammen Syn & Optikk",
+      "description": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "website": "http://www.roenning.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "magnehansen@bakken.no",
+      "phone": "967 47 954",
+      "logoUrl": "https://picsum.photos/seed/d67ff535/512/512",
+      "category": "Optical services",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T06:46:03.256738Z",
+      "updatedAt": "2025-12-19T06:46:03.256738Z",
+      "managerIds": [
+        "user_3ef37b"
+      ],
+      "memberIds": [
+        "user_3ef37b"
+      ]
+    },
+    {
+      "id": "comp_517c03",
+      "ownerId": "user_61b1c5",
+      "ownerEmail": "andreamyhre@example.org",
+      "name": "Pettersen AS og Sønner",
+      "description": "Pettersen AS og Sønner er en etablert optisk tjenesteebed i Norge, sætes frem for kvalitet og personlig service.",
+      "website": "http://www.vik-jenssen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "solveignguyen@nielsen.no",
+      "phone": "42556040",
+      "logoUrl": "https://picsum.photos/seed/ab02a55b/512/512",
+      "category": "Optical services",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T06:46:13.104423Z",
+      "updatedAt": "2025-12-19T06:46:13.104423Z",
+      "managerIds": [
+        "user_61b1c5"
+      ],
+      "memberIds": [
+        "user_61b1c5"
+      ]
+    },
+    {
+      "id": "comp_53e8cc",
+      "ownerId": "user_133d5a",
+      "ownerEmail": "larsmyklebust@example.com",
+      "name": "Danielsen-Rasmussen og Sønner AS",
+      "description": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "website": "http://www.antonsen-knutsen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "karlsenkristin@berg.com",
+      "phone": "91 81 15 43",
+      "logoUrl": "https://picsum.photos/seed/1420a557/512/512",
+      "category": "Optical services",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T06:46:22.894914Z",
+      "updatedAt": "2025-12-19T06:46:22.894914Z",
+      "managerIds": [
+        "user_133d5a"
+      ],
+      "memberIds": [
+        "user_133d5a"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_fb54c7",
+      "companyId": "comp_4295b4",
+      "name": "Drammen Syn & Optikk - Åskollen",
+      "slug": "drammen-syn-optikk-askollen",
+      "address": "Nguyenroa 4",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.757953,
+        "lng": 10.179032
+      },
+      "geoHash": null,
+      "about": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "images": [
+        "https://picsum.photos/seed/store_fb54c7-1/800/600",
+        "https://picsum.photos/seed/store_fb54c7-2/800/600",
+        "https://picsum.photos/seed/store_fb54c7-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:46:03.256738Z",
+      "updatedAt": "2025-12-19T06:46:03.256738Z"
+    },
+    {
+      "id": "store_597cf2",
+      "companyId": "comp_4295b4",
+      "name": "Drammen Syn & Optikk - Konnerud",
+      "slug": "drammen-syn-optikk-konnerud",
+      "address": "Amundsensvingen 1",
+      "zip": "3031",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.74183,
+        "lng": 10.221727
+      },
+      "geoHash": null,
+      "about": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "images": [
+        "https://picsum.photos/seed/store_597cf2-1/800/600",
+        "https://picsum.photos/seed/store_597cf2-2/800/600",
+        "https://picsum.photos/seed/store_597cf2-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:46:03.256738Z",
+      "updatedAt": "2025-12-19T06:46:03.256738Z"
+    },
+    {
+      "id": "store_b5a053",
+      "companyId": "comp_517c03",
+      "name": "Pettersen AS og Sønner - Åskollen",
+      "slug": "pettersen-as-og-sonner-askollen",
+      "address": "Ellingsenløkka 1D",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.74531,
+        "lng": 10.203831
+      },
+      "geoHash": null,
+      "about": "Pettersen AS og Sønner er en etablert optisk tjenesteebed i Norge, sætes frem for kvalitet og personlig service.",
+      "images": [
+        "https://picsum.photos/seed/store_b5a053-1/800/600",
+        "https://picsum.photos/seed/store_b5a053-2/800/600",
+        "https://picsum.photos/seed/store_b5a053-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:46:13.104423Z",
+      "updatedAt": "2025-12-19T06:46:13.104423Z"
+    },
+    {
+      "id": "store_5b859d",
+      "companyId": "comp_53e8cc",
+      "name": "Danielsen-Rasmussen og Sønner AS - Strømsø",
+      "slug": "danielsen-rasmussen-og-sonner-as-stromso",
+      "address": "Aasenlunden 02",
+      "zip": "3044",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.735495,
+        "lng": 10.175081
+      },
+      "geoHash": null,
+      "about": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "images": [
+        "https://picsum.photos/seed/store_5b859d-1/800/600",
+        "https://picsum.photos/seed/store_5b859d-2/800/600",
+        "https://picsum.photos/seed/store_5b859d-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:46:22.894914Z",
+      "updatedAt": "2025-12-19T06:46:22.894914Z"
+    },
+    {
+      "id": "store_a47cb7",
+      "companyId": "comp_53e8cc",
+      "name": "Danielsen-Rasmussen og Sønner AS - Krokstadelva",
+      "slug": "danielsen-rasmussen-og-sonner-as-krokstadelva",
+      "address": "Holmskrenten 81E",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.731129,
+        "lng": 10.206696
+      },
+      "geoHash": null,
+      "about": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "images": [
+        "https://picsum.photos/seed/store_a47cb7-1/800/600",
+        "https://picsum.photos/seed/store_a47cb7-2/800/600",
+        "https://picsum.photos/seed/store_a47cb7-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:46:22.894914Z",
+      "updatedAt": "2025-12-19T06:46:22.894914Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_e24f31",
+      "storeId": "store_5b859d",
+      "userId": null,
+      "name": "Liv Lund-Bøe",
+      "roles": "Optiker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_e24f31/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_08d32b",
+      "storeId": "store_5b859d",
+      "userId": null,
+      "name": "Reidun Fredriksen",
+      "roles": "Optiker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_08d32b/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_4f5646",
+      "storeId": "store_fb54c7",
+      "personId": null,
+      "title": "Synstest",
+      "description": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "syn",
+        "optiske tjenester",
+        "preskripsjonsøyneglaset",
+        "optisk rådgivning",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1628,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_450170",
+      "storeId": "store_fb54c7",
+      "personId": null,
+      "title": "Kontaktlinsekontroll",
+      "description": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "syn",
+        "optiske tjenester",
+        "preskripsjonsøyneglaset",
+        "optisk rådgivning",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1818,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b584f0",
+      "storeId": "store_fb54c7",
+      "personId": null,
+      "title": "Brilletilpasning",
+      "description": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "syn",
+        "optiske tjenester",
+        "preskripsjonsøyneglaset",
+        "optisk rådgivning",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 633,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_3c9557",
+      "storeId": "store_597cf2",
+      "personId": null,
+      "title": "Synstest",
+      "description": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "syn",
+        "optiske tjenester",
+        "preskripsjonsøyneglaset",
+        "optisk rådgivning",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1462,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9db587",
+      "storeId": "store_597cf2",
+      "personId": null,
+      "title": "Kontaktlinsekontroll",
+      "description": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "syn",
+        "optiske tjenester",
+        "preskripsjonsøyneglaset",
+        "optisk rådgivning",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1722,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_256d39",
+      "storeId": "store_597cf2",
+      "personId": null,
+      "title": "Brilletilpasning",
+      "description": "Drammen Syn & Optikk tilbyr profesjonelle optiske tjenester, inkludert preskripsjonsøyneglaset og optisk rådgivning.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "syn",
+        "optiske tjenester",
+        "preskripsjonsøyneglaset",
+        "optisk rådgivning",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1722,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_936481",
+      "storeId": "store_b5a053",
+      "personId": null,
+      "title": "Synstest",
+      "description": "Pettersen AS og Sønner er en etablert optisk tjenesteebed i Norge, sætes frem for kvalitet og personlig service.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "norges beste optiske tjeneste",
+        "høy kvalitet",
+        "perspektiv til kundene",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 834,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_196e87",
+      "storeId": "store_b5a053",
+      "personId": null,
+      "title": "Kontaktlinsekontroll",
+      "description": "Pettersen AS og Sønner er en etablert optisk tjenesteebed i Norge, sætes frem for kvalitet og personlig service.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "norges beste optiske tjeneste",
+        "høy kvalitet",
+        "perspektiv til kundene",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1275,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6a7aa0",
+      "storeId": "store_b5a053",
+      "personId": null,
+      "title": "Brilletilpasning",
+      "description": "Pettersen AS og Sønner er en etablert optisk tjenesteebed i Norge, sætes frem for kvalitet og personlig service.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "norges beste optiske tjeneste",
+        "høy kvalitet",
+        "perspektiv til kundene",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 573,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_57d099",
+      "storeId": "store_5b859d",
+      "personId": "pers_08d32b",
+      "title": "Synstest",
+      "description": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "høy kvalitet",
+        "øvling",
+        "lysskyer",
+        "eksperter"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1785,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_52df7c",
+      "storeId": "store_5b859d",
+      "personId": "pers_08d32b",
+      "title": "Kontaktlinsekontroll",
+      "description": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "høy kvalitet",
+        "øvling",
+        "lysskyer",
+        "eksperter"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 577,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6fb84f",
+      "storeId": "store_5b859d",
+      "personId": "pers_08d32b",
+      "title": "Brilletilpasning",
+      "description": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "høy kvalitet",
+        "øvling",
+        "lysskyer",
+        "eksperter"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 715,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6c0af2",
+      "storeId": "store_a47cb7",
+      "personId": null,
+      "title": "Synstest",
+      "description": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "høy kvalitet",
+        "øvling",
+        "lysskyer",
+        "eksperter"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1790,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_5c532a",
+      "storeId": "store_a47cb7",
+      "personId": null,
+      "title": "Kontaktlinsekontroll",
+      "description": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "høy kvalitet",
+        "øvling",
+        "lysskyer",
+        "eksperter"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1028,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a49fb1",
+      "storeId": "store_a47cb7",
+      "personId": null,
+      "title": "Brilletilpasning",
+      "description": "Danielsen-Rasmussen og Sønner AS tilbyr profesjonell optiske tjenester for alle behov. Vi har en bred sortiment av høy kvalitet øvling og lysskyer, samt eksperter som hjelper deg med å finne det beste valget.",
+      "serviceType": [
+        "Optical services"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "optiske tjenester",
+        "høy kvalitet",
+        "øvling",
+        "lysskyer",
+        "eksperter"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 599,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

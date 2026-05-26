@@ -1,0 +1,32 @@
+# Fonts
+
+> Nuxt UI integrates with Nuxt Fonts to provide plug-and-play font optimization.
+
+## Usage
+
+Nuxt UI automatically registers the [`@nuxt/fonts`](https://github.com/nuxt/fonts) module for you, so there's no additional setup required.
+
+### Declaration
+
+To use a font in your Nuxt UI application, you can simply declare it in your CSS. It will be automatically loaded and optimized for you.
+
+```css [app/assets/css/main.css]
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+  --font-sans: 'Public Sans', sans-serif;
+}
+```
+
+### Configuration
+
+You can disable the `@nuxt/fonts` module with the `ui.fonts` option in your `nuxt.config.ts`:
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  ui: {
+    fonts: false
+  }
+})
+```

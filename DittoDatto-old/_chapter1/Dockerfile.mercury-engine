@@ -1,0 +1,71 @@
+# MercuryEngine - Booking Engine Microservice
+# Production-ready multi-stage build for Google Cloud Run
+
+# ============================================
+# Stage 1: Build & Install
+# ============================================
+FROM node:22-slim AS builder
+
+WORKDIR /build
+
+# Copy root package.json for workspace awareness
+COPY package.json ./
+COPY packages/mercury-engine/package.json ./packages/mercury-engine/
+COPY packages/shared-types ./packages/shared-types/
+
+# Install all workspace dependencies (hoisted to /build/node_modules)
+RUN npm install --workspace=@dittodatto/mercury-engine
+
+# Copy source code
+WORKDIR /build/packages/mercury-engine
+COPY packages/mercury-engine/src ./src
+COPY packages/mercury-engine/tsconfig.json ./
+COPY packages/mercury-engine/esbuild.config.js ./
+
+
+# Compile TypeScript to JavaScript
+RUN npm run build
+
+# ============================================
+# Stage 2: Prune production deps
+# ============================================
+FROM node:22-slim AS pruner
+
+WORKDIR /pruned
+
+# Copy the full workspace structure from builder
+COPY --from=builder /build/package.json ./
+COPY --from=builder /build/packages/mercury-engine/package.json ./packages/mercury-engine/
+COPY --from=builder /build/packages/shared-types/package.json ./packages/shared-types/
+
+# Do a production-only install in workspace context
+RUN npm install --workspace=@dittodatto/mercury-engine --omit=dev
+
+# ============================================
+# Stage 3: Final runtime image
+# ============================================
+FROM node:22-slim
+
+WORKDIR /app
+
+# Copy production node_modules (hoisted at root)
+COPY --from=pruner /pruned/node_modules ./node_modules
+
+# Copy compiled JavaScript from builder
+COPY --from=builder /build/packages/mercury-engine/dist ./dist
+
+# Copy shared-types (workspace link resolved here)
+COPY --from=pruner /pruned/packages/shared-types ./node_modules/@dittodatto/shared-types
+
+# Cloud Run uses PORT env var (default 8080)
+ENV PORT=8080
+ENV NODE_ENV=production
+
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:${PORT}/health', (r) => { process.exit(r.statusCode === 200 ? 0 : 1); })"
+
+# Run compiled JavaScript
+CMD ["node", "dist/server.js"]

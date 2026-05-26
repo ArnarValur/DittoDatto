@@ -1,0 +1,3130 @@
+
+// ========== src/config/env.ts ==========
+
+/**
+ * MercuryEngine - Environment Configuration
+ *
+ * Validates all required environment variables at startup using Zod.
+ * If any required variable is missing or malformed, the app crashes
+ * immediately with a clear error — fail-fast, not fail-open.
+ */
+
+import { z } from 'zod'
+
+const EnvSchema = z.object({
+  // Server
+  PORT: z.coerce.number().default(5002),
+  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+
+  // Firebase / GCP
+  GCLOUD_PROJECT: z.string().default('cs-poc-4zmxog23jmy4io0d4yx6rj0'),
+  FIRESTORE_EMULATOR_HOST: z.string().optional(),
+
+  // Security — required in production, optional in dev
+  INTERNAL_API_KEY: z.string().optional(),
+})
+
+// Parse and validate on import — crash immediately on misconfiguration
+function loadConfig() {
+  const result = EnvSchema.safeParse(process.env)
+  if (!result.success) {
+    console.error('❌ Invalid environment configuration:')
+    console.error(result.error.format())
+    process.exit(1)
+  }
+
+  const config = result.data
+
+  // Warn in dev, crash in prod if INTERNAL_API_KEY is missing
+  if (!config.INTERNAL_API_KEY) {
+    if (config.NODE_ENV === 'production') {
+      console.error('❌ INTERNAL_API_KEY is required in production')
+      process.exit(1)
+    }
+    console.warn('⚠️  INTERNAL_API_KEY not set — internal endpoints unprotected (dev only)')
+  }
+
+  return config
+}
+
+export const env = loadConfig()
+
+// ========== src/config/firebase.ts ==========
+
+/**
+ * Firebase Admin initialization for MercuryEngine
+ * 
+ * In development: Uses FIRESTORE_EMULATOR_HOST env var
+ * In production: Uses default credentials from Cloud Run
+ */
+
+import { initializeApp, getApps, cert } from 'firebase-admin/app'
+import { getFirestore } from 'firebase-admin/firestore'
+
+// Initialize Firebase Admin only once
+if (getApps().length === 0) {
+    initializeApp({
+        projectId: process.env.GCLOUD_PROJECT || 'cs-poc-4zmxog23jmy4io0d4yx6rj0',
+    })
+}
+
+export const db = getFirestore()
+
+// Enable better logging in dev
+if (process.env.NODE_ENV !== 'production') {
+    db.settings({ ignoreUndefinedProperties: true })
+}
+
+export default db
+
+// ========== src/core/bookings/booking.ts ==========
+
+// packages/functions/src/MercuryEngine/booking.ts
+// Core Domain: Booking Context - Create Booking from Hold
+// Migrated from: .docs/project-context/BookingScripts/src/services/booking/create.ts
+
+import { getAuth } from "firebase-admin/auth";
+import { db } from "../../config/firebase.js";
+import { Booking, Hold, Service, BookingPolicySchema } from "@dittodatto/shared-types";
+import { upsertCustomerFromBooking } from "../shared/customer.js";
+
+import { HttpsError } from "../shared/errors.js";
+
+// ============================================================================
+// Pure Functions (testable without Firestore)
+// ============================================================================
+
+/**
+ * Input data for building a booking receipt.
+ * All fields are plain data — no Firestore refs.
+ */
+export interface BookingReceiptInput {
+  hold: Hold;
+  services: (Service & { id: string })[];
+  userName: string;
+  userEmail: string;
+  storeName: string;
+  paymentId: string;
+  notes?: string;
+}
+
+/**
+ * Builds a Booking object (the receipt/snapshot) from hold + services + user data.
+ * Pure function — no IO. All data passed in, Booking object returned.
+ *
+ * Uses the Snapshot Pattern: copies service price/title at booking time
+ * for historical accuracy (prices can change later).
+ */
+export function buildBookingReceipt(input: BookingReceiptInput): Booking & { storeName: string } {
+  const { hold, services, userName, userEmail, paymentId, storeName, notes } = input;
+
+  const holdServiceIds: string[] = hold.serviceIds
+    || (hold.serviceId ? [hold.serviceId] : []);
+
+  // Aggregate totals from all services
+  const totalDuration = services.reduce((sum, s) => sum + (s.duration || 60), 0);
+  const totalPrice = services.reduce((sum, s) => sum + (s.price || 0), 0);
+  const serviceTitle = services.map((s) => s.title).join(", ");
+
+  // Calculate Start/End Time as timezone-naive local times.
+  const startTime = `${hold.date}T${hold.slotTime}:00`;
+
+  const [startH, startM] = hold.slotTime.split(":").map(Number);
+  const endTotalMinutes = startH * 60 + startM + totalDuration;
+  const endH = String(Math.floor(endTotalMinutes / 60) % 24).padStart(2, "0");
+  const endM = String(endTotalMinutes % 60).padStart(2, "0");
+  const endTime = `${hold.date}T${endH}:${endM}:00`;
+
+  // Build items array — one entry per service
+  const items = services.map((s) => ({
+    serviceId: s.id,
+    title: s.title,
+    price: s.price,
+    duration: s.duration,
+    ...(hold.personId ? { personId: hold.personId } : {}),
+    storeId: hold.storeId,
+    companyId: hold.companyId,
+  }));
+
+  const booking: Booking = {
+    id: paymentId,
+    status: "confirmed",
+    userId: hold.userId,
+    companyId: hold.companyId,
+    storeId: hold.storeId,
+    serviceId: holdServiceIds[0],
+    ...(hold.personId ? { personId: hold.personId } : {}),
+    ...((hold as any).resourceId ? { resourceId: (hold as any).resourceId } : {}),
+    serviceTitle,
+    duration: totalDuration,
+    priceAtTimeOfBooking: totalPrice,
+    currency: services[0].currency,
+    userName,
+    userEmail,
+    startTime: startTime as unknown as Date,
+    endTime: endTime as unknown as Date,
+    createdAt: new Date() as unknown as Date,
+    items,
+    addonResourceIds: [],
+    paymentId,
+    channel: "app",
+    attendeeCount: 1,
+    ...(notes?.trim() ? { notes: notes.trim() } : {}),
+  };
+
+  return { ...booking, storeName };
+}
+
+/**
+ * Input for cancellation policy check.
+ */
+export interface CancellationCheckInput {
+  bookingStartTime: string | Date;
+  policy: {
+    clientCancelEnabled: boolean;
+    minCancelNoticeHours: number;
+  };
+  now?: Date;
+}
+
+/**
+ * Validates that a customer cancellation is allowed per the store's policy.
+ * Pure function — throws HttpsError if policy forbids cancellation.
+ *
+ * Only called for customer-initiated cancellations (staff/admin bypass).
+ */
+export function checkCancellationPolicy(input: CancellationCheckInput): void {
+  const { policy, now = new Date() } = input;
+
+  if (!policy.clientCancelEnabled) {
+    throw new HttpsError(
+      "failed-precondition",
+      "This business does not allow customer cancellations. Please contact the business directly.",
+    );
+  }
+
+  if (policy.minCancelNoticeHours > 0) {
+    const startTime = typeof input.bookingStartTime === 'string'
+      ? new Date(input.bookingStartTime)
+      : (input.bookingStartTime as any)?.toDate?.()
+        ?? new Date(input.bookingStartTime as any);
+
+    const deadlineMs = startTime.getTime() - (policy.minCancelNoticeHours * 60 * 60 * 1000);
+    const deadline = new Date(deadlineMs);
+
+    if (now.getTime() > deadlineMs) {
+      throw new HttpsError(
+        "failed-precondition",
+        `Cancellation deadline has passed. Must cancel at least ${policy.minCancelNoticeHours} hours before the appointment (deadline: ${deadline.toISOString()}).`,
+      );
+    }
+  }
+}
+
+/**
+ * MercuryEngine - Create Booking from Hold
+ * Converts a valid hold into a permanent booking using the Snapshot Pattern.
+ * Copies service price/title at booking time for historical accuracy.
+ *
+ * @param holdId - The composite hold ID to convert
+ * @param paymentId - Payment reference ID (used as booking ID for idempotency)
+ * @returns Object with success status and bookingId
+ */
+export const createBookingFromHold = async (
+  holdId: string,
+  paymentId: string,
+  notes?: string
+) => {
+  const holdRef = db.collection("holds").doc(holdId);
+
+  // CRM data captured inside the transaction, used after it completes
+  let crmData: {
+    companyId: string; storeId: string; userId: string;
+    userName: string; userEmail: string; userPhone?: string;
+    staffId?: string; totalPrice: number; startTime: string;
+    channel: string;
+  } | null = null;
+
+  // Atomic Transaction: Read Hold -> Create Booking -> Delete Hold
+  await db.runTransaction(async (transaction) => {
+    // A. Read the Hold
+    const holdDoc = await transaction.get(holdRef);
+    if (!holdDoc.exists) {
+      throw new HttpsError("not-found", "Hold expired or not found");
+    }
+    const hold = holdDoc.data() as Hold;
+
+    // B. Fetch Service Snapshots for the receipt
+    const holdServiceIds: string[] = hold.serviceIds
+      || (hold.serviceId ? [hold.serviceId] : []);
+
+    if (holdServiceIds.length === 0) {
+      throw new HttpsError("failed-precondition", "Hold has no service IDs");
+    }
+
+    const serviceSnaps = await Promise.all(
+      holdServiceIds.map((sid: string) =>
+        transaction.get(
+          db.doc(
+            `companies/${hold.companyId}/stores/${hold.storeId}/services/${sid}`
+          )
+        )
+      )
+    );
+
+    const services = serviceSnaps.map((s) => ({
+      ...(s.data() as Service),
+      id: s.id,
+    }));
+
+    // Resolve user name/email
+    let userName = "Kunde";
+    let userEmail = "";
+    try {
+      const profileSnap = await transaction.get(db.doc(`users/${hold.userId}`));
+      if (profileSnap.exists) {
+        const profile = profileSnap.data();
+        userName = profile?.name || "";
+        userEmail = profile?.email || "";
+      }
+      if (!userName || userName === "Kunde") {
+        const userRecord = await getAuth().getUser(hold.userId);
+        userName = userName || userRecord.displayName || userRecord.email || "Kunde";
+        userEmail = userEmail || userRecord.email || "";
+      }
+    } catch {
+      // User might be deleted — fallback
+    }
+
+    // Fetch store name
+    let storeName = "";
+    try {
+      const storeSnap = await transaction.get(
+        db.doc(`companies/${hold.companyId}/stores/${hold.storeId}`)
+      );
+      if (storeSnap.exists) {
+        storeName = storeSnap.data()?.name || "";
+      }
+    } catch {
+      // Non-critical
+    }
+
+    // C. Build the receipt (pure)
+    const bookingWithMeta = buildBookingReceipt({
+      hold, services, userName, userEmail, storeName, paymentId, notes,
+    });
+    const bookingId = paymentId;
+
+    // D. Write the Booking & Delete Hold (Atomic)
+    const bookingRef = db.collection("bookings").doc(bookingId);
+    transaction.set(bookingRef, bookingWithMeta);
+    transaction.delete(holdRef);
+
+    // E. Capture data for CRM upsert
+    const totalPrice = bookingWithMeta.priceAtTimeOfBooking;
+    const startTime = bookingWithMeta.startTime;
+    crmData = {
+      companyId: hold.companyId,
+      storeId: hold.storeId,
+      userId: hold.userId,
+      userName,
+      userEmail,
+      staffId: hold.personId,
+      totalPrice,
+      startTime: startTime as unknown as string,
+      channel: "app",
+    };
+  });
+
+  // CRM Side-Effect: Upsert customer record (fire-and-forget)
+  // Runs AFTER the transaction so it never blocks or rolls back the booking.
+  if (crmData) {
+    const d: any = crmData;
+    upsertCustomerFromBooking({
+      companyId: d.companyId,
+      storeId: d.storeId,
+      userId: d.userId,
+      userName: d.userName,
+      userEmail: d.userEmail,
+      bookingId: paymentId,
+      staffId: d.staffId,
+      priceAtTimeOfBooking: d.totalPrice,
+      bookingTime: d.startTime,
+      channel: d.channel,
+    }).catch(() => {}); // Silently swallow — logged inside upsertCustomerFromBooking
+  }
+
+  return { success: true, bookingId: paymentId };
+};
+
+/**
+ * MercuryEngine - Cancel Booking
+ * Cancels an existing booking.
+ * Bypasses client-side Firestore rules by operating via the server SDK.
+ * 
+ * @param bookingId - The ID of the booking to cancel
+ * @param userId - The ID of the user requesting the cancellation (used for authorization)
+ * @param reason - Optional reason for cancellation
+ * @returns Object with success status
+ */
+export const cancelBooking = async (
+  bookingId: string,
+  userId: string,
+  reason?: string
+) => {
+  const bookingRef = db.collection("bookings").doc(bookingId);
+
+  await db.runTransaction(async (transaction) => {
+    const bookingDoc = await transaction.get(bookingRef);
+
+    if (!bookingDoc.exists) {
+      throw new HttpsError("not-found", "Booking not found");
+    }
+
+    const booking = bookingDoc.data() as Booking;
+
+    // Authorization: Must be the customer OR a company admin/member
+    // A. Check if the user is the customer who made the booking
+    let isAuthorized = booking.userId === userId;
+
+    if (!isAuthorized) {
+      // B. If not the customer, check if they are a company member
+      try {
+        const userRef = db.collection("users").doc(userId);
+        const userDoc = await transaction.get(userRef);
+        
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          // Check if they are a superadmin
+          if (userData?.role === 'super_admin') {
+            isAuthorized = true;
+          }
+          // Check if they belong to the company that owns the booking
+          else if (
+             userData?.primaryCompanyId === booking.companyId ||
+             (Array.isArray(userData?.companyIds) && userData.companyIds.includes(booking.companyId))
+          ) {
+            isAuthorized = true;
+          }
+        } else {
+           // Fallback to Firebase auth claims (if we can read them, but since we only have userId here)
+           const userRecord = await getAuth().getUser(userId);
+           if (
+              userRecord.customClaims?.role === 'super_admin' ||
+              userRecord.customClaims?.companyId === booking.companyId ||
+              (Array.isArray(userRecord.customClaims?.companyIds) && userRecord.customClaims.companyIds.includes(booking.companyId))
+           ) {
+              isAuthorized = true;
+           }
+        }
+      } catch (err) {
+        // Ignore auth fetch errors, authorization fails closed.
+        console.warn("Failed to check extended permissions for user: ", userId);
+      }
+    }
+
+    if (!isAuthorized) {
+      throw new HttpsError("permission-denied", "You don't have permission to cancel this booking");
+    }
+
+    if (booking.status === "cancelled") {
+       throw new HttpsError("failed-precondition", "Booking is already cancelled");
+    }
+    
+    if (booking.status === "completed") {
+       throw new HttpsError("failed-precondition", "Cannot cancel a completed booking");
+    }
+
+    // --- Cancellation Policy Enforcement (pure) ---
+    const isCustomer = booking.userId === userId;
+    if (isCustomer) {
+      try {
+        const storeRef = db.doc(`companies/${booking.companyId}/stores/${booking.storeId}`);
+        const storeDoc = await transaction.get(storeRef);
+        const storeData = storeDoc.exists ? storeDoc.data() : {};
+        const policy = BookingPolicySchema.parse(storeData?.bookingPolicy ?? {});
+
+        checkCancellationPolicy({
+          bookingStartTime: booking.startTime,
+          policy,
+        });
+      } catch (err) {
+        if (err instanceof HttpsError) throw err;
+        console.warn("Failed to fetch store for policy check, allowing cancellation:", err);
+      }
+    }
+
+    // Update the booking status
+    const updates: Partial<Booking> = {
+      status: "cancelled",
+      updatedAt: new Date() as unknown as Date,
+    };
+    
+    if (reason) {
+       updates.cancellationReason = reason;
+    }
+
+    transaction.update(bookingRef, updates);
+  });
+
+  return { success: true };
+};
+
+// ========== src/core/bookings/calculator.ts ==========
+
+// packages/functions/src/MercuryEngine/calculator.ts
+// Core Domain: Booking Context - Time Tetris Algorithm
+// Migrated from: .docs/project-context/BookingScripts/src/services/booking/business.ts
+
+import { fetchAvailabilityData } from "../shared/data.js";
+import { minutesToTime, isSlotInPast } from "../shared/time.js";
+import { getAvailableStaffForSlot } from "../shared/staff-availability.js";
+import { getAvailableResourcesForSlot } from "../shared/resource-availability.js";
+import { buildAvailabilityContext } from "../shared/availability-context.js";
+import type { AvailabilityContext } from "../shared/availability-context.js";
+
+/**
+ * MercuryEngine - Time Tetris Algorithm (Orchestrator)
+ * 
+ * Thin wrapper: fetch data → build context → calculate slots.
+ * The actual logic is in calculateSlotsFromContext() (pure, testable).
+ */
+export const calculateSlots = async (
+  companyId: string,
+  storeId: string,
+  date: string,
+  serviceIds: string[],
+  staffId?: string
+) => {
+  // 1. Fetch data (Firestore)
+  const data = await fetchAvailabilityData(companyId, storeId, date, serviceIds, staffId);
+
+  // 2. Build context (pure)
+  const ctx = buildAvailabilityContext(data, date, staffId);
+
+  // 3. Date window check — beyond bookable range?
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const maxDate = new Date(today);
+  maxDate.setDate(maxDate.getDate() + ctx.policy.maxBookableFutureDays);
+  const requestedDate = new Date(date + "T00:00:00");
+  if (requestedDate > maxDate) {
+    return [];
+  }
+
+  // 4. Calculate slots (pure)
+  return calculateSlotsFromContext(ctx);
+};
+
+/**
+ * MercuryEngine - Time Tetris Slot Loop (Pure Function)
+ * 
+ * Given a precomputed AvailabilityContext, generates all available time slots.
+ * This function is PURE — zero side effects, zero Firestore.
+ * 
+ * @param ctx - Precomputed availability context from buildAvailabilityContext()
+ * @returns Array of available time slots as strings (e.g., ["09:00", "09:15"])
+ */
+export const calculateSlotsFromContext = (ctx: AvailabilityContext): string[] => {
+  const {
+    schedule, openTime, closeTime, totalDuration, slotInterval,
+    noticeCutoffMinutes, timeCtx, eligibleStaff, hasBookableStaff,
+    staffOccupancy, storeOccupied, resourceOccupied,
+    uniqueRequiredGroupIds, hasResourceRequirements,
+    resources, resourceGroups,
+  } = ctx;
+
+  // Closed today — no slots
+  if (!schedule || !schedule.isOpen) {
+    return [];
+  }
+
+  // The Loop (Time Tetris)
+  const slots: string[] = [];
+  const step = slotInterval;
+  let currentTime = openTime;
+
+  while (currentTime + totalDuration <= closeTime) {
+    const slotEnd = currentTime + totalDuration;
+
+    // Notice check — skip slots too close to "now"
+    if (isSlotInPast(currentTime, timeCtx, noticeCutoffMinutes)) {
+      currentTime += step;
+      continue;
+    }
+
+    let staffOk = true;
+
+    if (hasBookableStaff) {
+      // Get staff scheduled for this time
+      const availableStaffIds = getAvailableStaffForSlot(
+        eligibleStaff, ctx.date, currentTime, slotEnd,
+      );
+
+      // Are ANY of the scheduled staff free from conflicting bookings?
+      let foundFreeStaff = false;
+      for (const sId of availableStaffIds) {
+        const occ = staffOccupancy.get(sId) || [];
+        const isClashing = occ.some((o) => currentTime < o.end && slotEnd > o.start);
+
+        if (!isClashing) {
+          foundFreeStaff = true;
+          break; // We only need 1 free staff member to offer the slot
+        }
+      }
+      staffOk = foundFreeStaff;
+    } else if (!hasResourceRequirements) {
+      // No staff, no resources → Store-level capacity (1 global slot)
+      const isClashing = storeOccupied.some(
+        (occ) => currentTime < occ.end && slotEnd > occ.start,
+      );
+      staffOk = !isClashing;
+    }
+
+    // Resource check (additive)
+    let resourceOk = true;
+    if (staffOk && hasResourceRequirements) {
+      const resourceResult = getAvailableResourcesForSlot(
+        resources,
+        resourceGroups,
+        uniqueRequiredGroupIds,
+        currentTime,
+        slotEnd,
+        resourceOccupied,
+      );
+      resourceOk = resourceResult.available;
+    }
+
+    if (staffOk && resourceOk) {
+      slots.push(minutesToTime(currentTime));
+    }
+
+    currentTime += step;
+  }
+
+  return slots;
+};
+
+// ========== src/core/bookings/hold.ts ==========
+
+// packages/functions/src/MercuryEngine/hold.ts
+// Core Domain: Booking Context - Create Hold
+// Atomic hold creation with 10-minute TTL
+// Policy-aware: validates against BookingPolicySchema before locking slot.
+// Auto-allocates the highest priority Resource (e.g. Table) at hold time!
+
+import { db } from "../../config/firebase.js";
+import { Hold } from "@dittodatto/shared-types";
+import { fetchAvailabilityData } from "../shared/data.js";
+import { getAvailableResourcesForSlot } from "../shared/resource-availability.js";
+import { getAvailableStaffForSlot } from "../shared/staff-availability.js";
+import { parseTime, minutesFromMidnight, isSlotInPast } from "../shared/time.js";
+import { buildAvailabilityContext } from "../shared/availability-context.js";
+import type { AvailabilityContext } from "../shared/availability-context.js";
+
+import { HttpsError } from "../shared/errors.js";
+
+// ============================================================================
+// Types
+// ============================================================================
+
+export interface HoldAllocation {
+  finalPersonId?: string;
+  assignedResourceId?: string;
+  holdId: string;
+  totalDuration: number;
+}
+
+// ============================================================================
+// Pure Function: Resolve Hold Allocation
+// ============================================================================
+
+/**
+ * Given a precomputed AvailabilityContext, determine:
+ * - Which staff member gets the hold (if staff-aware)
+ * - Which resource gets auto-assigned (if resource-aware)
+ * - The composite hold ID
+ * 
+ * This is PURE — zero Firestore, zero side effects → testable.
+ * Throws HttpsError if the slot is unavailable.
+ * 
+ * @param ctx - Precomputed availability context
+ * @param slotTime - The time slot being held (e.g., "09:00")
+ * @param userId - The user creating the hold
+ * @param personId - Optional: pre-selected staff member
+ */
+export function resolveHoldAllocation(
+  ctx: AvailabilityContext,
+  storeId: string,
+  slotTime: string,
+  userId: string,
+  personId?: string,
+): HoldAllocation {
+  const {
+    services, eligibleStaff, hasBookableStaff,
+    uniqueRequiredGroupIds, hasResourceRequirements,
+    resources, resourceGroups, totalDuration, store, date,
+  } = ctx;
+
+  // Guard against literal "undefined" string over network
+  if (personId === "undefined" || personId === "null") {
+    personId = undefined;
+  }
+
+  const resolvedPersonId = personId || services.find((s: any) => s.personId)?.personId;
+
+  const slotStart = parseTime(slotTime);
+  const slotEnd = slotStart + totalDuration;
+
+  // ---- Staff concurrency ----
+  let finalPersonId = resolvedPersonId;
+
+  if (hasBookableStaff) {
+    let candidates = eligibleStaff;
+    if (finalPersonId) {
+      candidates = eligibleStaff.filter((s) => s.id === finalPersonId);
+      if (candidates.length === 0) {
+        throw new HttpsError(
+          "failed-precondition",
+          "Requested staff member cannot perform all selected services.",
+        );
+      }
+    }
+
+    // Filter by shift schedules
+    const scheduledStaffIds = getAvailableStaffForSlot(candidates, date, slotStart, slotEnd);
+    if (scheduledStaffIds.length === 0) {
+      throw new HttpsError(
+        "failed-precondition",
+        "No staff members are scheduled for this time slot.",
+      );
+    }
+
+    // Filter by occupied (no clashing holds/bookings for that specific staff member)
+    let availableStaffId: string | undefined = undefined;
+    const { bookings, holds } = ctx;
+
+    for (const sId of scheduledStaffIds) {
+      const personOccupied = [
+        ...bookings
+          .filter((b: any) => b.personId === sId)
+          .map((b: any) => ({
+            start: minutesFromMidnight(b.startTime, store.timezone),
+            end: minutesFromMidnight(b.endTime, store.timezone),
+          })),
+        ...holds
+          .filter((h: any) => h.personId === sId)
+          .map((h: any) => {
+            const start = parseTime(h.slotTime);
+            return { start, end: start + h.duration };
+          }),
+      ];
+
+      const isPersonClashing = personOccupied.some(
+        (occ) => slotStart < occ.end && slotEnd > occ.start,
+      );
+      if (!isPersonClashing) {
+        availableStaffId = sId;
+        break;
+      }
+    }
+
+    if (!availableStaffId) {
+      throw new HttpsError(
+        "failed-precondition",
+        "This time slot is no longer available.",
+      );
+    }
+
+    finalPersonId = availableStaffId;
+  } else if (!hasResourceRequirements) {
+    // NO STAFF and NO RESOURCES → Global store-level concurrency (only 1 booking at a time)
+    const { storeOccupied } = ctx;
+    const isClashing = storeOccupied.some(
+      (occ) => slotStart < occ.end && slotEnd > occ.start,
+    );
+    if (isClashing) {
+      throw new HttpsError(
+        "failed-precondition",
+        "This time slot is no longer available.",
+      );
+    }
+  }
+
+  // ---- Resource allocation ----
+  let assignedResourceId: string | undefined;
+
+  if (hasResourceRequirements) {
+    const resourceResult = getAvailableResourcesForSlot(
+      resources,
+      resourceGroups,
+      uniqueRequiredGroupIds,
+      slotStart,
+      slotEnd,
+      ctx.resourceOccupied,
+    );
+
+    if (!resourceResult.available || resourceResult.assignedResources.length === 0) {
+      throw new HttpsError(
+        "failed-precondition",
+        "No resources available for this time slot.",
+      );
+    }
+
+    // First resource in the assigned array is the highest priority table
+    assignedResourceId = resourceResult.assignedResources[0].id;
+  }
+
+  // ---- Composite hold ID ----
+  const differentiator = assignedResourceId || finalPersonId || userId;
+  const holdId = `${storeId}_${date}_${slotTime}_${differentiator}`;
+
+  return {
+    finalPersonId,
+    assignedResourceId,
+    holdId,
+    totalDuration,
+  };
+}
+
+// ============================================================================
+// Orchestrator: Create Hold (Firestore Transaction)
+// ============================================================================
+
+/**
+ * MercuryEngine - Create Hold
+ * Atomically locks a time slot for 10 minutes.
+ * Uses composite key for idempotency AND concurrency.
+ * Validates booking policy (date window, notice time) before creating.
+ * Auto-allocates necessary resources based on priority.
+ */
+export const createHold = async (
+  userId: string,
+  companyId: string,
+  storeId: string,
+  serviceIds: string[],
+  date: string,
+  slotTime: string,
+  personId?: string,
+) => {
+  const storeRef = db.doc(`companies/${companyId}/stores/${storeId}`);
+
+  return await db.runTransaction(async (transaction) => {
+    // 1. Establish transaction read block for serialization
+    const storeSnap = await transaction.get(storeRef);
+    if (!storeSnap.exists) {
+      throw new HttpsError("not-found", "Store not found");
+    }
+
+    // 2. Fetch ALL data needed to verify the slot
+    const data = await fetchAvailabilityData(companyId, storeId, date, serviceIds, personId);
+
+    // 3. Build context (pure)
+    const ctx = buildAvailabilityContext(data, date);
+
+    // 4. Date window check
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() + ctx.policy.maxBookableFutureDays);
+    if (new Date(date + "T00:00:00") > maxDate) {
+      throw new HttpsError(
+        "failed-precondition",
+        `Cannot book more than ${ctx.policy.maxBookableFutureDays} days in advance`,
+      );
+    }
+
+    // 5. Notice time check
+    const slotMinutes = parseTime(slotTime);
+    if (isSlotInPast(slotMinutes, ctx.timeCtx, ctx.noticeCutoffMinutes)) {
+      throw new HttpsError(
+        "failed-precondition",
+        `Must book at least ${ctx.noticeCutoffMinutes} minutes in advance`,
+      );
+    }
+
+    // 6. Validate services
+    if (ctx.services.length !== serviceIds.length) {
+      throw new HttpsError("not-found", "One or more services not found");
+    }
+
+    if (!ctx.hasBookableStaff && !personId) {
+      // ok — no staff required
+    } else if (ctx.hasBookableStaff && ctx.eligibleStaff.length === 0 && !personId) {
+      throw new HttpsError(
+        "failed-precondition",
+        "No staff members are eligible for all selected services.",
+      );
+    }
+
+    // 7. Resolve allocation (pure)
+    const allocation = resolveHoldAllocation(ctx, storeId, slotTime, userId, personId);
+
+    // 8. Write hold document
+    const holdRef = db.collection("holds").doc(allocation.holdId);
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+    const holdData: Hold = {
+      id: allocation.holdId,
+      userId,
+      companyId,
+      storeId,
+      serviceIds,
+      ...(allocation.finalPersonId ? { personId: allocation.finalPersonId } : {}),
+      ...(allocation.assignedResourceId ? { resourceId: allocation.assignedResourceId } : {}),
+      date,
+      slotTime,
+      duration: allocation.totalDuration,
+      expiresAt: expiresAt as unknown as Date,
+      createdAt: new Date() as unknown as Date,
+    };
+
+    // Check for existing hold (idempotency + expired hold overwrite)
+    const existingHold = await transaction.get(holdRef);
+    if (existingHold.exists) {
+      const existing = existingHold.data() as Hold;
+      if (existing.expiresAt && new Date(existing.expiresAt).getTime() < Date.now()) {
+        transaction.set(holdRef, holdData);
+      } else {
+        throw new HttpsError(
+          "already-exists",
+          "This time slot is already held by another user",
+        );
+      }
+    } else {
+      transaction.set(holdRef, holdData);
+    }
+
+    // FIX PHANTOM READS (GRANULAR):
+    // Serialize on the most specific entity to avoid store-wide bottleneck.
+    // Staff doc → resource doc → store doc (fallback for no-staff-no-resource stores).
+    // This multiplies throughput by number of bookable entities.
+    const trackerTimestamp = new Date().getTime();
+
+    if (allocation.finalPersonId) {
+      // Lock at staff level — Alice's bookings won't block Bob's
+      const staffRef = db.doc(`companies/${companyId}/stores/${storeId}/staff/${allocation.finalPersonId}`);
+      transaction.set(staffRef, { _lastHoldTracker: trackerTimestamp }, { merge: true });
+    } else if (allocation.assignedResourceId) {
+      // Lock at resource level — Table 1 won't block Table 2
+      const resourceRef = db.doc(`companies/${companyId}/stores/${storeId}/resources/${allocation.assignedResourceId}`);
+      transaction.set(resourceRef, { _lastHoldTracker: trackerTimestamp }, { merge: true });
+    } else {
+      // Fallback: no staff, no resources → store-level (1 global slot stores)
+      transaction.set(storeRef, { _lastHoldTracker: trackerTimestamp }, { merge: true });
+    }
+
+    return {
+      success: true,
+      holdId: allocation.holdId,
+      expiresAt: expiresAt.toISOString(),
+    };
+  });
+};
+
+// ========== src/core/bookings/index.ts ==========
+
+/**
+ * MercuryEngine Core - Appointments Domain
+ * 
+ * Re-exports all appointment-related business logic.
+ * Standard 1:1 booking flow: Search → Hold → Pay → Confirm → Cancel
+ */
+
+export { calculateSlots, calculateSlotsFromContext } from './calculator.js'
+export { createHold, resolveHoldAllocation } from './hold.js'
+export { createBookingFromHold, cancelBooking, buildBookingReceipt, checkCancellationPolicy } from './booking.js'
+
+// Re-export shared utilities that routes may need
+export { upsertCustomerFromBooking } from '../shared/customer.js'
+export { fetchAvailabilityData } from '../shared/data.js'
+export * from '../shared/time.js'
+
+// TODO: Rebook endpoint — atomic cancel-old + hold-new transaction
+// export { rebookAppointment } from './rebook.js'
+
+// TODO: Waitlist — check waitlist on cancellation, notify waiting customers
+// export { checkWaitlistOnCancel, addToWaitlist } from './waitlist.js'
+
+// ========== src/core/reservations/availability.ts ==========
+
+import { db } from "../../config/firebase.js";
+import { Store, Reservation, Experience, Resource, ReservationConfig, Service } from "@dittodatto/shared-types";
+import { generateTimeSlots, calculateSlotAvailability } from "./calculator.js";
+import { HttpsError } from "../shared/errors.js";
+
+interface AvailabilityRequest {
+  companyId: string;
+  storeId: string;
+  date: string; // "YYYY-MM-DD"
+  partySize: number;
+  experienceId?: string; // Legacy — filter by specific experience
+  serviceId?: string;    // Scopes table resources to the service's resource groups
+}
+
+interface TimeSlot {
+  time: string;
+  available: boolean;
+  remainingCapacity: number;
+  reason?: string;
+  experienceId?: string;
+}
+
+export const getReservationAvailability = async (request: AvailabilityRequest) => {
+    const { companyId, storeId, date, partySize, experienceId, serviceId } = request;
+
+    // 1. Validate Input
+    if (!companyId || !storeId || !date || !partySize) {
+      throw new HttpsError("invalid-argument", "Missing required fields: companyId, storeId, date, partySize");
+    }
+
+    // 2. Fetch Store Config (correct company subcollection path)
+    const storeDoc = await db
+      .doc(`companies/${companyId}/stores/${storeId}`)
+      .get();
+
+    if (!storeDoc.exists) {
+      throw new HttpsError("not-found", "Store not found");
+    }
+
+    const store = storeDoc.data() as Store;
+
+    if (!store.reservationConfig) {
+      throw new HttpsError("failed-precondition", "Table reservation not enabled for this store");
+    }
+
+    const config = store.reservationConfig;
+
+    // 2b. Fetch table resources for auto-detection of pool vs table mode
+    const resourcesSnap = await db
+      .collection(`companies/${companyId}/stores/${storeId}/resources`)
+      .where("type", "==", "table")
+      .where("isBookable", "==", true)
+      .get();
+
+    const tableResources = resourcesSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Resource[];
+
+    // ---- P1 FIX: Scope tables by Service → ResourceGroup ----
+    // When a serviceId is provided, only use tables that belong to
+    // the service's requiredResourceGroupIds. This prevents a "Terrace"
+    // reservation from being assigned an indoor table.
+    let scopedTables = tableResources;
+
+    if (serviceId) {
+      const serviceDoc = await db
+        .doc(`companies/${companyId}/stores/${storeId}/services/${serviceId}`)
+        .get();
+
+      if (serviceDoc.exists) {
+        const service = serviceDoc.data() as Service;
+        const requiredGroups = service.requiredResourceGroupIds || [];
+
+        if (requiredGroups.length > 0) {
+          scopedTables = tableResources.filter(
+            (t) => t.resourceGroupId && requiredGroups.includes(t.resourceGroupId),
+          );
+        }
+      }
+    }
+
+    const tableResourcesOrUndefined = scopedTables.length > 0 ? scopedTables : undefined;
+
+    // 3. Fetch Experiences for this store
+    const experiencesSnap = await db
+      .collection(`companies/${companyId}/stores/${storeId}/experiences`)
+      .where("isActive", "==", true)
+      .get();
+
+    let experiences = experiencesSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Experience[];
+
+    // Filter to specific experience if requested
+    if (experienceId) {
+      experiences = experiences.filter((e) => e.id === experienceId);
+    }
+
+    // Fallback: if no experiences defined, generate slots from store opening hours
+    if (experiences.length === 0) {
+      const { getDayName } = await import("../shared/time.js");
+      const dayName = getDayName(date);
+      const schedule = (store.openingSchedule as any)[dayName];
+
+      if (!schedule || !schedule.isOpen) {
+        return { slots: [] };
+      }
+
+      // Generate slots from store hours with no experience
+      const slotOpts = {
+        storeTimezone: store.timezone || 'Europe/Oslo',
+        requestDate: date,
+        noticeCutoffMinutes: store.bookingPolicy?.minBookingNoticeMinutes || 0,
+      };
+      const slots = generateTimeSlots(schedule.open, schedule.close, config.slotInterval, slotOpts);
+      const allSlots: TimeSlot[] = [];
+      const existingReservations = await fetchReservationsForDate(companyId, storeId, date);
+
+      for (const time of slots) {
+        const queryDate = new Date(date + "T00:00:00");
+        const availability = calculateSlotAvailability(
+          store,
+          queryDate,
+          time,
+          config.defaultDuration,
+          partySize,
+          existingReservations,
+          tableResourcesOrUndefined,
+        );
+        allSlots.push({
+          time,
+          available: availability.available,
+          remainingCapacity: availability.remainingCapacity,
+          reason: availability.reason,
+        });
+      }
+
+      return { slots: allSlots };
+    }
+
+    // 4. Fetch Existing Reservations for Date (company subcollection)
+    const existingReservations = await fetchReservationsForDate(companyId, storeId, date);
+
+    // 5. Generate Slots for Each Experience
+    const allSlots: TimeSlot[] = [];
+
+    for (const exp of experiences) {
+      const { startTime, endTime } = exp.operatingWindow;
+      const duration = exp.duration || config.defaultDuration;
+      const slotOpts = {
+        storeTimezone: store.timezone || 'Europe/Oslo',
+        requestDate: date,
+        noticeCutoffMinutes: store.bookingPolicy?.minBookingNoticeMinutes || 0,
+      };
+      const slots = generateTimeSlots(startTime, endTime, config.slotInterval, slotOpts);
+
+      for (const time of slots) {
+        const queryDate = new Date(date + "T00:00:00");
+        const availability = calculateSlotAvailability(
+          store,
+          queryDate,
+          time,
+          duration,
+          partySize,
+          existingReservations,
+          tableResourcesOrUndefined,
+        );
+
+        allSlots.push({
+          time,
+          available: availability.available,
+          remainingCapacity: availability.remainingCapacity,
+          reason: availability.reason,
+          experienceId: exp.id,
+        });
+      }
+    }
+
+    return { slots: allSlots };
+  };
+
+/**
+ * Fetch reservations for a specific store and date.
+ * Uses company subcollection: companies/{companyId}/reservations
+ */
+async function fetchReservationsForDate(
+  companyId: string,
+  storeId: string,
+  date: string,
+): Promise<Reservation[]> {
+  const queryDateStart = new Date(date + "T00:00:00");
+  const queryDateEnd = new Date(date + "T23:59:59");
+
+  const snapshot = await db
+    .collection(`companies/${companyId}/reservations`)
+    .where("storeId", "==", storeId)
+    .where("date", ">=", queryDateStart)
+    .where("date", "<=", queryDateEnd)
+    .get();
+
+  return snapshot.docs.map((doc) => doc.data() as Reservation);
+}
+
+
+// ========== src/core/reservations/booking.ts ==========
+
+import { db } from "../../config/firebase.js";
+import { Store, Resource, Reservation, Service } from "@dittodatto/shared-types";
+import { calculateSlotAvailability } from "./calculator.js";
+import { HttpsError } from "../shared/errors.js";
+
+export interface CreateReservationRequest {
+  companyId: string;
+  storeId: string;
+  experienceId?: string;
+  serviceId?: string;    // Scopes table resources to the service's resource groups
+  
+  customerName: string;
+  customerEmail?: string;
+  customerPhone: string;
+  
+  guestCount: number;
+  date: string; // "YYYY-MM-DD"
+  time: string; // "HH:mm"
+  
+  notes?: string;
+  userId?: string; // Optional user ID if authenticated
+}
+
+export const createReservation = async (request: CreateReservationRequest) => {
+    const {
+      companyId,
+      storeId,
+      experienceId,
+      serviceId,
+      customerName,
+      customerEmail,
+      customerPhone,
+      guestCount,
+      date,
+      time,
+      notes,
+      userId,
+    } = request;
+
+    // 1. Validation
+    if (!companyId || !storeId || !guestCount || !date || !time || !customerName || !customerPhone) {
+      throw new HttpsError("invalid-argument", "Missing required fields: companyId, storeId, guestCount, date, time, customerName, customerPhone");
+    }
+
+    // 2. Fetch Store & Config (correct company subcollection path)
+    const storeRef = db.doc(`companies/${companyId}/stores/${storeId}`);
+
+    // 2b. Fetch table resources OUTSIDE transaction (read-only, stable within request)
+    const resourcesSnap = await db
+      .collection(`companies/${companyId}/stores/${storeId}/resources`)
+      .where("type", "==", "table")
+      .where("isBookable", "==", true)
+      .get();
+
+    const tableResources = resourcesSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Resource[];
+
+    // ---- P1 FIX: Scope tables by Service → ResourceGroup ----
+    let scopedTables = tableResources;
+
+    if (serviceId) {
+      const serviceDoc = await db
+        .doc(`companies/${companyId}/stores/${storeId}/services/${serviceId}`)
+        .get();
+
+      if (serviceDoc.exists) {
+        const service = serviceDoc.data() as Service;
+        const requiredGroups = service.requiredResourceGroupIds || [];
+
+        if (requiredGroups.length > 0) {
+          scopedTables = tableResources.filter(
+            (t) => t.resourceGroupId && requiredGroups.includes(t.resourceGroupId),
+          );
+        }
+      }
+    }
+
+    // Transaction to prevent overbooking (race condition handling)
+    const reservationId = await db.runTransaction(async (transaction) => {
+      const storeDoc = await transaction.get(storeRef);
+      if (!storeDoc.exists) throw new HttpsError("not-found", "Store not found");
+
+      const store = storeDoc.data() as Store;
+      if (!store.reservationConfig) {
+        throw new HttpsError("failed-precondition", "Reservations not enabled");
+      }
+
+      const { maxGuestsPerReservation, autoConfirm, defaultDuration } = store.reservationConfig;
+
+      if (guestCount > maxGuestsPerReservation) {
+        throw new HttpsError("out-of-range", "Guest count exceeds limit for instant booking");
+      }
+
+      // 3. Check Availability INSIDE Transaction (company subcollection)
+      const queryDateStart = new Date(date + "T00:00:00");
+      const queryDateEnd = new Date(date + "T23:59:59");
+
+      const resQuery = db
+        .collection(`companies/${companyId}/reservations`)
+        .where("storeId", "==", storeId)
+        .where("date", ">=", queryDateStart)
+        .where("date", "<=", queryDateEnd);
+
+      const resSnapshot = await transaction.get(resQuery);
+      const existingReservations = resSnapshot.docs.map((doc) => doc.data() as Reservation);
+
+      // Duration: use experience duration if available, else store default
+      const duration = defaultDuration;
+
+      // Capacity check — auto-detects pool vs table mode
+      const check = calculateSlotAvailability(
+        store,
+        queryDateStart,
+        time,
+        duration,
+        guestCount,
+        existingReservations,
+        scopedTables.length > 0 ? scopedTables : undefined,
+      );
+
+      if (!check.available) {
+        throw new HttpsError("resource-exhausted", `Slot no longer available - ${check.reason}`);
+      }
+
+      // 4. Create Reservation (company subcollection)
+      const newReservationRef = db
+        .collection(`companies/${companyId}/reservations`)
+        .doc();
+
+      const now = new Date();
+
+      const reservation: Record<string, any> = {
+        id: newReservationRef.id,
+        storeId,
+        companyId,
+
+        customerName,
+        customerPhone,
+
+        guestCount,
+        date: new Date(date + "T" + time + ":00"),
+        time,
+        duration,
+
+        status: autoConfirm ? "confirmed" : "pending",
+
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      // Only include optional fields if present (Firestore rejects undefined)
+      if (experienceId) reservation.experienceId = experienceId;
+      if (serviceId) reservation.serviceId = serviceId;
+      if (customerEmail) reservation.customerEmail = customerEmail;
+      if (notes?.trim()) reservation.notes = notes.trim();
+      if (autoConfirm) reservation.confirmedAt = now;
+
+      // Table auto-assignment (set by calculator when table resources exist)
+      if (check.tableId) reservation.tableId = check.tableId;
+
+      if (userId) {
+        reservation.customerId = userId;
+      }
+
+      transaction.set(newReservationRef, reservation);
+
+      // FIX PHANTOM READS (GRANULAR):
+      // Serialize on the assigned table to avoid store-wide bottleneck.
+      // Table 1 reservations won't block Table 2 reservations.
+      // Pool-mode stores (no tables) fall back to store-level.
+      if (check.tableId) {
+        const tableRef = db.doc(`companies/${companyId}/stores/${storeId}/resources/${check.tableId}`);
+        transaction.update(tableRef, { _lastReservationTracker: now.getTime() });
+      } else {
+        transaction.update(storeRef, { _lastReservationTracker: now.getTime() });
+      }
+
+      return newReservationRef.id;
+    });
+
+    return { reservationId, status: "success" };
+  };
+
+// ========== src/core/reservations/calculator.ts ==========
+
+
+import { 
+  Store, 
+  Reservation, 
+  Resource,
+} from "@dittodatto/shared-types";
+import { addMinutes, format, parse, isBefore, isAfter } from "date-fns";
+import { getStoreNow, isSlotInPast, parseTime } from "../shared/time.js";
+
+/**
+ * Generates time slots between start and end time with given interval.
+ * Filters out past slots when the requested date is today (store-local TZ).
+ * @param startTime "HH:mm"
+ * @param endTime "HH:mm"
+ * @param intervalMinutes number
+ * @param options.storeTimezone IANA timezone for past-time filter (default: 'Europe/Oslo')
+ * @param options.requestDate "YYYY-MM-DD" — date being requested, used to detect "today"
+ * @param options.noticeCutoffMinutes minutes of notice required (default: 0)
+ */
+export function generateTimeSlots(
+  startTime: string, 
+  endTime: string, 
+  intervalMinutes: number,
+  options?: {
+    storeTimezone?: string;
+    requestDate?: string;
+    noticeCutoffMinutes?: number;
+  }
+): string[] {
+  const slots: string[] = [];
+  const referenceDate = new Date();
+  
+  let current = parse(startTime, "HH:mm", referenceDate);
+  const end = parse(endTime, "HH:mm", referenceDate);
+
+  // Use shared timezone-aware time context
+  const timeCtx = getStoreNow(
+    options?.storeTimezone || 'Europe/Oslo',
+    options?.requestDate || '',
+  );
+  const noticeCutoff = options?.noticeCutoffMinutes || 0;
+
+  while (isBefore(current, end)) {
+    const timeStr = format(current, "HH:mm");
+
+    // Filter past slots using shared utility
+    const slotMinutes = parseTime(timeStr);
+    if (isSlotInPast(slotMinutes, timeCtx, noticeCutoff)) {
+      current = addMinutes(current, intervalMinutes);
+      continue;
+    }
+
+    slots.push(timeStr);
+    current = addMinutes(current, intervalMinutes);
+  }
+
+  return slots;
+}
+
+// ---------------------------------------------------------------------------
+// Overlap helper — shared between pool check and per-table check
+// ---------------------------------------------------------------------------
+
+/**
+ * Returns active reservations that overlap with [slotTime, slotTime + duration).
+ * Filters out cancelled and no_show reservations.
+ */
+export function getOverlappingReservations(
+  existingReservations: Reservation[],
+  date: Date,
+  slotTime: string,
+  durationMinutes: number,
+): Reservation[] {
+  const slotStart = parse(slotTime, "HH:mm", date);
+  const slotEnd = addMinutes(slotStart, durationMinutes);
+
+  return existingReservations.filter(res => {
+    if (res.status === "cancelled" || res.status === "no_show") return false;
+    const resStart = parse(res.time, "HH:mm", date);
+    const resEnd = addMinutes(resStart, res.duration);
+    return isBefore(resStart, slotEnd) && isAfter(resEnd, slotStart);
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Table auto-assignment — best-fit algorithm
+// ---------------------------------------------------------------------------
+
+/**
+ * Priority numeric mapping (higher = preferred first).
+ */
+const PRIORITY_ORDER: Record<string, number> = { high: 3, normal: 2, low: 1 };
+
+/**
+ * Find the best available table for a party.
+ *
+ * Algorithm:
+ *  1. Filter tables by capacity: minCapacity ≤ partySize ≤ maxCapacity
+ *  2. Exclude tables that already have an overlapping reservation
+ *  3. Sort by: priority DESC → maxCapacity ASC (smallest suitable table first)
+ *  4. Return the first match or null
+ */
+export function findBestTable(
+  tables: Resource[],
+  existingReservations: Reservation[],
+  date: Date,
+  slotTime: string,
+  durationMinutes: number,
+  partySize: number,
+): Resource | null {
+  const overlapping = getOverlappingReservations(
+    existingReservations, date, slotTime, durationMinutes,
+  );
+
+  // Set of tableIds that are occupied in this time window
+  const occupiedTableIds = new Set(
+    overlapping
+      .map(r => r.tableId)
+      .filter((id): id is string => !!id),
+  );
+
+  // Candidate tables: fits capacity AND not occupied
+  const candidates = tables.filter(t => {
+    if (!t.isBookable) return false;
+    if (t.minCapacity > partySize || t.maxCapacity < partySize) return false;
+    if (occupiedTableIds.has(t.id)) return false;
+    return true;
+  });
+
+  if (candidates.length === 0) return null;
+
+  // Sort: highest priority first, then smallest maxCapacity (best-fit)
+  candidates.sort((a, b) => {
+    const pa = PRIORITY_ORDER[a.priority] ?? 2;
+    const pb = PRIORITY_ORDER[b.priority] ?? 2;
+    if (pa !== pb) return pb - pa;        // highest priority first
+    return a.maxCapacity - b.maxCapacity;  // smallest table first
+  });
+
+  return candidates[0];
+}
+
+// ---------------------------------------------------------------------------
+// Slot availability — auto-detects pool vs table mode
+// ---------------------------------------------------------------------------
+
+/**
+ * Checks if a specific slot has capacity.
+ *
+ * Mode detection:
+ *  - If `tableResources` is provided and non-empty → per-table mode.
+ *    Available only if findBestTable() finds a suitable table.
+ *  - Otherwise → pool mode (sum guests vs totalCapacity).
+ */
+export function calculateSlotAvailability(
+  store: Store,
+  date: Date,
+  slotTime: string,
+  durationMinutes: number,
+  partySize: number,
+  existingReservations: Reservation[],
+  tableResources?: Resource[],
+): { available: boolean; remainingCapacity: number; reason?: string; tableId?: string } {
+  const config = store.reservationConfig;
+
+  // ---- Table mode (auto-detected: store has table resources) ----
+  if (tableResources && tableResources.length > 0) {
+    const bestTable = findBestTable(
+      tableResources, existingReservations, date, slotTime, durationMinutes, partySize,
+    );
+
+    if (bestTable) {
+      // remainingCapacity = number of *other* tables that could still seat this party
+      const overlapping = getOverlappingReservations(existingReservations, date, slotTime, durationMinutes);
+      const occupiedIds = new Set(overlapping.map(r => r.tableId).filter(Boolean));
+      const freeTablesForParty = tableResources.filter(
+        t => t.isBookable && t.minCapacity <= partySize && t.maxCapacity >= partySize && !occupiedIds.has(t.id),
+      ).length;
+
+      return {
+        available: true,
+        remainingCapacity: freeTablesForParty, // how many tables still fit this party size
+        tableId: bestTable.id,
+      };
+    }
+
+    return {
+      available: false,
+      remainingCapacity: 0,
+      reason: "No suitable table available for this party size and time",
+    };
+  }
+
+  // ---- Pool mode (original behavior) ----
+  if (!config || !config.totalCapacity) {
+    return { available: false, remainingCapacity: 0, reason: "No capacity configuration" };
+  }
+
+  const overlapping = getOverlappingReservations(existingReservations, date, slotTime, durationMinutes);
+  const currentGuests = overlapping.reduce((sum, res) => sum + res.guestCount, 0);
+  const remaining = config.totalCapacity - currentGuests;
+  
+  if (remaining >= partySize) {
+    return { available: true, remainingCapacity: remaining };
+  } else {
+    return { available: false, remainingCapacity: remaining, reason: "Capacity exceeded" };
+  }
+}
+
+
+// ========== src/core/shared/availability-context.ts ==========
+
+/**
+ * MercuryEngine — Availability Context Builder
+ * 
+ * Pure function that transforms raw Firestore data into a computed context
+ * used by both calculator.ts (slot generation) and hold.ts (hold validation).
+ * 
+ * Previously, both files duplicated 30+ lines of identical logic for:
+ * - Staff normalization (missing weeklyShifts → store hours fallback)
+ * - Staff-service assignment filtering (assignedStaff[] intersection)
+ * - Resource group extraction + deduplication
+ * - Policy derivation (notice cutoff from services, slot interval from services)
+ * - Occupancy map building (per-staff, store-level, per-resource)
+ * 
+ * This module is PURE — zero Firestore, zero side effects → trivially testable.
+ */
+
+import { BookingPolicySchema } from "@dittodatto/shared-types";
+import type { Store, Booking, Hold, Service, StaffMember, Resource, ResourceGroup } from "@dittodatto/shared-types";
+import { getDayName, minutesFromMidnight, getStoreNow, parseTime } from "./time.js";
+
+// ============================================================================
+// Types
+// ============================================================================
+
+/** Raw data as returned by fetchAvailabilityData() */
+export interface AvailabilityData {
+  store: Store;
+  bookings: Booking[];
+  holds: Hold[];
+  services: Service[];
+  staff: StaffMember[];
+  resources: Resource[];
+  resourceGroups: ResourceGroup[];
+}
+
+/** Computed values ready for slot calculation and hold validation */
+export interface AvailabilityContext {
+  // Schedule
+  schedule: { isOpen: boolean; open: string; close: string } | null;
+  openTime: number;   // minutes from midnight
+  closeTime: number;  // minutes from midnight
+  dayName: string;
+
+  // Duration & policy
+  totalDuration: number;
+  slotInterval: number;
+  noticeCutoffMinutes: number;
+  policy: ReturnType<typeof BookingPolicySchema.parse>;
+  timeCtx: ReturnType<typeof getStoreNow>;
+
+  // Staff
+  normalizedStaff: StaffMember[];
+  eligibleStaff: StaffMember[];
+  hasBookableStaff: boolean;
+
+  // Occupancy maps
+  staffOccupancy: Map<string, { start: number; end: number }[]>;
+  storeOccupied: { start: number; end: number }[];
+  resourceOccupied: { start: number; end: number; resourceId?: string }[];
+
+  // Resources
+  uniqueRequiredGroupIds: string[];
+  hasResourceRequirements: boolean;
+  resources: Resource[];
+  resourceGroups: ResourceGroup[];
+
+  // Pass-through
+  date: string;  // Original YYYY-MM-DD request date
+  store: Store;
+  bookings: Booking[];
+  holds: Hold[];
+  services: Service[];
+}
+
+// ============================================================================
+// Builder
+// ============================================================================
+
+/**
+ * Build a fully computed availability context from raw Firestore data.
+ * 
+ * @param data - Raw data from fetchAvailabilityData()
+ * @param date - Request date in "YYYY-MM-DD" format
+ * @param staffId - Optional: filter to a specific staff member
+ * @returns Computed context ready for slot loop or hold allocation
+ */
+export function buildAvailabilityContext(
+  data: AvailabilityData,
+  date: string,
+  staffId?: string,
+): AvailabilityContext {
+  const { store, bookings, holds, services, staff, resources, resourceGroups } = data;
+
+  // ---- Policy derivation ----
+  // Notice: most restrictive (max) across services
+  // Interval: smallest (min) across services
+  const noticeCutoffMinutes = Math.max(
+    ...services.map((s: any) => s.minBookingNoticeMinutes ?? 0),
+  );
+  const slotInterval = Math.min(
+    ...services.map((s: any) => s.slotInterval ?? 15),
+  );
+
+  // Date window: store-level concern (maxBookableFutureDays)
+  const policy = BookingPolicySchema.parse(store.bookingPolicy ?? {});
+
+  // Time context (timezone-aware "now")
+  const timeCtx = getStoreNow(store.timezone || "Europe/Oslo", date);
+
+  // ---- Schedule ----
+  const totalDuration = services.reduce((sum: number, s: any) => sum + s.duration, 0);
+  const dayName = getDayName(date);
+  const schedule = (store.openingSchedule as any)?.[dayName] ?? null;
+  const openTime = schedule?.isOpen ? parseTime(schedule.open) : 0;
+  const closeTime = schedule?.isOpen ? parseTime(schedule.close) : 0;
+
+  // ---- Staff normalization ----
+  // If a staff member is isBookable but has no weeklyShifts configured,
+  // inject a default shift that mirrors the store's opening hours.
+  const normalizedStaff: StaffMember[] = staff.map((s) => {
+    if (s.isBookable && !s.weeklyShifts && schedule?.isOpen) {
+      return {
+        ...s,
+        weeklyShifts: {
+          mon: { isWorking: true, blocks: [{ start: schedule.open, end: schedule.close }] },
+          tue: { isWorking: true, blocks: [{ start: schedule.open, end: schedule.close }] },
+          wed: { isWorking: true, blocks: [{ start: schedule.open, end: schedule.close }] },
+          thu: { isWorking: true, blocks: [{ start: schedule.open, end: schedule.close }] },
+          fri: { isWorking: true, blocks: [{ start: schedule.open, end: schedule.close }] },
+          sat: { isWorking: false, blocks: [] },
+          sun: { isWorking: false, blocks: [] },
+        },
+      };
+    }
+    return s;
+  });
+
+  // ---- Staff-service assignment filtering ----
+  // For multi-service bookings, use INTERSECTION — staff must be eligible for ALL services.
+  // Empty assignedStaff[] = universal service (anyone can do it).
+  const restrictedServices = services.filter((s: any) => (s.assignedStaff?.length || 0) > 0);
+  let eligibleStaff = normalizedStaff;
+
+  if (restrictedServices.length > 0) {
+    eligibleStaff = normalizedStaff.filter((s) =>
+      restrictedServices.every((svc: any) => svc.assignedStaff.includes(s.id)),
+    );
+  }
+
+  // If user picked a specific staff member, narrow further
+  if (staffId) {
+    eligibleStaff = eligibleStaff.filter((s) => s.id === staffId);
+  }
+
+  const hasBookableStaff = eligibleStaff.length > 0;
+
+  // ---- Resource group extraction ----
+  const requiredResourceGroupIds = services.flatMap(
+    (s: any) => (s as any).requiredResourceGroupIds || [],
+  );
+  const uniqueRequiredGroupIds = [...new Set(requiredResourceGroupIds)];
+  const hasResourceRequirements = uniqueRequiredGroupIds.length > 0;
+
+  // ---- Occupancy maps ----
+
+  // Per-staff occupancy
+  const staffOccupancy = new Map<string, { start: number; end: number }[]>();
+  if (hasBookableStaff) {
+    eligibleStaff.forEach((s) => staffOccupancy.set(s.id, []));
+
+    bookings.forEach((b: any) => {
+      if (b.personId && staffOccupancy.has(b.personId)) {
+        staffOccupancy.get(b.personId)!.push({
+          start: minutesFromMidnight(b.startTime, store.timezone),
+          end: minutesFromMidnight(b.endTime, store.timezone),
+        });
+      }
+    });
+
+    holds.forEach((h: any) => {
+      if (h.personId && staffOccupancy.has(h.personId)) {
+        const start = parseTime(h.slotTime);
+        staffOccupancy.get(h.personId)!.push({
+          start,
+          end: start + h.duration,
+        });
+      }
+    });
+  }
+
+  // Store-level fallback (for stores with NO staff and NO resources)
+  const storeOccupied = [
+    ...bookings.map((b: any) => ({
+      start: minutesFromMidnight(b.startTime, store.timezone),
+      end: minutesFromMidnight(b.endTime, store.timezone),
+    })),
+    ...holds.map((h: any) => {
+      const start = parseTime(h.slotTime);
+      return { start, end: start + h.duration };
+    }),
+  ].sort((a, b) => a.start - b.start);
+
+  // Resource-level occupancy (bookings/holds that reference specific resources)
+  const resourceOccupied = [
+    ...bookings.map((b: any) => ({
+      start: minutesFromMidnight(b.startTime, store.timezone),
+      end: minutesFromMidnight(b.endTime, store.timezone),
+      resourceId: (b as any).resourceId as string | undefined,
+    })),
+    ...holds.map((h: any) => {
+      const start = parseTime(h.slotTime);
+      return {
+        start,
+        end: start + h.duration,
+        resourceId: (h as any).resourceId as string | undefined,
+      };
+    }),
+  ];
+
+  return {
+    schedule,
+    openTime,
+    closeTime,
+    dayName,
+    totalDuration,
+    slotInterval,
+    noticeCutoffMinutes,
+    policy,
+    timeCtx,
+    normalizedStaff,
+    eligibleStaff,
+    hasBookableStaff,
+    staffOccupancy,
+    storeOccupied,
+    resourceOccupied,
+    uniqueRequiredGroupIds,
+    hasResourceRequirements,
+    resources,
+    resourceGroups,
+    date,
+    store,
+    bookings,
+    holds,
+    services,
+  };
+}
+
+// ========== src/core/shared/customer.ts ==========
+
+/**
+ * MercuryEngine - Customer CRM Module
+ * 
+ * Handles automatic customer record creation/updates when bookings are made.
+ * Implements the upsert pattern: finds existing customer by email within a company,
+ * or creates a new one from the booking's user snapshot.
+ * 
+ * Inspired by Noona HQ's customer model:
+ * - event_count → totalVisits (incremented on each booking)
+ * - previous_event → lastBookingId (reference to most recent booking)
+ * - employee_ids → staffIds (tracks which staff served this customer)
+ */
+
+import { db } from "../../config/firebase.js";
+import { FieldValue } from "firebase-admin/firestore";
+
+interface BookingCustomerData {
+  companyId: string;
+  storeId: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  userPhone?: string;
+  bookingId: string;
+  staffId?: string;
+  priceAtTimeOfBooking: number;
+  bookingTime: string; // ISO date string
+  channel?: string;
+}
+
+/**
+ * Upsert a customer record from booking data.
+ * 
+ * Strategy:
+ * 1. Query `companies/{companyId}/customers` where email matches
+ * 2. If found → increment totalVisits, update lastVisitAt, merge storeId, add staffId
+ * 3. If not found → create new Customer doc
+ * 
+ * This runs as a fire-and-forget side effect after booking creation.
+ * Failures are logged but never block the booking.
+ */
+export async function upsertCustomerFromBooking(data: BookingCustomerData): Promise<void> {
+  const {
+    companyId,
+    storeId,
+    userId,
+    userName,
+    userEmail,
+    userPhone,
+    bookingId,
+    staffId,
+    priceAtTimeOfBooking,
+    bookingTime,
+    channel = "app",
+  } = data;
+
+  const customersRef = db.collection(`companies/${companyId}/customers`);
+
+  try {
+    // Try to find existing customer by userId first (most reliable match)
+    let existingSnap = await customersRef
+      .where("userId", "==", userId)
+      .limit(1)
+      .get();
+
+    // Fallback: match by email if no userId match
+    if (existingSnap.empty && userEmail) {
+      existingSnap = await customersRef
+        .where("email", "==", userEmail)
+        .limit(1)
+        .get();
+    }
+
+    const now = new Date().toISOString();
+
+    if (!existingSnap.empty) {
+      // UPDATE existing customer
+      const customerDoc = existingSnap.docs[0];
+      const updateData: Record<string, any> = {
+        totalVisits: FieldValue.increment(1),
+        totalSpent: FieldValue.increment(priceAtTimeOfBooking),
+        lastVisitAt: bookingTime,
+        lastBookingId: bookingId,
+        status: "active",
+        updatedAt: now,
+      };
+
+      // Merge storeId into storeIds if not already present
+      updateData.storeIds = FieldValue.arrayUnion(storeId);
+
+      // Track staff who served this customer
+      if (staffId) {
+        updateData.staffIds = FieldValue.arrayUnion(staffId);
+      }
+
+      // Update userId if we didn't have it before
+      const existing = customerDoc.data();
+      if (!existing.userId && userId) {
+        updateData.userId = userId;
+      }
+
+      await customerDoc.ref.update(updateData);
+      console.log(`[CRM] Updated customer ${customerDoc.id} for booking ${bookingId}`);
+    } else {
+      // CREATE new customer — use userId as doc ID to prevent duplicates from concurrent upserts
+      const newCustomerRef = customersRef.doc(userId);
+      const newCustomer = {
+        id: userId,
+        companyId,
+        storeIds: [storeId],
+        userId,
+
+        // Profile from booking user snapshot
+        name: userName,
+        email: userEmail || "",
+        phone: userPhone || "",
+
+        // CRM fields
+        status: "active",
+        channel,
+        staffIds: staffId ? [staffId] : [],
+        notes: "",
+
+        // Booking references
+        lastBookingId: bookingId,
+
+        // Metrics
+        totalVisits: 1,
+        totalSpent: priceAtTimeOfBooking,
+        firstVisitAt: bookingTime,
+        lastVisitAt: bookingTime,
+
+        // Metadata
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      await newCustomerRef.set(newCustomer);
+      console.log(`[CRM] Created new customer ${newCustomerRef.id} for booking ${bookingId}`);
+    }
+  } catch (error) {
+    // Never block the booking — log and move on
+    console.error(`[CRM] Failed to upsert customer for booking ${bookingId}:`, error);
+
+    // Dead Letter Queue: persist failed payload for later retry
+    try {
+      await db.collection('failed_crm_jobs').add({
+        type: 'customer_upsert',
+        payload: data,
+        error: error instanceof Error ? error.message : String(error),
+        createdAt: new Date(),
+        retryCount: 0,
+      });
+    } catch (dlqError) {
+      console.error('[CRM] Failed to write to DLQ:', dlqError);
+    }
+  }
+}
+
+// ========== src/core/shared/data.ts ==========
+
+// packages/functions/src/MercuryEngine/data.ts
+// Core Domain: Booking Context - Parallel Data Fetching
+// Migrated from: .docs/project-context/BookingScripts/src/services/booking/data.ts
+
+import { db } from "../../config/firebase.js";
+import { Store, Booking, Hold, Service, StaffMember, Resource, ResourceGroup } from "@dittodatto/shared-types";
+
+/**
+ * MercuryEngine - Fetch Availability Data
+ * Parallel fetching of all data needed for slot calculation.
+ * Optimized with Promise.all for minimum latency.
+ *
+ * @param companyId - The company that owns the store
+ * @param storeId - The store to fetch data for
+ * @param date - Date string in YYYY-MM-DD format
+ * @param serviceIds - Array of service IDs to check
+ * @param staffId - Optional specific staff member to filter by
+ * @returns Object containing store, bookings, holds, services, and staff
+ */
+export const fetchAvailabilityData = async (
+  companyId: string,
+  storeId: string,
+  date: string,
+  serviceIds: string[],
+  staffId?: string
+) => {
+  // Calculate start/end of the day (Midnight to Midnight)
+  // Format matches booking.ts which stores startTime as timezone-naive strings: "2026-03-13T14:00:00"
+  const startOfDay = `${date}T00:00:00`;
+  const endOfDay = `${date}T23:59:59`;
+
+  // Build staff query — either specific staff member or all bookable staff for this store
+  const staffQuery = staffId
+    ? db.doc(`companies/${companyId}/staff/${staffId}`).get()
+    : db
+        .collection(`companies/${companyId}/staff`)
+        .where("isBookable", "==", true)
+        .where("status", "==", "active")
+        .get();
+
+  // Parallel Fetching (Optimized for latency)
+  const [storeDoc, bookingsSnap, holdsSnap, servicesSnap, staffResult, resourcesSnap, resourceGroupsSnap] = await Promise.all([
+    // 1. Store Document (Opening Hours)
+    db.doc(`companies/${companyId}/stores/${storeId}`).get(),
+
+    // 2. Bookings for the Date
+    db
+      .collection("bookings")
+      .where("storeId", "==", storeId)
+      .where("startTime", ">=", startOfDay)
+      .where("startTime", "<=", endOfDay)
+      .get(),
+
+    // 3. Active Holds for the Date
+    db
+      .collection("holds")
+      .where("storeId", "==", storeId)
+      .where("date", "==", date)
+      .get(),
+
+    // 4. Services (To calculate total duration)
+    Promise.all(
+      serviceIds.map((sid: string) =>
+        db.doc(`companies/${companyId}/stores/${storeId}/services/${sid}`).get()
+      )
+    ),
+
+    // 5. Bookable Staff
+    staffQuery,
+
+    // 6. Bookable Resources for this store
+    db
+      .collection(`companies/${companyId}/stores/${storeId}/resources`)
+      .where("isBookable", "==", true)
+      .get(),
+
+    // 7. Resource Groups for this store
+    db
+      .collection(`companies/${companyId}/stores/${storeId}/resourceGroups`)
+      .get(),
+  ]);
+
+  if (!storeDoc.exists) {
+    throw new Error(`Store ${storeId} not found`);
+  }
+
+  // Normalize staff result — single doc get vs collection query
+  let staff: StaffMember[] = [];
+  if ("docs" in staffResult) {
+    // Collection query result
+    staff = staffResult.docs
+      .map((d) => ({ id: d.id, ...d.data() } as StaffMember))
+      .filter((s) => s.storeIds?.includes(storeId));
+  } else if (staffResult.exists) {
+    // Single document get result
+    const s = { id: staffResult.id, ...staffResult.data() } as StaffMember;
+    if (s.isBookable && s.status === "active" && s.storeIds?.includes(storeId)) {
+      staff = [s];
+    }
+  }
+
+  // Return Typed Data
+  return {
+    store: storeDoc.data() as Store,
+    bookings: bookingsSnap.docs
+      .map((d) => d.data() as Booking)
+      .filter((b) => b.status === "confirmed" || b.status === "pending"),
+    holds: holdsSnap.docs
+      .map((d) => d.data() as Hold)
+      .filter((h) => {
+        // Only include holds that haven't expired
+        if (!h.expiresAt) return true; // Legacy holds without expiresAt — keep them
+        return new Date(h.expiresAt).getTime() > Date.now();
+      }),
+    services: servicesSnap
+      .filter((d) => d.exists)
+      .map((d) => ({ id: d.id, ...d.data() } as Service)),
+    staff,
+    resources: resourcesSnap.docs.map((d) => ({ id: d.id, ...d.data() } as Resource)),
+    resourceGroups: resourceGroupsSnap.docs.map((d) => ({ id: d.id, ...d.data() } as ResourceGroup)),
+  };
+};
+
+// ========== src/core/shared/errors.ts ==========
+
+/**
+ * MercuryEngine — Domain Error System
+ * 
+ * Centralized error types used across all booking domains.
+ * HttpsError carries both a Firebase-compatible code AND an HTTP status,
+ * so the global error handler can map it without per-route try/catch.
+ */
+
+/** Maps Firebase-style error codes to HTTP status codes */
+const STATUS_MAP: Record<string, number> = {
+  'not-found': 404,
+  'already-exists': 409,
+  'failed-precondition': 400,
+  'permission-denied': 403,
+  'resource-exhausted': 409,
+  'out-of-range': 400,
+  'unauthenticated': 401,
+  'invalid-argument': 400,
+}
+
+/**
+ * HTTP-style error compatible with Firebase Functions HttpsError codes.
+ * Used by domain logic to signal specific failure modes.
+ * The global Hono error handler reads `httpStatus` to set the response code.
+ */
+export class HttpsError extends Error {
+  public readonly httpStatus: number
+
+  constructor(public code: string, message: string) {
+    super(message)
+    this.name = 'HttpsError'
+    this.httpStatus = STATUS_MAP[code] ?? 500
+  }
+}
+
+// ========== src/core/shared/resource-availability.ts ==========
+
+// packages/functions/src/MercuryEngine/resource-availability.ts
+// Core Domain: Booking Context - Resource Availability Check
+// Analog of staff-availability.ts but for physical resources.
+//
+// Design: For each required resource group, find >= 1 bookable resource
+// not occupied in the time window. If ALL required groups have an available
+// resource, the slot is bookable from a resource perspective.
+
+import { Resource, ResourceGroup, Booking, Hold } from "@dittodatto/shared-types";
+
+/**
+ * Occupied interval in minutes from midnight.
+ */
+interface OccupiedInterval {
+  start: number;
+  end: number;
+  resourceId?: string; // If the booking is tied to a specific resource
+}
+
+/**
+ * Check if resources are available for a given slot.
+ *
+ * @param resources - All bookable resources for the store
+ * @param resourceGroups - All resource groups for the store
+ * @param requiredGroupIds - Resource group IDs required by the service
+ * @param slotStart - Start of the slot (minutes from midnight)
+ * @param slotEnd - End of the slot (minutes from midnight)
+ * @param occupiedIntervals - All occupied intervals (from bookings + holds)
+ * @returns Object with availability status and assigned resources
+ */
+export function getAvailableResourcesForSlot(
+  resources: Resource[],
+  resourceGroups: ResourceGroup[],
+  requiredGroupIds: string[],
+  slotStart: number,
+  slotEnd: number,
+  occupiedIntervals: OccupiedInterval[],
+): { available: boolean; assignedResources: Resource[] } {
+  // No resource requirements → always available
+  if (!requiredGroupIds || requiredGroupIds.length === 0) {
+    return { available: true, assignedResources: [] };
+  }
+
+  const assignedResources: Resource[] = [];
+  const usedResourceIds = new Set<string>();
+
+  // Check each required group — all must have >= 1 available resource
+  for (const groupId of requiredGroupIds) {
+    const groupResources = resources.filter(
+      (r) => r.resourceGroupId === groupId && r.isBookable,
+    );
+
+    // Sort by priority (high > normal > low), then by capacity (smallest first = best-fit)
+    // This prevents resource fragmentation: small resources get used before big ones
+    const priorityOrder: Record<string, number> = { high: 0, normal: 1, low: 2 };
+    groupResources.sort((a, b) => {
+      const pa = priorityOrder[a.priority] ?? 1;
+      const pb = priorityOrder[b.priority] ?? 1;
+      if (pa !== pb) return pa - pb;
+      return (a.maxCapacity ?? 0) - (b.maxCapacity ?? 0); // smallest first
+    });
+
+    let foundResource: Resource | null = null;
+
+    for (const resource of groupResources) {
+      // Skip already-assigned resources (one resource per group per slot)
+      if (usedResourceIds.has(resource.id)) continue;
+
+      // Check if this resource is occupied during the slot
+      const isOccupied = occupiedIntervals.some((occ) => {
+        // Only check intervals tied to this specific resource
+        if (occ.resourceId && occ.resourceId !== resource.id) return false;
+        // If interval has no resourceId, it's a general occupation — skip for resource check
+        if (!occ.resourceId) return false;
+        // Overlap: (StartA < EndB) && (EndA > StartB)
+        return slotStart < occ.end && slotEnd > occ.start;
+      });
+
+      if (!isOccupied || resource.allowOverlapping) {
+        foundResource = resource;
+        break;
+      }
+    }
+
+    if (!foundResource) {
+      // This required group has no available resource → slot is not bookable
+      return { available: false, assignedResources: [] };
+    }
+
+    assignedResources.push(foundResource);
+    usedResourceIds.add(foundResource.id);
+  }
+
+  return { available: true, assignedResources };
+}
+
+// ========== src/core/shared/staff-availability.ts ==========
+
+// packages/mercury-engine/src/core/staff-availability.ts
+// Core Domain: Booking Context - Staff Availability Logic
+// Pure functions — no Firestore dependency, fully testable.
+// Mirror of: packages/functions/src/MercuryEngine/staff-availability.ts
+
+import type { StaffMember } from "@dittodatto/shared-types";
+
+type DayKey = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+
+const DAY_KEYS: DayKey[] = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
+/**
+ * Parse "HH:MM" to minutes from midnight.
+ */
+const parseTime = (timeStr: string): number => {
+  const [h, m] = timeStr.split(":").map(Number);
+  return h * 60 + m;
+};
+
+/**
+ * Get the day key (mon, tue, ...) for a given YYYY-MM-DD date string.
+ */
+export const getDayKey = (dateStr: string): DayKey => {
+  const date = new Date(dateStr + "T12:00:00Z"); // noon UTC to avoid TZ edge
+  return DAY_KEYS[date.getUTCDay()];
+};
+
+/**
+ * Check if a specific staff member is available for a given time slot on a given date.
+ *
+ * Resolution order:
+ *   1. dateOverrides (off/sick → unavailable, custom → check custom blocks)
+ *   2. weeklyShifts (isWorking + blocks check)
+ *   3. No schedule data → unavailable (fail-closed)
+ */
+export const isStaffAvailable = (
+  staff: StaffMember,
+  dateStr: string,
+  slotStartMinutes: number,
+  slotEndMinutes: number
+): boolean => {
+  if (!staff.isBookable || staff.status !== "active") return false;
+
+  // 1. Check date overrides first (highest priority)
+  const override = staff.dateOverrides?.find((o) => o.date === dateStr);
+  if (override) {
+    if (override.type === "off" || override.type === "sick") return false;
+    if (override.type === "custom" && override.blocks) {
+      return fitsWithinBlocks(override.blocks, slotStartMinutes, slotEndMinutes);
+    }
+    return false;
+  }
+
+  // 2. Check weekly shift pattern
+  const dayKey = getDayKey(dateStr);
+  const dayShift = staff.weeklyShifts?.[dayKey];
+
+  if (!dayShift || !dayShift.isWorking) return false;
+  if (!dayShift.blocks || dayShift.blocks.length === 0) return false;
+
+  return fitsWithinBlocks(dayShift.blocks, slotStartMinutes, slotEndMinutes);
+};
+
+/**
+ * Check if a time slot fits entirely within at least one shift block.
+ */
+const fitsWithinBlocks = (
+  blocks: { start: string; end: string }[],
+  slotStart: number,
+  slotEnd: number
+): boolean => {
+  return blocks.some((block) => {
+    const blockStart = parseTime(block.start);
+    const blockEnd = parseTime(block.end);
+    return slotStart >= blockStart && slotEnd <= blockEnd;
+  });
+};
+
+/**
+ * Filter staff to those available for a given slot.
+ */
+export const getAvailableStaffForSlot = (
+  staff: StaffMember[],
+  dateStr: string,
+  slotStartMinutes: number,
+  slotEndMinutes: number
+): string[] => {
+  return staff
+    .filter((s) => isStaffAvailable(s, dateStr, slotStartMinutes, slotEndMinutes))
+    .map((s) => s.id);
+};
+
+// ========== src/core/shared/time.ts ==========
+
+/**
+ * Time utility functions for MercuryEngine
+ * Pure functions, zero dependencies.
+ */
+
+/**
+ * Get day name from ISO date string
+ * @param dateStr - Date in YYYY-MM-DD format
+ * @returns Day name as 'mon', 'tue', 'wed', etc.
+ */
+export const getDayName = (dateStr: string): string => {
+  // Parse YYYY-MM-DD manually to avoid timezone interpretation issues.
+  // new Date('2026-03-09') is UTC midnight; getDay() in local TZ could return wrong day.
+  const [year, month, day] = dateStr.split('-').map(Number)
+  const date = new Date(Date.UTC(year, month - 1, day))
+  const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+  return days[date.getUTCDay()]
+}
+
+/**
+ * Convert ISO date string or Date to minutes from midnight in a specific timezone
+ * @param input - ISO date string or Date object
+ * @param timezone - IANA timezone string (default: 'Europe/Oslo')
+ * @returns Minutes since midnight
+ */
+export const minutesFromMidnight = (input: string | Date, timezone: string = 'Europe/Oslo'): number => {
+    const date = typeof input === 'string' ? new Date(input) : input
+
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: timezone, hour: '2-digit', minute: '2-digit', hour12: false,
+    }).formatToParts(date)
+
+    const h = Number(parts.find(p => p.type === 'hour')?.value || 0)
+    const m = Number(parts.find(p => p.type === 'minute')?.value || 0)
+
+    return h * 60 + m
+}
+
+/**
+ * Convert minutes from midnight to time string
+ * @param minutes - Minutes since midnight
+ * @returns Time string in HH:MM format
+ */
+export const minutesToTime = (minutes: number): string => {
+  const h = Math.floor(minutes / 60)
+  const m = minutes % 60
+  return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
+}
+
+/**
+ * Parse time string to minutes from midnight
+ * @param timeStr - Time string in HH:MM format
+ * @returns Minutes since midnight
+ */
+export const parseTime = (timeStr: string): number => {
+  const [h, m] = timeStr.split(':').map(Number)
+  return h * 60 + m
+}
+
+// ============================================================================
+// Timezone-aware time context (shared by both calculators)
+// ============================================================================
+
+export interface StoreTimeContext {
+  /** Whether the requested date matches "today" in the store's local timezone */
+  isToday: boolean
+  /** Current time in the store's timezone, as minutes from midnight */
+  storeNowMinutes: number
+}
+
+/**
+ * Get timezone-aware "now" context for a store.
+ * Used by both the appointment and reservation calculators.
+ *
+ * @param storeTimezone IANA timezone (e.g., 'Europe/Oslo')
+ * @param requestDate  The date being requested, "YYYY-MM-DD"
+ */
+export const getStoreNow = (storeTimezone: string, requestDate: string): StoreTimeContext => {
+  const tz = storeTimezone || 'Europe/Oslo'
+  const now = new Date()
+
+  // "Today" in the store's timezone (sv-SE locale gives YYYY-MM-DD)
+  const storeToday = new Intl.DateTimeFormat('sv-SE', { timeZone: tz }).format(now)
+  const isToday = storeToday === requestDate
+
+  let storeNowMinutes = 0
+  if (isToday) {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false,
+    }).formatToParts(now)
+    const h = Number(parts.find(p => p.type === 'hour')?.value || 0)
+    const m = Number(parts.find(p => p.type === 'minute')?.value || 0)
+    storeNowMinutes = h * 60 + m
+  }
+
+  return { isToday, storeNowMinutes }
+}
+
+/**
+ * Check if a slot (in minutes from midnight) is too close to "now".
+ * Returns true if the slot should be EXCLUDED.
+ *
+ * @param slotMinutes       Slot start as minutes from midnight
+ * @param ctx               StoreTimeContext from getStoreNow()
+ * @param noticeCutoffMin   Minimum notice required (minutes)
+ */
+export const isSlotInPast = (
+  slotMinutes: number,
+  ctx: StoreTimeContext,
+  noticeCutoffMin: number,
+): boolean => {
+  if (!ctx.isToday) return false
+  return slotMinutes - ctx.storeNowMinutes < noticeCutoffMin
+}
+
+// ========== src/core/tickets/index.ts ==========
+
+/**
+ * MercuryEngine Core - Tickets Domain
+ * 
+ * Event ticketing (N:1 pattern): many customers, one event.
+ * Handles: Concerts, Classes, Workshops, etc.
+ * 
+ * TODO: Implement core ticketing logic
+ * - getTicketAvailability
+ * - createTicketHold (5-min TTL)
+ * - confirmTicketPurchase
+ * - verifyTicket (door scanning)
+ * - transferTicket
+ */
+
+// Placeholder exports — implement when ticketing is prioritized
+// export { getTicketAvailability } from './availability.js'
+// export { createTicketHold } from './hold.js'
+// export { confirmTicketPurchase } from './purchase.js'
+// export { verifyTicket } from './verify.js'
+// export { transferTicket } from './transfer.js'
+
+// ========== src/middleware/auth.ts ==========
+
+/**
+ * Firebase Auth Middleware for MercuryEngine
+ * 
+ * Verifies Firebase ID tokens and attaches userId to context.
+ * Public routes (health, GET slots) bypass verification.
+ */
+
+import { Context, Next } from 'hono'
+import { getAuth } from 'firebase-admin/auth'
+import { env } from '../config/env.js'
+
+/**
+ * Verify Firebase Auth token and set userId in context
+ */
+export const requireAuth = async (c: Context, next: Next) => {
+    // Skip auth for health check
+    if (c.req.path === '/health') {
+        return next()
+    }
+
+    // Skip auth for public GET requests (e.g., slot availability)
+    if (c.req.method === 'GET' && c.req.path.includes('/slots')) {
+        return next()
+    }
+
+    const authHeader = c.req.header('Authorization')
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        if (c.req.header('X-Test-Bypass') === 'true') {
+            c.set('userId', 'local_test_user')
+            return next()
+        }
+        return c.json({ error: 'Missing or invalid Authorization header' }, 401)
+    }
+
+    const token = authHeader.replace('Bearer ', '')
+
+    try {
+        // Verify the ID token
+        const decodedToken = await getAuth().verifyIdToken(token)
+        
+        // Attach userId to context for downstream routes
+        c.set('userId', decodedToken.uid)
+        
+        // Optionally attach full user info
+        c.set('userEmail', decodedToken.email)
+        c.set('userName', decodedToken.name)
+        
+        return next()
+    } catch (error: any) {
+        console.error('Auth verification failed:', {
+            error: error.message,
+            path: c.req.path,
+        })
+        
+        return c.json({ 
+            error: 'Unauthorized',
+            message: 'Invalid or expired token'
+        }, 401)
+    }
+}
+
+/**
+ * Internal API key verification for system endpoints (like cron jobs).
+ * Fails closed: if INTERNAL_API_KEY is not configured, rejects in production
+ * (env.ts already crashes at startup). In dev, allows with per-request warning.
+ */
+export const requireInternalKey = (c: Context, next: Next) => {
+    const apiKey = c.req.header('X-Internal-API-Key')
+    const expectedKey = env.INTERNAL_API_KEY
+
+    if (!expectedKey) {
+        // Dev-only: env.ts already crashes in production if key is missing
+        console.warn(`⚠️  Internal endpoint ${c.req.path} accessed without API key protection (dev)`)
+        return next()
+    }
+
+    if (apiKey !== expectedKey) {
+        return c.json({ error: 'Forbidden' }, 403)
+    }
+
+    return next()
+}
+
+// ========== src/middleware/error-handler.ts ==========
+
+/**
+ * MercuryEngine — Global Error Handler
+ * 
+ * Hono onError middleware that catches HttpsError thrown by domain logic
+ * and maps it to the correct HTTP status code automatically.
+ * 
+ * This replaces ~60 lines of duplicated try/catch across route files.
+ */
+
+import type { ErrorHandler } from 'hono'
+import { HttpsError } from '../core/shared/errors.js'
+
+export const errorHandler: ErrorHandler = (err, c) => {
+  if (err instanceof HttpsError) {
+    return c.json({ error: err.message }, err.httpStatus as any)
+  }
+
+  // Unexpected error — log full stack, expose nothing to client
+  console.error('Unhandled error:', {
+    message: err.message,
+    stack: err.stack,
+    path: c.req.path,
+    method: c.req.method,
+  })
+  return c.json({ error: 'Internal server error' }, 500)
+}
+
+// ========== src/routes/appointments.ts ==========
+
+/**
+ * Appointments Routes (Standard Booking - 1:1)
+ * 
+ * Handles: Barbers, Dentists, etc.
+ * Pattern: One customer, one time slot
+ * 
+ * 5-Phase Flow: Search → Hold → Pay → Confirm → Cleanup
+ * 
+ * Error handling: Domain functions throw HttpsError which the global
+ * error handler (middleware/error-handler.ts) maps to HTTP status codes.
+ */
+
+import { Hono } from 'hono'
+import {
+    calculateSlots,
+    createHold,
+    createBookingFromHold,
+    cancelBooking
+} from '../core/bookings/index.js'
+import { requireAuth } from '../middleware/auth.js'
+
+// Define auth context variables for Hono
+type AuthEnv = {
+    Variables: {
+        userId: string
+        userName: string | undefined
+        userEmail: string | undefined
+    }
+}
+
+const app = new Hono<AuthEnv>()
+
+/**
+ * GET /appointments/slots
+ * Phase 1: SEARCH — Get available booking slots for a store on a date
+ */
+app.get('/slots', async (c) => {
+    const companyId = c.req.query('companyId')
+    const storeId = c.req.query('storeId')
+    const date = c.req.query('date')
+    const serviceIds = c.req.query('serviceIds')?.split(',')
+    const staffId = c.req.query('staffId') || undefined
+
+    if (!companyId || !storeId || !date || !serviceIds?.length) {
+        return c.json({
+            error: 'Missing required fields: companyId, storeId, date, serviceIds'
+        }, 400)
+    }
+
+    const slots = await calculateSlots(companyId, storeId, date, serviceIds, staffId)
+    return c.json({
+        date,
+        availableSlots: slots,
+    })
+})
+
+/**
+ * POST /appointments/holds
+ * Phase 2: HOLD — Create a hold on a time slot (10-min TTL)
+ * PROTECTED: Requires Firebase Auth
+ */
+app.post('/holds', requireAuth, async (c) => {
+    const body = await c.req.json()
+    const { companyId, storeId, serviceIds, date, slotTime, personId } = body
+
+    // Get userId from verified auth token (set by middleware)
+    const userId = c.get('userId')
+
+    if (!companyId || !storeId || !date || !slotTime || !serviceIds) {
+        return c.json({
+            error: 'Missing required fields: companyId, storeId, date, slotTime, serviceIds'
+        }, 400)
+    }
+
+    const result = await createHold(userId, companyId, storeId, serviceIds, date, slotTime, personId)
+    return c.json(result)
+})
+
+/**
+ * POST /appointments/bookings
+ * Phase 4: CONFIRM — Convert a hold into a confirmed booking
+ * PROTECTED: Requires Firebase Auth
+ */
+app.post('/bookings', requireAuth, async (c) => {
+    const body = await c.req.json()
+    const { holdId, paymentId } = body
+
+    if (!holdId || !paymentId) {
+        return c.json({
+            error: 'Missing required fields: holdId, paymentId'
+        }, 400)
+    }
+
+    const result = await createBookingFromHold(holdId, paymentId)
+    return c.json(result)
+})
+
+/**
+ * POST /appointments/bookings/:bookingId/cancel
+ * Phase 5: CANCEL — Cancel a confirmed or pending booking
+ * PROTECTED: Requires Firebase Auth (Customer OR Company Admin)
+ */
+app.post('/bookings/:bookingId/cancel', requireAuth, async (c) => {
+    const bookingId = c.req.param('bookingId')
+    const userId = c.get('userId')
+    
+    let reason;
+    try {
+        const body = await c.req.json()
+        reason = body.reason
+    } catch (e) {
+        // Keep reason undefined if no body was provided
+    }
+
+    if (!bookingId) {
+        return c.json({
+            error: 'Missing bookingId'
+        }, 400)
+    }
+
+    const result = await cancelBooking(bookingId, userId, reason)
+    return c.json(result)
+})
+
+export default app
+
+// ========== src/routes/cleanup.ts ==========
+
+/**
+ * Cleanup Routes for MercuryEngine
+ * 
+ * System endpoints for maintenance tasks like expired hold cleanup.
+ * Protected by internal API key (intended for Cloud Scheduler/cron).
+ */
+
+import { Hono } from 'hono'
+import { db } from '../config/firebase.js'
+import { requireInternalKey } from '../middleware/auth.js'
+
+const app = new Hono()
+
+/**
+ * DELETE /cleanup/holds/expired
+ * Remove expired holds from the database
+ * PROTECTED: Requires internal API key
+ */
+app.delete('/holds/expired', requireInternalKey, async (c) => {
+    try {
+        const now = new Date().toISOString()
+        
+        // Query for expired holds
+        const expiredHoldsSnapshot = await db
+            .collection('holds')
+            .where('expiresAt', '<=', now)
+            .get()
+
+        if (expiredHoldsSnapshot.empty) {
+            return c.json({
+                success: true,
+                deletedCount: 0,
+                message: 'No expired holds found'
+            })
+        }
+
+        // Batch delete (max 500 at a time)
+        const batch = db.batch()
+        let count = 0
+
+        expiredHoldsSnapshot.docs.forEach((doc) => {
+            batch.delete(doc.ref)
+            count++
+        })
+
+        await batch.commit()
+
+        console.log(`Cleanup: Deleted ${count} expired holds`)
+
+        return c.json({
+            success: true,
+            deletedCount: count,
+            message: `Deleted ${count} expired hold(s)`
+        })
+    } catch (error: any) {
+        console.error('Error cleaning up expired holds:', error)
+        return c.json({
+            success: false,
+            error: 'Failed to clean up expired holds'
+        }, 500)
+    }
+})
+
+/**
+ * GET /cleanup/stats
+ * Get cleanup statistics (for monitoring)
+ */
+app.get('/stats', async (c) => {
+    try {
+        const now = new Date().toISOString()
+
+        const [totalHolds, expiredHolds] = await Promise.all([
+            db.collection('holds').count().get(),
+            db.collection('holds').where('expiresAt', '<=', now).count().get(),
+        ])
+
+        return c.json({
+            totalHolds: totalHolds.data().count,
+            expiredHolds: expiredHolds.data().count,
+            timestamp: now,
+        })
+    } catch (error: any) {
+        console.error('Error fetching cleanup stats:', error)
+        return c.json({
+            error: 'Failed to fetch stats'
+        }, 500)
+    }
+})
+
+export default app
+
+// ========== src/routes/reservations.ts ==========
+
+/**
+ * Reservations Routes (Capacity-Based Booking - 1:N)
+ * 
+ * Handles: Restaurants, Tables, Rooms, etc.
+ * Pattern: One resource, multiple attendees
+ * 
+ * Error handling: Domain functions throw HttpsError which the global
+ * error handler (middleware/error-handler.ts) maps to HTTP status codes.
+ */
+
+import { Hono } from 'hono'
+import { requireAuth } from '../middleware/auth.js'
+import { getReservationAvailability } from '../core/reservations/availability.js'
+import { createReservation } from '../core/reservations/booking.js'
+
+// Define auth context variables for Hono
+type AuthEnv = {
+    Variables: {
+        userId: string
+        userName: string | undefined
+        userEmail: string | undefined
+    }
+}
+
+const app = new Hono<AuthEnv>()
+
+/**
+ * GET /reservations/availability
+ * Get available tables/slots for a venue
+ */
+app.get('/availability', async (c) => {
+    const companyId = c.req.query('companyId')
+    const storeId = c.req.query('storeId')
+    const date = c.req.query('date')
+    const partySize = c.req.query('partySize')
+    const serviceId = c.req.query('serviceId') // Optional: scopes tables to service's resource groups
+
+    if (!companyId || !storeId || !date) {
+        return c.json({
+            error: 'Missing required fields: companyId, storeId, date'
+        }, 400)
+    }
+
+    const result = await getReservationAvailability({
+        companyId,
+        storeId,
+        date,
+        partySize: parseInt(partySize as string),
+        serviceId: serviceId || undefined,
+    })
+    return c.json({
+        date,
+        availableSlots: result.slots,
+    })
+})
+
+/**
+ * POST /reservations
+ * Create a table reservation
+ */
+app.post('/', requireAuth, async (c) => {
+    const body = await c.req.json()
+    
+    const { companyId, storeId, date, time, partySize, customerName, customerPhone, notes, serviceId } = body
+    
+    // Get userId from verified auth token
+    const userId = c.get('userId')
+    const customerEmail = c.get('userEmail')
+
+    if (!companyId || !storeId || !date || !time || !partySize || !customerName) {
+        return c.json({
+            error: 'Missing required fields: companyId, storeId, date, time, partySize, customerName'
+        }, 400)
+    }
+
+    const result = await createReservation({
+        companyId,
+        storeId,
+        date,
+        time,
+        guestCount: parseInt(partySize),
+        customerName,
+        customerPhone,
+        customerEmail: customerEmail || undefined,
+        notes,
+        userId,
+        serviceId: serviceId || undefined,
+    })
+    return c.json({
+        success: true,
+        reservationId: result.reservationId,
+    })
+})
+
+export default app
+
+// ========== src/routes/ticketing.ts ==========
+
+/**
+ * Ticketing Routes (Event Tickets - N:1)
+ * 
+ * Handles: Concerts, Classes, Events, etc.
+ * Pattern: Many customers, one event
+ */
+
+import { Hono } from 'hono'
+import { db } from '../config/firebase.js'
+
+const app = new Hono()
+
+/**
+ * GET /tickets/availability
+ * Get ticket availability for an event
+ */
+app.get('/availability', async (c) => {
+    const eventId = c.req.query('eventId')
+
+    if (!eventId) {
+        return c.json({ error: 'Missing required field: eventId' }, 400)
+    }
+
+    try {
+        // TODO: Call getTicketAvailability from booking-core
+        return c.json({
+            eventId,
+            available: 0,
+            total: 0,
+            message: 'Ticket availability - implement booking-core integration'
+        })
+    } catch (error) {
+        console.error('Error getting ticket availability:', error)
+        return c.json({ error: 'Failed to get availability' }, 500)
+    }
+})
+
+/**
+ * POST /tickets/holds
+ * Create a ticket hold (5-minute reservation)
+ */
+app.post('/holds', async (c) => {
+    const body = await c.req.json()
+    const { eventId, ticketTypeId, quantity } = body
+
+    if (!eventId || !ticketTypeId || !quantity) {
+        return c.json({
+            error: 'Missing required fields: eventId, ticketTypeId, quantity'
+        }, 400)
+    }
+
+    try {
+        // TODO: Call createTicketHold from booking-core
+        return c.json({
+            success: true,
+            holdId: `hold_${Date.now()}`,
+            expiresAt: new Date(Date.now() + 5 * 60 * 1000).toISOString(),
+            message: 'Ticket hold - implement booking-core integration'
+        })
+    } catch (error) {
+        console.error('Error creating ticket hold:', error)
+        return c.json({ error: 'Failed to create hold' }, 500)
+    }
+})
+
+/**
+ * POST /tickets/purchase
+ * Confirm ticket purchase
+ */
+app.post('/purchase', async (c) => {
+    const body = await c.req.json()
+    const { holdId, paymentId } = body
+
+    if (!holdId || !paymentId) {
+        return c.json({
+            error: 'Missing required fields: holdId, paymentId'
+        }, 400)
+    }
+
+    try {
+        // TODO: Call confirmTicketPurchase from booking-core
+        return c.json({
+            success: true,
+            ticketIds: [],
+            message: 'Ticket purchase - implement booking-core integration'
+        })
+    } catch (error) {
+        console.error('Error purchasing tickets:', error)
+        return c.json({ error: 'Failed to purchase tickets' }, 500)
+    }
+})
+
+/**
+ * POST /tickets/verify
+ * Verify a ticket (door scanning)
+ */
+app.post('/verify', async (c) => {
+    const body = await c.req.json()
+    const { ticketId } = body
+
+    if (!ticketId) {
+        return c.json({ error: 'Missing required field: ticketId' }, 400)
+    }
+
+    try {
+        // TODO: Call verifyTicket from booking-core
+        return c.json({
+            valid: false,
+            message: 'Ticket verification - implement booking-core integration'
+        })
+    } catch (error) {
+        console.error('Error verifying ticket:', error)
+        return c.json({ error: 'Failed to verify ticket' }, 500)
+    }
+})
+
+/**
+ * POST /tickets/transfer
+ * Transfer ticket to another user
+ */
+app.post('/transfer', async (c) => {
+    const body = await c.req.json()
+    const { ticketId, newOwnerId } = body
+
+    if (!ticketId || !newOwnerId) {
+        return c.json({
+            error: 'Missing required fields: ticketId, newOwnerId'
+        }, 400)
+    }
+
+    try {
+        // TODO: Call transferTicket from booking-core
+        return c.json({
+            success: true,
+            message: 'Ticket transfer - implement booking-core integration'
+        })
+    } catch (error) {
+        console.error('Error transferring ticket:', error)
+        return c.json({ error: 'Failed to transfer ticket' }, 500)
+    }
+})
+
+export default app
+
+// ========== src/server.ts ==========
+
+/**
+ * MercuryEngine - Booking Engine Microservice
+ * 
+ * Cloud Run compatible HTTP server using Hono.
+ * Handles: Appointments, Reservations, and Ticketing
+ */
+
+// Config validation first — crashes immediately if env vars are invalid
+import { env } from './config/env.js'
+
+import { serve } from '@hono/node-server'
+import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+import { logger } from 'hono/logger'
+
+// Import routes
+import appointments from './routes/appointments.js'
+import reservations from './routes/reservations.js'
+import ticketing from './routes/ticketing.js'
+import cleanup from './routes/cleanup.js'
+import { errorHandler } from './middleware/error-handler.js'
+
+// Initialize Firebase Admin (will use FIRESTORE_EMULATOR_HOST in dev)
+import './config/firebase.js'
+
+const app = new Hono()
+
+// Middleware
+app.use('*', logger())
+app.use('*', cors({
+    origin: (origin) => {
+        const allowed = [
+            'http://localhost:3000',
+            'http://localhost:3001',
+            'http://localhost:3002',
+        ]
+        if (allowed.includes(origin)) return origin
+        if (/^https:\/\/(.*\.)?dittodatto\.no$/.test(origin)) return origin
+        return ''
+    },
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+}))
+
+// Global error handler — maps HttpsError to HTTP status codes
+app.onError(errorHandler)
+
+// Health check (required for Cloud Run)
+app.get('/health', (c) => c.json({
+    status: 'ok',
+    service: 'mercury-engine',
+    version: '0.2.0',
+    timestamp: new Date().toISOString()
+}))
+
+// Mount routes
+app.route('/appointments', appointments)
+app.route('/reservations', reservations)
+app.route('/tickets', ticketing)
+app.route('/cleanup', cleanup)
+
+// Root endpoint
+app.get('/', (c) => c.json({
+    name: 'MercuryEngine',
+    description: 'Booking Engine for DittoDatto',
+    endpoints: {
+        appointments: '/appointments/*',
+        reservations: '/reservations/*',
+        tickets: '/tickets/*',
+        cleanup: '/cleanup/*',
+        health: '/health'
+    }
+}))
+
+// Start server
+console.log(`🚀 MercuryEngine starting on port ${env.PORT}`)
+console.log(`   Environment: ${env.NODE_ENV}`)
+
+if (env.FIRESTORE_EMULATOR_HOST) {
+    console.log(`   Firestore Emulator: ${env.FIRESTORE_EMULATOR_HOST}`)
+}
+
+serve({
+    fetch: app.fetch,
+    port: env.PORT,
+    hostname: '0.0.0.0',
+})
+
+console.log(`✅ MercuryEngine ready at http://localhost:${env.PORT}`)
+

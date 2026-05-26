@@ -1,0 +1,3434 @@
+{
+  "users": [
+    {
+      "id": "user_a0c126",
+      "name": "Stian Andreassen",
+      "email": "rasmussenmarit@example.org",
+      "phone": "983 76 609",
+      "photoUrl": "https://picsum.photos/seed/e3211a93/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_f6b296",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:03:18.526348Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_f6b296"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:03:18.526348Z",
+      "updatedAt": "2025-12-19T05:03:18.526348+00:00"
+    },
+    {
+      "id": "user_ac4440",
+      "name": "Geir Gundersen-Edvardsen",
+      "email": "tom87@example.org",
+      "phone": "963 80 155",
+      "photoUrl": "https://picsum.photos/seed/a5bc8362/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_b1f726",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:03:33.616596Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_b1f726"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:03:33.616596Z",
+      "updatedAt": "2025-12-19T05:03:33.616596+00:00"
+    },
+    {
+      "id": "user_5fb45e",
+      "name": "Gunnar Kristensen",
+      "email": "irene01@example.com",
+      "phone": "39 74 86 42",
+      "photoUrl": "https://picsum.photos/seed/0d968736/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_6d2e24",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:03:41.708311Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_6d2e24"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:03:41.708311Z",
+      "updatedAt": "2025-12-19T05:03:41.708311+00:00"
+    },
+    {
+      "id": "user_c8fda5",
+      "name": "Gerd Kristiansen",
+      "email": "jakobsenmarie@example.com",
+      "phone": "58556376",
+      "photoUrl": "https://picsum.photos/seed/c4571a88/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_961905",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:03:50.450619Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_961905"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:03:50.450619Z",
+      "updatedAt": "2025-12-19T05:03:50.450619+00:00"
+    },
+    {
+      "id": "user_8fb313",
+      "name": "Grethe Hauge",
+      "email": "vaas@example.net",
+      "phone": "+47 20 62 33 37",
+      "photoUrl": "https://picsum.photos/seed/c595f780/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_2dc962",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:03:56.090976Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_2dc962"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:03:56.090976Z",
+      "updatedAt": "2025-12-19T05:03:56.090976+00:00"
+    },
+    {
+      "id": "user_5e295d",
+      "name": "Steinar Sivertsen-Moe",
+      "email": "ebirkeland@example.net",
+      "phone": "63795836",
+      "photoUrl": "https://picsum.photos/seed/3be108f6/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_684802",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:04:05.440058Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_684802"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:04:05.440058Z",
+      "updatedAt": "2025-12-19T05:04:05.440058+00:00"
+    },
+    {
+      "id": "user_43a1b0",
+      "name": "Alf Jakobsen",
+      "email": "lars96@example.org",
+      "phone": "498 86 079",
+      "photoUrl": "https://picsum.photos/seed/84889fdd/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_0dd0ff",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:04:13.299204Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_0dd0ff"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:04:13.299204Z",
+      "updatedAt": "2025-12-19T05:04:13.299204+00:00"
+    },
+    {
+      "id": "user_63578a",
+      "name": "Mari-Gerd Pettersen",
+      "email": "knutmoen@example.net",
+      "phone": "+47 89 77 57 59",
+      "photoUrl": "https://picsum.photos/seed/f17786d1/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_558e8c",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:04:22.795199Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_558e8c"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:04:22.795199Z",
+      "updatedAt": "2025-12-19T05:04:22.795199+00:00"
+    },
+    {
+      "id": "user_db1c3b",
+      "name": "Sigrid Johansen",
+      "email": "plunde@example.org",
+      "phone": "+4767851485",
+      "photoUrl": "https://picsum.photos/seed/dea3d52f/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_02e41b",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:04:32.269865Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_02e41b"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:04:32.269865Z",
+      "updatedAt": "2025-12-19T05:04:32.269865+00:00"
+    },
+    {
+      "id": "user_f2c6b8",
+      "name": "Jan Mikkelsen",
+      "email": "einarstrand@example.com",
+      "phone": "37082502",
+      "photoUrl": "https://picsum.photos/seed/c2dee653/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_7d5336",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:04:42.881359Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_7d5336"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:04:42.881359Z",
+      "updatedAt": "2025-12-19T05:04:42.881359+00:00"
+    },
+    {
+      "id": "user_4b8f42",
+      "name": "Adrian Henriksen",
+      "email": "evensenmagne@example.net",
+      "phone": "95230777",
+      "photoUrl": "https://picsum.photos/seed/ce60e394/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_395b4b",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:04:53.699906Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_395b4b"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:04:53.699906Z",
+      "updatedAt": "2025-12-19T05:04:53.699906+00:00"
+    },
+    {
+      "id": "user_ac7db1",
+      "name": "Turid Strøm",
+      "email": "nilsjenssen@example.com",
+      "phone": "97188810",
+      "photoUrl": "https://picsum.photos/seed/047a4b8d/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_20dfed",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:05:03.316921Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_20dfed"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:05:03.316921Z",
+      "updatedAt": "2025-12-19T05:05:03.316921+00:00"
+    },
+    {
+      "id": "user_b47bcd",
+      "name": "Erik Jakobsen-Berntsen",
+      "email": "ingridmikkelsen@example.com",
+      "phone": "485 49 524",
+      "photoUrl": "https://picsum.photos/seed/c3c8ecec/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_29134a",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:05:12.567141Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_29134a"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:05:12.567141Z",
+      "updatedAt": "2025-12-19T05:05:12.567141+00:00"
+    },
+    {
+      "id": "user_2348b1",
+      "name": "Henrik-Eivind Ødegård",
+      "email": "helenenilsen@example.com",
+      "phone": "74 04 05 98",
+      "photoUrl": "https://picsum.photos/seed/a2548e88/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_5e3d64",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:05:24.303820Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_5e3d64"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:05:24.303820Z",
+      "updatedAt": "2025-12-19T05:05:24.303820+00:00"
+    },
+    {
+      "id": "user_e85815",
+      "name": "Vegard Andresen",
+      "email": "thorseningeborg@example.net",
+      "phone": "995 80 657",
+      "photoUrl": "https://picsum.photos/seed/2dc39014/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_7fc62b",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T05:05:32.829857Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_7fc62b"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T05:05:32.829857Z",
+      "updatedAt": "2025-12-19T05:05:32.829857+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_f6b296",
+      "ownerId": "user_a0c126",
+      "ownerEmail": "rasmussenmarit@example.org",
+      "name": "Sivertsen Pizza & Kebab",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "https://arnesen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "kristine09@fredriksen.no",
+      "phone": "+47 58 99 23 09",
+      "logoUrl": "https://picsum.photos/seed/3a5f6a72/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:03:18.526348Z",
+      "updatedAt": "2025-12-19T05:03:18.526348Z",
+      "managerIds": [
+        "user_a0c126"
+      ],
+      "memberIds": [
+        "user_a0c126"
+      ]
+    },
+    {
+      "id": "comp_b1f726",
+      "ownerId": "user_ac4440",
+      "ownerEmail": "tom87@example.org",
+      "name": "Aune Takeaway",
+      "description": "Velkommen til Aune Takeaway, din beste valg for rask og smakfull mat! Vi spesialiserer oss i å tilby deg enkle, men deilig oppskrifter som hamburger, fries og pizza.",
+      "website": "https://www.nygaard-kristoffersen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "andresenirene@mathisen.no",
+      "phone": "44 19 80 91",
+      "logoUrl": "https://picsum.photos/seed/f9fca049/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:03:33.616596Z",
+      "updatedAt": "2025-12-19T05:03:33.616596Z",
+      "managerIds": [
+        "user_ac4440"
+      ],
+      "memberIds": [
+        "user_ac4440"
+      ]
+    },
+    {
+      "id": "comp_6d2e24",
+      "ownerId": "user_5fb45e",
+      "ownerEmail": "irene01@example.com",
+      "name": "Svelvik Grill",
+      "description": "Svelvik Grill er et populært snarvei-restaurant som tilbyr smakfullt grillkjød og lokale spesialiteter. Vi legger vekt på friske, høyverdige ingredienser og unike gourmetopplevelser.",
+      "website": "https://www.lunde.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "eidemari@ahmed-johannessen.com",
+      "phone": "07298503",
+      "logoUrl": "https://picsum.photos/seed/267b1432/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:03:41.708311Z",
+      "updatedAt": "2025-12-19T05:03:41.708311Z",
+      "managerIds": [
+        "user_5fb45e"
+      ],
+      "memberIds": [
+        "user_5fb45e"
+      ]
+    },
+    {
+      "id": "comp_961905",
+      "ownerId": "user_c8fda5",
+      "ownerEmail": "jakobsenmarie@example.com",
+      "name": "Halvorsen Takeaway",
+      "description": "Halvorsen Takeaway er et kjent snarret for god mat i byen, spesielt kjent for sin kvalitet og raske service.",
+      "website": "http://eriksen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "bergesteinar@bakken.com",
+      "phone": "70 15 06 70",
+      "logoUrl": "https://picsum.photos/seed/8dc223f3/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:03:50.450619Z",
+      "updatedAt": "2025-12-19T05:03:50.450619Z",
+      "managerIds": [
+        "user_c8fda5"
+      ],
+      "memberIds": [
+        "user_c8fda5"
+      ]
+    },
+    {
+      "id": "comp_2dc962",
+      "ownerId": "user_8fb313",
+      "ownerEmail": "vaas@example.net",
+      "name": "Næss Takeaway",
+      "description": "Vi ved å tilby deg rask og finsk mat fra Næss Takeaway, der våre kjente smaker gir deg et morsomt opplevelse. Vi lar oss inspirere av tradisjonen vår, men står på køyesiden for innovasjon og kvalitet.",
+      "website": "http://mathisen-mathisen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "odd07@soerensen-johannessen.no",
+      "phone": "53512948",
+      "logoUrl": "https://picsum.photos/seed/f38a686c/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:03:56.090976Z",
+      "updatedAt": "2025-12-19T05:03:56.090976Z",
+      "managerIds": [
+        "user_8fb313"
+      ],
+      "memberIds": [
+        "user_8fb313"
+      ]
+    },
+    {
+      "id": "comp_684802",
+      "ownerId": "user_5e295d",
+      "ownerEmail": "ebirkeland@example.net",
+      "name": "Drammen Christensen Burger",
+      "description": "Drammen Christensen Burger er et kjøpelig kjøkken i Drammen som tilbyr god og rask burger. Vi legger stor vekt på friske ingredienser og en vennlig service.",
+      "website": "https://www.tangen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "ahmedjonas@andersen.no",
+      "phone": "69400905",
+      "logoUrl": "https://picsum.photos/seed/c09760e1/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:04:05.440058Z",
+      "updatedAt": "2025-12-19T05:04:05.440058Z",
+      "managerIds": [
+        "user_5e295d"
+      ],
+      "memberIds": [
+        "user_5e295d"
+      ]
+    },
+    {
+      "id": "comp_0dd0ff",
+      "ownerId": "user_43a1b0",
+      "ownerEmail": "lars96@example.org",
+      "name": "Holm Gruppen ASA",
+      "description": "Holm Gruppen ASA er en etablert fastfoodkjede med en sterk fokus på kvalitet og service. Vi tilbyr et variert utvalg av smakfulle, ferske og helsebekreftende madalternativer for både privatpersoner og bedrifter.",
+      "website": "https://knudsen.net/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "magnuschristensen@paulsen-amundsen.no",
+      "phone": "29 30 26 83",
+      "logoUrl": "https://picsum.photos/seed/33b57880/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:04:13.299204Z",
+      "updatedAt": "2025-12-19T05:04:13.299204Z",
+      "managerIds": [
+        "user_43a1b0"
+      ],
+      "memberIds": [
+        "user_43a1b0"
+      ]
+    },
+    {
+      "id": "comp_558e8c",
+      "ownerId": "user_63578a",
+      "ownerEmail": "knutmoen@example.net",
+      "name": "Edvardsen, Tveit og Lie BA",
+      "description": "Edvardsen, Tveit og Lie BA er en lokal fastfoodkjøpmannsbutikk som tilbyr et breit utvalg av friske og smakfulle madvarer. Vi legger stor vekt på å bruke lokale ingredienser for å lage deiligaste kaker og paster.",
+      "website": "https://www.nguyen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "linnkristoffersen@vik.no",
+      "phone": "32339826",
+      "logoUrl": "https://picsum.photos/seed/78d9563f/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:04:22.795199Z",
+      "updatedAt": "2025-12-19T05:04:22.795199Z",
+      "managerIds": [
+        "user_63578a"
+      ],
+      "memberIds": [
+        "user_63578a"
+      ]
+    },
+    {
+      "id": "comp_02e41b",
+      "ownerId": "user_db1c3b",
+      "ownerEmail": "plunde@example.org",
+      "name": "Gulbrandsen Gruppen og Sønner",
+      "description": "Gulbrandsen Gruppen & Sønner er en etablert selskap innen rask mad med fokus på friske og sunne valg. Vi tilbyr varierende pakkemad og et kundespecificert service for å oppfylle dine behov.",
+      "website": "http://solheim.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "hellingsen@mikkelsen.com",
+      "phone": "52 40 43 89",
+      "logoUrl": "https://picsum.photos/seed/76f088f7/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:04:32.269865Z",
+      "updatedAt": "2025-12-19T05:04:32.269865Z",
+      "managerIds": [
+        "user_db1c3b"
+      ],
+      "memberIds": [
+        "user_db1c3b"
+      ]
+    },
+    {
+      "id": "comp_7d5336",
+      "ownerId": "user_f2c6b8",
+      "ownerEmail": "einarstrand@example.com",
+      "name": "Ahmed Takeaway",
+      "description": "Ahmed Takeaway er et kjent snarreteater som tilbyr mat fra hele verden. Vi vurderer påkommende kvalitet og unike smaker for å tilfredsstille alle smakssinn.",
+      "website": "https://www.boee.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "arne22@jenssen.no",
+      "phone": "428 53 933",
+      "logoUrl": "https://picsum.photos/seed/eb785b92/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:04:42.881359Z",
+      "updatedAt": "2025-12-19T05:04:42.881359Z",
+      "managerIds": [
+        "user_f2c6b8"
+      ],
+      "memberIds": [
+        "user_f2c6b8"
+      ]
+    },
+    {
+      "id": "comp_395b4b",
+      "ownerId": "user_4b8f42",
+      "ownerEmail": "evensenmagne@example.net",
+      "name": "Henriksen Pizza & Kebab",
+      "description": "Henriksons Pizza & Kebab er et populært raskmatbutikk som tilbyr enklett pizzaer og kebaber for hurtig frokost eller kveldsmat.",
+      "website": "https://hauge.net/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "cstroem@knutsen.no",
+      "phone": "39946757",
+      "logoUrl": "https://picsum.photos/seed/7a217f4c/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:04:53.699906Z",
+      "updatedAt": "2025-12-19T05:04:53.699906Z",
+      "managerIds": [
+        "user_4b8f42"
+      ],
+      "memberIds": [
+        "user_4b8f42"
+      ]
+    },
+    {
+      "id": "comp_20dfed",
+      "ownerId": "user_ac7db1",
+      "ownerEmail": "nilsjenssen@example.com",
+      "name": "Krokstadelva Grill",
+      "description": "Krokstadelva Grill tilbyr raske og smakelige pølsegrillinger for dem som elsker rask mad. Vi legger vekt på friske ingredienser og gode vennereskap for å gjøre hver besøk spennende!",
+      "website": "http://www.brekke-moen.net/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "karin57@simonsen.com",
+      "phone": "+47 37 82 18 05",
+      "logoUrl": "https://picsum.photos/seed/9353cbe0/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:05:03.316921Z",
+      "updatedAt": "2025-12-19T05:05:03.316921Z",
+      "managerIds": [
+        "user_ac7db1"
+      ],
+      "memberIds": [
+        "user_ac7db1"
+      ]
+    },
+    {
+      "id": "comp_29134a",
+      "ownerId": "user_b47bcd",
+      "ownerEmail": "ingridmikkelsen@example.com",
+      "name": "Nguyen Takeaway",
+      "description": "Vi er Nguyen Takeaway, en lokal hovedretterrestaurang som tilbyr et utvalg av smakfulle og raske matkjølinger. Vi legger vekt på friske ingredienser og snarveier for å skape kulinariske opplevelser som ikke blir glemt.",
+      "website": "https://www.lund.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "gunnar13@oedegaard.net",
+      "phone": "479 41 278",
+      "logoUrl": "https://picsum.photos/seed/4adb4040/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:05:12.567141Z",
+      "updatedAt": "2025-12-19T05:05:12.567141Z",
+      "managerIds": [
+        "user_b47bcd"
+      ],
+      "memberIds": [
+        "user_b47bcd"
+      ]
+    },
+    {
+      "id": "comp_5e3d64",
+      "ownerId": "user_2348b1",
+      "ownerEmail": "helenenilsen@example.com",
+      "name": "Nguyen Pizza & Kebab",
+      "description": "Vi tilbyr deg krasjende pizzaer og kebab fra Nguyen Pizza & Kebab. Med friske ingredienser og raske service, er vi din beste valg for en rask og smakfull matkostning.",
+      "website": "https://simonsen.net/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "kristineali@helland-tveit.no",
+      "phone": "28375925",
+      "logoUrl": "https://picsum.photos/seed/8e16ace9/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:05:24.303820Z",
+      "updatedAt": "2025-12-19T05:05:24.303820Z",
+      "managerIds": [
+        "user_2348b1"
+      ],
+      "memberIds": [
+        "user_2348b1"
+      ]
+    },
+    {
+      "id": "comp_7fc62b",
+      "ownerId": "user_e85815",
+      "ownerEmail": "thorseningeborg@example.net",
+      "name": "Danielsen Pizza & Kebab",
+      "description": "Danielsen Pizza & Kebab er en lokal rask madbedrift som tilbyr utvalgte italienske pizzarøreller og traditionelle kebabs. Vi legger vekt på å lage smaksmessig varme, ferske oppskrifter for en uventet kundereis.",
+      "website": "http://www.solheim.net/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "hsandvik@berg.net",
+      "phone": "29 73 06 01",
+      "logoUrl": "https://picsum.photos/seed/1252236b/512/512",
+      "category": "Fast Food",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T05:05:32.829857Z",
+      "updatedAt": "2025-12-19T05:05:32.829857Z",
+      "managerIds": [
+        "user_e85815"
+      ],
+      "memberIds": [
+        "user_e85815"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_09524e",
+      "companyId": "comp_f6b296",
+      "name": "Sivertsen Pizza & Kebab - Gulskogen",
+      "slug": "sivertsen-pizza-kebab-gulskogen",
+      "address": "Thomassentoppen 2",
+      "zip": "3014",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.73199,
+        "lng": 10.233706
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_09524e-1/800/600",
+        "https://picsum.photos/seed/store_09524e-2/800/600",
+        "https://picsum.photos/seed/store_09524e-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:03:18.526348Z",
+      "updatedAt": "2025-12-19T05:03:18.526348Z"
+    },
+    {
+      "id": "store_64e609",
+      "companyId": "comp_b1f726",
+      "name": "Aune Takeaway - Gulskogen",
+      "slug": "aune-takeaway-gulskogen",
+      "address": "Tangenringen 7",
+      "zip": "3014",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.72318,
+        "lng": 10.24411
+      },
+      "geoHash": null,
+      "about": "Velkommen til Aune Takeaway, din beste valg for rask og smakfull mat! Vi spesialiserer oss i å tilby deg enkle, men deilig oppskrifter som hamburger, fries og pizza.",
+      "images": [
+        "https://picsum.photos/seed/store_64e609-1/800/600",
+        "https://picsum.photos/seed/store_64e609-2/800/600",
+        "https://picsum.photos/seed/store_64e609-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:03:33.616596Z",
+      "updatedAt": "2025-12-19T05:03:33.616596Z"
+    },
+    {
+      "id": "store_851797",
+      "companyId": "comp_6d2e24",
+      "name": "Svelvik Grill - Konnerud",
+      "slug": "svelvik-grill-konnerud",
+      "address": "Jakobsenekra 4",
+      "zip": "3031",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.722495,
+        "lng": 10.194708
+      },
+      "geoHash": null,
+      "about": "Svelvik Grill er et populært snarvei-restaurant som tilbyr smakfullt grillkjød og lokale spesialiteter. Vi legger vekt på friske, høyverdige ingredienser og unike gourmetopplevelser.",
+      "images": [
+        "https://picsum.photos/seed/store_851797-1/800/600",
+        "https://picsum.photos/seed/store_851797-2/800/600",
+        "https://picsum.photos/seed/store_851797-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:03:41.708311Z",
+      "updatedAt": "2025-12-19T05:03:41.708311Z"
+    },
+    {
+      "id": "store_097a65",
+      "companyId": "comp_961905",
+      "name": "Halvorsen Takeaway - Strømsø",
+      "slug": "halvorsen-takeaway-stromso",
+      "address": "Aligrenda 05",
+      "zip": "3044",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.753658,
+        "lng": 10.248789
+      },
+      "geoHash": null,
+      "about": "Halvorsen Takeaway er et kjent snarret for god mat i byen, spesielt kjent for sin kvalitet og raske service.",
+      "images": [
+        "https://picsum.photos/seed/store_097a65-1/800/600",
+        "https://picsum.photos/seed/store_097a65-2/800/600",
+        "https://picsum.photos/seed/store_097a65-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:03:50.450619Z",
+      "updatedAt": "2025-12-19T05:03:50.450619Z"
+    },
+    {
+      "id": "store_d6465a",
+      "companyId": "comp_2dc962",
+      "name": "Næss Takeaway - Skoger",
+      "slug": "naess-takeaway-skoger",
+      "address": "Myklebusthavna 2",
+      "zip": "3079",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.735013,
+        "lng": 10.184068
+      },
+      "geoHash": null,
+      "about": "Vi ved å tilby deg rask og finsk mat fra Næss Takeaway, der våre kjente smaker gir deg et morsomt opplevelse. Vi lar oss inspirere av tradisjonen vår, men står på køyesiden for innovasjon og kvalitet.",
+      "images": [
+        "https://picsum.photos/seed/store_d6465a-1/800/600",
+        "https://picsum.photos/seed/store_d6465a-2/800/600",
+        "https://picsum.photos/seed/store_d6465a-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:03:56.090976Z",
+      "updatedAt": "2025-12-19T05:03:56.090976Z"
+    },
+    {
+      "id": "store_f18c19",
+      "companyId": "comp_684802",
+      "name": "Drammen Christensen Burger - Skoger",
+      "slug": "drammen-christensen-burger-skoger",
+      "address": "Madsenmarka 9",
+      "zip": "3079",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.748209,
+        "lng": 10.173208
+      },
+      "geoHash": null,
+      "about": "Drammen Christensen Burger er et kjøpelig kjøkken i Drammen som tilbyr god og rask burger. Vi legger stor vekt på friske ingredienser og en vennlig service.",
+      "images": [
+        "https://picsum.photos/seed/store_f18c19-1/800/600",
+        "https://picsum.photos/seed/store_f18c19-2/800/600",
+        "https://picsum.photos/seed/store_f18c19-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:04:05.440058Z",
+      "updatedAt": "2025-12-19T05:04:05.440058Z"
+    },
+    {
+      "id": "store_75596e",
+      "companyId": "comp_0dd0ff",
+      "name": "Holm Gruppen ASA - Åskollen",
+      "slug": "holm-gruppen-asa-askollen",
+      "address": "Hauglandlunden 446",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.736723,
+        "lng": 10.221791
+      },
+      "geoHash": null,
+      "about": "Holm Gruppen ASA er en etablert fastfoodkjede med en sterk fokus på kvalitet og service. Vi tilbyr et variert utvalg av smakfulle, ferske og helsebekreftende madalternativer for både privatpersoner og bedrifter.",
+      "images": [
+        "https://picsum.photos/seed/store_75596e-1/800/600",
+        "https://picsum.photos/seed/store_75596e-2/800/600",
+        "https://picsum.photos/seed/store_75596e-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:04:13.299204Z",
+      "updatedAt": "2025-12-19T05:04:13.299204Z"
+    },
+    {
+      "id": "store_6ae1ee",
+      "companyId": "comp_558e8c",
+      "name": "Edvardsen, Tveit og Lie BA - Strømsø",
+      "slug": "edvardsen-tveit-og-lie-ba-stromso",
+      "address": "Myhrevollen 80",
+      "zip": "3044",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.730284,
+        "lng": 10.244403
+      },
+      "geoHash": null,
+      "about": "Edvardsen, Tveit og Lie BA er en lokal fastfoodkjøpmannsbutikk som tilbyr et breit utvalg av friske og smakfulle madvarer. Vi legger stor vekt på å bruke lokale ingredienser for å lage deiligaste kaker og paster.",
+      "images": [
+        "https://picsum.photos/seed/store_6ae1ee-1/800/600",
+        "https://picsum.photos/seed/store_6ae1ee-2/800/600",
+        "https://picsum.photos/seed/store_6ae1ee-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:04:22.795199Z",
+      "updatedAt": "2025-12-19T05:04:22.795199Z"
+    },
+    {
+      "id": "store_bc888d",
+      "companyId": "comp_02e41b",
+      "name": "Gulbrandsen Gruppen og Sønner - Krokstadelva",
+      "slug": "gulbrandsen-gruppen-og-sonner-krokstadelva",
+      "address": "Arnesenhaugen 50C",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.759354,
+        "lng": 10.192528
+      },
+      "geoHash": null,
+      "about": "Gulbrandsen Gruppen & Sønner er en etablert selskap innen rask mad med fokus på friske og sunne valg. Vi tilbyr varierende pakkemad og et kundespecificert service for å oppfylle dine behov.",
+      "images": [
+        "https://picsum.photos/seed/store_bc888d-1/800/600",
+        "https://picsum.photos/seed/store_bc888d-2/800/600",
+        "https://picsum.photos/seed/store_bc888d-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:04:32.269865Z",
+      "updatedAt": "2025-12-19T05:04:32.269865Z"
+    },
+    {
+      "id": "store_40ff2b",
+      "companyId": "comp_7d5336",
+      "name": "Ahmed Takeaway - Mjøndalen",
+      "slug": "ahmed-takeaway-mjondalen",
+      "address": "Johannessengata 4B",
+      "zip": "3037",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.724286,
+        "lng": 10.17258
+      },
+      "geoHash": null,
+      "about": "Ahmed Takeaway er et kjent snarreteater som tilbyr mat fra hele verden. Vi vurderer påkommende kvalitet og unike smaker for å tilfredsstille alle smakssinn.",
+      "images": [
+        "https://picsum.photos/seed/store_40ff2b-1/800/600",
+        "https://picsum.photos/seed/store_40ff2b-2/800/600",
+        "https://picsum.photos/seed/store_40ff2b-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:04:42.881359Z",
+      "updatedAt": "2025-12-19T05:04:42.881359Z"
+    },
+    {
+      "id": "store_cf7ee4",
+      "companyId": "comp_395b4b",
+      "name": "Henriksen Pizza & Kebab - Skoger",
+      "slug": "henriksen-pizza-kebab-skoger",
+      "address": "Thomassenringen 5",
+      "zip": "3079",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.72576,
+        "lng": 10.178283
+      },
+      "geoHash": null,
+      "about": "Henriksons Pizza & Kebab er et populært raskmatbutikk som tilbyr enklett pizzaer og kebaber for hurtig frokost eller kveldsmat.",
+      "images": [
+        "https://picsum.photos/seed/store_cf7ee4-1/800/600",
+        "https://picsum.photos/seed/store_cf7ee4-2/800/600",
+        "https://picsum.photos/seed/store_cf7ee4-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:04:53.699906Z",
+      "updatedAt": "2025-12-19T05:04:53.699906Z"
+    },
+    {
+      "id": "store_93d246",
+      "companyId": "comp_20dfed",
+      "name": "Krokstadelva Grill - Konnerud",
+      "slug": "krokstadelva-grill-konnerud",
+      "address": "Eidekollen 181",
+      "zip": "3031",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.752877,
+        "lng": 10.214276
+      },
+      "geoHash": null,
+      "about": "Krokstadelva Grill tilbyr raske og smakelige pølsegrillinger for dem som elsker rask mad. Vi legger vekt på friske ingredienser og gode vennereskap for å gjøre hver besøk spennende!",
+      "images": [
+        "https://picsum.photos/seed/store_93d246-1/800/600",
+        "https://picsum.photos/seed/store_93d246-2/800/600",
+        "https://picsum.photos/seed/store_93d246-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:05:03.316921Z",
+      "updatedAt": "2025-12-19T05:05:03.316921Z"
+    },
+    {
+      "id": "store_6867f6",
+      "companyId": "comp_29134a",
+      "name": "Nguyen Takeaway - Krokstadelva",
+      "slug": "nguyen-takeaway-krokstadelva",
+      "address": "Jensenlyngen 10",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.75115,
+        "lng": 10.171072
+      },
+      "geoHash": null,
+      "about": "Vi er Nguyen Takeaway, en lokal hovedretterrestaurang som tilbyr et utvalg av smakfulle og raske matkjølinger. Vi legger vekt på friske ingredienser og snarveier for å skape kulinariske opplevelser som ikke blir glemt.",
+      "images": [
+        "https://picsum.photos/seed/store_6867f6-1/800/600",
+        "https://picsum.photos/seed/store_6867f6-2/800/600",
+        "https://picsum.photos/seed/store_6867f6-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:05:12.567141Z",
+      "updatedAt": "2025-12-19T05:05:12.567141Z"
+    },
+    {
+      "id": "store_0b3cce",
+      "companyId": "comp_5e3d64",
+      "name": "Nguyen Pizza & Kebab - Mjøndalen",
+      "slug": "nguyen-pizza-kebab-mjondalen",
+      "address": "Johannessenstien 39C",
+      "zip": "3037",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.756704,
+        "lng": 10.213268
+      },
+      "geoHash": null,
+      "about": "Vi tilbyr deg krasjende pizzaer og kebab fra Nguyen Pizza & Kebab. Med friske ingredienser og raske service, er vi din beste valg for en rask og smakfull matkostning.",
+      "images": [
+        "https://picsum.photos/seed/store_0b3cce-1/800/600",
+        "https://picsum.photos/seed/store_0b3cce-2/800/600",
+        "https://picsum.photos/seed/store_0b3cce-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:05:24.303820Z",
+      "updatedAt": "2025-12-19T05:05:24.303820Z"
+    },
+    {
+      "id": "store_a65d2e",
+      "companyId": "comp_7fc62b",
+      "name": "Danielsen Pizza & Kebab - Åskollen",
+      "slug": "danielsen-pizza-kebab-askollen",
+      "address": "Haugerøa 70",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.720409,
+        "lng": 10.209465
+      },
+      "geoHash": null,
+      "about": "Danielsen Pizza & Kebab er en lokal rask madbedrift som tilbyr utvalgte italienske pizzarøreller og traditionelle kebabs. Vi legger vekt på å lage smaksmessig varme, ferske oppskrifter for en uventet kundereis.",
+      "images": [
+        "https://picsum.photos/seed/store_a65d2e-1/800/600",
+        "https://picsum.photos/seed/store_a65d2e-2/800/600",
+        "https://picsum.photos/seed/store_a65d2e-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T05:05:32.829857Z",
+      "updatedAt": "2025-12-19T05:05:32.829857Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_025970",
+      "storeId": "store_09524e",
+      "userId": null,
+      "name": "Mathias Jakobsen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_025970/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_60cde4",
+      "storeId": "store_097a65",
+      "userId": null,
+      "name": "Tonje Eliassen-Haug",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_60cde4/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_efb135",
+      "storeId": "store_097a65",
+      "userId": null,
+      "name": "Helge Edvardsen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_efb135/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_2050c9",
+      "storeId": "store_097a65",
+      "userId": null,
+      "name": "Thor-Torbjørn Kristiansen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_2050c9/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_e93d7e",
+      "storeId": "store_75596e",
+      "userId": null,
+      "name": "Malin Thomassen-Rasmussen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_e93d7e/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_448440",
+      "storeId": "store_75596e",
+      "userId": null,
+      "name": "Gunnar-Roy Sæther",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_448440/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_582a08",
+      "storeId": "store_6ae1ee",
+      "userId": null,
+      "name": "Lene Andreassen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_582a08/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_a06a00",
+      "storeId": "store_6ae1ee",
+      "userId": null,
+      "name": "Gunnar-Odd Sivertsen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_a06a00/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_c8489d",
+      "storeId": "store_40ff2b",
+      "userId": null,
+      "name": "Sindre Strand",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c8489d/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_25729e",
+      "storeId": "store_40ff2b",
+      "userId": null,
+      "name": "Martine Gundersen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_25729e/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_e3a05b",
+      "storeId": "store_6867f6",
+      "userId": null,
+      "name": "Alf Arnesen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_e3a05b/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_b25ba4",
+      "storeId": "store_6867f6",
+      "userId": null,
+      "name": "Ruth Ødegård",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_b25ba4/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_b1dc3f",
+      "storeId": "store_6867f6",
+      "userId": null,
+      "name": "Ingrid-Silje Knutsen",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_b1dc3f/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_6017a3",
+      "storeId": "store_a65d2e",
+      "userId": null,
+      "name": "Håkon Dahl",
+      "roles": "Kokk",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_6017a3/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_181dcc",
+      "storeId": "store_09524e",
+      "personId": "pers_025970",
+      "title": "Takeaway",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1869,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_efbad9",
+      "storeId": "store_09524e",
+      "personId": "pers_025970",
+      "title": "Bestilling (henting)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1215,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1180d9",
+      "storeId": "store_09524e",
+      "personId": "pers_025970",
+      "title": "Familiepakke",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1252,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a66b16",
+      "storeId": "store_09524e",
+      "personId": "pers_025970",
+      "title": "Lunsjdeal",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1794,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a36450",
+      "storeId": "store_64e609",
+      "personId": null,
+      "title": "Takeaway",
+      "description": "Velkommen til Aune Takeaway, din beste valg for rask og smakfull mat! Vi spesialiserer oss i å tilby deg enkle, men deilig oppskrifter som hamburger, fries og pizza.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "aune takeaway",
+        "norsk",
+        "hamburger",
+        "pizza",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1536,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_22ce82",
+      "storeId": "store_64e609",
+      "personId": null,
+      "title": "Bestilling (henting)",
+      "description": "Velkommen til Aune Takeaway, din beste valg for rask og smakfull mat! Vi spesialiserer oss i å tilby deg enkle, men deilig oppskrifter som hamburger, fries og pizza.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "aune takeaway",
+        "norsk",
+        "hamburger",
+        "pizza",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 676,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1d7901",
+      "storeId": "store_64e609",
+      "personId": null,
+      "title": "Familiepakke",
+      "description": "Velkommen til Aune Takeaway, din beste valg for rask og smakfull mat! Vi spesialiserer oss i å tilby deg enkle, men deilig oppskrifter som hamburger, fries og pizza.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "aune takeaway",
+        "norsk",
+        "hamburger",
+        "pizza",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1414,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_3af223",
+      "storeId": "store_64e609",
+      "personId": null,
+      "title": "Lunsjdeal",
+      "description": "Velkommen til Aune Takeaway, din beste valg for rask og smakfull mat! Vi spesialiserer oss i å tilby deg enkle, men deilig oppskrifter som hamburger, fries og pizza.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "aune takeaway",
+        "norsk",
+        "hamburger",
+        "pizza",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 739,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a09059",
+      "storeId": "store_851797",
+      "personId": null,
+      "title": "Takeaway",
+      "description": "Svelvik Grill er et populært snarvei-restaurant som tilbyr smakfullt grillkjød og lokale spesialiteter. Vi legger vekt på friske, høyverdige ingredienser og unike gourmetopplevelser.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "grill",
+        "smakfulle",
+        "friske",
+        "lokale",
+        "gourmet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1656,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0bbe97",
+      "storeId": "store_851797",
+      "personId": null,
+      "title": "Bestilling (henting)",
+      "description": "Svelvik Grill er et populært snarvei-restaurant som tilbyr smakfullt grillkjød og lokale spesialiteter. Vi legger vekt på friske, høyverdige ingredienser og unike gourmetopplevelser.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "grill",
+        "smakfulle",
+        "friske",
+        "lokale",
+        "gourmet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1421,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_35142d",
+      "storeId": "store_851797",
+      "personId": null,
+      "title": "Familiepakke",
+      "description": "Svelvik Grill er et populært snarvei-restaurant som tilbyr smakfullt grillkjød og lokale spesialiteter. Vi legger vekt på friske, høyverdige ingredienser og unike gourmetopplevelser.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "grill",
+        "smakfulle",
+        "friske",
+        "lokale",
+        "gourmet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1703,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9d6f32",
+      "storeId": "store_851797",
+      "personId": null,
+      "title": "Lunsjdeal",
+      "description": "Svelvik Grill er et populært snarvei-restaurant som tilbyr smakfullt grillkjød og lokale spesialiteter. Vi legger vekt på friske, høyverdige ingredienser og unike gourmetopplevelser.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "grill",
+        "smakfulle",
+        "friske",
+        "lokale",
+        "gourmet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 840,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_068db0",
+      "storeId": "store_097a65",
+      "personId": "pers_efb135",
+      "title": "Takeaway",
+      "description": "Halvorsen Takeaway er et kjent snarret for god mat i byen, spesielt kjent for sin kvalitet og raske service.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "snarret",
+        "kvalitet",
+        "raske service",
+        "drammen",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1472,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7d3488",
+      "storeId": "store_097a65",
+      "personId": "pers_efb135",
+      "title": "Bestilling (henting)",
+      "description": "Halvorsen Takeaway er et kjent snarret for god mat i byen, spesielt kjent for sin kvalitet og raske service.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "snarret",
+        "kvalitet",
+        "raske service",
+        "drammen",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 859,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9d89cd",
+      "storeId": "store_097a65",
+      "personId": "pers_2050c9",
+      "title": "Familiepakke",
+      "description": "Halvorsen Takeaway er et kjent snarret for god mat i byen, spesielt kjent for sin kvalitet og raske service.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "snarret",
+        "kvalitet",
+        "raske service",
+        "drammen",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 742,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f9e625",
+      "storeId": "store_097a65",
+      "personId": "pers_efb135",
+      "title": "Lunsjdeal",
+      "description": "Halvorsen Takeaway er et kjent snarret for god mat i byen, spesielt kjent for sin kvalitet og raske service.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "snarret",
+        "kvalitet",
+        "raske service",
+        "drammen",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1860,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_43e61b",
+      "storeId": "store_d6465a",
+      "personId": null,
+      "title": "Takeaway",
+      "description": "Vi ved å tilby deg rask og finsk mat fra Næss Takeaway, der våre kjente smaker gir deg et morsomt opplevelse. Vi lar oss inspirere av tradisjonen vår, men står på køyesiden for innovasjon og kvalitet.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "næss",
+        "takeaway",
+        "rask",
+        "finsk",
+        "mat"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 599,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_78f1fd",
+      "storeId": "store_d6465a",
+      "personId": null,
+      "title": "Bestilling (henting)",
+      "description": "Vi ved å tilby deg rask og finsk mat fra Næss Takeaway, der våre kjente smaker gir deg et morsomt opplevelse. Vi lar oss inspirere av tradisjonen vår, men står på køyesiden for innovasjon og kvalitet.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "næss",
+        "takeaway",
+        "rask",
+        "finsk",
+        "mat"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1663,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8abb53",
+      "storeId": "store_d6465a",
+      "personId": null,
+      "title": "Familiepakke",
+      "description": "Vi ved å tilby deg rask og finsk mat fra Næss Takeaway, der våre kjente smaker gir deg et morsomt opplevelse. Vi lar oss inspirere av tradisjonen vår, men står på køyesiden for innovasjon og kvalitet.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "næss",
+        "takeaway",
+        "rask",
+        "finsk",
+        "mat"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1959,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ce459e",
+      "storeId": "store_d6465a",
+      "personId": null,
+      "title": "Lunsjdeal",
+      "description": "Vi ved å tilby deg rask og finsk mat fra Næss Takeaway, der våre kjente smaker gir deg et morsomt opplevelse. Vi lar oss inspirere av tradisjonen vår, men står på køyesiden for innovasjon og kvalitet.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "næss",
+        "takeaway",
+        "rask",
+        "finsk",
+        "mat"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1078,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_638aac",
+      "storeId": "store_f18c19",
+      "personId": null,
+      "title": "Takeaway",
+      "description": "Drammen Christensen Burger er et kjøpelig kjøkken i Drammen som tilbyr god og rask burger. Vi legger stor vekt på friske ingredienser og en vennlig service.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kjøpelig",
+        "burger",
+        "friske",
+        "ingredienser",
+        "vennlig"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1078,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_465c47",
+      "storeId": "store_f18c19",
+      "personId": null,
+      "title": "Bestilling (henting)",
+      "description": "Drammen Christensen Burger er et kjøpelig kjøkken i Drammen som tilbyr god og rask burger. Vi legger stor vekt på friske ingredienser og en vennlig service.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kjøpelig",
+        "burger",
+        "friske",
+        "ingredienser",
+        "vennlig"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1415,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1bcc62",
+      "storeId": "store_f18c19",
+      "personId": null,
+      "title": "Familiepakke",
+      "description": "Drammen Christensen Burger er et kjøpelig kjøkken i Drammen som tilbyr god og rask burger. Vi legger stor vekt på friske ingredienser og en vennlig service.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kjøpelig",
+        "burger",
+        "friske",
+        "ingredienser",
+        "vennlig"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 874,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e25ca0",
+      "storeId": "store_f18c19",
+      "personId": null,
+      "title": "Lunsjdeal",
+      "description": "Drammen Christensen Burger er et kjøpelig kjøkken i Drammen som tilbyr god og rask burger. Vi legger stor vekt på friske ingredienser og en vennlig service.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kjøpelig",
+        "burger",
+        "friske",
+        "ingredienser",
+        "vennlig"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 729,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_bb3a9a",
+      "storeId": "store_75596e",
+      "personId": "pers_e93d7e",
+      "title": "Takeaway",
+      "description": "Holm Gruppen ASA er en etablert fastfoodkjede med en sterk fokus på kvalitet og service. Vi tilbyr et variert utvalg av smakfulle, ferske og helsebekreftende madalternativer for både privatpersoner og bedrifter.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kvalitet",
+        "felles",
+        "smak",
+        "helse",
+        "madalternativer"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1953,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_21d4e0",
+      "storeId": "store_75596e",
+      "personId": "pers_448440",
+      "title": "Bestilling (henting)",
+      "description": "Holm Gruppen ASA er en etablert fastfoodkjede med en sterk fokus på kvalitet og service. Vi tilbyr et variert utvalg av smakfulle, ferske og helsebekreftende madalternativer for både privatpersoner og bedrifter.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kvalitet",
+        "felles",
+        "smak",
+        "helse",
+        "madalternativer"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1493,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_79fa7d",
+      "storeId": "store_75596e",
+      "personId": "pers_448440",
+      "title": "Familiepakke",
+      "description": "Holm Gruppen ASA er en etablert fastfoodkjede med en sterk fokus på kvalitet og service. Vi tilbyr et variert utvalg av smakfulle, ferske og helsebekreftende madalternativer for både privatpersoner og bedrifter.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kvalitet",
+        "felles",
+        "smak",
+        "helse",
+        "madalternativer"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1261,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c9c8fe",
+      "storeId": "store_75596e",
+      "personId": "pers_448440",
+      "title": "Lunsjdeal",
+      "description": "Holm Gruppen ASA er en etablert fastfoodkjede med en sterk fokus på kvalitet og service. Vi tilbyr et variert utvalg av smakfulle, ferske og helsebekreftende madalternativer for både privatpersoner og bedrifter.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "kvalitet",
+        "felles",
+        "smak",
+        "helse",
+        "madalternativer"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1223,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_318adf",
+      "storeId": "store_6ae1ee",
+      "personId": "pers_a06a00",
+      "title": "Takeaway",
+      "description": "Edvardsen, Tveit og Lie BA er en lokal fastfoodkjøpmannsbutikk som tilbyr et breit utvalg av friske og smakfulle madvarer. Vi legger stor vekt på å bruke lokale ingredienser for å lage deiligaste kaker og paster.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fast food",
+        "local",
+        "fresh ingredients",
+        "baked goods",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 701,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_fed2ef",
+      "storeId": "store_6ae1ee",
+      "personId": "pers_a06a00",
+      "title": "Bestilling (henting)",
+      "description": "Edvardsen, Tveit og Lie BA er en lokal fastfoodkjøpmannsbutikk som tilbyr et breit utvalg av friske og smakfulle madvarer. Vi legger stor vekt på å bruke lokale ingredienser for å lage deiligaste kaker og paster.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fast food",
+        "local",
+        "fresh ingredients",
+        "baked goods",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1342,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7dfa04",
+      "storeId": "store_6ae1ee",
+      "personId": "pers_582a08",
+      "title": "Familiepakke",
+      "description": "Edvardsen, Tveit og Lie BA er en lokal fastfoodkjøpmannsbutikk som tilbyr et breit utvalg av friske og smakfulle madvarer. Vi legger stor vekt på å bruke lokale ingredienser for å lage deiligaste kaker og paster.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fast food",
+        "local",
+        "fresh ingredients",
+        "baked goods",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1335,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7a1cf1",
+      "storeId": "store_6ae1ee",
+      "personId": "pers_a06a00",
+      "title": "Lunsjdeal",
+      "description": "Edvardsen, Tveit og Lie BA er en lokal fastfoodkjøpmannsbutikk som tilbyr et breit utvalg av friske og smakfulle madvarer. Vi legger stor vekt på å bruke lokale ingredienser for å lage deiligaste kaker og paster.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fast food",
+        "local",
+        "fresh ingredients",
+        "baked goods",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1503,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a6e8e9",
+      "storeId": "store_bc888d",
+      "personId": null,
+      "title": "Takeaway",
+      "description": "Gulbrandsen Gruppen & Sønner er en etablert selskap innen rask mad med fokus på friske og sunne valg. Vi tilbyr varierende pakkemad og et kundespecificert service for å oppfylle dine behov.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "brød",
+        "boller",
+        "fisk",
+        "hovedretter",
+        "kaffe"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1928,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_447291",
+      "storeId": "store_bc888d",
+      "personId": null,
+      "title": "Bestilling (henting)",
+      "description": "Gulbrandsen Gruppen & Sønner er en etablert selskap innen rask mad med fokus på friske og sunne valg. Vi tilbyr varierende pakkemad og et kundespecificert service for å oppfylle dine behov.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "brød",
+        "boller",
+        "fisk",
+        "hovedretter",
+        "kaffe"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1356,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_fcb45f",
+      "storeId": "store_bc888d",
+      "personId": null,
+      "title": "Familiepakke",
+      "description": "Gulbrandsen Gruppen & Sønner er en etablert selskap innen rask mad med fokus på friske og sunne valg. Vi tilbyr varierende pakkemad og et kundespecificert service for å oppfylle dine behov.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "brød",
+        "boller",
+        "fisk",
+        "hovedretter",
+        "kaffe"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 872,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b572ab",
+      "storeId": "store_bc888d",
+      "personId": null,
+      "title": "Lunsjdeal",
+      "description": "Gulbrandsen Gruppen & Sønner er en etablert selskap innen rask mad med fokus på friske og sunne valg. Vi tilbyr varierende pakkemad og et kundespecificert service for å oppfylle dine behov.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "brød",
+        "boller",
+        "fisk",
+        "hovedretter",
+        "kaffe"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 534,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1ba4ae",
+      "storeId": "store_40ff2b",
+      "personId": "pers_25729e",
+      "title": "Takeaway",
+      "description": "Ahmed Takeaway er et kjent snarreteater som tilbyr mat fra hele verden. Vi vurderer påkommende kvalitet og unike smaker for å tilfredsstille alle smakssinn.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "snarreteater",
+        "kjent",
+        "mat",
+        "kvalitet",
+        "smakter"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1578,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0162ef",
+      "storeId": "store_40ff2b",
+      "personId": "pers_c8489d",
+      "title": "Bestilling (henting)",
+      "description": "Ahmed Takeaway er et kjent snarreteater som tilbyr mat fra hele verden. Vi vurderer påkommende kvalitet og unike smaker for å tilfredsstille alle smakssinn.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "snarreteater",
+        "kjent",
+        "mat",
+        "kvalitet",
+        "smakter"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1517,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_478734",
+      "storeId": "store_40ff2b",
+      "personId": "pers_25729e",
+      "title": "Familiepakke",
+      "description": "Ahmed Takeaway er et kjent snarreteater som tilbyr mat fra hele verden. Vi vurderer påkommende kvalitet og unike smaker for å tilfredsstille alle smakssinn.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "snarreteater",
+        "kjent",
+        "mat",
+        "kvalitet",
+        "smakter"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1591,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0e1538",
+      "storeId": "store_40ff2b",
+      "personId": "pers_25729e",
+      "title": "Lunsjdeal",
+      "description": "Ahmed Takeaway er et kjent snarreteater som tilbyr mat fra hele verden. Vi vurderer påkommende kvalitet og unike smaker for å tilfredsstille alle smakssinn.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "snarreteater",
+        "kjent",
+        "mat",
+        "kvalitet",
+        "smakter"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1039,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_95a26b",
+      "storeId": "store_cf7ee4",
+      "personId": null,
+      "title": "Takeaway",
+      "description": "Henriksons Pizza & Kebab er et populært raskmatbutikk som tilbyr enklett pizzaer og kebaber for hurtig frokost eller kveldsmat.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "pizzaverden",
+        "kebabbare",
+        "fleksibel",
+        "godmat"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1343,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e667ea",
+      "storeId": "store_cf7ee4",
+      "personId": null,
+      "title": "Bestilling (henting)",
+      "description": "Henriksons Pizza & Kebab er et populært raskmatbutikk som tilbyr enklett pizzaer og kebaber for hurtig frokost eller kveldsmat.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "pizzaverden",
+        "kebabbare",
+        "fleksibel",
+        "godmat"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1785,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_bfdb8d",
+      "storeId": "store_cf7ee4",
+      "personId": null,
+      "title": "Familiepakke",
+      "description": "Henriksons Pizza & Kebab er et populært raskmatbutikk som tilbyr enklett pizzaer og kebaber for hurtig frokost eller kveldsmat.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "pizzaverden",
+        "kebabbare",
+        "fleksibel",
+        "godmat"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1207,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e2ecd5",
+      "storeId": "store_cf7ee4",
+      "personId": null,
+      "title": "Lunsjdeal",
+      "description": "Henriksons Pizza & Kebab er et populært raskmatbutikk som tilbyr enklett pizzaer og kebaber for hurtig frokost eller kveldsmat.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "pizzaverden",
+        "kebabbare",
+        "fleksibel",
+        "godmat"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1653,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8967be",
+      "storeId": "store_93d246",
+      "personId": null,
+      "title": "Takeaway",
+      "description": "Krokstadelva Grill tilbyr raske og smakelige pølsegrillinger for dem som elsker rask mad. Vi legger vekt på friske ingredienser og gode vennereskap for å gjøre hver besøk spennende!",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "raske",
+        "smakelige",
+        "friske",
+        "vennereskap",
+        "pølsegrillinger"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1637,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8ecea8",
+      "storeId": "store_93d246",
+      "personId": null,
+      "title": "Bestilling (henting)",
+      "description": "Krokstadelva Grill tilbyr raske og smakelige pølsegrillinger for dem som elsker rask mad. Vi legger vekt på friske ingredienser og gode vennereskap for å gjøre hver besøk spennende!",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "raske",
+        "smakelige",
+        "friske",
+        "vennereskap",
+        "pølsegrillinger"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 777,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c918bd",
+      "storeId": "store_93d246",
+      "personId": null,
+      "title": "Familiepakke",
+      "description": "Krokstadelva Grill tilbyr raske og smakelige pølsegrillinger for dem som elsker rask mad. Vi legger vekt på friske ingredienser og gode vennereskap for å gjøre hver besøk spennende!",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "raske",
+        "smakelige",
+        "friske",
+        "vennereskap",
+        "pølsegrillinger"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 731,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_5c1409",
+      "storeId": "store_93d246",
+      "personId": null,
+      "title": "Lunsjdeal",
+      "description": "Krokstadelva Grill tilbyr raske og smakelige pølsegrillinger for dem som elsker rask mad. Vi legger vekt på friske ingredienser og gode vennereskap for å gjøre hver besøk spennende!",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "raske",
+        "smakelige",
+        "friske",
+        "vennereskap",
+        "pølsegrillinger"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1390,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_81b56e",
+      "storeId": "store_6867f6",
+      "personId": "pers_e3a05b",
+      "title": "Takeaway",
+      "description": "Vi er Nguyen Takeaway, en lokal hovedretterrestaurang som tilbyr et utvalg av smakfulle og raske matkjølinger. Vi legger vekt på friske ingredienser og snarveier for å skape kulinariske opplevelser som ikke blir glemt.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "hovedretter",
+        "smakfulle",
+        "friske ingredienser",
+        "raske matkjølinger",
+        "kulinariske opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1283,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e2063e",
+      "storeId": "store_6867f6",
+      "personId": "pers_b25ba4",
+      "title": "Bestilling (henting)",
+      "description": "Vi er Nguyen Takeaway, en lokal hovedretterrestaurang som tilbyr et utvalg av smakfulle og raske matkjølinger. Vi legger vekt på friske ingredienser og snarveier for å skape kulinariske opplevelser som ikke blir glemt.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "hovedretter",
+        "smakfulle",
+        "friske ingredienser",
+        "raske matkjølinger",
+        "kulinariske opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 810,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7a94ec",
+      "storeId": "store_6867f6",
+      "personId": "pers_e3a05b",
+      "title": "Familiepakke",
+      "description": "Vi er Nguyen Takeaway, en lokal hovedretterrestaurang som tilbyr et utvalg av smakfulle og raske matkjølinger. Vi legger vekt på friske ingredienser og snarveier for å skape kulinariske opplevelser som ikke blir glemt.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "hovedretter",
+        "smakfulle",
+        "friske ingredienser",
+        "raske matkjølinger",
+        "kulinariske opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1836,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_555954",
+      "storeId": "store_6867f6",
+      "personId": "pers_b25ba4",
+      "title": "Lunsjdeal",
+      "description": "Vi er Nguyen Takeaway, en lokal hovedretterrestaurang som tilbyr et utvalg av smakfulle og raske matkjølinger. Vi legger vekt på friske ingredienser og snarveier for å skape kulinariske opplevelser som ikke blir glemt.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "hovedretter",
+        "smakfulle",
+        "friske ingredienser",
+        "raske matkjølinger",
+        "kulinariske opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1347,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d8bc10",
+      "storeId": "store_0b3cce",
+      "personId": null,
+      "title": "Takeaway",
+      "description": "Vi tilbyr deg krasjende pizzaer og kebab fra Nguyen Pizza & Kebab. Med friske ingredienser og raske service, er vi din beste valg for en rask og smakfull matkostning.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "pizza",
+        "kebab",
+        "friske ingredienser",
+        "raske service",
+        "smakfull mat"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1820,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_77712e",
+      "storeId": "store_0b3cce",
+      "personId": null,
+      "title": "Bestilling (henting)",
+      "description": "Vi tilbyr deg krasjende pizzaer og kebab fra Nguyen Pizza & Kebab. Med friske ingredienser og raske service, er vi din beste valg for en rask og smakfull matkostning.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "pizza",
+        "kebab",
+        "friske ingredienser",
+        "raske service",
+        "smakfull mat"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1913,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_47a08f",
+      "storeId": "store_0b3cce",
+      "personId": null,
+      "title": "Familiepakke",
+      "description": "Vi tilbyr deg krasjende pizzaer og kebab fra Nguyen Pizza & Kebab. Med friske ingredienser og raske service, er vi din beste valg for en rask og smakfull matkostning.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "pizza",
+        "kebab",
+        "friske ingredienser",
+        "raske service",
+        "smakfull mat"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1661,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_5e7add",
+      "storeId": "store_0b3cce",
+      "personId": null,
+      "title": "Lunsjdeal",
+      "description": "Vi tilbyr deg krasjende pizzaer og kebab fra Nguyen Pizza & Kebab. Med friske ingredienser og raske service, er vi din beste valg for en rask og smakfull matkostning.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "pizza",
+        "kebab",
+        "friske ingredienser",
+        "raske service",
+        "smakfull mat"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1933,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_84fdbd",
+      "storeId": "store_a65d2e",
+      "personId": "pers_6017a3",
+      "title": "Takeaway",
+      "description": "Danielsen Pizza & Kebab er en lokal rask madbedrift som tilbyr utvalgte italienske pizzarøreller og traditionelle kebabs. Vi legger vekt på å lage smaksmessig varme, ferske oppskrifter for en uventet kundereis.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fast food",
+        "pizza",
+        "kebab",
+        "norge",
+        "lokale rask mad"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1039,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_59d5b0",
+      "storeId": "store_a65d2e",
+      "personId": "pers_6017a3",
+      "title": "Bestilling (henting)",
+      "description": "Danielsen Pizza & Kebab er en lokal rask madbedrift som tilbyr utvalgte italienske pizzarøreller og traditionelle kebabs. Vi legger vekt på å lage smaksmessig varme, ferske oppskrifter for en uventet kundereis.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fast food",
+        "pizza",
+        "kebab",
+        "norge",
+        "lokale rask mad"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1831,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_267475",
+      "storeId": "store_a65d2e",
+      "personId": "pers_6017a3",
+      "title": "Familiepakke",
+      "description": "Danielsen Pizza & Kebab er en lokal rask madbedrift som tilbyr utvalgte italienske pizzarøreller og traditionelle kebabs. Vi legger vekt på å lage smaksmessig varme, ferske oppskrifter for en uventet kundereis.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fast food",
+        "pizza",
+        "kebab",
+        "norge",
+        "lokale rask mad"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1257,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_548a20",
+      "storeId": "store_a65d2e",
+      "personId": "pers_6017a3",
+      "title": "Lunsjdeal",
+      "description": "Danielsen Pizza & Kebab er en lokal rask madbedrift som tilbyr utvalgte italienske pizzarøreller og traditionelle kebabs. Vi legger vekt på å lage smaksmessig varme, ferske oppskrifter for en uventet kundereis.",
+      "serviceType": [
+        "Fast Food"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fast food",
+        "pizza",
+        "kebab",
+        "norge",
+        "lokale rask mad"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1301,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

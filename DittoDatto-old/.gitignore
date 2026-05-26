@@ -1,0 +1,315 @@
+################################################################################
+# DittoDatto.no — Global .gitignore
+# Chapter 1: Nuxt 4, Firebase, TypeScript (frozen in _chapter1/)
+# Chapter 2: Python/FastAPI, Flutter, SurrealDB (services/)
+################################################################################
+
+# ============================================================================
+# DEPENDENCIES & PACKAGE MANAGERS
+# ============================================================================
+
+node_modules/
+.pnp
+.pnp.js
+
+# Prevent accidental npm/yarn usage (pnpm-only workspace)
+# package-lock.json
+# yarn.lock
+
+# ============================================================================
+# BUILD OUTPUTS & COMPILATION
+# ============================================================================
+
+# Nuxt apps
+.nuxt/
+.output/
+dist/
+build/
+out/
+
+# TypeScript (root-level build output only — Flutter uses lib/ for source)
+lib/
+!apps/*/lib/
+!packages/*/lib/
+*.tsbuildinfo
+
+# General
+coverage/
+
+# ============================================================================
+# ENVIRONMENT & CONFIGURATION
+# ============================================================================
+
+# Environment variables (NEVER commit local configs)
+.env
+.env.local
+.env.*.local
+.env.production.local
+
+# Firebase configuration (local only)
+.firebaserc.local
+.firebase-key.json
+
+# ============================================================================
+# IDE & EDITOR
+# ============================================================================
+
+# VS Code
+.vscode/
+.vscode-insiders/
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+.idea_modules/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+
+# vim/emacs
+*.swp
+*.swo
+*~
+.vim/
+.emacs
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+# ============================================================================
+# LOGGING & DEBUG
+# ============================================================================
+
+# npm/pnpm/yarn
+npm-debug.log*
+npm-error.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# Firebase
+firebase-debug.log
+ui-debug.log
+
+# System
+*.log
+logs/
+
+# ============================================================================
+# TESTING & COVERAGE
+# ============================================================================
+
+.coverage
+.nyc_output
+*.lcov
+coverage/
+.jest/
+.vitest/
+dist/coverage/
+
+# ============================================================================
+# FIREBASE EMULATOR
+# ============================================================================
+
+firestore-export/
+firestore-debug.log
+
+# ============================================================================
+# OS FILES
+# ============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+
+# ============================================================================
+# PROJECT-SPECIFIC
+# ============================================================================
+
+# Temporary/working files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# OS locks
+# .~lock.*
+
+# Editor temporary files
+.swn
+.swo
+.tern-port
+
+# ============================================================================
+# MONOREPO-SPECIFIC
+# ============================================================================
+
+# Turbo cache (Chapter 1)
+.turbo/
+turbo.log
+
+# pnpm store (local)
+.pnpm-store/
+
+# ============================================================================
+# PYTHON (Chapter 2 — services/)
+# ============================================================================
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+*.egg-info/
+*.egg
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+
+# ============================================================================
+# DEPLOYMENT & CI/CD
+# ============================================================================
+
+# Vercel
+.vercel
+.vercelignore
+
+# Netlify
+.netlify
+netlify.toml.local
+
+# GitHub Actions secrets
+.env.gh-actions
+
+# ============================================================================
+# COMMON IDE FOLDERS (Safety catch-all)
+# ============================================================================
+
+# Rider
+.idea_modules/
+.rider.editors.cached
+
+# RubyMine
+.ruby-version
+.ruby-gemset
+
+# PhpStorm
+.php_cs
+.php_cs.cache
+
+# Resharper
+_ReSharper*/
+*.DotSettings
+*.DotSettings.user
+
+# ============================================================================
+# DYNAMIC GENERATED FILES (Should not be tracked)
+# ============================================================================
+
+# Dependency files generated during build
+**/generated/
+**/codegen/
+
+# Type definitions generated
+**/types-generated.ts
+
+# Build artifacts
+**/dist/**
+**/build/**
+
+# ============================================================================
+# ALLOW IMPORTANT FILES (Explicit exceptions)
+# ============================================================================
+
+# Unignore specific important files
+!.github/
+!.github/workflows/
+!.github/CODEOWNERS
+!.editorconfig
+!.eslintrc.json
+!.prettierrc.json
+
+# ============================================================================
+# WORKSPACE-SPECIFIC PATTERNS
+# ============================================================================
+
+# Root workspace
+!pnpm-workspace.yaml
+!package.json
+!tsconfig.json
+!tsconfig.*.json
+
+# Keep docs
+!.docs/
+!.docs/**/*.md
+!README.md
+
+# Obsidian
+!.obsidian/
+.obsidian/
+
+# Keep configuration files
+!firebase.json
+!.firebaserc
+!firebase/firestore.rules
+!firebase/storage.rules
+!firebase/firestore.indexes.json
+
+# Keep source code
+!src/
+!*.ts
+!*.tsx
+!*.vue
+!*.js
+!*.jsx
+
+################################################################################
+# Notes:
+# - pnpm-lock.yaml is ignored (should use pnpm-lock.yaml for production)
+# - .firebaserc is ignored locally (use .firebaserc in repo for CI/CD)
+# - All .env files ignored except .env.example
+# - No IDE folders committed
+# - No build artifacts committed
+# - Documentation is preserved
+################################################################################
+
+.history
+gha-creds-*.json
+
+create-secrets.ps1
+grant-secret-access.ps1
+apps/web/admin-panel/service-account.json
+
+.txt
+.docs/scripts/Faker/twin_drammen.py
+.docs/scripts/Faker/*
+apps/web/business-portal/service-account.json
+Docs/*
+firebase/emulator-data/*
+firebase/emulator-data/storage_export/**
+firebase/emulator-data/firestore_export/all_namespaces/all_kinds/all_namespaces_all_kinds.export_metadata
+firebase/emulator-data/firestore_export/all_namespaces/all_kinds/output-0
+apps/web/public-marketplace/service-account.json
+.docs(DittoDatto)/Misc/Nuxt Docs/*

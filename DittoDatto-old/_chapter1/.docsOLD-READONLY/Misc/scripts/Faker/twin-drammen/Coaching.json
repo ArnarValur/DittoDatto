@@ -1,0 +1,867 @@
+{
+  "users": [
+    {
+      "id": "user_3ab57d",
+      "name": "Nora Danielsen",
+      "email": "aud09@example.net",
+      "phone": "64717503",
+      "photoUrl": "https://picsum.photos/seed/78bdedbd/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_4edf9d",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T07:25:47.629235Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_4edf9d"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T07:25:47.629235Z",
+      "updatedAt": "2025-12-19T07:25:47.629235+00:00"
+    },
+    {
+      "id": "user_dd1109",
+      "name": "Ivar Isaksen",
+      "email": "randi24@example.org",
+      "phone": "920 39 015",
+      "photoUrl": "https://picsum.photos/seed/4c093dc1/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_d00259",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T07:26:02.684995Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_d00259"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T07:26:02.684995Z",
+      "updatedAt": "2025-12-19T07:26:02.684995+00:00"
+    },
+    {
+      "id": "user_0f1fd2",
+      "name": "Kristine-Siri Evensen",
+      "email": "moedegaard@example.org",
+      "phone": "38071090",
+      "photoUrl": "https://picsum.photos/seed/78f5aa9c/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_d86685",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T07:26:17.694459Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_d86685"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T07:26:17.694459Z",
+      "updatedAt": "2025-12-19T07:26:17.694459+00:00"
+    },
+    {
+      "id": "user_6bc3ec",
+      "name": "Lars-Asbjørn Larsen",
+      "email": "haavard50@example.com",
+      "phone": "23 94 46 49",
+      "photoUrl": "https://picsum.photos/seed/22e68655/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_4c0100",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T07:26:28.782008Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_4c0100"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T07:26:28.782008Z",
+      "updatedAt": "2025-12-19T07:26:28.782008+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_4edf9d",
+      "ownerId": "user_3ab57d",
+      "ownerEmail": "aud09@example.net",
+      "name": "Moe Coaching",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "https://iversen-johnsen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "slien@hagen.no",
+      "phone": "17954837",
+      "logoUrl": "https://picsum.photos/seed/0c92b484/512/512",
+      "category": "Coaching",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T07:25:47.629235Z",
+      "updatedAt": "2025-12-19T07:25:47.629235Z",
+      "managerIds": [
+        "user_3ab57d"
+      ],
+      "memberIds": [
+        "user_3ab57d"
+      ]
+    },
+    {
+      "id": "comp_d00259",
+      "ownerId": "user_dd1109",
+      "ownerEmail": "randi24@example.org",
+      "name": "Eriksen-Bakken Gruppen RFH",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "https://gundersen.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "vlie@danielsen-solheim.org",
+      "phone": "+4700259282",
+      "logoUrl": "https://picsum.photos/seed/af77d87a/512/512",
+      "category": "Coaching",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T07:26:02.684995Z",
+      "updatedAt": "2025-12-19T07:26:02.684995Z",
+      "managerIds": [
+        "user_dd1109"
+      ],
+      "memberIds": [
+        "user_dd1109"
+      ]
+    },
+    {
+      "id": "comp_d86685",
+      "ownerId": "user_0f1fd2",
+      "ownerEmail": "moedegaard@example.org",
+      "name": "Arnesen Coaching",
+      "description": "Vi ved vi kan hjelpe deg med å finne din vei i livet og karrieren! Vi tilbyr perspektiverende og motiverte coaching for en bedre egenverdighet.",
+      "website": "http://www.vik-simonsen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "ellenhaugen@eriksen-bakke.org",
+      "phone": "15580477",
+      "logoUrl": "https://picsum.photos/seed/4f079982/512/512",
+      "category": "Coaching",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T07:26:17.694459Z",
+      "updatedAt": "2025-12-19T07:26:17.694459Z",
+      "managerIds": [
+        "user_0f1fd2"
+      ],
+      "memberIds": [
+        "user_0f1fd2"
+      ]
+    },
+    {
+      "id": "comp_4c0100",
+      "ownerId": "user_6bc3ec",
+      "ownerEmail": "haavard50@example.com",
+      "name": "Strømsø Coach",
+      "description": "Strømsø Coach er et prestasjonsutviklingsfirma som tilbyr enestående coaching-programmer for å hjelpe kunder med å nå deres mål.",
+      "website": "https://www.amundsen-berntsen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "ifredriksen@knutsen-johnsen.no",
+      "phone": "77 01 28 80",
+      "logoUrl": "https://picsum.photos/seed/5cc295dd/512/512",
+      "category": "Coaching",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T07:26:28.782008Z",
+      "updatedAt": "2025-12-19T07:26:28.782008Z",
+      "managerIds": [
+        "user_6bc3ec"
+      ],
+      "memberIds": [
+        "user_6bc3ec"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_f24e85",
+      "companyId": "comp_4edf9d",
+      "name": "Moe Coaching - Skoger",
+      "slug": "moe-coaching-skoger",
+      "address": "Lundgjerdet 220",
+      "zip": "3079",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.724655,
+        "lng": 10.203592
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_f24e85-1/800/600",
+        "https://picsum.photos/seed/store_f24e85-2/800/600",
+        "https://picsum.photos/seed/store_f24e85-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T07:25:47.629235Z",
+      "updatedAt": "2025-12-19T07:25:47.629235Z"
+    },
+    {
+      "id": "store_d956ad",
+      "companyId": "comp_d00259",
+      "name": "Eriksen-Bakken Gruppen RFH - Konnerud",
+      "slug": "eriksen-bakken-gruppen-rfh-konnerud",
+      "address": "Engenmoen 4H",
+      "zip": "3031",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.730305,
+        "lng": 10.180515
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_d956ad-1/800/600",
+        "https://picsum.photos/seed/store_d956ad-2/800/600",
+        "https://picsum.photos/seed/store_d956ad-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T07:26:02.684995Z",
+      "updatedAt": "2025-12-19T07:26:02.684995Z"
+    },
+    {
+      "id": "store_8117df",
+      "companyId": "comp_d86685",
+      "name": "Arnesen Coaching - Svelvik",
+      "slug": "arnesen-coaching-svelvik",
+      "address": "Engenstranda 34",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.729981,
+        "lng": 10.209655
+      },
+      "geoHash": null,
+      "about": "Vi ved vi kan hjelpe deg med å finne din vei i livet og karrieren! Vi tilbyr perspektiverende og motiverte coaching for en bedre egenverdighet.",
+      "images": [
+        "https://picsum.photos/seed/store_8117df-1/800/600",
+        "https://picsum.photos/seed/store_8117df-2/800/600",
+        "https://picsum.photos/seed/store_8117df-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T07:26:17.694459Z",
+      "updatedAt": "2025-12-19T07:26:17.694459Z"
+    },
+    {
+      "id": "store_71aad9",
+      "companyId": "comp_4c0100",
+      "name": "Strømsø Coach - Bragernes",
+      "slug": "stromso-coach-bragernes",
+      "address": "Kristiansenåsen 6",
+      "zip": "3015",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.758525,
+        "lng": 10.206588
+      },
+      "geoHash": null,
+      "about": "Strømsø Coach er et prestasjonsutviklingsfirma som tilbyr enestående coaching-programmer for å hjelpe kunder med å nå deres mål.",
+      "images": [
+        "https://picsum.photos/seed/store_71aad9-1/800/600",
+        "https://picsum.photos/seed/store_71aad9-2/800/600",
+        "https://picsum.photos/seed/store_71aad9-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T07:26:28.782008Z",
+      "updatedAt": "2025-12-19T07:26:28.782008Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_551946",
+      "storeId": "store_f24e85",
+      "userId": null,
+      "name": "Inger Kristiansen",
+      "roles": "Coach",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_551946/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_9a555f",
+      "storeId": "store_f24e85",
+      "userId": null,
+      "name": "Randi Jensen-Solberg",
+      "roles": "Coach",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_9a555f/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_b82b70",
+      "storeId": "store_f24e85",
+      "userId": null,
+      "name": "Monica Fredriksen-Johansen",
+      "roles": "Coach",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_b82b70/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_1358bd",
+      "storeId": "store_d956ad",
+      "userId": null,
+      "name": "Unni Gundersen",
+      "roles": "Coach",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_1358bd/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_c076bd",
+      "storeId": "store_d956ad",
+      "userId": null,
+      "name": "Johan Nygård",
+      "roles": "Coach",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c076bd/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_0c73ba",
+      "storeId": "store_8117df",
+      "userId": null,
+      "name": "Kristine Solberg",
+      "roles": "Coach",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_0c73ba/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_c121bf",
+      "storeId": "store_71aad9",
+      "userId": null,
+      "name": "Marius Moen",
+      "roles": "Coach",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c121bf/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_9a53ac",
+      "storeId": "store_f24e85",
+      "personId": "pers_9a555f",
+      "title": "Coaching (45 min)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 860,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9434e3",
+      "storeId": "store_f24e85",
+      "personId": "pers_9a555f",
+      "title": "Coaching (60 min)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1553,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_3c43f4",
+      "storeId": "store_f24e85",
+      "personId": "pers_9a555f",
+      "title": "Planlegging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1590,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c62616",
+      "storeId": "store_d956ad",
+      "personId": "pers_c076bd",
+      "title": "Coaching (45 min)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1497,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_14df4f",
+      "storeId": "store_d956ad",
+      "personId": "pers_1358bd",
+      "title": "Coaching (60 min)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1362,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_877f7f",
+      "storeId": "store_d956ad",
+      "personId": "pers_1358bd",
+      "title": "Planlegging",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1653,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_22e7ce",
+      "storeId": "store_8117df",
+      "personId": "pers_0c73ba",
+      "title": "Coaching (45 min)",
+      "description": "Vi ved vi kan hjelpe deg med å finne din vei i livet og karrieren! Vi tilbyr perspektiverende og motiverte coaching for en bedre egenverdighet.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "vei",
+        "livet",
+        "karriere",
+        "perspektiv",
+        "egenverdighet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 755,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_933794",
+      "storeId": "store_8117df",
+      "personId": "pers_0c73ba",
+      "title": "Coaching (60 min)",
+      "description": "Vi ved vi kan hjelpe deg med å finne din vei i livet og karrieren! Vi tilbyr perspektiverende og motiverte coaching for en bedre egenverdighet.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "vei",
+        "livet",
+        "karriere",
+        "perspektiv",
+        "egenverdighet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1228,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7a8ca2",
+      "storeId": "store_8117df",
+      "personId": "pers_0c73ba",
+      "title": "Planlegging",
+      "description": "Vi ved vi kan hjelpe deg med å finne din vei i livet og karrieren! Vi tilbyr perspektiverende og motiverte coaching for en bedre egenverdighet.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "vei",
+        "livet",
+        "karriere",
+        "perspektiv",
+        "egenverdighet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1096,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2cd47d",
+      "storeId": "store_71aad9",
+      "personId": "pers_c121bf",
+      "title": "Coaching (45 min)",
+      "description": "Strømsø Coach er et prestasjonsutviklingsfirma som tilbyr enestående coaching-programmer for å hjelpe kunder med å nå deres mål.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "coaching",
+        "utvikling",
+        "mål",
+        "strategi",
+        "vækst"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1501,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6a2d99",
+      "storeId": "store_71aad9",
+      "personId": "pers_c121bf",
+      "title": "Coaching (60 min)",
+      "description": "Strømsø Coach er et prestasjonsutviklingsfirma som tilbyr enestående coaching-programmer for å hjelpe kunder med å nå deres mål.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "coaching",
+        "utvikling",
+        "mål",
+        "strategi",
+        "vækst"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 528,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f5d397",
+      "storeId": "store_71aad9",
+      "personId": "pers_c121bf",
+      "title": "Planlegging",
+      "description": "Strømsø Coach er et prestasjonsutviklingsfirma som tilbyr enestående coaching-programmer for å hjelpe kunder med å nå deres mål.",
+      "serviceType": [
+        "Coaching"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "coaching",
+        "utvikling",
+        "mål",
+        "strategi",
+        "vækst"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1140,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

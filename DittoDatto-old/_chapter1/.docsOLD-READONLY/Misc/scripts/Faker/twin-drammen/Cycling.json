@@ -1,0 +1,1766 @@
+{
+  "users": [
+    {
+      "id": "user_99d786",
+      "name": "Jonas Solheim",
+      "email": "kristensenlars@example.org",
+      "phone": "91607840",
+      "photoUrl": "https://picsum.photos/seed/aeec8517/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_bea5d7",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:13:08.512332Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_bea5d7"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:13:08.512332Z",
+      "updatedAt": "2025-12-19T08:13:08.512332+00:00"
+    },
+    {
+      "id": "user_3b3191",
+      "name": "Helene-Bente Haugland",
+      "email": "evensensiri@example.com",
+      "phone": "56 65 78 82",
+      "photoUrl": "https://picsum.photos/seed/7d0e2a34/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_51413f",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:13:23.382729Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_51413f"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:13:23.382729Z",
+      "updatedAt": "2025-12-19T08:13:23.382729+00:00"
+    },
+    {
+      "id": "user_6e7500",
+      "name": "Fredrik Pettersen",
+      "email": "terje27@example.com",
+      "phone": "83 60 08 58",
+      "photoUrl": "https://picsum.photos/seed/f3f223f0/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_de0912",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:13:33.943021Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_de0912"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:13:33.943021Z",
+      "updatedAt": "2025-12-19T08:13:33.943021+00:00"
+    },
+    {
+      "id": "user_81d3a6",
+      "name": "Finn Martinsen",
+      "email": "paulsenbjoern@example.net",
+      "phone": "45984182",
+      "photoUrl": "https://picsum.photos/seed/7eec2805/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_3bc9b0",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:13:48.201478Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_3bc9b0"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:13:48.201478Z",
+      "updatedAt": "2025-12-19T08:13:48.201478+00:00"
+    },
+    {
+      "id": "user_370ac9",
+      "name": "Jens Nguyen",
+      "email": "karljohannessen@example.com",
+      "phone": "97857238",
+      "photoUrl": "https://picsum.photos/seed/ffb268c8/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_eff903",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:14:03.217676Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_eff903"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:14:03.217676Z",
+      "updatedAt": "2025-12-19T08:14:03.217676+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_bea5d7",
+      "ownerId": "user_99d786",
+      "ownerEmail": "kristensenlars@example.org",
+      "name": "Fjell Sykkelverksted",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "website": "http://www.larsen-aasen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "brekkemari@eide-jenssen.com",
+      "phone": "+4724787339",
+      "logoUrl": "https://picsum.photos/seed/ae28bbd4/512/512",
+      "category": "Cycling",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:13:08.512332Z",
+      "updatedAt": "2025-12-19T08:13:08.512332Z",
+      "managerIds": [
+        "user_99d786"
+      ],
+      "memberIds": [
+        "user_99d786"
+      ]
+    },
+    {
+      "id": "comp_51413f",
+      "ownerId": "user_3b3191",
+      "ownerEmail": "evensensiri@example.com",
+      "name": "Mjøndalen Sykkelverksted",
+      "description": "Mjøndalen Sykkelverksted er et lokalbedrift som tilbyr mer enn bare sykkelfixer. Vi har store erfaringer innen kjørstyring, vask og rensning av sykler, samt vedlikehold.",
+      "website": "http://moen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "gulbrandsenthomas@sivertsen.no",
+      "phone": "95132047",
+      "logoUrl": "https://picsum.photos/seed/59facfc5/512/512",
+      "category": "Cycling",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:13:23.382729Z",
+      "updatedAt": "2025-12-19T08:13:23.382729Z",
+      "managerIds": [
+        "user_3b3191"
+      ],
+      "memberIds": [
+        "user_3b3191"
+      ]
+    },
+    {
+      "id": "comp_de0912",
+      "ownerId": "user_6e7500",
+      "ownerEmail": "terje27@example.com",
+      "name": "Krokstadelva Sykkelverksted",
+      "description": "Krokstadelva Sykkelverksted tilbyr høyverdige sykkelfixeringer, renovering og service av alle slag. Vi er fokuset på å varehou din sykkel i toppform, så du kan fokusere på å ha rolig på bike!",
+      "website": "https://paulsen-tveit.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "annamoe@solheim-hanssen.net",
+      "phone": "36 43 06 63",
+      "logoUrl": "https://picsum.photos/seed/715d958f/512/512",
+      "category": "Cycling",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:13:33.943021Z",
+      "updatedAt": "2025-12-19T08:13:33.943021Z",
+      "managerIds": [
+        "user_6e7500"
+      ],
+      "memberIds": [
+        "user_6e7500"
+      ]
+    },
+    {
+      "id": "comp_3bc9b0",
+      "ownerId": "user_81d3a6",
+      "ownerEmail": "paulsenbjoern@example.net",
+      "name": "Rasmussen-Ellingsen og Sønner Gruppen",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "http://www.joergensen-saether.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "stineali@holm.no",
+      "phone": "41991819",
+      "logoUrl": "https://picsum.photos/seed/af55287b/512/512",
+      "category": "Cycling",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:13:48.201478Z",
+      "updatedAt": "2025-12-19T08:13:48.201478Z",
+      "managerIds": [
+        "user_81d3a6"
+      ],
+      "memberIds": [
+        "user_81d3a6"
+      ]
+    },
+    {
+      "id": "comp_eff903",
+      "ownerId": "user_370ac9",
+      "ownerEmail": "karljohannessen@example.com",
+      "name": "Paulsen AS BA",
+      "description": "Paulsen AS BA tilbyr friske og innovativt cyclingutestyr for alle nivåer. Vi er dedikert til å fremme sykkelturisme og sund livsstil.",
+      "website": "https://www.kristiansen.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "nguyenjoergen@eriksen.no",
+      "phone": "99799258",
+      "logoUrl": "https://picsum.photos/seed/044bcad5/512/512",
+      "category": "Cycling",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:14:03.217676Z",
+      "updatedAt": "2025-12-19T08:14:03.217676Z",
+      "managerIds": [
+        "user_370ac9"
+      ],
+      "memberIds": [
+        "user_370ac9"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_f785a3",
+      "companyId": "comp_bea5d7",
+      "name": "Fjell Sykkelverksted - Svelvik",
+      "slug": "fjell-sykkelverksted-svelvik",
+      "address": "Evensentjernet 87F",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.746512,
+        "lng": 10.230935
+      },
+      "geoHash": null,
+      "about": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "images": [
+        "https://picsum.photos/seed/store_f785a3-1/800/600",
+        "https://picsum.photos/seed/store_f785a3-2/800/600",
+        "https://picsum.photos/seed/store_f785a3-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:13:08.512332Z",
+      "updatedAt": "2025-12-19T08:13:08.512332Z"
+    },
+    {
+      "id": "store_b41985",
+      "companyId": "comp_bea5d7",
+      "name": "Fjell Sykkelverksted - Mjøndalen",
+      "slug": "fjell-sykkelverksted-mjondalen",
+      "address": "Sivertsentunet 8",
+      "zip": "3037",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.755882,
+        "lng": 10.179994
+      },
+      "geoHash": null,
+      "about": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "images": [
+        "https://picsum.photos/seed/store_b41985-1/800/600",
+        "https://picsum.photos/seed/store_b41985-2/800/600",
+        "https://picsum.photos/seed/store_b41985-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:13:08.512332Z",
+      "updatedAt": "2025-12-19T08:13:08.512332Z"
+    },
+    {
+      "id": "store_b4ef56",
+      "companyId": "comp_51413f",
+      "name": "Mjøndalen Sykkelverksted - Åssiden",
+      "slug": "mjondalen-sykkelverksted-assiden",
+      "address": "Bakkenlunden 7B",
+      "zip": "3048",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.751549,
+        "lng": 10.182112
+      },
+      "geoHash": null,
+      "about": "Mjøndalen Sykkelverksted er et lokalbedrift som tilbyr mer enn bare sykkelfixer. Vi har store erfaringer innen kjørstyring, vask og rensning av sykler, samt vedlikehold.",
+      "images": [
+        "https://picsum.photos/seed/store_b4ef56-1/800/600",
+        "https://picsum.photos/seed/store_b4ef56-2/800/600",
+        "https://picsum.photos/seed/store_b4ef56-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:13:23.382729Z",
+      "updatedAt": "2025-12-19T08:13:23.382729Z"
+    },
+    {
+      "id": "store_51b0f9",
+      "companyId": "comp_de0912",
+      "name": "Krokstadelva Sykkelverksted - Strømsø",
+      "slug": "krokstadelva-sykkelverksted-stromso",
+      "address": "Brekkebråten 24",
+      "zip": "3044",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.747186,
+        "lng": 10.224579
+      },
+      "geoHash": null,
+      "about": "Krokstadelva Sykkelverksted tilbyr høyverdige sykkelfixeringer, renovering og service av alle slag. Vi er fokuset på å varehou din sykkel i toppform, så du kan fokusere på å ha rolig på bike!",
+      "images": [
+        "https://picsum.photos/seed/store_51b0f9-1/800/600",
+        "https://picsum.photos/seed/store_51b0f9-2/800/600",
+        "https://picsum.photos/seed/store_51b0f9-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:13:33.943021Z",
+      "updatedAt": "2025-12-19T08:13:33.943021Z"
+    },
+    {
+      "id": "store_8c40c3",
+      "companyId": "comp_3bc9b0",
+      "name": "Rasmussen-Ellingsen og Sønner Gruppen - Gulskogen",
+      "slug": "rasmussen-ellingsen-og-sonner-gruppen-gulskogen",
+      "address": "Madsenlyngen 653",
+      "zip": "3014",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.758069,
+        "lng": 10.20946
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_8c40c3-1/800/600",
+        "https://picsum.photos/seed/store_8c40c3-2/800/600",
+        "https://picsum.photos/seed/store_8c40c3-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:13:48.201478Z",
+      "updatedAt": "2025-12-19T08:13:48.201478Z"
+    },
+    {
+      "id": "store_f9d6bf",
+      "companyId": "comp_3bc9b0",
+      "name": "Rasmussen-Ellingsen og Sønner Gruppen - Gulskogen",
+      "slug": "rasmussen-ellingsen-og-sonner-gruppen-gulskogen",
+      "address": "Aunefaret 379",
+      "zip": "3014",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.747992,
+        "lng": 10.241332
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_f9d6bf-1/800/600",
+        "https://picsum.photos/seed/store_f9d6bf-2/800/600",
+        "https://picsum.photos/seed/store_f9d6bf-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:13:48.201478Z",
+      "updatedAt": "2025-12-19T08:13:48.201478Z"
+    },
+    {
+      "id": "store_378eb3",
+      "companyId": "comp_eff903",
+      "name": "Paulsen AS BA - Åssiden",
+      "slug": "paulsen-as-ba-assiden",
+      "address": "Birkelandplassen 98",
+      "zip": "3048",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.742073,
+        "lng": 10.194443
+      },
+      "geoHash": null,
+      "about": "Paulsen AS BA tilbyr friske og innovativt cyclingutestyr for alle nivåer. Vi er dedikert til å fremme sykkelturisme og sund livsstil.",
+      "images": [
+        "https://picsum.photos/seed/store_378eb3-1/800/600",
+        "https://picsum.photos/seed/store_378eb3-2/800/600",
+        "https://picsum.photos/seed/store_378eb3-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:14:03.217676Z",
+      "updatedAt": "2025-12-19T08:14:03.217676Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_f1a3d4",
+      "storeId": "store_f785a3",
+      "userId": null,
+      "name": "Rita-Nina Lunde",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_f1a3d4/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_c1c25a",
+      "storeId": "store_f785a3",
+      "userId": null,
+      "name": "Marianne Hanssen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c1c25a/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_8ad1dc",
+      "storeId": "store_f785a3",
+      "userId": null,
+      "name": "Nina Andresen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_8ad1dc/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_d33c87",
+      "storeId": "store_b41985",
+      "userId": null,
+      "name": "Anita Bøe",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_d33c87/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_4f078c",
+      "storeId": "store_51b0f9",
+      "userId": null,
+      "name": "Maria Hanssen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_4f078c/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_c53023",
+      "storeId": "store_51b0f9",
+      "userId": null,
+      "name": "Rita Edvardsen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c53023/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_57644a",
+      "storeId": "store_8c40c3",
+      "userId": null,
+      "name": "Henrik Brekke",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_57644a/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_457a59",
+      "storeId": "store_8c40c3",
+      "userId": null,
+      "name": "Eli Simonsen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_457a59/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_dbfddc",
+      "storeId": "store_8c40c3",
+      "userId": null,
+      "name": "Cathrine-Wenche Fredriksen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_dbfddc/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_4bd84e",
+      "storeId": "store_f9d6bf",
+      "userId": null,
+      "name": "Rune Haugland",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_4bd84e/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_298aae",
+      "storeId": "store_f9d6bf",
+      "userId": null,
+      "name": "Tore Isaksen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_298aae/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_c24fda",
+      "storeId": "store_378eb3",
+      "userId": null,
+      "name": "Kristine Simonsen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c24fda/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_c79312",
+      "storeId": "store_378eb3",
+      "userId": null,
+      "name": "Magne Iversen",
+      "roles": "Sykkelmekaniker",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c79312/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_7751a9",
+      "storeId": "store_f785a3",
+      "personId": "pers_c1c25a",
+      "title": "Sykkelservice",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 870,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9047ef",
+      "storeId": "store_f785a3",
+      "personId": "pers_8ad1dc",
+      "title": "Bremsejustering",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1546,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_624826",
+      "storeId": "store_f785a3",
+      "personId": "pers_f1a3d4",
+      "title": "Girjustering",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1006,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_356dcd",
+      "storeId": "store_f785a3",
+      "personId": "pers_8ad1dc",
+      "title": "Kjedeskift",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 911,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_91df41",
+      "storeId": "store_f785a3",
+      "personId": "pers_8ad1dc",
+      "title": "Elsykkel diagnose",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1973,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_11e3c3",
+      "storeId": "store_b41985",
+      "personId": "pers_d33c87",
+      "title": "Sykkelservice",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1743,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_eab85e",
+      "storeId": "store_b41985",
+      "personId": "pers_d33c87",
+      "title": "Bremsejustering",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1321,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1ae167",
+      "storeId": "store_b41985",
+      "personId": "pers_d33c87",
+      "title": "Girjustering",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1045,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9f45fd",
+      "storeId": "store_b41985",
+      "personId": "pers_d33c87",
+      "title": "Kjedeskift",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1500,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_eaf5d8",
+      "storeId": "store_b41985",
+      "personId": "pers_d33c87",
+      "title": "Elsykkel diagnose",
+      "description": "Vi er Fjell Sykkelverksted, en profesjonell sykkelvei som tilbyr kvalitetsvare og tjenester for alle sykkelfans. Vi ser på utviklingen av tøff interesse for sykling som et aktivt og miljøvennlig alternativ.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "norske",
+        "syklere",
+        "miljøvennlige",
+        "vei",
+        "alternativer"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1159,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ed4d13",
+      "storeId": "store_b4ef56",
+      "personId": null,
+      "title": "Sykkelservice",
+      "description": "Mjøndalen Sykkelverksted er et lokalbedrift som tilbyr mer enn bare sykkelfixer. Vi har store erfaringer innen kjørstyring, vask og rensning av sykler, samt vedlikehold.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkel",
+        "kjøring",
+        "rense",
+        "vask",
+        "veilede"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 904,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c6ba85",
+      "storeId": "store_b4ef56",
+      "personId": null,
+      "title": "Bremsejustering",
+      "description": "Mjøndalen Sykkelverksted er et lokalbedrift som tilbyr mer enn bare sykkelfixer. Vi har store erfaringer innen kjørstyring, vask og rensning av sykler, samt vedlikehold.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkel",
+        "kjøring",
+        "rense",
+        "vask",
+        "veilede"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1832,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d1609d",
+      "storeId": "store_b4ef56",
+      "personId": null,
+      "title": "Girjustering",
+      "description": "Mjøndalen Sykkelverksted er et lokalbedrift som tilbyr mer enn bare sykkelfixer. Vi har store erfaringer innen kjørstyring, vask og rensning av sykler, samt vedlikehold.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkel",
+        "kjøring",
+        "rense",
+        "vask",
+        "veilede"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 791,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e79aa1",
+      "storeId": "store_b4ef56",
+      "personId": null,
+      "title": "Kjedeskift",
+      "description": "Mjøndalen Sykkelverksted er et lokalbedrift som tilbyr mer enn bare sykkelfixer. Vi har store erfaringer innen kjørstyring, vask og rensning av sykler, samt vedlikehold.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkel",
+        "kjøring",
+        "rense",
+        "vask",
+        "veilede"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1027,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_50fe8b",
+      "storeId": "store_b4ef56",
+      "personId": null,
+      "title": "Elsykkel diagnose",
+      "description": "Mjøndalen Sykkelverksted er et lokalbedrift som tilbyr mer enn bare sykkelfixer. Vi har store erfaringer innen kjørstyring, vask og rensning av sykler, samt vedlikehold.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkel",
+        "kjøring",
+        "rense",
+        "vask",
+        "veilede"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 834,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_45f3c2",
+      "storeId": "store_51b0f9",
+      "personId": "pers_4f078c",
+      "title": "Sykkelservice",
+      "description": "Krokstadelva Sykkelverksted tilbyr høyverdige sykkelfixeringer, renovering og service av alle slag. Vi er fokuset på å varehou din sykkel i toppform, så du kan fokusere på å ha rolig på bike!",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkelverksted",
+        "fixeringer",
+        "renovering",
+        "service",
+        "bike"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1068,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_fd283d",
+      "storeId": "store_51b0f9",
+      "personId": "pers_c53023",
+      "title": "Bremsejustering",
+      "description": "Krokstadelva Sykkelverksted tilbyr høyverdige sykkelfixeringer, renovering og service av alle slag. Vi er fokuset på å varehou din sykkel i toppform, så du kan fokusere på å ha rolig på bike!",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkelverksted",
+        "fixeringer",
+        "renovering",
+        "service",
+        "bike"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1967,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a31aa6",
+      "storeId": "store_51b0f9",
+      "personId": "pers_c53023",
+      "title": "Girjustering",
+      "description": "Krokstadelva Sykkelverksted tilbyr høyverdige sykkelfixeringer, renovering og service av alle slag. Vi er fokuset på å varehou din sykkel i toppform, så du kan fokusere på å ha rolig på bike!",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkelverksted",
+        "fixeringer",
+        "renovering",
+        "service",
+        "bike"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1118,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_aec0ad",
+      "storeId": "store_51b0f9",
+      "personId": "pers_c53023",
+      "title": "Kjedeskift",
+      "description": "Krokstadelva Sykkelverksted tilbyr høyverdige sykkelfixeringer, renovering og service av alle slag. Vi er fokuset på å varehou din sykkel i toppform, så du kan fokusere på å ha rolig på bike!",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkelverksted",
+        "fixeringer",
+        "renovering",
+        "service",
+        "bike"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1938,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ed156a",
+      "storeId": "store_51b0f9",
+      "personId": "pers_c53023",
+      "title": "Elsykkel diagnose",
+      "description": "Krokstadelva Sykkelverksted tilbyr høyverdige sykkelfixeringer, renovering og service av alle slag. Vi er fokuset på å varehou din sykkel i toppform, så du kan fokusere på å ha rolig på bike!",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "sykkelverksted",
+        "fixeringer",
+        "renovering",
+        "service",
+        "bike"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 952,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7528da",
+      "storeId": "store_8c40c3",
+      "personId": "pers_457a59",
+      "title": "Sykkelservice",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1446,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d9e9d2",
+      "storeId": "store_8c40c3",
+      "personId": "pers_dbfddc",
+      "title": "Bremsejustering",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1158,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_58e5a4",
+      "storeId": "store_8c40c3",
+      "personId": "pers_dbfddc",
+      "title": "Girjustering",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 893,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_4d3773",
+      "storeId": "store_8c40c3",
+      "personId": "pers_57644a",
+      "title": "Kjedeskift",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 597,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_19f382",
+      "storeId": "store_8c40c3",
+      "personId": "pers_57644a",
+      "title": "Elsykkel diagnose",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1915,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0ba838",
+      "storeId": "store_f9d6bf",
+      "personId": "pers_4bd84e",
+      "title": "Sykkelservice",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 703,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1b2ae0",
+      "storeId": "store_f9d6bf",
+      "personId": "pers_4bd84e",
+      "title": "Bremsejustering",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 672,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a7ea7b",
+      "storeId": "store_f9d6bf",
+      "personId": "pers_4bd84e",
+      "title": "Girjustering",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 907,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_159b56",
+      "storeId": "store_f9d6bf",
+      "personId": "pers_298aae",
+      "title": "Kjedeskift",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1986,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d2ffa0",
+      "storeId": "store_f9d6bf",
+      "personId": "pers_4bd84e",
+      "title": "Elsykkel diagnose",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1841,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2ff847",
+      "storeId": "store_378eb3",
+      "personId": "pers_c24fda",
+      "title": "Sykkelservice",
+      "description": "Paulsen AS BA tilbyr friske og innovativt cyclingutestyr for alle nivåer. Vi er dedikert til å fremme sykkelturisme og sund livsstil.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "cycling",
+        "innovation",
+        "outdoor activities",
+        "health benefits",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1987,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_95ed38",
+      "storeId": "store_378eb3",
+      "personId": "pers_c24fda",
+      "title": "Bremsejustering",
+      "description": "Paulsen AS BA tilbyr friske og innovativt cyclingutestyr for alle nivåer. Vi er dedikert til å fremme sykkelturisme og sund livsstil.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "cycling",
+        "innovation",
+        "outdoor activities",
+        "health benefits",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 770,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e063b2",
+      "storeId": "store_378eb3",
+      "personId": "pers_c79312",
+      "title": "Girjustering",
+      "description": "Paulsen AS BA tilbyr friske og innovativt cyclingutestyr for alle nivåer. Vi er dedikert til å fremme sykkelturisme og sund livsstil.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "cycling",
+        "innovation",
+        "outdoor activities",
+        "health benefits",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1171,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d087de",
+      "storeId": "store_378eb3",
+      "personId": "pers_c24fda",
+      "title": "Kjedeskift",
+      "description": "Paulsen AS BA tilbyr friske og innovativt cyclingutestyr for alle nivåer. Vi er dedikert til å fremme sykkelturisme og sund livsstil.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "cycling",
+        "innovation",
+        "outdoor activities",
+        "health benefits",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 598,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_4c47a3",
+      "storeId": "store_378eb3",
+      "personId": "pers_c79312",
+      "title": "Elsykkel diagnose",
+      "description": "Paulsen AS BA tilbyr friske og innovativt cyclingutestyr for alle nivåer. Vi er dedikert til å fremme sykkelturisme og sund livsstil.",
+      "serviceType": [
+        "Cycling"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "cycling",
+        "innovation",
+        "outdoor activities",
+        "health benefits",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 850,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

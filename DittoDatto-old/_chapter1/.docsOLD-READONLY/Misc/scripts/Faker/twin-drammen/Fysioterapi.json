@@ -1,0 +1,1284 @@
+{
+  "users": [
+    {
+      "id": "user_52fb58",
+      "name": "Martin Christensen",
+      "email": "ole82@example.com",
+      "phone": "+4758955803",
+      "photoUrl": "https://picsum.photos/seed/8dab0ea6/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_282fb1",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T06:37:28.783289Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_282fb1"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T06:37:28.783289Z",
+      "updatedAt": "2025-12-19T06:37:28.783289+00:00"
+    },
+    {
+      "id": "user_245cde",
+      "name": "Olav Jensen",
+      "email": "henriksenjohan@example.net",
+      "phone": "989 85 841",
+      "photoUrl": "https://picsum.photos/seed/4b40ee6c/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_a8ddb8",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T06:37:43.603162Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_a8ddb8"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T06:37:43.603162Z",
+      "updatedAt": "2025-12-19T06:37:43.603162+00:00"
+    },
+    {
+      "id": "user_19366e",
+      "name": "Ola Karlsen",
+      "email": "wlien@example.com",
+      "phone": "81 14 24 78",
+      "photoUrl": "https://picsum.photos/seed/da20df8e/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_fc641e",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T06:37:57.343349Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_fc641e"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T06:37:57.343349Z",
+      "updatedAt": "2025-12-19T06:37:57.343349+00:00"
+    },
+    {
+      "id": "user_e259ea",
+      "name": "Asbjørn Sørensen",
+      "email": "lundehanna@example.org",
+      "phone": "72120198",
+      "photoUrl": "https://picsum.photos/seed/a0ed551b/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_871732",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T06:38:12.175385Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_871732"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T06:38:12.175385Z",
+      "updatedAt": "2025-12-19T06:38:12.175385+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_282fb1",
+      "ownerId": "user_52fb58",
+      "ownerEmail": "ole82@example.com",
+      "name": "Ruud Fysioterapi",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "website": "https://www.haugen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "siljetveit@jacobsen.net",
+      "phone": "46508297",
+      "logoUrl": "https://picsum.photos/seed/f4ff7e75/512/512",
+      "category": "Physiotherapy",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T06:37:28.783289Z",
+      "updatedAt": "2025-12-19T06:37:28.783289Z",
+      "managerIds": [
+        "user_52fb58"
+      ],
+      "memberIds": [
+        "user_52fb58"
+      ]
+    },
+    {
+      "id": "comp_a8ddb8",
+      "ownerId": "user_245cde",
+      "ownerEmail": "henriksenjohan@example.net",
+      "name": "Fredriksen Fysioterapi",
+      "description": "Fredriksen Fysioterapi tilbyr faglig og personlig hjelp med perspektiv på funksjonshemming og helse. Vi legger vekt på å skape individuelle behandlingsplaner for å styrke kroppen og redusere smerte.",
+      "website": "http://www.holm-sivertsen.net/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "cdanielsen@vik-aune.no",
+      "phone": "96596802",
+      "logoUrl": "https://picsum.photos/seed/2dc196d3/512/512",
+      "category": "Physiotherapy",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T06:37:43.603162Z",
+      "updatedAt": "2025-12-19T06:37:43.603162Z",
+      "managerIds": [
+        "user_245cde"
+      ],
+      "memberIds": [
+        "user_245cde"
+      ]
+    },
+    {
+      "id": "comp_fc641e",
+      "ownerId": "user_19366e",
+      "ownerEmail": "wlien@example.com",
+      "name": "Hanssen Fysioterapi",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "website": "http://kristiansen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "snilsen@svendsen.no",
+      "phone": "+4763390721",
+      "logoUrl": "https://picsum.photos/seed/c2a97e43/512/512",
+      "category": "Physiotherapy",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T06:37:57.343349Z",
+      "updatedAt": "2025-12-19T06:37:57.343349Z",
+      "managerIds": [
+        "user_19366e"
+      ],
+      "memberIds": [
+        "user_19366e"
+      ]
+    },
+    {
+      "id": "comp_871732",
+      "ownerId": "user_e259ea",
+      "ownerEmail": "lundehanna@example.org",
+      "name": "Svelvik Fysio",
+      "description": "Svelvik Fysio er en lokal fysioterapipratique som tilbyr individuelle behandlinger for å hjelpe kunder med å oppnå bedre bevegelsesfølelse og helse.",
+      "website": "https://www.johnsen.net/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "bergetorbjoern@svendsen.no",
+      "phone": "470 25 672",
+      "logoUrl": "https://picsum.photos/seed/850a9a21/512/512",
+      "category": "Physiotherapy",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T06:38:12.175385Z",
+      "updatedAt": "2025-12-19T06:38:12.175385Z",
+      "managerIds": [
+        "user_e259ea"
+      ],
+      "memberIds": [
+        "user_e259ea"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_a1f167",
+      "companyId": "comp_282fb1",
+      "name": "Ruud Fysioterapi - Krokstadelva",
+      "slug": "ruud-fysioterapi-krokstadelva",
+      "address": "Svendsenhøgda 9",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.733537,
+        "lng": 10.248297
+      },
+      "geoHash": null,
+      "about": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "images": [
+        "https://picsum.photos/seed/store_a1f167-1/800/600",
+        "https://picsum.photos/seed/store_a1f167-2/800/600",
+        "https://picsum.photos/seed/store_a1f167-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:37:28.783289Z",
+      "updatedAt": "2025-12-19T06:37:28.783289Z"
+    },
+    {
+      "id": "store_919510",
+      "companyId": "comp_282fb1",
+      "name": "Ruud Fysioterapi - Svelvik",
+      "slug": "ruud-fysioterapi-svelvik",
+      "address": "Sætherbråten 09",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.7259,
+        "lng": 10.178537
+      },
+      "geoHash": null,
+      "about": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "images": [
+        "https://picsum.photos/seed/store_919510-1/800/600",
+        "https://picsum.photos/seed/store_919510-2/800/600",
+        "https://picsum.photos/seed/store_919510-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:37:28.783289Z",
+      "updatedAt": "2025-12-19T06:37:28.783289Z"
+    },
+    {
+      "id": "store_3aac74",
+      "companyId": "comp_a8ddb8",
+      "name": "Fredriksen Fysioterapi - Krokstadelva",
+      "slug": "fredriksen-fysioterapi-krokstadelva",
+      "address": "Moevollen 5",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.723309,
+        "lng": 10.249254
+      },
+      "geoHash": null,
+      "about": "Fredriksen Fysioterapi tilbyr faglig og personlig hjelp med perspektiv på funksjonshemming og helse. Vi legger vekt på å skape individuelle behandlingsplaner for å styrke kroppen og redusere smerte.",
+      "images": [
+        "https://picsum.photos/seed/store_3aac74-1/800/600",
+        "https://picsum.photos/seed/store_3aac74-2/800/600",
+        "https://picsum.photos/seed/store_3aac74-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:37:43.603162Z",
+      "updatedAt": "2025-12-19T06:37:43.603162Z"
+    },
+    {
+      "id": "store_c98bd7",
+      "companyId": "comp_fc641e",
+      "name": "Hanssen Fysioterapi - Åssiden",
+      "slug": "hanssen-fysioterapi-assiden",
+      "address": "Karlsenstubben 5",
+      "zip": "3048",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.749623,
+        "lng": 10.217094
+      },
+      "geoHash": null,
+      "about": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "images": [
+        "https://picsum.photos/seed/store_c98bd7-1/800/600",
+        "https://picsum.photos/seed/store_c98bd7-2/800/600",
+        "https://picsum.photos/seed/store_c98bd7-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:37:57.343349Z",
+      "updatedAt": "2025-12-19T06:37:57.343349Z"
+    },
+    {
+      "id": "store_1b953b",
+      "companyId": "comp_fc641e",
+      "name": "Hanssen Fysioterapi - Svelvik",
+      "slug": "hanssen-fysioterapi-svelvik",
+      "address": "Dahlskogen 8",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.747586,
+        "lng": 10.230016
+      },
+      "geoHash": null,
+      "about": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "images": [
+        "https://picsum.photos/seed/store_1b953b-1/800/600",
+        "https://picsum.photos/seed/store_1b953b-2/800/600",
+        "https://picsum.photos/seed/store_1b953b-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:37:57.343349Z",
+      "updatedAt": "2025-12-19T06:37:57.343349Z"
+    },
+    {
+      "id": "store_732adf",
+      "companyId": "comp_871732",
+      "name": "Svelvik Fysio - Fjell",
+      "slug": "svelvik-fysio-fjell",
+      "address": "Svendsentjernet 67B",
+      "zip": "3021",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.746258,
+        "lng": 10.189774
+      },
+      "geoHash": null,
+      "about": "Svelvik Fysio er en lokal fysioterapipratique som tilbyr individuelle behandlinger for å hjelpe kunder med å oppnå bedre bevegelsesfølelse og helse.",
+      "images": [
+        "https://picsum.photos/seed/store_732adf-1/800/600",
+        "https://picsum.photos/seed/store_732adf-2/800/600",
+        "https://picsum.photos/seed/store_732adf-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "standard",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T06:38:12.175385Z",
+      "updatedAt": "2025-12-19T06:38:12.175385Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_d27273",
+      "storeId": "store_c98bd7",
+      "userId": null,
+      "name": "Per Lien",
+      "roles": "Fysioterapeut",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_d27273/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_2bb944",
+      "storeId": "store_c98bd7",
+      "userId": null,
+      "name": "Tone-Siv Andreassen",
+      "roles": "Fysioterapeut",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_2bb944/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_94be4e",
+      "storeId": "store_c98bd7",
+      "userId": null,
+      "name": "Knut Halvorsen",
+      "roles": "Fysioterapeut",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_94be4e/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_080ac6",
+      "storeId": "store_1b953b",
+      "userId": null,
+      "name": "Dag Nguyen",
+      "roles": "Fysioterapeut",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_080ac6/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_e015bd",
+      "storeId": "store_1b953b",
+      "userId": null,
+      "name": "Kjetil Kristiansen",
+      "roles": "Fysioterapeut",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_e015bd/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_a929d4",
+      "storeId": "store_732adf",
+      "userId": null,
+      "name": "Else-Marie Sæther",
+      "roles": "Fysioterapeut",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_a929d4/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_3f9ba9",
+      "storeId": "store_a1f167",
+      "personId": null,
+      "title": "Førstegangskonsultasjon",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "kompetanse",
+        "eksperience",
+        "kundekjem",
+        "optimalt funksjonelt"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 767,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_28c4f2",
+      "storeId": "store_a1f167",
+      "personId": null,
+      "title": "Behandling",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "kompetanse",
+        "eksperience",
+        "kundekjem",
+        "optimalt funksjonelt"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1418,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_347632",
+      "storeId": "store_a1f167",
+      "personId": null,
+      "title": "Opptrening",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "kompetanse",
+        "eksperience",
+        "kundekjem",
+        "optimalt funksjonelt"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1162,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_efb1a4",
+      "storeId": "store_a1f167",
+      "personId": null,
+      "title": "Førstegangskonsultasjon",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "kompetanse",
+        "eksperience",
+        "kundekjem",
+        "optimalt funksjonelt"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 630,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_826ebe",
+      "storeId": "store_919510",
+      "personId": null,
+      "title": "Førstegangskonsultasjon",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "kompetanse",
+        "eksperience",
+        "kundekjem",
+        "optimalt funksjonelt"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1862,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f49f8d",
+      "storeId": "store_919510",
+      "personId": null,
+      "title": "Behandling",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "kompetanse",
+        "eksperience",
+        "kundekjem",
+        "optimalt funksjonelt"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1429,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_91c15c",
+      "storeId": "store_919510",
+      "personId": null,
+      "title": "Opptrening",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "kompetanse",
+        "eksperience",
+        "kundekjem",
+        "optimalt funksjonelt"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1591,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2143e2",
+      "storeId": "store_919510",
+      "personId": null,
+      "title": "Førstegangskonsultasjon",
+      "description": "Vi er Ruud Fysioterapi, et profesjonelt fysioterapi-selskap som tilbyr kompetanse og erfaring for å hjelpe kunder med å oppnå optimalt funksjonelle resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "kompetanse",
+        "eksperience",
+        "kundekjem",
+        "optimalt funksjonelt"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1429,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_4bdf3c",
+      "storeId": "store_3aac74",
+      "personId": null,
+      "title": "Førstegangskonsultasjon",
+      "description": "Fredriksen Fysioterapi tilbyr faglig og personlig hjelp med perspektiv på funksjonshemming og helse. Vi legger vekt på å skape individuelle behandlingsplaner for å styrke kroppen og redusere smerte.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "hemming",
+        "helse",
+        "behandling",
+        "perspektiv"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 757,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2dc863",
+      "storeId": "store_3aac74",
+      "personId": null,
+      "title": "Behandling",
+      "description": "Fredriksen Fysioterapi tilbyr faglig og personlig hjelp med perspektiv på funksjonshemming og helse. Vi legger vekt på å skape individuelle behandlingsplaner for å styrke kroppen og redusere smerte.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "hemming",
+        "helse",
+        "behandling",
+        "perspektiv"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1863,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_20577c",
+      "storeId": "store_3aac74",
+      "personId": null,
+      "title": "Opptrening",
+      "description": "Fredriksen Fysioterapi tilbyr faglig og personlig hjelp med perspektiv på funksjonshemming og helse. Vi legger vekt på å skape individuelle behandlingsplaner for å styrke kroppen og redusere smerte.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "hemming",
+        "helse",
+        "behandling",
+        "perspektiv"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1253,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2a0094",
+      "storeId": "store_3aac74",
+      "personId": null,
+      "title": "Førstegangskonsultasjon",
+      "description": "Fredriksen Fysioterapi tilbyr faglig og personlig hjelp med perspektiv på funksjonshemming og helse. Vi legger vekt på å skape individuelle behandlingsplaner for å styrke kroppen og redusere smerte.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "hemming",
+        "helse",
+        "behandling",
+        "perspektiv"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1153,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f1398a",
+      "storeId": "store_c98bd7",
+      "personId": "pers_2bb944",
+      "title": "Førstegangskonsultasjon",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "helsetilstand",
+        "tradisjonell",
+        "modern",
+        "resultater"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1104,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ef08ff",
+      "storeId": "store_c98bd7",
+      "personId": "pers_2bb944",
+      "title": "Behandling",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "helsetilstand",
+        "tradisjonell",
+        "modern",
+        "resultater"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 827,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_bef03a",
+      "storeId": "store_c98bd7",
+      "personId": "pers_94be4e",
+      "title": "Opptrening",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "helsetilstand",
+        "tradisjonell",
+        "modern",
+        "resultater"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1599,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_dc7268",
+      "storeId": "store_c98bd7",
+      "personId": "pers_94be4e",
+      "title": "Førstegangskonsultasjon",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "helsetilstand",
+        "tradisjonell",
+        "modern",
+        "resultater"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1124,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a46259",
+      "storeId": "store_1b953b",
+      "personId": "pers_080ac6",
+      "title": "Førstegangskonsultasjon",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "helsetilstand",
+        "tradisjonell",
+        "modern",
+        "resultater"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 563,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d27d74",
+      "storeId": "store_1b953b",
+      "personId": "pers_080ac6",
+      "title": "Behandling",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "helsetilstand",
+        "tradisjonell",
+        "modern",
+        "resultater"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1292,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a0cc8b",
+      "storeId": "store_1b953b",
+      "personId": "pers_e015bd",
+      "title": "Opptrening",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "helsetilstand",
+        "tradisjonell",
+        "modern",
+        "resultater"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1612,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_13fb29",
+      "storeId": "store_1b953b",
+      "personId": "pers_080ac6",
+      "title": "Førstegangskonsultasjon",
+      "description": "Hanssen Fysioterapi tilbyr professionell fysioterapi for å fremme helsen og funksjonen. Vi kombinerer tradisjonell med modern teknikk for beste resultater.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "fysioterapi",
+        "helsetilstand",
+        "tradisjonell",
+        "modern",
+        "resultater"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 602,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8a6001",
+      "storeId": "store_732adf",
+      "personId": "pers_a929d4",
+      "title": "Førstegangskonsultasjon",
+      "description": "Svelvik Fysio er en lokal fysioterapipratique som tilbyr individuelle behandlinger for å hjelpe kunder med å oppnå bedre bevegelsesfølelse og helse.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "physiotherapy",
+        "personalized",
+        "treatment",
+        "well-being",
+        "movement"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1313,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_99a067",
+      "storeId": "store_732adf",
+      "personId": "pers_a929d4",
+      "title": "Behandling",
+      "description": "Svelvik Fysio er en lokal fysioterapipratique som tilbyr individuelle behandlinger for å hjelpe kunder med å oppnå bedre bevegelsesfølelse og helse.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "physiotherapy",
+        "personalized",
+        "treatment",
+        "well-being",
+        "movement"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1338,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e8b91a",
+      "storeId": "store_732adf",
+      "personId": "pers_a929d4",
+      "title": "Opptrening",
+      "description": "Svelvik Fysio er en lokal fysioterapipratique som tilbyr individuelle behandlinger for å hjelpe kunder med å oppnå bedre bevegelsesfølelse og helse.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "physiotherapy",
+        "personalized",
+        "treatment",
+        "well-being",
+        "movement"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1049,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c1c065",
+      "storeId": "store_732adf",
+      "personId": "pers_a929d4",
+      "title": "Førstegangskonsultasjon",
+      "description": "Svelvik Fysio er en lokal fysioterapipratique som tilbyr individuelle behandlinger for å hjelpe kunder med å oppnå bedre bevegelsesfølelse og helse.",
+      "serviceType": [
+        "Physiotherapy"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "physiotherapy",
+        "personalized",
+        "treatment",
+        "well-being",
+        "movement"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1676,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

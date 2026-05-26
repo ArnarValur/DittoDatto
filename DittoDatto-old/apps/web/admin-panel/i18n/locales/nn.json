@@ -1,0 +1,10 @@
+{
+  "welcome": "Velkomen til adminpanelet",
+  "settings": "Innstillingar",
+  "logout": "Logg ut",
+  "users": "Brukarar",
+  "companies": "Firma",
+  "stores": "Butikkar",
+  "services": "Tenester",
+  "language": "Språk"
+}

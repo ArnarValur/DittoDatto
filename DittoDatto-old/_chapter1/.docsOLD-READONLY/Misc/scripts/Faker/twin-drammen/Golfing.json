@@ -1,0 +1,459 @@
+{
+  "users": [
+    {
+      "id": "user_ef89f6",
+      "name": "Emil Olsen",
+      "email": "aantonsen@example.net",
+      "phone": "55 68 00 58",
+      "photoUrl": "https://picsum.photos/seed/1f8883aa/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_c38ce1",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:21:03.752555Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_c38ce1"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:21:03.752555Z",
+      "updatedAt": "2025-12-19T08:21:03.752555+00:00"
+    },
+    {
+      "id": "user_2c385d",
+      "name": "Janne Eliassen",
+      "email": "fredriksenthor@example.org",
+      "phone": "495 48 630",
+      "photoUrl": "https://picsum.photos/seed/3f0eb386/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_c2008e",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:21:11.598798Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_c2008e"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:21:11.598798Z",
+      "updatedAt": "2025-12-19T08:21:11.598798+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_c38ce1",
+      "ownerId": "user_ef89f6",
+      "ownerEmail": "aantonsen@example.net",
+      "name": "Drammen Golf",
+      "description": "Vi ved at drammen golf er en av Norges beste golfturer, med utmerket service og fantastiske golfløyer.",
+      "website": "https://www.haugland.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "marensvendsen@edvardsen.com",
+      "phone": "67 72 84 92",
+      "logoUrl": "https://picsum.photos/seed/640d36dc/512/512",
+      "category": "Golfing",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:21:03.752555Z",
+      "updatedAt": "2025-12-19T08:21:03.752555Z",
+      "managerIds": [
+        "user_ef89f6"
+      ],
+      "memberIds": [
+        "user_ef89f6"
+      ]
+    },
+    {
+      "id": "comp_c2008e",
+      "ownerId": "user_2c385d",
+      "ownerEmail": "fredriksenthor@example.org",
+      "name": "Strømsø Golf",
+      "description": "Strømsø Golf er en prestasjonsorientert golfklubb som setter pris på et flott landskap og ekseptionell service. Vi tilbyr høyeste kvalitet i utstyring, instruksjon og holdbarhet for både begynnere og erfarenne golfer.",
+      "website": "http://aune.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "gthorsen@rasmussen.com",
+      "phone": "477 39 462",
+      "logoUrl": "https://picsum.photos/seed/42ac0daf/512/512",
+      "category": "Golfing",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:21:11.598798Z",
+      "updatedAt": "2025-12-19T08:21:11.598798Z",
+      "managerIds": [
+        "user_2c385d"
+      ],
+      "memberIds": [
+        "user_2c385d"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_6f55c1",
+      "companyId": "comp_c38ce1",
+      "name": "Drammen Golf - Krokstadelva",
+      "slug": "drammen-golf-krokstadelva",
+      "address": "Sandvikhagen 7",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.7596,
+        "lng": 10.240907
+      },
+      "geoHash": null,
+      "about": "Vi ved at drammen golf er en av Norges beste golfturer, med utmerket service og fantastiske golfløyer.",
+      "images": [
+        "https://picsum.photos/seed/store_6f55c1-1/800/600",
+        "https://picsum.photos/seed/store_6f55c1-2/800/600",
+        "https://picsum.photos/seed/store_6f55c1-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "venue",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:21:03.752555Z",
+      "updatedAt": "2025-12-19T08:21:03.752555Z"
+    },
+    {
+      "id": "store_1bcd45",
+      "companyId": "comp_c2008e",
+      "name": "Strømsø Golf - Åskollen",
+      "slug": "stromso-golf-askollen",
+      "address": "Martinsenskogen 88",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.74443,
+        "lng": 10.191538
+      },
+      "geoHash": null,
+      "about": "Strømsø Golf er en prestasjonsorientert golfklubb som setter pris på et flott landskap og ekseptionell service. Vi tilbyr høyeste kvalitet i utstyring, instruksjon og holdbarhet for både begynnere og erfarenne golfer.",
+      "images": [
+        "https://picsum.photos/seed/store_1bcd45-1/800/600",
+        "https://picsum.photos/seed/store_1bcd45-2/800/600",
+        "https://picsum.photos/seed/store_1bcd45-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "venue",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:21:11.598798Z",
+      "updatedAt": "2025-12-19T08:21:11.598798Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_e99023",
+      "storeId": "store_6f55c1",
+      "userId": null,
+      "name": "Elisabeth Hansen",
+      "roles": "Instruktør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_e99023/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_d1ffca",
+      "storeId": "store_6f55c1",
+      "userId": null,
+      "name": "Mari Olsen",
+      "roles": "Instruktør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_d1ffca/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_61e82f",
+      "storeId": "store_1bcd45",
+      "userId": null,
+      "name": "Magnus Næss",
+      "roles": "Instruktør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_61e82f/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_bd2359",
+      "storeId": "store_1bcd45",
+      "userId": null,
+      "name": "Marit-Elisabeth Sivertsen",
+      "roles": "Instruktør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_bd2359/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_1c476e",
+      "storeId": "store_1bcd45",
+      "userId": null,
+      "name": "Else Engen",
+      "roles": "Instruktør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_1c476e/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_8be57f",
+      "storeId": "store_6f55c1",
+      "personId": "pers_e99023",
+      "title": "Starttid (9 hull)",
+      "description": "Vi ved at drammen golf er en av Norges beste golfturer, med utmerket service og fantastiske golfløyer.",
+      "serviceType": [
+        "Golfing"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "golfing",
+        "norsk",
+        "kvalitet",
+        "tur",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1561,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9066fe",
+      "storeId": "store_6f55c1",
+      "personId": "pers_e99023",
+      "title": "Starttid (18 hull)",
+      "description": "Vi ved at drammen golf er en av Norges beste golfturer, med utmerket service og fantastiske golfløyer.",
+      "serviceType": [
+        "Golfing"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "golfing",
+        "norsk",
+        "kvalitet",
+        "tur",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 690,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a73dca",
+      "storeId": "store_6f55c1",
+      "personId": "pers_e99023",
+      "title": "Pro-time (45 min)",
+      "description": "Vi ved at drammen golf er en av Norges beste golfturer, med utmerket service og fantastiske golfløyer.",
+      "serviceType": [
+        "Golfing"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "golfing",
+        "norsk",
+        "kvalitet",
+        "tur",
+        "service"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 739,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0cded6",
+      "storeId": "store_1bcd45",
+      "personId": "pers_61e82f",
+      "title": "Starttid (9 hull)",
+      "description": "Strømsø Golf er en prestasjonsorientert golfklubb som setter pris på et flott landskap og ekseptionell service. Vi tilbyr høyeste kvalitet i utstyring, instruksjon og holdbarhet for både begynnere og erfarenne golfer.",
+      "serviceType": [
+        "Golfing"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "golf",
+        "landskap",
+        "kvalitet",
+        "instruksjon",
+        "begynnere"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1001,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7dbb8a",
+      "storeId": "store_1bcd45",
+      "personId": "pers_61e82f",
+      "title": "Starttid (18 hull)",
+      "description": "Strømsø Golf er en prestasjonsorientert golfklubb som setter pris på et flott landskap og ekseptionell service. Vi tilbyr høyeste kvalitet i utstyring, instruksjon og holdbarhet for både begynnere og erfarenne golfer.",
+      "serviceType": [
+        "Golfing"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "golf",
+        "landskap",
+        "kvalitet",
+        "instruksjon",
+        "begynnere"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 720,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_083cdd",
+      "storeId": "store_1bcd45",
+      "personId": "pers_61e82f",
+      "title": "Pro-time (45 min)",
+      "description": "Strømsø Golf er en prestasjonsorientert golfklubb som setter pris på et flott landskap og ekseptionell service. Vi tilbyr høyeste kvalitet i utstyring, instruksjon og holdbarhet for både begynnere og erfarenne golfer.",
+      "serviceType": [
+        "Golfing"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "golf",
+        "landskap",
+        "kvalitet",
+        "instruksjon",
+        "begynnere"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1244,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

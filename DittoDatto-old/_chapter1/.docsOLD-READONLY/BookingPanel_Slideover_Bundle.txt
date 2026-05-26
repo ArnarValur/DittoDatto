@@ -1,0 +1,2695 @@
+
+// ============================================================================
+// File: apps/web/business-portal/app/components/bookings/BookingDetailSlideover.vue
+// ============================================================================
+
+<script setup lang="ts">
+/**
+ * BookingDetailSlideover
+ *
+ * Interactive detail view for a booking in the business portal.
+ * Supports status changes, staff assignment, and notes editing.
+ * Actions are RBAC-gated via useStaffPermissions.
+ */
+import type { Booking } from "@dittodatto/shared-types";
+import { format } from "date-fns";
+
+const props = defineProps<{
+  booking: Booking | null;
+}>();
+
+const emit = defineEmits<{
+  "update:open": [value: boolean];
+  "status-changed": [];
+}>();
+
+const open = defineModel<boolean>("open", { default: false });
+
+const { isOwner, hasCapability } = useStaffPermissions();
+const { updateBookingStatus, assignStaff, updateNotes } = useBookings();
+const { allStaff } = useStaff();
+
+const canManage = computed(
+  () => isOwner.value || hasCapability("can_manage_bookings"),
+);
+
+// ---- Staff options for assignment ----
+const bookableStaff = computed(() => {
+  if (!props.booking) return [];
+  return (allStaff.value ?? [])
+    .filter(
+      (s) =>
+        s.status === "active" &&
+        s.isBookable &&
+        s.storeIds?.includes(props.booking!.storeId),
+    )
+    .map((s) => ({ label: s.displayName || s.email, value: s.id }));
+});
+
+const currentStaffName = computed(() => {
+  if (!props.booking?.personId) return null;
+  const staff = (allStaff.value ?? []).find(
+    (s) => s.id === props.booking!.personId,
+  );
+  return staff?.displayName || staff?.email || props.booking.personId;
+});
+
+// ---- Notes editing ----
+const editingNotes = ref(false);
+const notesDraft = ref("");
+const savingNotes = ref(false);
+
+function startEditNotes() {
+  notesDraft.value = props.booking?.notes || "";
+  editingNotes.value = true;
+}
+
+async function saveNotes() {
+  if (!props.booking) return;
+  savingNotes.value = true;
+  try {
+    await updateNotes(props.booking.id, notesDraft.value);
+    editingNotes.value = false;
+  } finally {
+    savingNotes.value = false;
+  }
+}
+
+// ---- Status actions ----
+const actionLoading = ref(false);
+const showCancelConfirm = ref(false);
+const cancelReason = ref("");
+
+async function changeStatus(status: "confirmed" | "completed" | "no-show") {
+  if (!props.booking) return;
+  actionLoading.value = true;
+  try {
+    await updateBookingStatus(props.booking.id, status);
+    emit("status-changed");
+  } finally {
+    actionLoading.value = false;
+  }
+}
+
+async function confirmCancel() {
+  if (!props.booking) return;
+  actionLoading.value = true;
+  try {
+    await updateBookingStatus(
+      props.booking.id,
+      "cancelled",
+      cancelReason.value || undefined,
+    );
+    showCancelConfirm.value = false;
+    cancelReason.value = "";
+    emit("status-changed");
+  } finally {
+    actionLoading.value = false;
+  }
+}
+
+// ---- Staff assignment ----
+const assigningStaff = ref(false);
+
+async function handleAssignStaff(personId: string | null) {
+  if (!props.booking) return;
+  assigningStaff.value = true;
+  try {
+    await assignStaff(props.booking.id, personId);
+  } finally {
+    assigningStaff.value = false;
+  }
+}
+
+// ---- Formatters ----
+const statusColors: Record<
+  string,
+  "error" | "primary" | "secondary" | "success" | "info" | "warning" | "neutral"
+> = {
+  confirmed: "success",
+  completed: "primary",
+  pending: "warning",
+  cancelled: "error",
+  "no-show": "error",
+};
+
+function formatDateTime(date: string | Date | any) {
+  if (!date) return "—";
+  let d: Date;
+  if (typeof date === "string") d = new Date(date);
+  else if (date?.toDate)
+    d = date.toDate(); // Firestore Timestamp
+  else if (date instanceof Date) d = date;
+  else d = new Date(date);
+  return format(d, "EEE, dd MMM yyyy 'at' HH:mm");
+}
+
+function formatPrice(price: number, currency: string) {
+  return new Intl.NumberFormat("nb-NO", {
+    style: "currency",
+    currency: currency || "NOK",
+  }).format(price);
+}
+
+function copyToClipboard(text: string, label: string) {
+  navigator.clipboard.writeText(text);
+  useToast().add({
+    title: "Copied",
+    description: `${label} copied to clipboard`,
+  });
+}
+
+// Reset state when slideover closes
+watch(open, (val) => {
+  if (!val) {
+    editingNotes.value = false;
+    showCancelConfirm.value = false;
+    cancelReason.value = "";
+  }
+});
+</script>
+
+<template>
+  <USlideover
+    v-model:open="open"
+    :title="booking?.serviceTitle || 'Booking Details'"
+  >
+    <template #body>
+      <div v-if="booking" class="space-y-6 p-1">
+        <!-- Status Banner -->
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold">
+            {{ booking.serviceTitle }}
+          </h3>
+          <UBadge
+            :color="statusColors[booking.status] || 'neutral'"
+            variant="subtle"
+            class="capitalize text-sm"
+          >
+            {{ booking.status }}
+          </UBadge>
+        </div>
+
+        <!-- Customer Info -->
+        <div class="space-y-2">
+          <h4 class="text-xs font-semibold text-muted uppercase tracking-wider">
+            Customer
+          </h4>
+          <div class="bg-elevated rounded-lg p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <UIcon name="i-lucide-user" class="size-4 text-muted" />
+                <span class="font-medium">{{ booking.userName }}</span>
+              </div>
+              <UButton
+                icon="i-lucide-copy"
+                size="xs"
+                color="neutral"
+                variant="ghost"
+                @click="copyToClipboard(booking.userName, 'Name')"
+              />
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <UIcon name="i-lucide-mail" class="size-4 text-muted" />
+                <span class="text-sm text-muted">{{ booking.userEmail }}</span>
+              </div>
+              <UButton
+                icon="i-lucide-copy"
+                size="xs"
+                color="neutral"
+                variant="ghost"
+                @click="copyToClipboard(booking.userEmail, 'Email')"
+              />
+            </div>
+            <div
+              v-if="booking.userPhone"
+              class="flex items-center justify-between"
+            >
+              <div class="flex items-center gap-2">
+                <UIcon name="i-lucide-phone" class="size-4 text-muted" />
+                <span class="text-sm text-muted">{{ booking.userPhone }}</span>
+              </div>
+              <UButton
+                icon="i-lucide-copy"
+                size="xs"
+                color="neutral"
+                variant="ghost"
+                @click="copyToClipboard(booking.userPhone!, 'Phone')"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule -->
+        <div class="space-y-2">
+          <h4 class="text-xs font-semibold text-muted uppercase tracking-wider">
+            Schedule
+          </h4>
+          <div class="bg-elevated rounded-lg p-3 space-y-1">
+            <div class="flex justify-between">
+              <span class="text-muted">Start</span>
+              <span class="font-medium">{{
+                formatDateTime(booking.startTime)
+              }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">End</span>
+              <span>{{ formatDateTime(booking.endTime) }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Duration</span>
+              <span>{{ booking.duration }} min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="space-y-2">
+          <h4 class="text-xs font-semibold text-muted uppercase tracking-wider">
+            Payment
+          </h4>
+          <div class="bg-elevated rounded-lg p-3 space-y-1">
+            <div class="flex justify-between">
+              <span class="text-muted">Price</span>
+              <span class="font-medium">{{
+                formatPrice(booking.priceAtTimeOfBooking, booking.currency)
+              }}</span>
+            </div>
+            <div
+              v-if="booking.paymentId"
+              class="flex justify-between items-center"
+            >
+              <span class="text-muted">Payment ID</span>
+              <div class="flex items-center gap-1">
+                <span class="text-xs font-mono text-muted">{{
+                  booking.paymentId
+                }}</span>
+                <UButton
+                  icon="i-lucide-copy"
+                  size="xs"
+                  color="neutral"
+                  variant="ghost"
+                  @click="copyToClipboard(booking.paymentId!, 'Payment ID')"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Staff Assignment -->
+        <div class="space-y-2">
+          <h4 class="text-xs font-semibold text-muted uppercase tracking-wider">
+            Staff Assignment
+          </h4>
+          <div class="bg-elevated rounded-lg p-3">
+            <div
+              v-if="currentStaffName && !canManage"
+              class="flex items-center gap-2"
+            >
+              <UIcon name="i-lucide-user-check" class="size-4 text-success" />
+              <span>{{ currentStaffName }}</span>
+            </div>
+            <div v-else-if="canManage">
+              <USelectMenu
+                :model-value="booking.personId || undefined"
+                :items="bookableStaff"
+                placeholder="Assign staff member..."
+                value-attribute="value"
+                option-attribute="label"
+                :loading="assigningStaff"
+                @update:model-value="
+                  (val: any) => handleAssignStaff(val || null)
+                "
+              />
+              <p v-if="!bookableStaff.length" class="text-xs text-muted mt-1">
+                No bookable staff assigned to this store.
+              </p>
+            </div>
+            <div v-else class="text-sm text-muted">No staff assigned</div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4
+              class="text-xs font-semibold text-muted uppercase tracking-wider"
+            >
+              Notes
+            </h4>
+            <UButton
+              v-if="canManage && !editingNotes"
+              :icon="booking.notes ? 'i-lucide-pencil' : 'i-lucide-plus'"
+              size="xs"
+              color="neutral"
+              variant="ghost"
+              :label="booking.notes ? 'Edit' : 'Add'"
+              @click="startEditNotes"
+            />
+          </div>
+          <div class="bg-elevated rounded-lg p-3">
+            <template v-if="editingNotes">
+              <UTextarea
+                v-model="notesDraft"
+                placeholder="Add notes about this booking..."
+                :rows="3"
+                autofocus
+              />
+              <div class="flex justify-end gap-2 mt-2">
+                <UButton
+                  label="Cancel"
+                  size="xs"
+                  color="neutral"
+                  variant="ghost"
+                  @click="editingNotes = false"
+                />
+                <UButton
+                  label="Save"
+                  size="xs"
+                  color="primary"
+                  :loading="savingNotes"
+                  @click="saveNotes"
+                />
+              </div>
+            </template>
+            <p v-else-if="booking.notes" class="text-sm">
+              {{ booking.notes }}
+            </p>
+            <p v-else class="text-sm text-muted italic">No notes yet.</p>
+          </div>
+        </div>
+
+        <!-- Service Items -->
+        <div v-if="booking.items?.length" class="space-y-2">
+          <h4 class="text-xs font-semibold text-muted uppercase tracking-wider">
+            Service Items
+          </h4>
+          <div class="space-y-2">
+            <div
+              v-for="(item, i) in booking.items"
+              :key="i"
+              class="bg-elevated rounded-lg p-3 flex justify-between items-center"
+            >
+              <div>
+                <span class="font-medium">{{ item.title }}</span>
+                <span class="text-sm text-muted ml-2"
+                  >{{ item.duration }} min</span
+                >
+              </div>
+              <span class="text-sm">{{
+                formatPrice(item.price, booking.currency)
+              }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metadata -->
+        <div class="space-y-2">
+          <h4 class="text-xs font-semibold text-muted uppercase tracking-wider">
+            Details
+          </h4>
+          <div class="bg-elevated rounded-lg p-3 space-y-1 text-sm">
+            <div class="flex justify-between items-center">
+              <span class="text-muted">Booking ID</span>
+              <div class="flex items-center gap-1">
+                <span class="text-xs font-mono text-muted">{{
+                  booking.id
+                }}</span>
+                <UButton
+                  icon="i-lucide-copy"
+                  size="xs"
+                  color="neutral"
+                  variant="ghost"
+                  @click="copyToClipboard(booking.id, 'Booking ID')"
+                />
+              </div>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Channel</span>
+              <UBadge color="neutral" variant="subtle" size="sm">{{
+                booking.channel
+              }}</UBadge>
+            </div>
+            <div v-if="booking.attendeeCount > 1" class="flex justify-between">
+              <span class="text-muted">Attendees</span>
+              <span>{{ booking.attendeeCount }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-muted">Created</span>
+              <span>{{ formatDateTime(booking.createdAt) }}</span>
+            </div>
+            <div v-if="booking.updatedAt" class="flex justify-between">
+              <span class="text-muted">Updated</span>
+              <span>{{ formatDateTime(booking.updatedAt) }}</span>
+            </div>
+            <div v-if="booking.cancellationReason" class="flex justify-between">
+              <span class="text-muted">Cancel Reason</span>
+              <span class="text-error">{{ booking.cancellationReason }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Footer with actions -->
+    <template v-if="canManage && booking" #footer>
+      <div class="p-4">
+        <!-- Cancel confirmation -->
+        <div v-if="showCancelConfirm" class="space-y-3">
+          <p class="text-sm font-medium text-warning">Cancel this booking?</p>
+          <UTextarea
+            v-model="cancelReason"
+            placeholder="Reason for cancellation (optional)"
+            :rows="2"
+          />
+          <div class="flex justify-end gap-2">
+            <UButton
+              label="Back"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+              @click="showCancelConfirm = false"
+            />
+            <UButton
+              label="Confirm Cancel"
+              color="error"
+              size="sm"
+              :loading="actionLoading"
+              @click="confirmCancel"
+            />
+          </div>
+        </div>
+
+        <!-- Normal action buttons -->
+        <div v-else class="flex flex-wrap gap-2">
+          <UButton
+            v-if="booking.status === 'pending'"
+            label="Confirm"
+            icon="i-lucide-check"
+            color="success"
+            size="sm"
+            :loading="actionLoading"
+            @click="changeStatus('confirmed')"
+          />
+          <UButton
+            v-if="booking.status === 'confirmed'"
+            label="Complete"
+            icon="i-lucide-check-circle"
+            color="primary"
+            size="sm"
+            :loading="actionLoading"
+            @click="changeStatus('completed')"
+          />
+          <UButton
+            v-if="booking.status === 'confirmed' || booking.status === 'pending'"
+            label="No-Show"
+            icon="i-lucide-user-x"
+            color="warning"
+            variant="soft"
+            size="sm"
+            :loading="actionLoading"
+            @click="changeStatus('no-show')"
+          />
+          <UButton
+            v-if="
+              booking.status === 'pending' || booking.status === 'confirmed'
+            "
+            label="Cancel"
+            icon="i-lucide-x"
+            color="error"
+            variant="soft"
+            size="sm"
+            @click="showCancelConfirm = true"
+          />
+        </div>
+      </div>
+    </template>
+  </USlideover>
+</template>
+
+
+// ============================================================================
+// File: apps/web/business-portal/app/components/reservations/ReservationSlideover.vue
+// ============================================================================
+
+<script setup lang="ts">
+import type { Reservation } from '@dittodatto/shared-types';
+
+const props = defineProps<{
+  modelValue: boolean;
+  reservation: Reservation | null;
+  resources: Array<{ id: string; name: string; capacity?: { min: number; max: number } }>;
+}>();
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void;
+}>();
+
+const { updateReservation, cancelReservation } = useReservations();
+const toast = useToast();
+
+const isOpen = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+});
+
+const isWorking = ref(false);
+const isCancelling = ref(false);
+const showCancelConfirm = ref(false);
+const selectedTableId = ref<string>('');
+const notes = ref<string>('');
+
+// Reset local state when the reservation changes
+watch(
+  () => props.reservation,
+  (res) => {
+    if (res) {
+      selectedTableId.value = res.tableId || '';
+      notes.value = res.internalNotes || '';
+    }
+  },
+  { immediate: true }
+);
+
+const tableOptions = computed(() => {
+  return [
+    { label: 'Ikke tildelt (Unassigned)', value: '' },
+    ...props.resources
+      .filter((r) => r.id !== '__unassigned__') // filter out the pseudo-resource
+      .map((r) => ({
+        label: `${r.name} ${r.capacity ? `(🪑 ${r.capacity.max})` : ''}`,
+        value: r.id,
+      })),
+  ];
+});
+
+async function saveChanges() {
+  if (!props.reservation) return;
+  isWorking.value = true;
+
+  const { deleteField } = await import('firebase/firestore');
+  
+  const updates: Record<string, any> = {
+    internalNotes: notes.value,
+    // Use deleteField() to remove tableId when unassigning — Firestore rejects undefined
+    ...(selectedTableId.value
+      ? { tableId: selectedTableId.value }
+      : { tableId: deleteField() }),
+  };
+
+  const success = await updateReservation(props.reservation.id, updates);
+  isWorking.value = false;
+
+  if (success) {
+    toast.add({
+      title: 'Endringer lagret',
+      description: 'Reservasjonen har blitt oppdatert.',
+      color: 'success',
+      icon: 'i-lucide-check-circle',
+    });
+    isOpen.value = false;
+  } else {
+    toast.add({
+      title: 'Feil oppstod',
+      description: 'Kunne ikke lagre endringene. Prøv igjen.',
+      color: 'red',
+      icon: 'i-lucide-x-circle',
+    });
+  }
+}
+
+async function handleCancel() {
+  if (!props.reservation) return;
+  isCancelling.value = true;
+
+  const success = await cancelReservation(props.reservation.id);
+  isCancelling.value = false;
+  showCancelConfirm.value = false;
+
+  if (success) {
+    toast.add({
+      title: 'Reservasjon kansellert',
+      description: `Reservasjonen for ${props.reservation.customerName} er kansellert.`,
+      color: 'success',
+      icon: 'i-lucide-check-circle',
+    });
+    isOpen.value = false;
+  } else {
+    toast.add({
+      title: 'Feil oppstod',
+      description: 'Kunne ikke kansellere reservasjonen. Prøv igjen.',
+      color: 'red',
+      icon: 'i-lucide-x-circle',
+    });
+  }
+}
+</script>
+
+<template>
+  <USlideover v-model="isOpen" :ui="{ width: 'max-w-md' }">
+    <template #default>
+      <div v-if="reservation" class="flex flex-col h-full bg-background">
+        <!-- Header -->
+        <div class="p-6 border-b border-border flex items-center justify-between">
+          <h3 class="text-xl font-semibold">{{ reservation.customerName }}</h3>
+          <UBadge
+            :color="reservation.status === 'confirmed' ? 'success' : reservation.status === 'pending' ? 'warning' : 'neutral'"
+            :label="reservation.status"
+            class="uppercase"
+          />
+        </div>
+
+        <!-- Body -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-8">
+          
+          <!-- Key Info Grid -->
+          <div class="grid grid-cols-2 gap-4 bg-muted/30 p-4 rounded-xl border border-border/50">
+            <div>
+              <div class="text-xs text-muted font-medium mb-1">Gjester</div>
+              <div class="flex items-center gap-1.5 font-medium">
+                <UIcon name="i-lucide-users" class="size-4 text-primary" />
+                {{ reservation.guestCount }}
+              </div>
+            </div>
+            <div>
+              <div class="text-xs text-muted font-medium mb-1">Tidspunkt</div>
+              <div class="flex items-center gap-1.5 font-medium">
+                <UIcon name="i-lucide-clock" class="size-4 text-primary" />
+                {{ reservation.time }} ({{ reservation.duration }} min)
+              </div>
+            </div>
+            <div class="col-span-2 pt-2 border-t border-border/50">
+              <div class="text-xs text-muted font-medium mb-1">Kontakt</div>
+              <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1.5 text-sm">
+                  <UIcon name="i-lucide-phone" class="size-3.5 text-muted" />
+                  {{ reservation.customerPhone }}
+                </span>
+                <span v-if="reservation.customerEmail" class="flex items-center gap-1.5 text-sm">
+                  <UIcon name="i-lucide-mail" class="size-3.5 text-muted" />
+                  {{ reservation.customerEmail }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <UDivider />
+
+          <!-- Table Assignment (Tildel bord) -->
+          <UFormGroup label="Tildel bord (Ressurs)" name="tableId" description="Velg hvilket bord gjestene skal sitte ved.">
+            <USelectMenu
+              v-model="selectedTableId"
+              :options="tableOptions"
+              value-attribute="value"
+              option-attribute="label"
+              placeholder="Velg et bord..."
+              searchable
+              searchable-placeholder="Søk etter bord..."
+              class="w-full"
+            />
+          </UFormGroup>
+
+          <!-- Notes -->
+          <div class="space-y-4">
+            <UFormGroup v-if="reservation.notes" label="Gjestens notat">
+              <div class="p-3 bg-muted/20 border border-border rounded-md text-sm italic">
+                "{{ reservation.notes }}"
+              </div>
+            </UFormGroup>
+
+            <UFormGroup label="Internt notat" name="internalNotes" description="Kun synlig for ansatte.">
+              <UTextarea
+                v-model="notes"
+                placeholder="Skriv inn notater, preferanser eller advarsler her..."
+                :rows="4"
+              />
+            </UFormGroup>
+          </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="p-4 border-t border-border flex items-center bg-muted/10">
+          <UButton
+            label="Kanseller"
+            color="error"
+            variant="ghost"
+            icon="i-lucide-ban"
+            @click="showCancelConfirm = true"
+            :disabled="isWorking"
+          />
+          <div class="flex-1" />
+          <div class="flex gap-3">
+            <UButton
+              label="Avbryt"
+              color="neutral"
+              variant="ghost"
+              @click="isOpen = false"
+              :disabled="isWorking"
+            />
+            <UButton
+              label="Lagre endringer"
+              color="primary"
+              icon="i-lucide-save"
+              :loading="isWorking"
+              @click="saveChanges"
+            />
+          </div>
+        </div>
+      </div>
+    </template>
+  </USlideover>
+
+  <!-- Cancel Confirmation Modal -->
+  <UModal v-model="showCancelConfirm">
+    <template #default>
+      <div class="p-6 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center justify-center w-10 h-10 rounded-full bg-error/10">
+            <UIcon name="i-lucide-alert-triangle" class="size-5 text-error" />
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Kanseller reservasjon?</h3>
+            <p class="text-sm text-muted">
+              Reservasjonen for <strong>{{ reservation?.customerName }}</strong> 
+              kl. <strong>{{ reservation?.time }}</strong> vil bli kansellert.
+            </p>
+          </div>
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <UButton
+            label="Nei, behold"
+            color="neutral"
+            variant="ghost"
+            @click="showCancelConfirm = false"
+            :disabled="isCancelling"
+          />
+          <UButton
+            label="Ja, kanseller"
+            color="error"
+            icon="i-lucide-ban"
+            :loading="isCancelling"
+            @click="handleCancel"
+          />
+        </div>
+      </div>
+    </template>
+  </UModal>
+</template>
+
+
+// ============================================================================
+// File: packages/ui/components/booking/BookingSlideover.vue
+// ============================================================================
+
+<script setup lang="ts">
+/**
+ * BookingSlideover
+ * Main booking shell - shows service list and routes to appropriate flow.
+ * 
+ * Flow routing by bookingMode:
+ * - standard → StandardBookingFlow (Date → Time → Confirm)
+ * - tableReservation → ReservationBookingFlow (Guests → Date → Time → Confirm)
+ * - ticketSystem → TicketBookingFlow (future)
+ * 
+ * Views: services → flow → confirmation
+ * 
+ * Updated: 2026-02-10 - Added confirmation view inside slideover
+ */
+import StandardBookingFlow from './flows/StandardBookingFlow.vue'
+import ReservationBookingFlow from './flows/ReservationBookingFlow.vue'
+import BookingConfirmation, { type BookingDetails } from './BookingConfirmation.vue'
+
+const { t } = useI18n()
+
+interface ServiceItem {
+  id: string
+  title: string
+  description?: string
+  price?: number
+  currency?: string
+  duration?: number
+  coverImage?: string
+  bookingMode?: 'standard' | 'tableReservation' | 'ticketSystem'
+  availabilityStart?: string
+  availabilityEnd?: string
+  groupId?: string
+}
+
+interface StaffMember {
+  id: string
+  displayName: string
+  avatarUrl?: string
+  title?: string
+}
+
+interface ServiceGroupItem {
+  id: string
+  name: string
+  sortOrder?: number
+  showOnBookingPanel?: boolean
+  multiSelect?: boolean
+}
+
+interface OpeningDay {
+  isOpen: boolean
+  open: string
+  close: string
+}
+
+interface OpeningSchedule {
+  mon?: OpeningDay
+  tue?: OpeningDay
+  wed?: OpeningDay
+  thu?: OpeningDay
+  fri?: OpeningDay
+  sat?: OpeningDay
+  sun?: OpeningDay
+}
+
+interface ReservationConfig {
+  maxGuestsPerReservation?: number
+  largePartyHandling?: 'email' | 'call' | 'datto' | 'disabled'
+  largePartyContact?: string
+  slotInterval?: number
+}
+
+interface Props {
+  open: boolean
+  storeName: string
+  storeAddress: string
+  storeLogo?: string
+  services: ServiceItem[]
+  serviceGroups?: ServiceGroupItem[]
+  openingSchedule?: OpeningSchedule
+  reservationConfig?: Partial<ReservationConfig>
+  preselectedService?: ServiceItem | null
+  // Accept slots state from parent
+  availableSlots?: string[]
+  slotsLoading?: boolean
+  slotsError?: string | null
+  holdExpiresAt?: Date | null
+  // Confirmation data — when set, slideover shows confirmation view
+  confirmedBooking?: BookingDetails | null
+  // Auth state — determines if user can confirm
+  isAuthenticated?: boolean
+  /** Whether a booking confirmation is in progress */
+  confirming?: boolean
+  /** Store's available staff */
+  staff?: StaffMember[]
+  /** Preselected staff from storefront (if any) */
+  preselectedStaff?: StaffMember | null
+  /** Group name to auto-expand when slideover opens */
+  preExpandedGroup?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  availableSlots: () => [],
+  slotsLoading: false,
+  slotsError: null,
+  holdExpiresAt: null,
+  confirming: false,
+  staff: () => [],
+  preselectedStaff: null
+})
+
+const emit = defineEmits<{
+  (e: 'update:open', value: boolean): void
+  (e: 'confirm', booking: {
+    service: ServiceItem
+    date: Date
+    time: string
+    guestCount?: number
+    notes?: string
+  }): void
+  (e: 'date-change', payload: any): void
+  (e: 'service-selected', service: ServiceItem): void
+  (e: 'hold-expired'): void
+  (e: 'view-bookings'): void
+  (e: 'done'): void
+  (e: 'login'): void
+  (e: 'signup'): void
+  (e: 'clear-staff'): void
+  (e: 'staff-selected', staff: StaffMember | null): void
+}>()
+
+// State
+type View = 'services' | 'flow' | 'confirmation' | 'login'
+const view = ref<View>('services')
+const selectedService = ref<ServiceItem | null>(null)
+const selectedServices = ref<ServiceItem[]>([])
+const pendingConfirmData = ref<{ date: Date; time: string; guestCount?: number } | null>(null)
+const bookingNotes = ref('')
+const expandedGroups = ref<Set<string>>(new Set())
+
+function toggleGroupExpanded(label: string) {
+  if (expandedGroups.value.has(label)) {
+    expandedGroups.value.delete(label)
+  } else {
+    expandedGroups.value.add(label)
+  }
+}
+
+function isGroupExpanded(label: string): boolean {
+  return expandedGroups.value.has(label)
+}
+
+// Multi-select helpers
+function isServiceSelected(service: ServiceItem): boolean {
+  return selectedServices.value.some(s => s.id === service.id)
+}
+
+function toggleService(service: ServiceItem) {
+  const idx = selectedServices.value.findIndex(s => s.id === service.id)
+  if (idx >= 0) {
+    selectedServices.value.splice(idx, 1)
+  } else {
+    selectedServices.value.push(service)
+  }
+}
+
+const multiSelectTotal = computed(() => {
+  const items = selectedServices.value
+  return {
+    count: items.length,
+    price: items.reduce((sum, s) => sum + (s.price ?? 0), 0),
+    duration: items.reduce((sum, s) => sum + (s.duration ?? 0), 0),
+    currency: items[0]?.currency || 'kr',
+  }
+})
+
+const hasMultiSelectGroups = computed(() =>
+  groupedServices.value.some(g => g.multiSelect)
+)
+
+function proceedWithMultiSelect() {
+  const first = selectedServices.value[0]
+  if (!first) return
+  // Use first selected service as the primary (for flow routing / bookingMode)
+  selectedService.value = first
+  view.value = 'flow'
+  // Emit only the first to trigger slot fetch in parent — parent uses allSelectedServiceIds for hold
+  emit('service-selected', first)
+}
+
+// Expose all selected service IDs for the parent to use in createHold
+const allSelectedServiceIds = computed(() =>
+  selectedServices.value.length > 0
+    ? selectedServices.value.map(s => s.id)
+    : selectedService.value ? [selectedService.value.id] : []
+)
+
+defineExpose({ allSelectedServiceIds, toggleGroupExpanded })
+
+// Watch for preExpandedGroup prop
+watch(() => props.preExpandedGroup, (groupName) => {
+  if (groupName) {
+    expandedGroups.value.add(groupName)
+  }
+})
+
+// Watch for preselected service when modal opens
+watch(() => props.open, (isOpen) => {
+  if (isOpen && props.preselectedService) {
+    selectedService.value = props.preselectedService
+    view.value = 'flow'
+  }
+})
+
+// Watch for confirmed booking data — switch to confirmation view
+watch(() => props.confirmedBooking, (booking) => {
+  if (booking) {
+    view.value = 'confirmation'
+  }
+})
+
+// Group services by their serviceGroup for display
+const groupedServices = computed(() => {
+  const groups = props.serviceGroups?.filter(g => g.showOnBookingPanel !== false) ?? []
+  const result: { label: string; services: ServiceItem[]; multiSelect: boolean }[] = []
+
+  // Sorted groups first
+  const sortedGroups = [...groups].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+  for (const group of sortedGroups) {
+    const groupServices = props.services.filter(s => s.groupId === group.id)
+    if (groupServices.length > 0) {
+      result.push({ label: group.name, services: groupServices, multiSelect: group.multiSelect ?? false })
+    }
+  }
+
+  // Ungrouped services go into "General" (or show flat if no groups at all)
+  const ungrouped = props.services.filter(s => !s.groupId || !groups.some(g => g.id === s.groupId))
+  if (ungrouped.length > 0) {
+    // If there are no groups at all, don't add a "General" header
+    if (result.length > 0) {
+      result.push({ label: 'Generelt', services: ungrouped, multiSelect: false })
+    } else {
+      result.push({ label: '', services: ungrouped, multiSelect: false })
+    }
+  }
+
+  return result
+})
+
+// Format helpers
+function formatDuration(minutes?: number): string {
+  if (!minutes) return ''
+  if (minutes < 60) return `${minutes} min`
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+  return mins ? `${hours}h ${mins}m` : `${hours}h`
+}
+
+function formatPrice(price?: number, currency?: string): string {
+  if (price === undefined || price === null) return ''
+  if (price === 0) return t('establishment.free')
+  return new Intl.NumberFormat('nb-NO', {
+    style: 'decimal',
+    minimumFractionDigits: 2
+  }).format(price) + ' ' + (currency || 'kr')
+}
+
+// Actions
+function selectService(service: ServiceItem) {
+  selectedService.value = service
+  view.value = 'flow'
+  emit('service-selected', service)
+}
+
+function handleFlowBack() {
+  view.value = 'services'
+  selectedService.value = null
+}
+
+function handleFlowConfirm(data: { date: Date; time: string; guestCount?: number }) {
+  if (!selectedService.value) return
+  
+  // Check auth before confirming
+  if (!props.isAuthenticated) {
+    pendingConfirmData.value = data
+    view.value = 'login'
+    return
+  }
+  
+  console.log('[BookingSlideover] Booking confirmed:', {
+    service: selectedService.value,
+    ...data
+  })
+  
+  // Emit to parent — parent will handle MercuryEngine and set confirmedBooking prop
+  // which will trigger the confirmation view via the watcher above
+  emit('confirm', {
+    service: selectedService.value,
+    date: data.date,
+    time: data.time,
+    guestCount: data.guestCount,
+    notes: bookingNotes.value.trim() || undefined
+  })
+}
+
+// NEW: Handle date change from child flow
+function handleDateChange(payload: any) {
+  emit('date-change', payload)
+}
+
+function handleViewBookings() {
+  emit('view-bookings')
+  handleClose()
+}
+
+function handleDone() {
+  emit('done')
+  handleClose()
+}
+
+function handleLogin() {
+  emit('login')
+}
+
+function handleSignup() {
+  emit('signup')
+}
+
+function handleClose() {
+  emit('update:open', false)
+  setTimeout(() => {
+    view.value = 'services'
+    selectedService.value = null
+    selectedServices.value = []
+    expandedGroups.value = new Set()
+    pendingConfirmData.value = null
+    bookingNotes.value = ''
+  }, 300)
+}
+
+// Computed
+const headerTitle = computed(() => {
+  if (view.value === 'services') return t('establishment.menuServices')
+  if (view.value === 'confirmation') return t('booking.bookingConfirmed')
+  if (view.value === 'login') return t('booking.signInRequired')
+  return selectedService.value?.title || t('establishment.book')
+})
+
+const currentBookingMode = computed(() => 
+  selectedService.value?.bookingMode || 'standard'
+)
+</script>
+
+<template>
+  <USlideover
+    :open="open"
+    side="right"
+    :dismissible="false"
+    @update:open="handleClose"
+  >
+    <template #header>
+      <div class="flex items-center justify-between w-full">
+        <span class="font-semibold text-lg">
+          {{ headerTitle }}
+        </span>
+        <UButton
+          icon="i-lucide-x"
+          color="neutral"
+          variant="ghost"
+          size="sm"
+          @click="handleClose"
+        />
+      </div>
+    </template>
+
+    <template #body>
+      <!-- Staff Context Banner -->
+      <div
+        v-if="preselectedStaff && view !== 'confirmation'"
+        class="mx-4 mt-2 mb-0 flex items-center gap-3 p-3 rounded-xl bg-primary/5 border border-primary/20"
+      >
+        <div class="size-8 rounded-full overflow-hidden shrink-0 bg-primary/10">
+          <img
+            v-if="preselectedStaff.avatarUrl"
+            :src="preselectedStaff.avatarUrl"
+            :alt="preselectedStaff.displayName"
+            class="size-full object-cover"
+          />
+          <div v-else class="size-full flex items-center justify-center text-primary font-semibold text-xs">
+            {{ preselectedStaff.displayName.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase() }}
+          </div>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium">{{ t('establishment.bookingWith', { name: preselectedStaff.displayName }) }}</p>
+        </div>
+        <UButton
+          icon="i-lucide-x"
+          color="neutral"
+          variant="ghost"
+          size="xs"
+          @click="emit('clear-staff')"
+        />
+      </div>
+
+      <!-- Services List View -->
+      <div v-if="view === 'services'" class="p-4 space-y-3" :class="{ 'pb-28': selectedServices.length > 0 }">
+        <template v-for="section in groupedServices" :key="section.label">
+          <!-- Accordion group with label -->
+          <div v-if="section.label" class="rounded-xl border border-default overflow-hidden">
+            <!-- Accordion header -->
+            <button
+              class="w-full flex items-center justify-between p-4 hover:bg-muted/30 transition-colors text-left"
+              @click="toggleGroupExpanded(section.label)"
+            >
+              <div class="flex items-center gap-3">
+                <span class="font-semibold">{{ section.label }}</span>
+                <span class="text-xs text-muted">{{ t('establishment.serviceCount', { count: section.services.length }) }}</span>
+              </div>
+              <UIcon
+                name="i-lucide-chevron-down"
+                class="size-5 text-muted transition-transform duration-200"
+                :class="{ 'rotate-180': isGroupExpanded(section.label) }"
+              />
+            </button>
+
+            <!-- Accordion content -->
+            <div v-if="isGroupExpanded(section.label)" class="border-t border-default p-3 space-y-2">
+              <div
+                v-for="service in section.services"
+                :key="service.id"
+                class="flex items-center gap-3 p-3 rounded-lg transition-all cursor-pointer"
+                :class="[
+                  section.multiSelect && isServiceSelected(service)
+                    ? 'bg-primary/10 ring-1 ring-primary/40'
+                    : 'bg-muted/20 hover:bg-muted/40',
+                ]"
+                role="button"
+                tabindex="0"
+                @click="section.multiSelect ? toggleService(service) : selectService(service)"
+                @keydown.enter="section.multiSelect ? toggleService(service) : selectService(service)"
+              >
+                <!-- Service Image -->
+                <div class="shrink-0 size-12 rounded-lg bg-muted overflow-hidden">
+                  <img
+                    v-if="service.coverImage"
+                    :src="service.coverImage"
+                    :alt="service.title"
+                    class="w-full h-full object-cover"
+                  >
+                  <div v-else class="w-full h-full flex items-center justify-center">
+                    <UIcon name="i-lucide-calendar-check" class="size-5 text-muted" />
+                  </div>
+                </div>
+
+                <!-- Service Info -->
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-medium text-sm">{{ service.title }}</h3>
+                  <div class="flex items-center gap-2 mt-0.5 text-xs">
+                    <span v-if="service.duration" class="text-muted">
+                      {{ formatDuration(service.duration) }}
+                    </span>
+                    <span
+                      v-if="service.price !== undefined"
+                      class="font-medium"
+                      :class="service.price === 0 ? 'text-green-500' : 'text-primary'"
+                    >
+                      {{ service.price === 0 ? t('establishment.free') : formatPrice(service.price, service.currency) }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Checkbox / Chevron -->
+                <template v-if="section.multiSelect">
+                  <div
+                    class="size-5 rounded border-2 flex items-center justify-center transition-all shrink-0"
+                    :class="isServiceSelected(service) ? 'bg-primary border-primary' : 'border-muted'"
+                  >
+                    <UIcon v-if="isServiceSelected(service)" name="i-lucide-check" class="size-3.5 text-white" />
+                  </div>
+                </template>
+                <UIcon v-else name="i-lucide-chevron-right" class="size-4 text-muted shrink-0" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Ungrouped services (no accordion, flat list) -->
+          <template v-else>
+            <div class="space-y-3">
+              <div
+                v-for="service in section.services"
+                :key="service.id"
+                class="flex items-center gap-4 p-4 rounded-xl bg-muted/30 border border-default hover:border-primary/50 cursor-pointer transition-all group"
+                role="button"
+                tabindex="0"
+                @click="selectService(service)"
+                @keydown.enter="selectService(service)"
+              >
+                <div class="shrink-0 size-16 rounded-lg bg-muted overflow-hidden">
+                  <img
+                    v-if="service.coverImage"
+                    :src="service.coverImage"
+                    :alt="service.title"
+                    class="w-full h-full object-cover"
+                  >
+                  <div v-else class="w-full h-full flex items-center justify-center">
+                    <UIcon name="i-lucide-calendar-check" class="size-6 text-muted" />
+                  </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold group-hover:text-primary transition-colors">{{ service.title }}</h3>
+                  <p v-if="service.description" class="text-sm text-muted line-clamp-2">{{ service.description }}</p>
+                  <div class="flex items-center gap-3 mt-1.5 text-sm">
+                    <span v-if="service.duration" class="flex items-center gap-1 text-muted">
+                      <UIcon name="i-lucide-clock" class="size-3.5" />
+                      {{ formatDuration(service.duration) }}
+                    </span>
+                    <span
+                      v-if="service.price !== undefined"
+                      class="font-medium"
+                      :class="service.price === 0 ? 'text-green-500' : 'text-primary'"
+                    >
+                      {{ service.price === 0 ? t('establishment.free') : formatPrice(service.price, service.currency) }}
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <UBadge
+                    v-if="service.bookingMode === 'tableReservation'"
+                    color="primary"
+                    variant="subtle"
+                    size="xs"
+                  >
+                    {{ t('establishment.reservation') }}
+                  </UBadge>
+                  <UIcon name="i-lucide-chevron-right" class="size-5 text-muted group-hover:text-primary transition-colors" />
+                </div>
+              </div>
+            </div>
+          </template>
+        </template>
+
+        <div v-if="services.length === 0" class="text-center py-12 text-muted">
+          <UIcon name="i-lucide-calendar-x" class="size-12 mx-auto mb-3 opacity-50" />
+          <p>{{ t('establishment.noServices') }}</p>
+        </div>
+
+        <!-- Multi-select sticky footer -->
+        <Transition name="slide-up">
+          <div
+            v-if="selectedServices.length > 0"
+            class="sticky bottom-0 z-10 p-4 bg-elevated border-t border-default shadow-lg"
+          >
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <span class="text-sm font-medium">{{ t('establishment.serviceCount', { count: multiSelectTotal.count }) }}</span>
+                <span class="text-sm text-muted ml-2">{{ formatDuration(multiSelectTotal.duration) }}</span>
+              </div>
+              <span class="font-semibold text-primary">{{ formatPrice(multiSelectTotal.price, multiSelectTotal.currency) }}</span>
+            </div>
+            <UButton
+              :label="t('establishment.proceed')"
+              icon="i-lucide-arrow-right"
+              trailing
+              color="primary"
+              block
+              size="lg"
+              @click="proceedWithMultiSelect"
+            />
+          </div>
+        </Transition>
+      </div>
+
+      <!-- Booking Flow View -->
+      <div v-else-if="view === 'flow'" class="p-4">
+        <!-- Standard Booking Flow -->
+        <StandardBookingFlow
+          v-if="currentBookingMode === 'standard'"
+          :service="selectedService!"
+          :additional-services="selectedServices.length > 0 ? selectedServices.filter(s => s.id !== selectedService?.id) : []"
+          :store-name="storeName"
+          :store-address="storeAddress"
+          :store-logo="storeLogo"
+          :opening-schedule="openingSchedule"
+          :available-slots="availableSlots"
+          :slots-loading="slotsLoading"
+          :slots-error="slotsError"
+          :hold-expires-at="holdExpiresAt"
+          :confirming="confirming"
+          :staff="staff"
+          :preselected-staff="preselectedStaff"
+          @back="handleFlowBack"
+          @confirm="handleFlowConfirm"
+          @date-change="handleDateChange"
+          @staff-selected="(staff: any) => emit('staff-selected', staff)"
+        />
+
+        <!-- Reservation Booking Flow -->
+        <ReservationBookingFlow
+          v-else-if="currentBookingMode === 'tableReservation'"
+          :service="selectedService!"
+          :store-name="storeName"
+          :store-address="storeAddress"
+          :store-logo="storeLogo"
+          :opening-schedule="openingSchedule"
+          :reservation-config="reservationConfig"
+          :available-slots="availableSlots"
+          :slots-loading="slotsLoading"
+          :slots-error="slotsError"
+          @back="handleFlowBack"
+          @confirm="handleFlowConfirm"
+          @date-change="handleDateChange"
+        />
+
+        <!-- Ticket Booking Flow (placeholder) -->
+        <div v-else-if="currentBookingMode === 'ticketSystem'" class="text-center py-12">
+          <UIcon name="i-lucide-ticket" class="size-12 mx-auto mb-3 text-muted" />
+          <p class="text-muted">{{ t('booking.ticketingComingSoon') }}</p>
+          <UButton
+            :label="t('booking.goBack')"
+            color="neutral"
+            variant="ghost"
+            class="mt-4"
+            @click="handleFlowBack"
+          />
+        </div>
+
+        <!-- Notes (optional, always visible during flow) -->
+        <div class="mt-4 pt-3 border-t border-default">
+          <UTextarea
+            v-model="bookingNotes"
+            :placeholder="t('booking.notesPlaceholder', 'Valgfritt...')"
+            :rows="2"
+            autoresize
+            color="neutral"
+            variant="outline"
+            class="w-full"
+          />
+        </div>
+      </div>
+
+      <!-- Confirmation View -->
+      <div v-else-if="view === 'confirmation' && confirmedBooking">
+        <BookingConfirmation
+          :booking="confirmedBooking"
+          @view-bookings="handleViewBookings"
+          @done="handleDone"
+        />
+      </div>
+
+      <!-- Login Required View -->
+      <div v-else-if="view === 'login'" class="p-6 flex flex-col items-center text-center space-y-6">
+        <div class="size-20 rounded-full bg-primary/10 flex items-center justify-center">
+          <UIcon name="i-lucide-lock-keyhole" class="size-10 text-primary" />
+        </div>
+
+        <div class="space-y-2">
+          <h3 class="text-lg font-semibold">{{ t('booking.signInToBook') }}</h3>
+          <p class="text-sm text-muted">
+            {{ t('booking.signInToBookDesc', { store: storeName }) }}
+          </p>
+        </div>
+
+        <div class="w-full space-y-3">
+          <UButton
+            :label="t('auth.login')"
+            color="primary"
+            size="lg"
+            block
+            icon="i-lucide-log-in"
+            @click="handleLogin"
+          />
+          <UButton
+            :label="t('auth.signup')"
+            color="primary"
+            variant="outline"
+            size="lg"
+            block
+            icon="i-lucide-user-plus"
+            @click="handleSignup"
+          />
+        </div>
+
+        <UButton
+          :label="t('booking.goBack')"
+          color="neutral"
+          variant="ghost"
+          size="sm"
+          icon="i-lucide-arrow-left"
+          @click="view = 'flow'"
+        />
+      </div>
+    </template>
+
+    <template #footer>
+      <div class="p-4 border-t border-default">
+        <UButton
+          :label="t('common.close')"
+          color="neutral"
+          variant="ghost"
+          block
+          @click="handleClose"
+        />
+      </div>
+    </template>
+  </USlideover>
+</template>
+
+
+// ============================================================================
+// File: packages/ui/components/booking/flows/StandardBookingFlow.vue
+// ============================================================================
+
+<script setup lang="ts">
+/**
+ * StandardBookingFlow
+ * Date-first booking flow for 1:1 appointments.
+ * Flow: Date ÔåÆ Time ÔåÆ Confirm
+ */
+
+interface ServiceItem {
+  id: string
+  title: string
+  description?: string
+  price?: number
+  currency?: string
+  duration?: number
+  coverImage?: string
+}
+
+interface StaffMember {
+  id: string
+  displayName: string
+  avatarUrl?: string
+  title?: string
+}
+
+interface OpeningDay {
+  isOpen: boolean
+  open: string
+  close: string
+}
+
+interface OpeningSchedule {
+  mon?: OpeningDay
+  tue?: OpeningDay
+  wed?: OpeningDay
+  thu?: OpeningDay
+  fri?: OpeningDay
+  sat?: OpeningDay
+  sun?: OpeningDay
+}
+
+interface Props {
+  service: ServiceItem
+  /** Additional services selected via multi-select (excluding primary) */
+  additionalServices?: ServiceItem[]
+  storeName: string
+  storeAddress?: string
+  storeLogo?: string
+  openingSchedule?: OpeningSchedule
+  // Accept real slots from parent instead of generating locally
+  availableSlots?: string[]
+  slotsLoading?: boolean
+  slotsError?: string | null
+  holdExpiresAt?: Date | null
+  /** Whether a booking confirmation is in progress */
+  confirming?: boolean
+  /** Store's available staff */
+  staff?: StaffMember[]
+  /** Preselected staff from storefront (if any) */
+  preselectedStaff?: StaffMember | null
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  additionalServices: () => [],
+  availableSlots: () => [],
+  slotsLoading: false,
+  slotsError: null,
+  holdExpiresAt: null,
+  confirming: false,
+  staff: () => [],
+  preselectedStaff: null
+})
+
+// All services (primary + additional)
+const allServices = computed(() => {
+  return [props.service, ...props.additionalServices]
+})
+
+const totalPrice = computed(() => 
+  allServices.value.reduce((sum, s) => sum + (s.price ?? 0), 0)
+)
+
+const totalDuration = computed(() =>
+  allServices.value.reduce((sum, s) => sum + (s.duration ?? 0), 0)
+)
+
+const emit = defineEmits<{
+  (e: 'back'): void
+  (e: 'confirm', data: { date: Date; time: string }): void
+  (e: 'date-change', date: Date): void
+  (e: 'hold-expired'): void
+  (e: 'retry-slots'): void
+  (e: 'staff-selected', staff: StaffMember | null): void
+}>()
+
+// Hold Expiration Countdown
+const countdown = ref('')
+let timer: NodeJS.Timeout | null = null
+
+watch(() => props.holdExpiresAt, (expires) => {
+  // Clear any existing timer
+  if (timer) {
+    clearInterval(timer)
+    timer = null
+  }
+
+  if (expires) {
+    timer = setInterval(() => {
+      const now = new Date().getTime()
+      const remaining = Math.max(0, expires.getTime() - now)
+      
+      if (remaining <= 0) {
+        countdown.value = '00:00'
+        if (timer) clearInterval(timer)
+        // Reset to time selection — hold is gone, user must pick a new slot
+        selectedTime.value = undefined
+        currentStep.value = 'time'
+        holdExpired.value = true
+        emit('hold-expired')
+        return
+      }
+      
+      const minutes = Math.floor(remaining / 60000)
+      const seconds = Math.floor((remaining % 60000) / 1000)
+      countdown.value = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    }, 1000)
+  } else {
+    countdown.value = ''
+  }
+})
+
+onUnmounted(() => {
+  if (timer) {
+    clearInterval(timer)
+  }
+})
+
+// Flow steps
+type Step = 'staff' | 'date' | 'time' | 'confirm'
+
+// Compute steps dynamically. If multiple staff and no staff preselected, inject 'staff' step.
+const steps = computed(() => {
+  if (props.staff.length > 1 && !props.preselectedStaff) {
+    return ['staff', 'date', 'time', 'confirm'] as const
+  }
+  return ['date', 'time', 'confirm'] as const
+})
+
+const currentStep = ref<Step>(steps.value[0])
+const selectedDate = ref(new Date())
+const selectedTime = ref<string>()
+const holdExpired = ref(false)
+
+// Internal staff tracking if picked during flow
+const localSelectedStaff = ref<StaffMember | null>(props.preselectedStaff || null)
+
+// Keep currentStep synced to the first step if the service changes (wrapper reset)
+watch(() => props.service.id, () => {
+  currentStep.value = steps.value[0]
+  selectedTime.value = undefined
+  localSelectedStaff.value = props.preselectedStaff || null
+})
+
+// Generate next 14 days
+const baseDate = ref(new Date())
+const availableDates = computed(() => {
+  const dates = []
+  const start = new Date(baseDate.value)
+  for (let i = 0; i < 14; i++) {
+    const date = new Date(start)
+    date.setDate(start.getDate() + i)
+    dates.push(date)
+  }
+  return dates
+})
+
+// Use real slots from MercuryEngine, fall back to local generation only if API returns empty
+const timeSlots = computed(() => {
+  let slots: string[]
+  if (props.availableSlots.length > 0) {
+    slots = props.availableSlots
+  } else {
+    // Fallback: generate locally from store opening hours for the selected day
+    const dayMap: Record<number, keyof OpeningSchedule> = {
+      0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat'
+    }
+    const dayKey = dayMap[selectedDate.value.getDay()]
+    const daySchedule = props.openingSchedule?.[dayKey]
+
+    const start = (daySchedule?.isOpen && daySchedule.open) || '09:00'
+    const end = (daySchedule?.isOpen && daySchedule.close) || '17:00'
+    const duration = totalDuration.value || props.service.duration || 60
+    slots = generateTimeSlots(start, end, duration)
+  }
+
+  // Filter out past times if selected date is today
+  const now = new Date()
+  if (isSameDay(selectedDate.value, now)) {
+    const currentMinutes = now.getHours() * 60 + now.getMinutes()
+    slots = slots.filter(slot => {
+      const [h = 0, m = 0] = slot.split(':').map(Number)
+      return h * 60 + m > currentMinutes
+    })
+  }
+
+  return slots
+})
+
+function generateTimeSlots(start: string, end: string, duration: number): string[] {
+  const slots: string[] = []
+  const [startH, startM] = start.split(':').map(Number)
+  const [endH] = end.split(':').map(Number)
+  
+  let currentMinutes = startH * 60 + startM
+  const endMinutes = endH * 60
+  
+  while (currentMinutes + duration <= endMinutes) {
+    const h = Math.floor(currentMinutes / 60)
+    const m = currentMinutes % 60
+    slots.push(`${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`)
+    currentMinutes += duration
+  }
+  return slots
+}
+
+// Check if day is closed
+function isDayClosed(date: Date): boolean {
+  if (!props.openingSchedule) return false
+  const dayMap: Record<number, string> = {
+    0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat'
+  }
+  const dayKey = dayMap[date.getDay()] as keyof OpeningSchedule
+  const schedule = props.openingSchedule?.[dayKey]
+  return !schedule?.isOpen
+}
+
+// Format helpers
+function formatDateShort(date: Date): string {
+  return date.toLocaleDateString('en-US', { weekday: 'short' })
+}
+
+function formatDateNum(date: Date): number {
+  return date.getDate()
+}
+
+function isToday(date: Date): boolean {
+  const today = new Date()
+  return isSameDay(date, today)
+}
+
+function isSameDay(a: Date, b: Date): boolean {
+  return a.getDate() === b.getDate() && 
+         a.getMonth() === b.getMonth() && 
+         a.getFullYear() === b.getFullYear()
+}
+
+function formatFullDate(date: Date): string {
+  return date.toLocaleDateString('nb-NO', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+function formatDuration(minutes?: number): string {
+  if (!minutes) return ''
+  if (minutes < 60) return `${minutes} min`
+  const h = Math.floor(minutes / 60)
+  const m = minutes % 60
+  return m > 0 ? `${h}h ${m}m` : `${h}h`
+}
+
+function formatPrice(price?: number, currency?: string): string {
+  if (!price) return ''
+  return new Intl.NumberFormat('nb-NO', {
+    style: 'currency',
+    currency: currency || 'NOK'
+  }).format(price)
+}
+
+// Navigation
+function handleBack() {
+  switch (currentStep.value) {
+    case 'staff': 
+      emit('back'); 
+      break
+    case 'date': 
+      if (steps.value[0] === 'staff') {
+        currentStep.value = 'staff'
+      } else {
+        emit('back')
+      }
+      break
+    case 'time': 
+      currentStep.value = 'date'
+      break
+    case 'confirm': 
+      currentStep.value = 'time'
+      break
+  }
+}
+
+function selectStaff(staff: StaffMember | null) {
+  localSelectedStaff.value = staff
+  emit('staff-selected', staff)
+  currentStep.value = 'date'
+}
+
+function handleNext() {
+  // Clear expired hold state when moving forward
+  holdExpired.value = false
+  switch (currentStep.value) {
+    case 'date': 
+      // Emit date-change so parent fetches real slots before showing time picker
+      emit('date-change', selectedDate.value)
+      selectedTime.value = undefined
+      currentStep.value = 'time'
+      break
+    case 'time': 
+      if (selectedTime.value) currentStep.value = 'confirm'
+      break
+  }
+}
+
+function handleConfirm() {
+  if (!selectedTime.value) return
+  emit('confirm', {
+    date: selectedDate.value,
+    time: selectedTime.value
+  })
+}
+
+// Progress
+const currentStepIndex = computed(() => steps.value.indexOf(currentStep.value))
+
+const stepTitle = computed(() => {
+  switch (currentStep.value) {
+    case 'staff': return 'Select Staff'
+    case 'date': return 'Select Date'
+    case 'time': return 'Select Time'
+    case 'confirm': return 'Confirm Booking'
+    default: return ''
+  }
+})
+</script>
+
+<template>
+  <div class="space-y-6">
+    <!-- Header with back + title -->
+    <div class="flex items-center gap-3">
+      <UButton
+        icon="i-lucide-arrow-left"
+        color="neutral"
+        variant="ghost"
+        size="sm"
+        @click="handleBack"
+      />
+      <span class="font-semibold text-lg">{{ stepTitle }}</span>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="flex items-center justify-center gap-2">
+      <div v-for="(step, index) in steps" :key="step" class="flex items-center">
+        <div 
+          class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all"
+          :class="index <= currentStepIndex ? 'bg-primary text-white' : 'bg-muted/30 text-muted'"
+        >
+          {{ index + 1 }}
+        </div>
+        <div 
+          v-if="index < steps.length - 1"
+          class="w-8 h-0.5 transition-all"
+          :class="index < currentStepIndex ? 'bg-primary' : 'bg-muted/30'"
+        />
+      </div>
+    </div>
+
+    <!--
+    --
+    -- TODO: Modularize the Slideover to reduce the length of this template and make each slide more maintainable. 
+    --
+    -->
+    
+    <!-- Service Summary Card -->
+    <div class="p-4 rounded-xl bg-muted/20 border border-default">
+      <!-- Single service -->
+      <div v-if="allServices.length === 1" class="flex items-center gap-4">
+        <div class="shrink-0 size-14 rounded-lg bg-muted overflow-hidden">
+          <NuxtImg v-if="service.coverImage" :src="service.coverImage" :alt="service.title" class="w-full h-full object-cover" loading="lazy" sizes="56px" />
+          <div v-else class="w-full h-full flex items-center justify-center">
+            <UIcon name="i-lucide-calendar-check" class="size-6 text-muted" />
+          </div>
+        </div>
+        <div>
+          <p class="font-semibold">{{ service.title }}</p>
+          <div class="flex items-center gap-3 text-sm text-muted">
+            <span v-if="service.duration">{{ formatDuration(service.duration) }}</span>
+            <span v-if="service.price" class="text-primary font-medium">{{ formatPrice(service.price, service.currency) }}</span>
+          </div>
+        </div>
+      </div>
+      <!-- Multiple services -->
+      <div v-else class="space-y-2">
+        <div v-for="s in allServices" :key="s.id" class="flex items-center gap-3">
+          <div class="shrink-0 size-10 rounded-lg bg-muted overflow-hidden">
+            <NuxtImg v-if="s.coverImage" :src="s.coverImage" :alt="s.title" class="w-full h-full object-cover" loading="lazy" sizes="40px" />
+            <div v-else class="w-full h-full flex items-center justify-center">
+              <UIcon name="i-lucide-calendar-check" class="size-4 text-muted" />
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium">{{ s.title }}</p>
+          </div>
+          <span class="text-xs text-muted">{{ formatDuration(s.duration) }}</span>
+        </div>
+        <div class="pt-2 border-t border-default flex justify-between text-sm">
+          <span class="text-muted">{{ allServices.length }} services · {{ formatDuration(totalDuration) }}</span>
+          <span class="text-primary font-medium">{{ formatPrice(totalPrice, service.currency) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 0: Staff Selection -->
+    <div v-if="currentStep === 'staff'" class="space-y-3">
+      <div class="mb-4">
+        <p class="text-sm text-muted">Who would you like to book with?</p>
+      </div>
+      
+      <!-- "Anyone" Option -->
+      <div
+        class="flex items-center gap-4 p-4 rounded-xl border transition-all cursor-pointer"
+        :class="localSelectedStaff === null ? 'bg-primary/5 border-primary/50' : 'bg-muted/20 border-default hover:border-primary/50'"
+        @click="selectStaff(null)"
+      >
+        <div class="size-12 rounded-full overflow-hidden shrink-0 bg-primary/10 flex items-center justify-center border border-primary/20">
+          <UIcon name="i-lucide-users" class="size-5 text-primary" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-medium">Anyone</h3>
+          <p class="text-sm text-muted">Ingen preferanse</p>
+        </div>
+        <UIcon name="i-lucide-chevron-right" class="size-5 text-muted" />
+      </div>
+
+      <!-- Staff List -->
+      <div
+        v-for="s in staff"
+        :key="s.id"
+        class="flex items-center gap-4 p-4 rounded-xl border transition-all cursor-pointer"
+        :class="localSelectedStaff?.id === s.id ? 'bg-primary/5 border-primary/50' : 'bg-muted/20 border-default hover:border-primary/50'"
+        @click="selectStaff(s)"
+      >
+        <div class="size-12 rounded-full overflow-hidden shrink-0 bg-muted border border-default">
+          <img
+            v-if="s.avatarUrl"
+            :src="s.avatarUrl"
+            :alt="s.displayName"
+            class="object-cover w-full h-full"
+          />
+          <div v-else class="w-full h-full flex items-center justify-center text-muted font-semibold">
+            {{ s.displayName.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase() }}
+          </div>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-medium">{{ s.displayName }}</h3>
+          <p v-if="s.title" class="text-sm text-muted">{{ s.title }}</p>
+        </div>
+        <UIcon name="i-lucide-chevron-right" class="size-5 text-muted" />
+      </div>
+    </div>
+
+    <!-- STEP 1: Date Selection -->
+    <div v-else-if="currentStep === 'date'" class="space-y-6">
+      <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <button
+          v-for="date in availableDates"
+          :key="date.toISOString()"
+          class="shrink-0 w-16 py-3 rounded-xl border transition-all text-center"
+          :class="[
+            isDayClosed(date) 
+              ? 'opacity-40 cursor-not-allowed bg-muted/20 border-transparent' 
+              : isSameDay(date, selectedDate)
+                ? 'bg-primary text-white border-primary shadow-lg scale-105'
+                : 'bg-muted/10 border-default hover:border-primary/50'
+          ]"
+          :disabled="isDayClosed(date)"
+          @click="!isDayClosed(date) && (selectedDate = date)"
+        >
+          <span class="text-xs uppercase font-medium" :class="isSameDay(date, selectedDate) ? 'text-white/80' : 'text-muted'">
+            {{ isToday(date) ? 'Today' : formatDateShort(date) }}
+          </span>
+          <span class="block text-xl font-bold mt-1">{{ formatDateNum(date) }}</span>
+          <span v-if="isDayClosed(date)" class="text-[10px] text-muted">Closed</span>
+        </button>
+      </div>
+
+      <UButton
+        label="Continue"
+        color="primary"
+        size="lg"
+        block
+        trailing-icon="i-lucide-arrow-right"
+        :disabled="isDayClosed(selectedDate)"
+        @click="handleNext"
+      />
+    </div>
+
+    <!-- STEP 2: Time Selection -->
+    <div v-else-if="currentStep === 'time'" class="space-y-6">
+      <div class="text-center">
+        <p class="text-muted">{{ formatFullDate(selectedDate) }}</p>
+      </div>
+
+      <!-- Loading state -->
+      <div v-if="slotsLoading" class="flex items-center justify-center py-8">
+        <UIcon name="i-lucide-loader-2" class="size-6 animate-spin text-primary" />
+        <span class="ml-2 text-muted">Loading available times...</span>
+      </div>
+
+      <!-- Error state -->
+      <div v-else-if="slotsError" class="text-center py-8 space-y-3">
+        <UIcon name="i-lucide-wifi-off" class="size-10 text-red-400 mx-auto" />
+        <p class="text-sm font-medium text-red-400">{{ slotsError }}</p>
+        <p class="text-xs text-muted">Check your connection and try again.</p>
+        <UButton
+          label="Retry"
+          color="neutral"
+          variant="soft"
+          size="sm"
+          icon="i-lucide-refresh-cw"
+          @click="emit('date-change', selectedDate)"
+        />
+      </div>
+
+      <!-- Hold expired notice -->
+      <div v-if="holdExpired" class="mb-4 p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center gap-3">
+        <UIcon name="i-lucide-clock" class="size-5 text-amber-500 shrink-0" />
+        <p class="text-sm text-amber-400">Your hold has expired. Please select a new time slot.</p>
+      </div>
+
+      <!-- No slots available -->
+      <div v-else-if="timeSlots.length === 0" class="text-center py-8">
+        <UIcon name="i-lucide-calendar-x" class="size-8 text-muted mx-auto mb-2" />
+        <p class="text-sm text-muted">No available times for this date</p>
+        <p class="text-xs text-muted mt-1">Try selecting a different date.</p>
+      </div>
+
+      <!-- Time slots grid -->
+      <div v-else class="grid grid-cols-4 gap-2">
+        <button
+          v-for="slot in timeSlots"
+          :key="slot"
+          class="py-3 px-2 rounded-lg border text-center font-medium transition-all"
+          :class="selectedTime === slot ? 'bg-primary text-white border-primary' : 'bg-muted/10 border-default hover:border-primary/50'"
+          @click="selectedTime = slot"
+        >
+          {{ slot }}
+        </button>
+      </div>
+
+      <UButton
+        label="Continue"
+        color="primary"
+        size="lg"
+        block
+        trailing-icon="i-lucide-arrow-right"
+        :disabled="!selectedTime"
+        @click="handleNext"
+      />
+    </div>
+
+    <!-- STEP 3: Confirmation -->
+    <div v-else-if="currentStep === 'confirm'" class="space-y-6">
+      <div class="flex items-center gap-4 p-4 rounded-xl bg-muted/20 border border-default">
+        <NuxtImg v-if="storeLogo" :src="storeLogo" :alt="storeName" class="size-16 rounded-xl object-cover" loading="lazy" sizes="64px" />
+        <div v-else class="size-16 rounded-xl bg-muted/50 flex items-center justify-center">
+          <UIcon name="i-lucide-store" class="size-8 text-muted" />
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">{{ storeName }}</h3>
+          <p v-if="storeAddress" class="text-sm text-muted">{{ storeAddress }}</p>
+        </div>
+      </div>
+
+      <!-- Staff info (if applicable) -->
+      <div v-if="localSelectedStaff" class="p-4 rounded-xl border border-default bg-muted/10 flex items-center gap-3">
+        <div class="size-10 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center shrink-0">
+          <img v-if="localSelectedStaff.avatarUrl" :src="localSelectedStaff.avatarUrl" class="w-full h-full object-cover">
+          <span v-else class="text-xs font-semibold text-primary">{{ localSelectedStaff.displayName.substring(0, 2).toUpperCase() }}</span>
+        </div>
+        <div>
+          <p class="text-sm text-muted">Staff</p>
+          <p class="font-semibold">{{ localSelectedStaff.displayName }}</p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl border border-default space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <UIcon name="i-lucide-calendar-check" class="size-5 text-primary" />
+          </div>
+          <div>
+            <p class="text-sm text-muted">{{ allServices.length > 1 ? 'Services' : 'Service' }}</p>
+            <p v-if="allServices.length === 1" class="font-semibold">{{ service.title }}</p>
+            <div v-else class="space-y-0.5">
+              <p v-for="s in allServices" :key="s.id" class="font-medium text-sm">{{ s.title }}</p>
+            </div>
+          </div>
+        </div>
+        <USeparator />
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <UIcon name="i-lucide-calendar" class="size-5 text-primary" />
+          </div>
+          <div>
+            <p class="text-sm text-muted">Date</p>
+            <p class="font-semibold">{{ formatFullDate(selectedDate) }}</p>
+          </div>
+        </div>
+        <USeparator />
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <UIcon name="i-lucide-clock" class="size-5 text-primary" />
+          </div>
+          <div>
+            <p class="text-sm text-muted">Time</p>
+            <p class="font-semibold">{{ selectedTime }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hold countdown warning -->
+      <div v-if="countdown && countdown !== '00:00'" class="flex items-center justify-center gap-2 text-sm">
+        <UIcon name="i-lucide-clock" class="size-4 text-amber-500" />
+        <span class="text-muted">Hold expires in</span>
+        <span class="font-mono font-semibold" :class="parseInt(countdown) < 2 ? 'text-red-400' : 'text-amber-500'">{{ countdown }}</span>
+      </div>
+
+      <UButton
+        label="Confirm Booking"
+        color="primary"
+        size="lg"
+        block
+        icon="i-lucide-check"
+        :loading="confirming"
+        :disabled="confirming"
+        @click="handleConfirm"
+      />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+</style>
+
+
+// ============================================================================
+// File: packages/ui/components/booking/flows/ReservationBookingFlow.vue
+// ============================================================================
+
+<script setup lang="ts">
+/**
+ * ReservationBookingFlow
+ * Guest-first booking flow for table reservations.
+ * Flow: Guest Count → Date → Time → Confirm
+ */
+
+ import { ref, computed, nextTick } from 'vue'
+
+interface ServiceItem {
+  id: string
+  title: string
+  description?: string
+  price?: number
+  currency?: string
+  duration?: number
+  coverImage?: string
+  bookingMode?: 'standard' | 'tableReservation' | 'ticketSystem'
+}
+
+interface OpeningDay {
+  isOpen: boolean
+  open: string
+  close: string
+}
+
+interface OpeningSchedule {
+  mon?: OpeningDay
+  tue?: OpeningDay
+  wed?: OpeningDay
+  thu?: OpeningDay
+  fri?: OpeningDay
+  sat?: OpeningDay
+  sun?: OpeningDay
+}
+
+interface ReservationConfig {
+  maxGuestsPerReservation?: number
+  largePartyHandling?: 'email' | 'call' | 'datto' | 'disabled'
+  largePartyContact?: string
+  slotInterval?: number
+}
+
+interface Props {
+  service: ServiceItem
+  storeName: string
+  storeAddress?: string
+  storeLogo?: string
+  openingSchedule?: OpeningSchedule
+  reservationConfig?: Partial<ReservationConfig>
+  availableSlots?: any[]
+  slotsLoading?: boolean
+  slotsError?: string | null
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  reservationConfig: () => ({
+    maxGuestsPerReservation: 8,
+    largePartyHandling: 'call' as const,
+    slotInterval: 30
+  }),
+  availableSlots: () => [],
+  slotsLoading: false,
+  slotsError: null
+})
+
+const emit = defineEmits<{
+  (e: 'back'): void
+  (e: 'confirm', data: { guestCount: number; date: Date; time: string }): void
+  (e: 'date-change', date: Date): void
+}>()
+
+// Flow steps
+type Step = 'guests' | 'date' | 'time' | 'confirm'
+const currentStep = ref<Step>('guests')
+const guestCount = ref(2)
+const selectedDate = ref(new Date())
+const selectedTime = ref<string>()
+const isEditingGuestCount = ref(false)
+const guestInputRef = ref<HTMLInputElement>()
+
+// Config
+const maxGuests = computed(() => props.reservationConfig?.maxGuestsPerReservation || 8)
+const hasGuestLimit = computed(() => maxGuests.value < 500)
+const showLargePartyMessage = computed(() => hasGuestLimit.value && guestCount.value > maxGuests.value)
+
+// Generate next 14 days
+const baseDate = ref(new Date())
+const availableDates = computed(() => {
+  const dates = []
+  const start = new Date(baseDate.value)
+  for (let i = 0; i < 14; i++) {
+    const date = new Date(start)
+    date.setDate(start.getDate() + i)
+    dates.push(date)
+  }
+  return dates
+})
+
+// Use real time slots from the server (normalize to string arrays)
+const timeSlots = computed(() => {
+  return (props.availableSlots || []).map(slot => {
+    if (typeof slot === 'object' && slot !== null && 'time' in slot) {
+      return slot.time
+    }
+    return String(slot)
+  })
+})
+
+// Check if day is closed
+function isDayClosed(date: Date): boolean {
+  if (!props.openingSchedule) return false
+  const dayMap: Record<number, string> = {
+    0: 'sun', 1: 'mon', 2: 'tue', 3: 'wed', 4: 'thu', 5: 'fri', 6: 'sat'
+  }
+  const dayKey = dayMap[date.getDay()] as keyof OpeningSchedule
+  const schedule = props.openingSchedule?.[dayKey]
+  return !schedule?.isOpen
+}
+
+// Format helpers
+function formatDateShort(date: Date): string {
+  return date.toLocaleDateString('en-US', { weekday: 'short' })
+}
+
+function formatDateNum(date: Date): number {
+  return date.getDate()
+}
+
+function isToday(date: Date): boolean {
+  const today = new Date()
+  return isSameDay(date, today)
+}
+
+function isSameDay(a: Date, b: Date): boolean {
+  return a.getDate() === b.getDate() && 
+         a.getMonth() === b.getMonth() && 
+         a.getFullYear() === b.getFullYear()
+}
+
+function formatFullDate(date: Date): string {
+  return date.toLocaleDateString('nb-NO', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+// Guest count editing
+function startEditingGuestCount() {
+  isEditingGuestCount.value = true
+  nextTick(() => {
+    guestInputRef.value?.select()
+  })
+}
+
+function finishEditingGuestCount() {
+  isEditingGuestCount.value = false
+  if (guestCount.value < 1) guestCount.value = 1
+}
+
+function handleGuestInput(e: Event) {
+  const val = parseInt((e.target as HTMLInputElement).value) || 1
+  guestCount.value = Math.max(1, val)
+}
+
+// Navigation
+function handleBack() {
+  switch (currentStep.value) {
+    case 'guests': emit('back'); break
+    case 'date': currentStep.value = 'guests'; break
+    case 'time': currentStep.value = 'date'; break
+    case 'confirm': currentStep.value = 'time'; break
+  }
+}
+
+function handleNext() {
+  switch (currentStep.value) {
+    case 'guests': 
+      if (!showLargePartyMessage.value) currentStep.value = 'date'
+      break
+    case 'date': currentStep.value = 'time'; break
+    case 'time': 
+      if (selectedTime.value) currentStep.value = 'confirm'
+      break
+  }
+}
+
+function handleConfirm() {
+  if (!selectedTime.value) return
+  emit('confirm', {
+    guestCount: guestCount.value,
+    date: selectedDate.value,
+    time: selectedTime.value
+  })
+}
+
+// Calendar picker
+const showCalendar = ref(false)
+function handleCalendarChange(newDate: Date) {
+  selectedDate.value = newDate
+  baseDate.value = newDate
+  showCalendar.value = false
+  emit('date-change', newDate)
+}
+
+function handleDateSelect(date: Date) {
+  selectedDate.value = date
+  emit('date-change', date)
+}
+
+// Progress
+const steps = ['guests', 'date', 'time', 'confirm'] as const
+const currentStepIndex = computed(() => steps.indexOf(currentStep.value))
+
+const stepTitle = computed(() => {
+  switch (currentStep.value) {
+    case 'guests': return 'Party Size'
+    case 'date': return 'Select Date'
+    case 'time': return 'Select Time'
+    case 'confirm': return 'Confirm'
+    default: return ''
+  }
+})
+</script>
+
+<template>
+  <div class="space-y-6">
+    <!-- Header with back + title -->
+    <div class="flex items-center gap-3">
+      <UButton
+        icon="i-lucide-arrow-left"
+        color="neutral"
+        variant="ghost"
+        size="sm"
+        @click="handleBack"
+      />
+      <span class="font-semibold text-lg">{{ stepTitle }}</span>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="flex items-center justify-center gap-2">
+      <div v-for="(step, index) in steps" :key="step" class="flex items-center">
+        <div 
+          class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all"
+          :class="index <= currentStepIndex ? 'bg-primary text-white' : 'bg-muted/30 text-muted'"
+        >
+          {{ index + 1 }}
+        </div>
+        <div 
+          v-if="index < steps.length - 1"
+          class="w-8 h-0.5 transition-all"
+          :class="index < currentStepIndex ? 'bg-primary' : 'bg-muted/30'"
+        />
+      </div>
+    </div>
+
+    <!-- STEP 1: Guest Count -->
+    <div v-if="currentStep === 'guests'" class="space-y-6">
+      <div class="text-center space-y-2">
+        <h3 class="text-xl font-semibold">How many guests?</h3>
+        <p class="text-muted text-sm">Select the number of people for your reservation</p>
+      </div>
+
+      <!-- Guest Counter -->
+      <div class="flex items-center justify-center gap-6 py-8">
+        <UButton
+          icon="i-lucide-minus"
+          color="neutral"
+          variant="outline"
+          size="xl"
+          :disabled="guestCount <= 1"
+          class="rounded-full size-14"
+          @click="guestCount = Math.max(1, guestCount - 1)"
+        />
+        
+        <div class="text-center min-w-[100px]">
+          <input
+            v-if="isEditingGuestCount"
+            ref="guestInputRef"
+            type="number"
+            :value="guestCount"
+            min="1"
+            class="text-5xl font-bold text-center w-24 bg-transparent border-b-2 border-primary outline-none"
+            @input="handleGuestInput"
+            @blur="finishEditingGuestCount"
+            @keydown.enter="finishEditingGuestCount"
+          />
+          <span 
+            v-else
+            class="text-5xl font-bold cursor-pointer hover:text-primary transition-colors"
+            title="Click to edit"
+            @click="startEditingGuestCount"
+          >
+            {{ guestCount }}
+          </span>
+          <p class="text-sm text-muted mt-1">
+            {{ guestCount === 1 ? 'Guest' : 'Guests' }}
+            <span v-if="hasGuestLimit" class="text-xs">(max {{ maxGuests }})</span>
+          </p>
+        </div>
+        
+        <UButton
+          icon="i-lucide-plus"
+          color="neutral"
+          variant="outline"
+          size="xl"
+          class="rounded-full size-14"
+          @click="guestCount++"
+        />
+      </div>
+
+      <!-- Large Party Message -->
+      <div v-if="showLargePartyMessage" class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-center space-y-2">
+        <UIcon name="i-lucide-users" class="size-8 text-amber-500 mx-auto" />
+        <p class="font-medium text-amber-700 dark:text-amber-400">
+          For parties of {{ maxGuests + 1 }}+ guests
+        </p>
+        <p class="text-sm text-muted">
+          {{ reservationConfig?.largePartyHandling === 'email' 
+              ? 'Please email us to arrange your reservation'
+              : 'Please call us to arrange your reservation' }}
+        </p>
+      </div>
+
+      <UButton
+        v-if="!showLargePartyMessage"
+        label="Continue"
+        color="primary"
+        size="lg"
+        block
+        trailing-icon="i-lucide-arrow-right"
+        @click="handleNext"
+      />
+    </div>
+
+    <!-- STEP 2: Date Selection -->
+    <div v-else-if="currentStep === 'date'" class="space-y-6">
+      <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <button
+          v-for="date in availableDates"
+          :key="date.toISOString()"
+          class="shrink-0 w-16 py-3 rounded-xl border transition-all text-center"
+          :class="[
+            isDayClosed(date) 
+              ? 'opacity-40 cursor-not-allowed bg-muted/20 border-transparent' 
+              : isSameDay(date, selectedDate)
+                ? 'bg-primary text-white border-primary shadow-lg scale-105'
+                : 'bg-muted/10 border-default hover:border-primary/50'
+          ]"
+          :disabled="isDayClosed(date)"
+          @click="!isDayClosed(date) && handleDateSelect(date)"
+        >
+          <span class="text-xs uppercase font-medium" :class="isSameDay(date, selectedDate) ? 'text-white/80' : 'text-muted'">
+            {{ isToday(date) ? 'Today' : formatDateShort(date) }}
+          </span>
+          <span class="block text-xl font-bold mt-1">{{ formatDateNum(date) }}</span>
+          <span v-if="isDayClosed(date)" class="text-[10px] text-muted">Closed</span>
+        </button>
+      </div>
+
+      <div class="p-4 rounded-xl bg-muted/20 border border-default text-center">
+        <p class="text-sm text-muted">Selected Date</p>
+        <p class="font-semibold text-lg">{{ formatFullDate(selectedDate) }}</p>
+      </div>
+
+      <UButton
+        label="Continue"
+        color="primary"
+        size="lg"
+        block
+        trailing-icon="i-lucide-arrow-right"
+        :disabled="isDayClosed(selectedDate)"
+        @click="handleNext"
+      />
+    </div>
+
+    <!-- STEP 3: Time Selection -->
+    <div v-else-if="currentStep === 'time'" class="space-y-6">
+      <div class="text-center space-y-1">
+        <p class="text-sm text-muted">{{ formatFullDate(selectedDate) }}</p>
+        <p class="text-muted">{{ guestCount }} {{ guestCount === 1 ? 'guest' : 'guests' }}</p>
+      </div>
+
+      <div v-if="slotsLoading" class="py-12 flex justify-center">
+        <UIcon name="i-lucide-loader-2" class="size-8 text-primary animate-spin" />
+      </div>
+
+      <div v-else-if="slotsError" class="p-4 rounded-xl bg-error/10 border border-error/30 text-center">
+        <p class="text-error font-medium">{{ slotsError }}</p>
+      </div>
+
+      <div v-else-if="timeSlots.length === 0" class="text-center py-12 text-muted">
+        <UIcon name="i-lucide-calendar-x" class="size-12 mx-auto mb-3 opacity-50" />
+        <p>No tables available for this date.</p>
+      </div>
+
+      <div v-else class="grid grid-cols-4 gap-2">
+        <button
+          v-for="slot in timeSlots"
+          :key="slot"
+          class="py-3 px-2 rounded-lg border text-center font-medium transition-all"
+          :class="selectedTime === slot ? 'bg-primary text-white border-primary' : 'bg-muted/10 border-default hover:border-primary/50'"
+          @click="selectedTime = slot"
+        >
+          {{ slot }}
+        </button>
+      </div>
+
+      <UButton
+        label="Continue"
+        color="primary"
+        size="lg"
+        block
+        trailing-icon="i-lucide-arrow-right"
+        :disabled="!selectedTime || slotsLoading || timeSlots.length === 0"
+        @click="handleNext"
+      />
+    </div>
+
+    <!-- STEP 4: Confirmation -->
+    <div v-else-if="currentStep === 'confirm'" class="space-y-6">
+      <div class="flex items-center gap-4 p-4 rounded-xl bg-muted/20 border border-default">
+        <img
+          v-if="storeLogo"
+          :src="storeLogo"
+          :alt="storeName"
+          class="size-16 rounded-xl object-cover"
+        />
+        <div v-else class="size-16 rounded-xl bg-muted/50 flex items-center justify-center">
+          <UIcon name="i-lucide-utensils" class="size-8 text-muted" />
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">{{ storeName }}</h3>
+          <p v-if="storeAddress" class="text-sm text-muted">{{ storeAddress }}</p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl border border-default space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <UIcon name="i-lucide-concierge-bell" class="size-5 text-primary" />
+          </div>
+          <div>
+            <p class="text-sm text-muted">Service</p>
+            <p class="font-semibold">{{ service.title }}</p>
+          </div>
+        </div>
+        <USeparator />
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <UIcon name="i-lucide-users" class="size-5 text-primary" />
+          </div>
+          <div>
+            <p class="text-sm text-muted">Party Size</p>
+            <p class="font-semibold">{{ guestCount }} {{ guestCount === 1 ? 'Guest' : 'Guests' }}</p>
+          </div>
+        </div>
+        <USeparator />
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <UIcon name="i-lucide-calendar" class="size-5 text-primary" />
+          </div>
+          <div>
+            <p class="text-sm text-muted">Date</p>
+            <p class="font-semibold">{{ formatFullDate(selectedDate) }}</p>
+          </div>
+        </div>
+        <USeparator />
+        <div class="flex items-center gap-3">
+          <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center">
+            <UIcon name="i-lucide-clock" class="size-5 text-primary" />
+          </div>
+          <div>
+            <p class="text-sm text-muted">Time</p>
+            <p class="font-semibold">{{ selectedTime }}</p>
+          </div>
+        </div>
+      </div>
+
+      <UButton
+        label="Confirm Reservation"
+        color="primary"
+        size="lg"
+        block
+        icon="i-lucide-check"
+        @click="handleConfirm"
+      />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
+

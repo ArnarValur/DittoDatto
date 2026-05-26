@@ -2,7 +2,7 @@
 
 > **Hand-off document for an SSH-capable agent operating on Saturn.**
 > Source session: `/grill foundation` (Conductor v2.1), 2026-05-26.
-> Authoritative architecture: ADR-XXXX "Saturn as Staging Environment" (to be written into `conductor/adr/` at the end of the grill session).
+> Authoritative architecture: [ADR-0003](conductor/adr/0003-saturn-staging-environment.md) "Saturn as Staging Environment".
 >
 > **Purpose:** Stand up the DittoDatto Hub (SurrealDB 3.0) on Saturn as the staging-environment source of truth, behind Tailscale, leaving the existing OpenWebUI on `saturn:8080` untouched.
 >
@@ -151,7 +151,7 @@ chmod 600 /srv/dittodatto/.env
 ```bash
 cat > /srv/dittodatto/docker-compose.yml <<'EOF'
 # DittoDatto Hub — Saturn staging stack
-# Source ADR: "Saturn as Staging Environment" (conductor/adr/, /grill foundation 2026-05-26)
+# Source ADR: ADR-0003 "Saturn as Staging Environment" (conductor/adr/0003-saturn-staging-environment.md)
 # Maintained by: future /new-track infrastructure-saturn
 
 name: dittodatto-net
@@ -193,7 +193,7 @@ services:
     labels:
       - "dittodatto.role=database"
       - "dittodatto.env=staging"
-      - "dittodatto.adr=0008,0009"
+      - "dittodatto.adr=0001,0002"
 
   # ─── MercuryEngine V2 (FastAPI/Pydantic v2) — DISABLED until image exists ───
   # Uncomment once the staging Docker image is built and pushed to a registry
@@ -288,7 +288,7 @@ If this fails but the Saturn-side curl works, suspect:
 
 ## 9. Initial namespace + auth setup (deferred — DO NOT RUN YET)
 
-The DittoDatto Hub schemas (titan/company_{slug}, titan/discovery, titan/platform, enceladus/users) are **not** applied by this runbook. They depend on MercuryEngine V2 schema files that are currently still in `DittoDatto-old/schemas/` and will be migrated in a future track.
+The DittoDatto Hub schemas (`companies/{slug}`, `companies/discovery`, `companies/registry`, `users/profiles`) are **not** applied by this runbook. They depend on MercuryEngine V2 schema files that are currently still in `DittoDatto-old/schemas/` and will be migrated in a future track.
 
 When that track lands, the steps will be approximately:
 
@@ -296,8 +296,8 @@ When that track lands, the steps will be approximately:
 # Future — do not run today
 docker compose exec surrealdb /surreal import --conn http://localhost:8000 \
   --user ${SURREAL_USER} --pass ${SURREAL_PASS} \
-  --ns titan --db platform /schemas/platform.surql
-# … and similar for discovery, company-blueprint, users
+  --ns companies --db registry /schemas/registry.surql
+# … and similar for discovery, {slug} blueprints, users/profiles
 ```
 
 Until then, the Hub is intentionally empty.
@@ -341,7 +341,7 @@ DittoDatto Hub setup — REPORT
 
 ## Source of authority
 
-- **Decision record:** ADR "Saturn as Staging Environment" (to be committed into `conductor/adr/` at the end of `/grill foundation` 2026-05-26).
-- **Domain context:** `conductor/context.md` (Saturn, DittoDatto Hub, Tailscale entities + `companies` / `users` namespace rename — added at end of same grill).
-- **Tech stack:** `conductor/project-context.md` §3 (Deployment Targets — to be updated by Arnar post-grill per the §3 rewrite block in the grill transcript).
+- **Decision record:** [ADR-0003](conductor/adr/0003-saturn-staging-environment.md) "Saturn as Staging Environment" (committed 2026-05-26, `/grill foundation`).
+- **Domain context:** `conductor/context.md` (Saturn, DittoDatto Hub, Tailscale entities + `companies` / `users` namespaces — consolidated during foundation grill).
+- **Tech stack:** `conductor/project-context.md` §3 (Deployment Targets — synced 2026-05-26 post-grill).
 - **Historical anchor (stale, do NOT execute):** `conductor/docs/legacy/postit/saturn-local-stack.md` — pre-disruption, still references Firebase Emulator / Hono / TheOracle / Cloudflare Tunnel, all of which are dead.

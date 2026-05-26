@@ -1,0 +1,318 @@
+---
+title: "Layers · Nuxt Kit v4"
+source: "https://nuxt.com/docs/4.x/api/kit/layers"
+author:
+  - "nuxt.com"
+published:
+created: 2026-02-08
+description:
+tags:
+  - "Nuxt"
+---
+## Layers
+
+[Source](https://github.com/nuxt/nuxt/blob/main/packages/kit/src/layers.ts)
+
+Nuxt Kit provides utilities to help you work with layers and their directory structures.
+
+Nuxt layers provide a powerful way to share and extend functionality across projects. When working with layers in modules, you often need to access directory paths from each layer. Nuxt Kit provides the `getLayerDirectories` utility to access resolved directory paths for all layers in your Nuxt application.
+
+## getLayerDirectories
+
+Get the resolved directory paths for all layers in a Nuxt application. This function provides a structured way to access layer directories without directly accessing the private `nuxt.options._layers` property.
+
+### Usage
+
+```ts
+import { defineNuxtModule, getLayerDirectories } from '@nuxt/kit'
+
+export default defineNuxtModule({
+
+  setup () {
+
+    const layerDirs = getLayerDirectories()
+
+    // Access directories from all layers
+
+    for (const [index, layer] of layerDirs.entries()) {
+
+      console.log(\`Layer ${index}:\`)
+
+      console.log(\`  Root: ${layer.root}\`)
+
+      console.log(\`  App: ${layer.app}\`)
+
+      console.log(\`  Server: ${layer.server}\`)
+
+      console.log(\`  Pages: ${layer.appPages}\`)
+
+      // ... other directories
+
+    }
+
+  },
+
+})
+```
+
+### Type
+
+```ts
+function getLayerDirectories (nuxt?: Nuxt): LayerDirectories[]
+
+interface LayerDirectories {
+
+  /** Nuxt rootDir (\`/\` by default) */
+
+  readonly root: string
+
+  /** Nitro source directory (\`/server\` by default) */
+
+  readonly server: string
+
+  /** Local modules directory (\`/modules\` by default) */
+
+  readonly modules: string
+
+  /** Shared directory (\`/shared\` by default) */
+
+  readonly shared: string
+
+  /** Public directory (\`/public\` by default) */
+
+  readonly public: string
+
+  /** Nuxt srcDir (\`/app/\` by default) */
+
+  readonly app: string
+
+  /** Layouts directory (\`/app/layouts\` by default) */
+
+  readonly appLayouts: string
+
+  /** Middleware directory (\`/app/middleware\` by default) */
+
+  readonly appMiddleware: string
+
+  /** Pages directory (\`/app/pages\` by default) */
+
+  readonly appPages: string
+
+  /** Plugins directory (\`/app/plugins\` by default) */
+
+  readonly appPlugins: string
+
+}
+```
+
+### Parameters
+
+**`nuxt`** (optional): The Nuxt instance to get layers from. If not provided, the function will use the current Nuxt context.
+
+### Return Value
+
+The `getLayerDirectories` function returns an array of `LayerDirectories` objects, one for each layer in the application.
+
+**Layer Priority Ordering**: The layers are ordered by priority, where:
+
+- The **first layer** is the user/project layer (highest priority)
+- **Earlier layers override later layers** in the array
+- **Base layers appear last** in the array (lowest priority)
+
+This ordering matches Nuxt's layer resolution system, where user-defined configurations and files take precedence over those from base layers.
+
+**`LayerDirectories`**: An object containing the resolved directory paths for a layer.
+
+### Examples
+
+**Processing files from all layers:**
+
+```ts
+import { defineNuxtModule, getLayerDirectories } from '@nuxt/kit'
+
+import { resolve } from 'pathe'
+
+import { globby } from 'globby'
+
+export default defineNuxtModule({
+
+  async setup () {
+
+    const layerDirs = getLayerDirectories()
+
+    // Find all component files across layers
+
+    // Note: layerDirs[0] is the user layer (highest priority)
+
+    // Later layers in the array have lower priority
+
+    const componentFiles = []
+
+    for (const [index, layer] of layerDirs.entries()) {
+
+      const files = await globby('**/*.vue', {
+
+        cwd: resolve(layer.app, 'components'),
+
+        absolute: true,
+
+      })
+
+      console.log(\`Layer ${index} (${index === 0 ? 'user' : 'base'}):\`, files.length, 'components')
+
+      componentFiles.push(...files)
+
+    }
+
+  },
+
+})
+```
+
+**Adding templates from multiple layers:**
+
+```ts
+import { addTemplate, defineNuxtModule, getLayerDirectories } from '@nuxt/kit'
+
+import { basename, resolve } from 'pathe'
+
+import { existsSync } from 'node:fs'
+
+export default defineNuxtModule({
+
+  setup () {
+
+    const layerDirs = getLayerDirectories()
+
+    // Add a config file from each layer that has one
+
+    for (const dirs of layerDirs) {
+
+      const configPath = resolve(dirs.app, 'my-module.config.ts')
+
+      if (existsSync(configPath)) {
+
+        addTemplate({
+
+          filename: \`my-module-${basename(dirs.root)}.config.ts\`,
+
+          src: configPath,
+
+        })
+
+      }
+
+    }
+
+  },
+
+})
+```
+
+**Respecting layer priority:**
+
+```ts
+import { defineNuxtModule, getLayerDirectories } from '@nuxt/kit'
+
+import { resolve } from 'pathe'
+
+import { existsSync, readFileSync } from 'node:fs'
+
+export default defineNuxtModule({
+
+  setup () {
+
+    const layerDirs = getLayerDirectories()
+
+    // Find the first (highest priority) layer that has a specific config file
+
+    // This respects the layer priority system
+
+    let configContent = null
+
+    for (const dirs of layerDirs) {
+
+      const configPath = resolve(dirs.app, 'my-config.json')
+
+      if (existsSync(configPath)) {
+
+        configContent = readFileSync(configPath, 'utf-8')
+
+        console.log(\`Using config from layer: ${dirs.root}\`)
+
+        break // Use the first (highest priority) config found
+
+      }
+
+    }
+
+    // Alternative: Collect configs from all layers, with user layer taking precedence
+
+    const allConfigs = {}
+
+    for (const dirs of layerDirs.reverse()) { // Process from lowest to highest priority
+
+      const configPath = resolve(dirs.app, 'my-config.json')
+
+      if (existsSync(configPath)) {
+
+        const config = JSON.parse(readFileSync(configPath, 'utf-8'))
+
+        Object.assign(allConfigs, config) // Later assignments override earlier ones
+
+      }
+
+    }
+
+  },
+
+})
+```
+
+**Checking for layer-specific directories:**
+
+```ts
+import { defineNuxtModule, getLayerDirectories } from '@nuxt/kit'
+
+import { existsSync } from 'node:fs'
+
+import { resolve } from 'pathe'
+
+export default defineNuxtModule({
+
+  setup () {
+
+    const layerDirs = getLayerDirectories()
+
+    // Find layers that have a specific custom directory
+
+    const layersWithAssets = layerDirs.filter((layer) => {
+
+      return existsSync(resolve(layer.app, 'assets'))
+
+    })
+
+    console.log(\`Found ${layersWithAssets.length} layers with assets directory\`)
+
+  },
+
+})
+```
+
+The `getLayerDirectories` function includes caching via a WeakMap to avoid recomputing directory paths for the same layers repeatedly, improving performance when called multiple times.
+
+Directory paths returned by this function always include a trailing slash for consistency.
+
+[Report an issue](https://github.com/nuxt/nuxt/issues/new/choose) or [Edit this page on GitHub](https://github.com/nuxt/nuxt/edit/main/docs/4.api/5.kit/16.layers.md)[Examples](https://nuxt.com/docs/4.x/api/kit/examples)
+
+[
+
+Examples of Nuxt Kit utilities in use.
+
+](https://nuxt.com/docs/4.x/api/kit/examples)[
+
+Programmatic Usage
+
+Nuxt Kit provides a set of utilities to help you work with Nuxt programmatically. These functions allow you to load Nuxt, build Nuxt, and load Nuxt configuration.
+
+](https://nuxt.com/docs/4.x/api/kit/programmatic)

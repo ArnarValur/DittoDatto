@@ -1,0 +1,3144 @@
+{
+  "users": [
+    {
+      "id": "user_25dc2d",
+      "name": "Kristine Vik-Sandvik",
+      "email": "andersentobias@example.net",
+      "phone": "+4760060624",
+      "photoUrl": "https://picsum.photos/seed/935cb183/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_ee0e34",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:54:53.376032Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_ee0e34"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:54:53.376032Z",
+      "updatedAt": "2025-12-19T04:54:53.376032+00:00"
+    },
+    {
+      "id": "user_e74b1a",
+      "name": "Prof. Helge Rønning",
+      "email": "erik27@example.org",
+      "phone": "46 20 08 97",
+      "photoUrl": "https://picsum.photos/seed/e0a22e2e/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_a741e6",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:55:08.417519Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_a741e6"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:55:08.417519Z",
+      "updatedAt": "2025-12-19T04:55:08.417519+00:00"
+    },
+    {
+      "id": "user_83df4c",
+      "name": "Ruth-Mette Sæther",
+      "email": "moensteinar@example.com",
+      "phone": "+47 16 02 40 63",
+      "photoUrl": "https://picsum.photos/seed/76e79c3e/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_25ca20",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:55:23.426730Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_25ca20"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:55:23.426730Z",
+      "updatedAt": "2025-12-19T04:55:23.426730+00:00"
+    },
+    {
+      "id": "user_805b30",
+      "name": "Sissel Simonsen",
+      "email": "hnilsen@example.net",
+      "phone": "438 56 858",
+      "photoUrl": "https://picsum.photos/seed/80146fc6/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_ec3507",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:55:33.324800Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_ec3507"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:55:33.324800Z",
+      "updatedAt": "2025-12-19T04:55:33.324800+00:00"
+    },
+    {
+      "id": "user_66d10d",
+      "name": "Marius-Dag Lie",
+      "email": "oedegaardkarin@example.com",
+      "phone": "+47 31 43 22 02",
+      "photoUrl": "https://picsum.photos/seed/1f15fa36/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_729217",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:55:43.124887Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_729217"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:55:43.124887Z",
+      "updatedAt": "2025-12-19T04:55:43.124887+00:00"
+    },
+    {
+      "id": "user_a41efe",
+      "name": "Solveig Sørensen",
+      "email": "anette25@example.org",
+      "phone": "89 47 60 73",
+      "photoUrl": "https://picsum.photos/seed/740a82a0/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_ef32aa",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:55:52.986713Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_ef32aa"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:55:52.986713Z",
+      "updatedAt": "2025-12-19T04:55:52.986713+00:00"
+    },
+    {
+      "id": "user_a7df58",
+      "name": "Arne Martinsen",
+      "email": "anderssandvik@example.com",
+      "phone": "02 32 22 83",
+      "photoUrl": "https://picsum.photos/seed/1ea7b5de/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_7e05de",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:56:04.900615Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_7e05de"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:56:04.900615Z",
+      "updatedAt": "2025-12-19T04:56:04.900615+00:00"
+    },
+    {
+      "id": "user_44404f",
+      "name": "Grete Nguyen",
+      "email": "line22@example.org",
+      "phone": "977 89 815",
+      "photoUrl": "https://picsum.photos/seed/bac4192c/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_2c988c",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:56:17.234560Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_2c988c"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:56:17.234560Z",
+      "updatedAt": "2025-12-19T04:56:17.234560+00:00"
+    },
+    {
+      "id": "user_087edb",
+      "name": "Dag-Hans Brekke",
+      "email": "thorsenwenche@example.net",
+      "phone": "427 00 976",
+      "photoUrl": "https://picsum.photos/seed/31a2a9ee/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_330094",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:56:23.879010Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_330094"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:56:23.879010Z",
+      "updatedAt": "2025-12-19T04:56:23.879010+00:00"
+    },
+    {
+      "id": "user_0bea66",
+      "name": "Maren Ødegård-Jørgensen",
+      "email": "vidar51@example.com",
+      "phone": "03118782",
+      "photoUrl": "https://picsum.photos/seed/cadc847c/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_508b59",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T04:56:34.110125Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_508b59"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T04:56:34.110125Z",
+      "updatedAt": "2025-12-19T04:56:34.110125+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_ee0e34",
+      "ownerId": "user_25dc2d",
+      "ownerEmail": "andersentobias@example.net",
+      "name": "Skoger Spiseri",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "http://thomassen-engen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "zroenning@amundsen-ahmed.no",
+      "phone": "04 30 39 30",
+      "logoUrl": "https://picsum.photos/seed/3aca37ee/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:54:53.376032Z",
+      "updatedAt": "2025-12-19T04:54:53.376032Z",
+      "managerIds": [
+        "user_25dc2d"
+      ],
+      "memberIds": [
+        "user_25dc2d"
+      ]
+    },
+    {
+      "id": "comp_a741e6",
+      "ownerId": "user_e74b1a",
+      "ownerEmail": "erik27@example.org",
+      "name": "Fjell Spiseri",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "website": "http://hauge.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "sivertsentorill@isaksen.no",
+      "phone": "33763464",
+      "logoUrl": "https://picsum.photos/seed/983e9599/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:55:08.417519Z",
+      "updatedAt": "2025-12-19T04:55:08.417519Z",
+      "managerIds": [
+        "user_e74b1a"
+      ],
+      "memberIds": [
+        "user_e74b1a"
+      ]
+    },
+    {
+      "id": "comp_25ca20",
+      "ownerId": "user_83df4c",
+      "ownerEmail": "moensteinar@example.com",
+      "name": "Johnsen Kjøkken & Vin",
+      "description": "Vi er Johnsen Kjøkken & Vin, et kjente og elskede restaurantsted i byen. Vi tilbyr deg en unik kulinær opplevelse med friske ingredienser og gode viner fra hele verden.",
+      "website": "https://iversen-knutsen.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "ninaellingsen@aas.no",
+      "phone": "28945230",
+      "logoUrl": "https://picsum.photos/seed/29d9ce40/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:55:23.426730Z",
+      "updatedAt": "2025-12-19T04:55:23.426730Z",
+      "managerIds": [
+        "user_83df4c"
+      ],
+      "memberIds": [
+        "user_83df4c"
+      ]
+    },
+    {
+      "id": "comp_ec3507",
+      "ownerId": "user_805b30",
+      "ownerEmail": "hnilsen@example.net",
+      "name": "Haugen Restaurant",
+      "description": "Haugen Restaurant tilbyr en unik og smakfylt opplevelse for alle som elsker god føde. Vi legger vekt på lokale ingredienser og tradisjonelle norske retter, men med vår egen moderne spin.",
+      "website": "https://solheim.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "boeemagne@kristensen.no",
+      "phone": "450 61 762",
+      "logoUrl": "https://picsum.photos/seed/f32859da/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:55:33.324800Z",
+      "updatedAt": "2025-12-19T04:55:33.324800Z",
+      "managerIds": [
+        "user_805b30"
+      ],
+      "memberIds": [
+        "user_805b30"
+      ]
+    },
+    {
+      "id": "comp_729217",
+      "ownerId": "user_66d10d",
+      "ownerEmail": "oedegaardkarin@example.com",
+      "name": "Svelvik Spiseri",
+      "description": "Svelvik Spiseri er et storslått restaurangkjop som tilbyr frokost, middag og snack for alle leser. Vi setter pris på kvalitetsrettigheter og unike nordiske inspirasjoner i vår menyn.",
+      "website": "http://www.ellingsen.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "mona50@edvardsen.net",
+      "phone": "98927603",
+      "logoUrl": "https://picsum.photos/seed/c4d16c18/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:55:43.124887Z",
+      "updatedAt": "2025-12-19T04:55:43.124887Z",
+      "managerIds": [
+        "user_66d10d"
+      ],
+      "memberIds": [
+        "user_66d10d"
+      ]
+    },
+    {
+      "id": "comp_ef32aa",
+      "ownerId": "user_a41efe",
+      "ownerEmail": "anette25@example.org",
+      "name": "Andresen Kjøkken & Vin",
+      "description": "Andresen Kjøkken & Vin er et eksklusivt og hemmelighetsfyldt restaurantsted i Oslo, som tilbyr en unik kreative kokineringsstil sammen med en fantastisk vinsekke. Vi inviterer deg på en gastronomisk reise som tar deg rundt i verden gjennom vår passion for kreativ mad og finvin.",
+      "website": "https://henriksen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "skristoffersen@martinsen.no",
+      "phone": "68226490",
+      "logoUrl": "https://picsum.photos/seed/1b4365fd/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:55:52.986713Z",
+      "updatedAt": "2025-12-19T04:55:52.986713Z",
+      "managerIds": [
+        "user_a41efe"
+      ],
+      "memberIds": [
+        "user_a41efe"
+      ]
+    },
+    {
+      "id": "comp_7e05de",
+      "ownerId": "user_a7df58",
+      "ownerEmail": "anderssandvik@example.com",
+      "name": "Birkeland Gruppen BA",
+      "description": "Birkeland Gruppen BA er en ledende restauranggruppe med et engasjert team som holder på å tilby ekstraordinære opplevelser for dine kunder. Vi kombinerer innovasjon og traditionell nordmannskjærlighet for å skape unike menmiljøer rundt om i landet.",
+      "website": "http://www.joergensen-paulsen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "ola03@danielsen.net",
+      "phone": "93223118",
+      "logoUrl": "https://picsum.photos/seed/be9740e4/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:56:04.900615Z",
+      "updatedAt": "2025-12-19T04:56:04.900615Z",
+      "managerIds": [
+        "user_a7df58"
+      ],
+      "memberIds": [
+        "user_a7df58"
+      ]
+    },
+    {
+      "id": "comp_2c988c",
+      "ownerId": "user_44404f",
+      "ownerEmail": "line22@example.org",
+      "name": "Lunde Restaurant",
+      "description": "Velkommen til Lunde Restaurant, hvor vi tilbyr en unik og finsk opplevelse med traditionell norsk kjøling.",
+      "website": "https://nielsen-rasmussen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "nilsenhaavard@jensen-karlsen.no",
+      "phone": "922 71 964",
+      "logoUrl": "https://picsum.photos/seed/3ac5c4a5/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:56:17.234560Z",
+      "updatedAt": "2025-12-19T04:56:17.234560Z",
+      "managerIds": [
+        "user_44404f"
+      ],
+      "memberIds": [
+        "user_44404f"
+      ]
+    },
+    {
+      "id": "comp_330094",
+      "ownerId": "user_087edb",
+      "ownerEmail": "thorsenwenche@example.net",
+      "name": "Gundersen Kjøkken & Vin",
+      "description": "Gundersen Kjøkken & Vin er et finsidig restaurangsted som tilbyr eksklusive nordiske smaker og en unik vinliste. Vi setter pris på å skape minneverdige opplevelser for våre gjester ved bordet.",
+      "website": "http://haugland.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "ahalvorsen@evensen-pedersen.no",
+      "phone": "455 67 825",
+      "logoUrl": "https://picsum.photos/seed/27d68b71/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:56:23.879010Z",
+      "updatedAt": "2025-12-19T04:56:23.879010Z",
+      "managerIds": [
+        "user_087edb"
+      ],
+      "memberIds": [
+        "user_087edb"
+      ]
+    },
+    {
+      "id": "comp_508b59",
+      "ownerId": "user_0bea66",
+      "ownerEmail": "vidar51@example.com",
+      "name": "Åssiden Spiseri",
+      "description": "Åssiden Spiseri tilbyr frisk og lokalt kjørt kjøtt, fisk og serveringer fra havet. Vi lar deg oppleve de beste smakene av vårt land i et vakuuminert miljø.",
+      "website": "https://ellingsen-fredriksen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "ragnhild26@jacobsen-jenssen.no",
+      "phone": "05205955",
+      "logoUrl": "https://picsum.photos/seed/0137e0f5/512/512",
+      "category": "Restaurants",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T04:56:34.110125Z",
+      "updatedAt": "2025-12-19T04:56:34.110125Z",
+      "managerIds": [
+        "user_0bea66"
+      ],
+      "memberIds": [
+        "user_0bea66"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_2fd51d",
+      "companyId": "comp_ee0e34",
+      "name": "Skoger Spiseri - Åskollen",
+      "slug": "skoger-spiseri-askollen",
+      "address": "Myklebuststubben 7C",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.742723,
+        "lng": 10.176566
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_2fd51d-1/800/600",
+        "https://picsum.photos/seed/store_2fd51d-2/800/600",
+        "https://picsum.photos/seed/store_2fd51d-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:54:53.376032Z",
+      "updatedAt": "2025-12-19T04:54:53.376032Z"
+    },
+    {
+      "id": "store_646732",
+      "companyId": "comp_a741e6",
+      "name": "Fjell Spiseri - Strømsø",
+      "slug": "fjell-spiseri-stromso",
+      "address": "Arnesenalléen 8E",
+      "zip": "3044",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.756197,
+        "lng": 10.203421
+      },
+      "geoHash": null,
+      "about": "En flott bedrift i hjertet av Drammen.",
+      "images": [
+        "https://picsum.photos/seed/store_646732-1/800/600",
+        "https://picsum.photos/seed/store_646732-2/800/600",
+        "https://picsum.photos/seed/store_646732-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:55:08.417519Z",
+      "updatedAt": "2025-12-19T04:55:08.417519Z"
+    },
+    {
+      "id": "store_78f3d2",
+      "companyId": "comp_25ca20",
+      "name": "Johnsen Kjøkken & Vin - Bragernes",
+      "slug": "johnsen-kjokken-vin-bragernes",
+      "address": "Myklebustlyngen 19",
+      "zip": "3015",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.727119,
+        "lng": 10.249565
+      },
+      "geoHash": null,
+      "about": "Vi er Johnsen Kjøkken & Vin, et kjente og elskede restaurantsted i byen. Vi tilbyr deg en unik kulinær opplevelse med friske ingredienser og gode viner fra hele verden.",
+      "images": [
+        "https://picsum.photos/seed/store_78f3d2-1/800/600",
+        "https://picsum.photos/seed/store_78f3d2-2/800/600",
+        "https://picsum.photos/seed/store_78f3d2-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:55:23.426730Z",
+      "updatedAt": "2025-12-19T04:55:23.426730Z"
+    },
+    {
+      "id": "store_cc0707",
+      "companyId": "comp_ec3507",
+      "name": "Haugen Restaurant - Strømsø",
+      "slug": "haugen-restaurant-stromso",
+      "address": "Ødegårdstien 20F",
+      "zip": "3044",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.742741,
+        "lng": 10.223515
+      },
+      "geoHash": null,
+      "about": "Haugen Restaurant tilbyr en unik og smakfylt opplevelse for alle som elsker god føde. Vi legger vekt på lokale ingredienser og tradisjonelle norske retter, men med vår egen moderne spin.",
+      "images": [
+        "https://picsum.photos/seed/store_cc0707-1/800/600",
+        "https://picsum.photos/seed/store_cc0707-2/800/600",
+        "https://picsum.photos/seed/store_cc0707-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:55:33.324800Z",
+      "updatedAt": "2025-12-19T04:55:33.324800Z"
+    },
+    {
+      "id": "store_06b338",
+      "companyId": "comp_729217",
+      "name": "Svelvik Spiseri - Konnerud",
+      "slug": "svelvik-spiseri-konnerud",
+      "address": "Nielsenstubben 02",
+      "zip": "3031",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.726009,
+        "lng": 10.211088
+      },
+      "geoHash": null,
+      "about": "Svelvik Spiseri er et storslått restaurangkjop som tilbyr frokost, middag og snack for alle leser. Vi setter pris på kvalitetsrettigheter og unike nordiske inspirasjoner i vår menyn.",
+      "images": [
+        "https://picsum.photos/seed/store_06b338-1/800/600",
+        "https://picsum.photos/seed/store_06b338-2/800/600",
+        "https://picsum.photos/seed/store_06b338-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:55:43.124887Z",
+      "updatedAt": "2025-12-19T04:55:43.124887Z"
+    },
+    {
+      "id": "store_d922a6",
+      "companyId": "comp_ef32aa",
+      "name": "Andresen Kjøkken & Vin - Krokstadelva",
+      "slug": "andresen-kjokken-vin-krokstadelva",
+      "address": "Simonsenringen 4",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.736253,
+        "lng": 10.209919
+      },
+      "geoHash": null,
+      "about": "Andresen Kjøkken & Vin er et eksklusivt og hemmelighetsfyldt restaurantsted i Oslo, som tilbyr en unik kreative kokineringsstil sammen med en fantastisk vinsekke. Vi inviterer deg på en gastronomisk reise som tar deg rundt i verden gjennom vår passion for kreativ mad og finvin.",
+      "images": [
+        "https://picsum.photos/seed/store_d922a6-1/800/600",
+        "https://picsum.photos/seed/store_d922a6-2/800/600",
+        "https://picsum.photos/seed/store_d922a6-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:55:52.986713Z",
+      "updatedAt": "2025-12-19T04:55:52.986713Z"
+    },
+    {
+      "id": "store_52c517",
+      "companyId": "comp_7e05de",
+      "name": "Birkeland Gruppen BA - Krokstadelva",
+      "slug": "birkeland-gruppen-ba-krokstadelva",
+      "address": "Halvorsenhøgda 1",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.746894,
+        "lng": 10.216203
+      },
+      "geoHash": null,
+      "about": "Birkeland Gruppen BA er en ledende restauranggruppe med et engasjert team som holder på å tilby ekstraordinære opplevelser for dine kunder. Vi kombinerer innovasjon og traditionell nordmannskjærlighet for å skape unike menmiljøer rundt om i landet.",
+      "images": [
+        "https://picsum.photos/seed/store_52c517-1/800/600",
+        "https://picsum.photos/seed/store_52c517-2/800/600",
+        "https://picsum.photos/seed/store_52c517-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:56:04.900615Z",
+      "updatedAt": "2025-12-19T04:56:04.900615Z"
+    },
+    {
+      "id": "store_ddea50",
+      "companyId": "comp_2c988c",
+      "name": "Lunde Restaurant - Konnerud",
+      "slug": "lunde-restaurant-konnerud",
+      "address": "Moenhagen 75",
+      "zip": "3031",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.73298,
+        "lng": 10.227769
+      },
+      "geoHash": null,
+      "about": "Velkommen til Lunde Restaurant, hvor vi tilbyr en unik og finsk opplevelse med traditionell norsk kjøling.",
+      "images": [
+        "https://picsum.photos/seed/store_ddea50-1/800/600",
+        "https://picsum.photos/seed/store_ddea50-2/800/600",
+        "https://picsum.photos/seed/store_ddea50-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:56:17.234560Z",
+      "updatedAt": "2025-12-19T04:56:17.234560Z"
+    },
+    {
+      "id": "store_b52be3",
+      "companyId": "comp_330094",
+      "name": "Gundersen Kjøkken & Vin - Mjøndalen",
+      "slug": "gundersen-kjokken-vin-mjondalen",
+      "address": "Tveithavna 2C",
+      "zip": "3037",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.736855,
+        "lng": 10.247592
+      },
+      "geoHash": null,
+      "about": "Gundersen Kjøkken & Vin er et finsidig restaurangsted som tilbyr eksklusive nordiske smaker og en unik vinliste. Vi setter pris på å skape minneverdige opplevelser for våre gjester ved bordet.",
+      "images": [
+        "https://picsum.photos/seed/store_b52be3-1/800/600",
+        "https://picsum.photos/seed/store_b52be3-2/800/600",
+        "https://picsum.photos/seed/store_b52be3-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:56:23.879010Z",
+      "updatedAt": "2025-12-19T04:56:23.879010Z"
+    },
+    {
+      "id": "store_1ff3b7",
+      "companyId": "comp_508b59",
+      "name": "Åssiden Spiseri - Åskollen",
+      "slug": "assiden-spiseri-askollen",
+      "address": "Hansenvika 9",
+      "zip": "3066",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.729875,
+        "lng": 10.221969
+      },
+      "geoHash": null,
+      "about": "Åssiden Spiseri tilbyr frisk og lokalt kjørt kjøtt, fisk og serveringer fra havet. Vi lar deg oppleve de beste smakene av vårt land i et vakuuminert miljø.",
+      "images": [
+        "https://picsum.photos/seed/store_1ff3b7-1/800/600",
+        "https://picsum.photos/seed/store_1ff3b7-2/800/600",
+        "https://picsum.photos/seed/store_1ff3b7-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "restaurant",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T04:56:34.110125Z",
+      "updatedAt": "2025-12-19T04:56:34.110125Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_790cb6",
+      "storeId": "store_2fd51d",
+      "userId": null,
+      "name": "Siv-Andrea Tangen",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_790cb6/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_0dc5a5",
+      "storeId": "store_2fd51d",
+      "userId": null,
+      "name": "Olav Sivertsen",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_0dc5a5/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_7cb0d7",
+      "storeId": "store_646732",
+      "userId": null,
+      "name": "Sissel Nguyen",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_7cb0d7/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_c1eeec",
+      "storeId": "store_cc0707",
+      "userId": null,
+      "name": "Roar Mikkelsen-Abrahamsen",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_c1eeec/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_02375d",
+      "storeId": "store_cc0707",
+      "userId": null,
+      "name": "Inger Bøe",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_02375d/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_cd1fcc",
+      "storeId": "store_cc0707",
+      "userId": null,
+      "name": "Harald Larsen",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_cd1fcc/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_f09c7c",
+      "storeId": "store_06b338",
+      "userId": null,
+      "name": "Eirik Fredriksen",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_f09c7c/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_4bb102",
+      "storeId": "store_06b338",
+      "userId": null,
+      "name": "Vilde Jensen",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_4bb102/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_a783dc",
+      "storeId": "store_d922a6",
+      "userId": null,
+      "name": "Marte Helland",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_a783dc/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_fec535",
+      "storeId": "store_d922a6",
+      "userId": null,
+      "name": "Svein Aas",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_fec535/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_1cee77",
+      "storeId": "store_d922a6",
+      "userId": null,
+      "name": "Emilie Ruud",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_1cee77/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_d73360",
+      "storeId": "store_ddea50",
+      "userId": null,
+      "name": "Henrik Brekke",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_d73360/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_5e5b66",
+      "storeId": "store_ddea50",
+      "userId": null,
+      "name": "Adrian Berge",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_5e5b66/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_1197da",
+      "storeId": "store_ddea50",
+      "userId": null,
+      "name": "Eva Paulsen",
+      "roles": "Servitør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_1197da/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_24f928",
+      "storeId": "store_2fd51d",
+      "personId": "pers_0dc5a5",
+      "title": "Bordreservasjon",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 753,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_743f66",
+      "storeId": "store_2fd51d",
+      "personId": "pers_790cb6",
+      "title": "Lunsjreservasjon",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1660,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7b879b",
+      "storeId": "store_2fd51d",
+      "personId": "pers_0dc5a5",
+      "title": "Middag (2 personer)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1358,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b6ab70",
+      "storeId": "store_2fd51d",
+      "personId": "pers_790cb6",
+      "title": "Middag (4 personer)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 848,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b405dc",
+      "storeId": "store_2fd51d",
+      "personId": "pers_790cb6",
+      "title": "Selskapsreservasjon",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 583,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9d4ce7",
+      "storeId": "store_2fd51d",
+      "personId": "pers_0dc5a5",
+      "title": "Bordreservasjon",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1634,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_515e81",
+      "storeId": "store_646732",
+      "personId": "pers_7cb0d7",
+      "title": "Bordreservasjon",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1260,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a742b6",
+      "storeId": "store_646732",
+      "personId": "pers_7cb0d7",
+      "title": "Lunsjreservasjon",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1169,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8b0db3",
+      "storeId": "store_646732",
+      "personId": "pers_7cb0d7",
+      "title": "Middag (2 personer)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 599,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f0fed1",
+      "storeId": "store_646732",
+      "personId": "pers_7cb0d7",
+      "title": "Middag (4 personer)",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1794,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8def08",
+      "storeId": "store_646732",
+      "personId": "pers_7cb0d7",
+      "title": "Selskapsreservasjon",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1989,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_02e857",
+      "storeId": "store_646732",
+      "personId": "pers_7cb0d7",
+      "title": "Bordreservasjon",
+      "description": "En flott bedrift i hjertet av Drammen.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "drammen",
+        "service",
+        "lokal",
+        "kvalitet",
+        "nærhet"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1854,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0e7169",
+      "storeId": "store_78f3d2",
+      "personId": null,
+      "title": "Bordreservasjon",
+      "description": "Vi er Johnsen Kjøkken & Vin, et kjente og elskede restaurantsted i byen. Vi tilbyr deg en unik kulinær opplevelse med friske ingredienser og gode viner fra hele verden.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "norsk",
+        "kjøkken",
+        "vin",
+        "restaurang"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1793,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_37b57e",
+      "storeId": "store_78f3d2",
+      "personId": null,
+      "title": "Lunsjreservasjon",
+      "description": "Vi er Johnsen Kjøkken & Vin, et kjente og elskede restaurantsted i byen. Vi tilbyr deg en unik kulinær opplevelse med friske ingredienser og gode viner fra hele verden.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "norsk",
+        "kjøkken",
+        "vin",
+        "restaurang"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1433,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c0c976",
+      "storeId": "store_78f3d2",
+      "personId": null,
+      "title": "Middag (2 personer)",
+      "description": "Vi er Johnsen Kjøkken & Vin, et kjente og elskede restaurantsted i byen. Vi tilbyr deg en unik kulinær opplevelse med friske ingredienser og gode viner fra hele verden.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "norsk",
+        "kjøkken",
+        "vin",
+        "restaurang"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 998,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9d8447",
+      "storeId": "store_78f3d2",
+      "personId": null,
+      "title": "Middag (4 personer)",
+      "description": "Vi er Johnsen Kjøkken & Vin, et kjente og elskede restaurantsted i byen. Vi tilbyr deg en unik kulinær opplevelse med friske ingredienser og gode viner fra hele verden.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "norsk",
+        "kjøkken",
+        "vin",
+        "restaurang"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1923,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a4ec0d",
+      "storeId": "store_78f3d2",
+      "personId": null,
+      "title": "Selskapsreservasjon",
+      "description": "Vi er Johnsen Kjøkken & Vin, et kjente og elskede restaurantsted i byen. Vi tilbyr deg en unik kulinær opplevelse med friske ingredienser og gode viner fra hele verden.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "norsk",
+        "kjøkken",
+        "vin",
+        "restaurang"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1798,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_470d2e",
+      "storeId": "store_78f3d2",
+      "personId": null,
+      "title": "Bordreservasjon",
+      "description": "Vi er Johnsen Kjøkken & Vin, et kjente og elskede restaurantsted i byen. Vi tilbyr deg en unik kulinær opplevelse med friske ingredienser og gode viner fra hele verden.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "norsk",
+        "kjøkken",
+        "vin",
+        "restaurang"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 676,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_b541b3",
+      "storeId": "store_cc0707",
+      "personId": "pers_c1eeec",
+      "title": "Bordreservasjon",
+      "description": "Haugen Restaurant tilbyr en unik og smakfylt opplevelse for alle som elsker god føde. Vi legger vekt på lokale ingredienser og tradisjonelle norske retter, men med vår egen moderne spin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "smakfylt",
+        "lokal",
+        "tradisjonell",
+        "modern"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 852,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_201e75",
+      "storeId": "store_cc0707",
+      "personId": "pers_c1eeec",
+      "title": "Lunsjreservasjon",
+      "description": "Haugen Restaurant tilbyr en unik og smakfylt opplevelse for alle som elsker god føde. Vi legger vekt på lokale ingredienser og tradisjonelle norske retter, men med vår egen moderne spin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "smakfylt",
+        "lokal",
+        "tradisjonell",
+        "modern"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1173,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_41e4c2",
+      "storeId": "store_cc0707",
+      "personId": "pers_cd1fcc",
+      "title": "Middag (2 personer)",
+      "description": "Haugen Restaurant tilbyr en unik og smakfylt opplevelse for alle som elsker god føde. Vi legger vekt på lokale ingredienser og tradisjonelle norske retter, men med vår egen moderne spin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "smakfylt",
+        "lokal",
+        "tradisjonell",
+        "modern"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1066,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_17b4b6",
+      "storeId": "store_cc0707",
+      "personId": "pers_02375d",
+      "title": "Middag (4 personer)",
+      "description": "Haugen Restaurant tilbyr en unik og smakfylt opplevelse for alle som elsker god føde. Vi legger vekt på lokale ingredienser og tradisjonelle norske retter, men med vår egen moderne spin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "smakfylt",
+        "lokal",
+        "tradisjonell",
+        "modern"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1484,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_237d35",
+      "storeId": "store_cc0707",
+      "personId": "pers_c1eeec",
+      "title": "Selskapsreservasjon",
+      "description": "Haugen Restaurant tilbyr en unik og smakfylt opplevelse for alle som elsker god føde. Vi legger vekt på lokale ingredienser og tradisjonelle norske retter, men med vår egen moderne spin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "smakfylt",
+        "lokal",
+        "tradisjonell",
+        "modern"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1095,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f84167",
+      "storeId": "store_cc0707",
+      "personId": "pers_02375d",
+      "title": "Bordreservasjon",
+      "description": "Haugen Restaurant tilbyr en unik og smakfylt opplevelse for alle som elsker god føde. Vi legger vekt på lokale ingredienser og tradisjonelle norske retter, men med vår egen moderne spin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "smakfylt",
+        "lokal",
+        "tradisjonell",
+        "modern"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 827,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_694e3a",
+      "storeId": "store_06b338",
+      "personId": "pers_4bb102",
+      "title": "Bordreservasjon",
+      "description": "Svelvik Spiseri er et storslått restaurangkjop som tilbyr frokost, middag og snack for alle leser. Vi setter pris på kvalitetsrettigheter og unike nordiske inspirasjoner i vår menyn.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "restaurang",
+        "kvalitet",
+        "tradisjon",
+        "innovasjon"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1263,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d08481",
+      "storeId": "store_06b338",
+      "personId": "pers_4bb102",
+      "title": "Lunsjreservasjon",
+      "description": "Svelvik Spiseri er et storslått restaurangkjop som tilbyr frokost, middag og snack for alle leser. Vi setter pris på kvalitetsrettigheter og unike nordiske inspirasjoner i vår menyn.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "restaurang",
+        "kvalitet",
+        "tradisjon",
+        "innovasjon"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 783,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_16ea19",
+      "storeId": "store_06b338",
+      "personId": "pers_4bb102",
+      "title": "Middag (2 personer)",
+      "description": "Svelvik Spiseri er et storslått restaurangkjop som tilbyr frokost, middag og snack for alle leser. Vi setter pris på kvalitetsrettigheter og unike nordiske inspirasjoner i vår menyn.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "restaurang",
+        "kvalitet",
+        "tradisjon",
+        "innovasjon"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1410,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_56af66",
+      "storeId": "store_06b338",
+      "personId": "pers_f09c7c",
+      "title": "Middag (4 personer)",
+      "description": "Svelvik Spiseri er et storslått restaurangkjop som tilbyr frokost, middag og snack for alle leser. Vi setter pris på kvalitetsrettigheter og unike nordiske inspirasjoner i vår menyn.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "restaurang",
+        "kvalitet",
+        "tradisjon",
+        "innovasjon"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1411,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_16af48",
+      "storeId": "store_06b338",
+      "personId": "pers_4bb102",
+      "title": "Selskapsreservasjon",
+      "description": "Svelvik Spiseri er et storslått restaurangkjop som tilbyr frokost, middag og snack for alle leser. Vi setter pris på kvalitetsrettigheter og unike nordiske inspirasjoner i vår menyn.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "restaurang",
+        "kvalitet",
+        "tradisjon",
+        "innovasjon"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 689,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f88cb3",
+      "storeId": "store_06b338",
+      "personId": "pers_4bb102",
+      "title": "Bordreservasjon",
+      "description": "Svelvik Spiseri er et storslått restaurangkjop som tilbyr frokost, middag og snack for alle leser. Vi setter pris på kvalitetsrettigheter og unike nordiske inspirasjoner i vår menyn.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "restaurang",
+        "kvalitet",
+        "tradisjon",
+        "innovasjon"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 769,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_02849d",
+      "storeId": "store_d922a6",
+      "personId": "pers_a783dc",
+      "title": "Bordreservasjon",
+      "description": "Andresen Kjøkken & Vin er et eksklusivt og hemmelighetsfyldt restaurantsted i Oslo, som tilbyr en unik kreative kokineringsstil sammen med en fantastisk vinsekke. Vi inviterer deg på en gastronomisk reise som tar deg rundt i verden gjennom vår passion for kreativ mad og finvin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "oslo",
+        "kreativ",
+        "vin",
+        "gjennom"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1539,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ae837d",
+      "storeId": "store_d922a6",
+      "personId": "pers_fec535",
+      "title": "Lunsjreservasjon",
+      "description": "Andresen Kjøkken & Vin er et eksklusivt og hemmelighetsfyldt restaurantsted i Oslo, som tilbyr en unik kreative kokineringsstil sammen med en fantastisk vinsekke. Vi inviterer deg på en gastronomisk reise som tar deg rundt i verden gjennom vår passion for kreativ mad og finvin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "oslo",
+        "kreativ",
+        "vin",
+        "gjennom"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1197,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_525bc9",
+      "storeId": "store_d922a6",
+      "personId": "pers_1cee77",
+      "title": "Middag (2 personer)",
+      "description": "Andresen Kjøkken & Vin er et eksklusivt og hemmelighetsfyldt restaurantsted i Oslo, som tilbyr en unik kreative kokineringsstil sammen med en fantastisk vinsekke. Vi inviterer deg på en gastronomisk reise som tar deg rundt i verden gjennom vår passion for kreativ mad og finvin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "oslo",
+        "kreativ",
+        "vin",
+        "gjennom"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1211,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_5aa2c1",
+      "storeId": "store_d922a6",
+      "personId": "pers_a783dc",
+      "title": "Middag (4 personer)",
+      "description": "Andresen Kjøkken & Vin er et eksklusivt og hemmelighetsfyldt restaurantsted i Oslo, som tilbyr en unik kreative kokineringsstil sammen med en fantastisk vinsekke. Vi inviterer deg på en gastronomisk reise som tar deg rundt i verden gjennom vår passion for kreativ mad og finvin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "oslo",
+        "kreativ",
+        "vin",
+        "gjennom"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1911,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_cb39a9",
+      "storeId": "store_d922a6",
+      "personId": "pers_1cee77",
+      "title": "Selskapsreservasjon",
+      "description": "Andresen Kjøkken & Vin er et eksklusivt og hemmelighetsfyldt restaurantsted i Oslo, som tilbyr en unik kreative kokineringsstil sammen med en fantastisk vinsekke. Vi inviterer deg på en gastronomisk reise som tar deg rundt i verden gjennom vår passion for kreativ mad og finvin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "oslo",
+        "kreativ",
+        "vin",
+        "gjennom"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1279,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_00a063",
+      "storeId": "store_d922a6",
+      "personId": "pers_1cee77",
+      "title": "Bordreservasjon",
+      "description": "Andresen Kjøkken & Vin er et eksklusivt og hemmelighetsfyldt restaurantsted i Oslo, som tilbyr en unik kreative kokineringsstil sammen med en fantastisk vinsekke. Vi inviterer deg på en gastronomisk reise som tar deg rundt i verden gjennom vår passion for kreativ mad og finvin.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "oslo",
+        "kreativ",
+        "vin",
+        "gjennom"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1971,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_1a52ae",
+      "storeId": "store_52c517",
+      "personId": null,
+      "title": "Bordreservasjon",
+      "description": "Birkeland Gruppen BA er en ledende restauranggruppe med et engasjert team som holder på å tilby ekstraordinære opplevelser for dine kunder. Vi kombinerer innovasjon og traditionell nordmannskjærlighet for å skape unike menmiljøer rundt om i landet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restauranger",
+        "nordmannskjærlighet",
+        "innovasjon",
+        "tradisjonelle",
+        "opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1064,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_80eaad",
+      "storeId": "store_52c517",
+      "personId": null,
+      "title": "Lunsjreservasjon",
+      "description": "Birkeland Gruppen BA er en ledende restauranggruppe med et engasjert team som holder på å tilby ekstraordinære opplevelser for dine kunder. Vi kombinerer innovasjon og traditionell nordmannskjærlighet for å skape unike menmiljøer rundt om i landet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restauranger",
+        "nordmannskjærlighet",
+        "innovasjon",
+        "tradisjonelle",
+        "opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 578,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2e0a79",
+      "storeId": "store_52c517",
+      "personId": null,
+      "title": "Middag (2 personer)",
+      "description": "Birkeland Gruppen BA er en ledende restauranggruppe med et engasjert team som holder på å tilby ekstraordinære opplevelser for dine kunder. Vi kombinerer innovasjon og traditionell nordmannskjærlighet for å skape unike menmiljøer rundt om i landet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restauranger",
+        "nordmannskjærlighet",
+        "innovasjon",
+        "tradisjonelle",
+        "opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1016,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_3891cd",
+      "storeId": "store_52c517",
+      "personId": null,
+      "title": "Middag (4 personer)",
+      "description": "Birkeland Gruppen BA er en ledende restauranggruppe med et engasjert team som holder på å tilby ekstraordinære opplevelser for dine kunder. Vi kombinerer innovasjon og traditionell nordmannskjærlighet for å skape unike menmiljøer rundt om i landet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restauranger",
+        "nordmannskjærlighet",
+        "innovasjon",
+        "tradisjonelle",
+        "opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1621,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_360232",
+      "storeId": "store_52c517",
+      "personId": null,
+      "title": "Selskapsreservasjon",
+      "description": "Birkeland Gruppen BA er en ledende restauranggruppe med et engasjert team som holder på å tilby ekstraordinære opplevelser for dine kunder. Vi kombinerer innovasjon og traditionell nordmannskjærlighet for å skape unike menmiljøer rundt om i landet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restauranger",
+        "nordmannskjærlighet",
+        "innovasjon",
+        "tradisjonelle",
+        "opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 841,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_f6c5f4",
+      "storeId": "store_52c517",
+      "personId": null,
+      "title": "Bordreservasjon",
+      "description": "Birkeland Gruppen BA er en ledende restauranggruppe med et engasjert team som holder på å tilby ekstraordinære opplevelser for dine kunder. Vi kombinerer innovasjon og traditionell nordmannskjærlighet for å skape unike menmiljøer rundt om i landet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restauranger",
+        "nordmannskjærlighet",
+        "innovasjon",
+        "tradisjonelle",
+        "opplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 820,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_82154f",
+      "storeId": "store_ddea50",
+      "personId": "pers_5e5b66",
+      "title": "Bordreservasjon",
+      "description": "Velkommen til Lunde Restaurant, hvor vi tilbyr en unik og finsk opplevelse med traditionell norsk kjøling.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "finsk",
+        "kjøling",
+        "tradisjonell",
+        "norsk"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 581,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2334d4",
+      "storeId": "store_ddea50",
+      "personId": "pers_5e5b66",
+      "title": "Lunsjreservasjon",
+      "description": "Velkommen til Lunde Restaurant, hvor vi tilbyr en unik og finsk opplevelse med traditionell norsk kjøling.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "finsk",
+        "kjøling",
+        "tradisjonell",
+        "norsk"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 795,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_176cf7",
+      "storeId": "store_ddea50",
+      "personId": "pers_5e5b66",
+      "title": "Middag (2 personer)",
+      "description": "Velkommen til Lunde Restaurant, hvor vi tilbyr en unik og finsk opplevelse med traditionell norsk kjøling.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "finsk",
+        "kjøling",
+        "tradisjonell",
+        "norsk"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 768,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e8c475",
+      "storeId": "store_ddea50",
+      "personId": "pers_d73360",
+      "title": "Middag (4 personer)",
+      "description": "Velkommen til Lunde Restaurant, hvor vi tilbyr en unik og finsk opplevelse med traditionell norsk kjøling.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "finsk",
+        "kjøling",
+        "tradisjonell",
+        "norsk"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1244,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_30fe4b",
+      "storeId": "store_ddea50",
+      "personId": "pers_d73360",
+      "title": "Selskapsreservasjon",
+      "description": "Velkommen til Lunde Restaurant, hvor vi tilbyr en unik og finsk opplevelse med traditionell norsk kjøling.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "finsk",
+        "kjøling",
+        "tradisjonell",
+        "norsk"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 839,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_3f4c1a",
+      "storeId": "store_ddea50",
+      "personId": "pers_5e5b66",
+      "title": "Bordreservasjon",
+      "description": "Velkommen til Lunde Restaurant, hvor vi tilbyr en unik og finsk opplevelse med traditionell norsk kjøling.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "restaurant",
+        "finsk",
+        "kjøling",
+        "tradisjonell",
+        "norsk"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1560,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e9ee38",
+      "storeId": "store_b52be3",
+      "personId": null,
+      "title": "Bordreservasjon",
+      "description": "Gundersen Kjøkken & Vin er et finsidig restaurangsted som tilbyr eksklusive nordiske smaker og en unik vinliste. Vi setter pris på å skape minneverdige opplevelser for våre gjester ved bordet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "smaa",
+        "vinlist",
+        "opplevelse",
+        "kundeservice"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1265,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9f6b68",
+      "storeId": "store_b52be3",
+      "personId": null,
+      "title": "Lunsjreservasjon",
+      "description": "Gundersen Kjøkken & Vin er et finsidig restaurangsted som tilbyr eksklusive nordiske smaker og en unik vinliste. Vi setter pris på å skape minneverdige opplevelser for våre gjester ved bordet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "smaa",
+        "vinlist",
+        "opplevelse",
+        "kundeservice"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 627,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_623ddb",
+      "storeId": "store_b52be3",
+      "personId": null,
+      "title": "Middag (2 personer)",
+      "description": "Gundersen Kjøkken & Vin er et finsidig restaurangsted som tilbyr eksklusive nordiske smaker og en unik vinliste. Vi setter pris på å skape minneverdige opplevelser for våre gjester ved bordet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "smaa",
+        "vinlist",
+        "opplevelse",
+        "kundeservice"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 575,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_3b701d",
+      "storeId": "store_b52be3",
+      "personId": null,
+      "title": "Middag (4 personer)",
+      "description": "Gundersen Kjøkken & Vin er et finsidig restaurangsted som tilbyr eksklusive nordiske smaker og en unik vinliste. Vi setter pris på å skape minneverdige opplevelser for våre gjester ved bordet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "smaa",
+        "vinlist",
+        "opplevelse",
+        "kundeservice"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1261,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ecc57c",
+      "storeId": "store_b52be3",
+      "personId": null,
+      "title": "Selskapsreservasjon",
+      "description": "Gundersen Kjøkken & Vin er et finsidig restaurangsted som tilbyr eksklusive nordiske smaker og en unik vinliste. Vi setter pris på å skape minneverdige opplevelser for våre gjester ved bordet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "smaa",
+        "vinlist",
+        "opplevelse",
+        "kundeservice"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1228,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ba00cf",
+      "storeId": "store_b52be3",
+      "personId": null,
+      "title": "Bordreservasjon",
+      "description": "Gundersen Kjøkken & Vin er et finsidig restaurangsted som tilbyr eksklusive nordiske smaker og en unik vinliste. Vi setter pris på å skape minneverdige opplevelser for våre gjester ved bordet.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "nordisk",
+        "smaa",
+        "vinlist",
+        "opplevelse",
+        "kundeservice"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1197,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_415dae",
+      "storeId": "store_1ff3b7",
+      "personId": null,
+      "title": "Bordreservasjon",
+      "description": "Åssiden Spiseri tilbyr frisk og lokalt kjørt kjøtt, fisk og serveringer fra havet. Vi lar deg oppleve de beste smakene av vårt land i et vakuuminert miljø.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "frisk",
+        "lokalt",
+        "smak",
+        "land",
+        "miljø"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 892,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c997c5",
+      "storeId": "store_1ff3b7",
+      "personId": null,
+      "title": "Lunsjreservasjon",
+      "description": "Åssiden Spiseri tilbyr frisk og lokalt kjørt kjøtt, fisk og serveringer fra havet. Vi lar deg oppleve de beste smakene av vårt land i et vakuuminert miljø.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "frisk",
+        "lokalt",
+        "smak",
+        "land",
+        "miljø"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1040,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_0d38ed",
+      "storeId": "store_1ff3b7",
+      "personId": null,
+      "title": "Middag (2 personer)",
+      "description": "Åssiden Spiseri tilbyr frisk og lokalt kjørt kjøtt, fisk og serveringer fra havet. Vi lar deg oppleve de beste smakene av vårt land i et vakuuminert miljø.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "frisk",
+        "lokalt",
+        "smak",
+        "land",
+        "miljø"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1347,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_166cea",
+      "storeId": "store_1ff3b7",
+      "personId": null,
+      "title": "Middag (4 personer)",
+      "description": "Åssiden Spiseri tilbyr frisk og lokalt kjørt kjøtt, fisk og serveringer fra havet. Vi lar deg oppleve de beste smakene av vårt land i et vakuuminert miljø.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "frisk",
+        "lokalt",
+        "smak",
+        "land",
+        "miljø"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1198,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_ce51e9",
+      "storeId": "store_1ff3b7",
+      "personId": null,
+      "title": "Selskapsreservasjon",
+      "description": "Åssiden Spiseri tilbyr frisk og lokalt kjørt kjøtt, fisk og serveringer fra havet. Vi lar deg oppleve de beste smakene av vårt land i et vakuuminert miljø.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "frisk",
+        "lokalt",
+        "smak",
+        "land",
+        "miljø"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1746,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_e0a113",
+      "storeId": "store_1ff3b7",
+      "personId": null,
+      "title": "Bordreservasjon",
+      "description": "Åssiden Spiseri tilbyr frisk og lokalt kjørt kjøtt, fisk og serveringer fra havet. Vi lar deg oppleve de beste smakene av vårt land i et vakuuminert miljø.",
+      "serviceType": [
+        "Restaurants"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "frisk",
+        "lokalt",
+        "smak",
+        "land",
+        "miljø"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1255,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_restaurants",
+      "name": "Restaurants",
+      "slug": "restaurants",
+      "description": null,
+      "icon": "utensils",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_fast-food",
+      "name": "Fast Food",
+      "slug": "fast-food",
+      "description": null,
+      "icon": "utensils",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_hairdressing",
+      "name": "Hairdressing",
+      "slug": "hairdressing",
+      "description": null,
+      "icon": "scissors",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_barbershops",
+      "name": "Barbershops",
+      "slug": "barbershops",
+      "description": null,
+      "icon": "scissors",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_grooming",
+      "name": "Grooming",
+      "slug": "grooming",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_feet",
+      "name": "Feet",
+      "slug": "feet",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_nails",
+      "name": "Nails",
+      "slug": "nails",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_tattoos-and-piercing",
+      "name": "Tattoos and Piercing",
+      "slug": "tattoos-and-piercing",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_tanning",
+      "name": "Tanning",
+      "slug": "tanning",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_massage",
+      "name": "Massage",
+      "slug": "massage",
+      "description": null,
+      "icon": "leaf",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_chiropractic",
+      "name": "Chiropractic",
+      "slug": "chiropractic",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_osteopathy",
+      "name": "Osteopathy",
+      "slug": "osteopathy",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_physiotherapy",
+      "name": "Physiotherapy",
+      "slug": "physiotherapy",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_podiatry",
+      "name": "Podiatry",
+      "slug": "podiatry",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_dentists",
+      "name": "Dentists",
+      "slug": "dentists",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_optical-services",
+      "name": "Optical services",
+      "slug": "optical-services",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_psychology",
+      "name": "Psychology",
+      "slug": "psychology",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_coaching",
+      "name": "Coaching",
+      "slug": "coaching",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_counseling",
+      "name": "Counseling",
+      "slug": "counseling",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_photography",
+      "name": "Photography",
+      "slug": "photography",
+      "description": null,
+      "icon": "camera",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_law",
+      "name": "Law",
+      "slug": "law",
+      "description": null,
+      "icon": "scale",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_government",
+      "name": "Government",
+      "slug": "government",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_automotive",
+      "name": "Automotive",
+      "slug": "automotive",
+      "description": null,
+      "icon": "car",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_cycling",
+      "name": "Cycling",
+      "slug": "cycling",
+      "description": null,
+      "icon": "bike",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_repair",
+      "name": "Repair",
+      "slug": "repair",
+      "description": null,
+      "icon": "wrench",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_cleaning",
+      "name": "Cleaning",
+      "slug": "cleaning",
+      "description": null,
+      "icon": "spray-can",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_animals",
+      "name": "Animals",
+      "slug": "animals",
+      "description": null,
+      "icon": "paw-print",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_golfing",
+      "name": "Golfing",
+      "slug": "golfing",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_fitness",
+      "name": "Fitness",
+      "slug": "fitness",
+      "description": null,
+      "icon": "dumbbell",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_entertainment",
+      "name": "Entertainment",
+      "slug": "entertainment",
+      "description": null,
+      "icon": "ticket",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_venues",
+      "name": "Venues",
+      "slug": "venues",
+      "description": null,
+      "icon": "building",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    },
+    {
+      "id": "cat_other",
+      "name": "Other",
+      "slug": "other",
+      "description": null,
+      "icon": "tag",
+      "createdAt": "2025-12-19T04:54:53.375588Z",
+      "updatedAt": "2025-12-19T04:54:53.375588Z"
+    }
+  ]
+}

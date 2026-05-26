@@ -1,0 +1,13 @@
+{
+  "trackId": "events_simple_20251231",
+  "title": "Simple Event System",
+  "status": "planned",
+  "priority": "medium",
+  "createdAt": "2025-12-31",
+  "updatedAt": "2025-12-31",
+  "tags": ["events", "firestore", "business-portal"],
+  "dependencies": [],
+  "supersedes": null,
+  "relatedTracks": ["event_ticketing_20251229"],
+  "description": "Simplified Event system for company/store events. Ticketing integration deferred to separate track."
+}

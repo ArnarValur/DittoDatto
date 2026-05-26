@@ -1,0 +1,22 @@
+name: mercury_client
+description: Shared API client for DittoDatto Flutter apps. Provides HTTP client, auth, and model DTOs for MercuryEngine.
+version: 0.1.0
+homepage: https://github.com/merkurial-studio/dittodatto
+
+environment:
+  sdk: ^3.11.3
+  flutter: ">=3.41.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.4.0
+  flutter_secure_storage: ^9.2.4
+  json_annotation: ^4.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.15
+  json_serializable: ^6.9.5

@@ -1,0 +1,8 @@
+{
+  "trackId": "{track_id}",
+  "name": "{TRACK_NAME}",
+  "domain": "{domain}",
+  "created": "{date}",
+  "status": "not-started",
+  "cautionLevel": "normal"
+}

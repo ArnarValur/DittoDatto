@@ -1,0 +1,1453 @@
+{
+  "users": [
+    {
+      "id": "user_dec7bd",
+      "name": "Janne Brekke-Nielsen",
+      "email": "ljohannessen@example.com",
+      "phone": "94752156",
+      "photoUrl": "https://picsum.photos/seed/8d3b39e1/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_b63e5c",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:29:09.142767Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_b63e5c"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:29:09.142767Z",
+      "updatedAt": "2025-12-19T08:29:09.142767+00:00"
+    },
+    {
+      "id": "user_26985e",
+      "name": "Ida Mikkelsen",
+      "email": "toneeliassen@example.net",
+      "phone": "55110971",
+      "photoUrl": "https://picsum.photos/seed/a8378402/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_d36261",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:29:17.963410Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_d36261"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:29:17.963410Z",
+      "updatedAt": "2025-12-19T08:29:17.963410+00:00"
+    },
+    {
+      "id": "user_24abea",
+      "name": "Trine Dahl",
+      "email": "alexander49@example.org",
+      "phone": "22772244",
+      "photoUrl": "https://picsum.photos/seed/9d01343e/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_e89bce",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:29:17.964139Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_e89bce"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:29:17.964139Z",
+      "updatedAt": "2025-12-19T08:29:17.964139+00:00"
+    },
+    {
+      "id": "user_9a2341",
+      "name": "Henrik Jørgensen",
+      "email": "karlsenmalin@example.com",
+      "phone": "87377149",
+      "photoUrl": "https://picsum.photos/seed/92d2cd76/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_23dd25",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:29:17.964738Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_23dd25"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:29:17.964738Z",
+      "updatedAt": "2025-12-19T08:29:17.964738+00:00"
+    },
+    {
+      "id": "user_fd0e21",
+      "name": "Randi Birkeland",
+      "email": "karin42@example.com",
+      "phone": "497 47 769",
+      "photoUrl": "https://picsum.photos/seed/75620120/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_60e3ca",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:29:17.965428Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_60e3ca"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:29:17.965428Z",
+      "updatedAt": "2025-12-19T08:29:17.965428+00:00"
+    },
+    {
+      "id": "user_ec4ca4",
+      "name": "Stian Andresen",
+      "email": "jacobsenvidar@example.net",
+      "phone": "43962091",
+      "photoUrl": "https://picsum.photos/seed/d7eecd45/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_a4644d",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:29:27.254251Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_a4644d"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:29:27.254251Z",
+      "updatedAt": "2025-12-19T08:29:27.254251+00:00"
+    },
+    {
+      "id": "user_be9a00",
+      "name": "Rolf-Jens Lie",
+      "email": "lundetobias@example.com",
+      "phone": "99894270",
+      "photoUrl": "https://picsum.photos/seed/05daaa3b/256/256",
+      "roles": "business",
+      "isOnboarded": true,
+      "companyMemberships": [
+        {
+          "companyId": "comp_9f7b5b",
+          "roles": "owner",
+          "assignedAt": "2025-12-19T08:29:39.617088Z"
+        }
+      ],
+      "companyMembershipIds": [
+        "comp_9f7b5b"
+      ],
+      "language": "nb",
+      "createdAt": "2025-12-19T08:29:39.617088Z",
+      "updatedAt": "2025-12-19T08:29:39.617088+00:00"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_b63e5c",
+      "ownerId": "user_dec7bd",
+      "ownerEmail": "ljohannessen@example.com",
+      "name": "Drammen Entertainment",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "website": "http://isaksen.org/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "laila35@pettersen.net",
+      "phone": "94 39 92 83",
+      "logoUrl": "https://picsum.photos/seed/da2a0457/512/512",
+      "category": "Entertainment",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:29:09.142767Z",
+      "updatedAt": "2025-12-19T08:29:09.142767Z",
+      "managerIds": [
+        "user_dec7bd"
+      ],
+      "memberIds": [
+        "user_dec7bd"
+      ]
+    },
+    {
+      "id": "comp_d36261",
+      "ownerId": "user_26985e",
+      "ownerEmail": "toneeliassen@example.net",
+      "name": "Drammen Entertainment",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "website": "https://www.solheim.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "elise86@andersen-johansen.no",
+      "phone": "+47 77 87 28 48",
+      "logoUrl": "https://picsum.photos/seed/058af319/512/512",
+      "category": "Entertainment",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:29:17.963410Z",
+      "updatedAt": "2025-12-19T08:29:17.963410Z",
+      "managerIds": [
+        "user_26985e"
+      ],
+      "memberIds": [
+        "user_26985e"
+      ]
+    },
+    {
+      "id": "comp_e89bce",
+      "ownerId": "user_24abea",
+      "ownerEmail": "alexander49@example.org",
+      "name": "Drammen Entertainment",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "website": "https://www.boee-dahl.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "tovechristensen@lunde.no",
+      "phone": "97 30 12 47",
+      "logoUrl": "https://picsum.photos/seed/057b3d70/512/512",
+      "category": "Entertainment",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:29:17.964139Z",
+      "updatedAt": "2025-12-19T08:29:17.964139Z",
+      "managerIds": [
+        "user_24abea"
+      ],
+      "memberIds": [
+        "user_24abea"
+      ]
+    },
+    {
+      "id": "comp_23dd25",
+      "ownerId": "user_9a2341",
+      "ownerEmail": "karlsenmalin@example.com",
+      "name": "Drammen Entertainment",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "website": "http://kristoffersen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "martinjohannessen@henriksen-lie.no",
+      "phone": "451 46 258",
+      "logoUrl": "https://picsum.photos/seed/c4228dbd/512/512",
+      "category": "Entertainment",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:29:17.964738Z",
+      "updatedAt": "2025-12-19T08:29:17.964738Z",
+      "managerIds": [
+        "user_9a2341"
+      ],
+      "memberIds": [
+        "user_9a2341"
+      ]
+    },
+    {
+      "id": "comp_60e3ca",
+      "ownerId": "user_fd0e21",
+      "ownerEmail": "karin42@example.com",
+      "name": "Thorsen RFH og Sønner",
+      "description": "Thorsen RFH og Sønner er et kjent entrettelsesfirma i Norge som tilbyr unikke og spennende opplevelser for alle aldersgrupper.",
+      "website": "http://www.ahmed.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "maritsolberg@evensen.no",
+      "phone": "42085032",
+      "logoUrl": "https://picsum.photos/seed/8eaef573/512/512",
+      "category": "Entertainment",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:29:17.965428Z",
+      "updatedAt": "2025-12-19T08:29:17.965428Z",
+      "managerIds": [
+        "user_fd0e21"
+      ],
+      "memberIds": [
+        "user_fd0e21"
+      ]
+    },
+    {
+      "id": "comp_a4644d",
+      "ownerId": "user_ec4ca4",
+      "ownerEmail": "jacobsenvidar@example.net",
+      "name": "Haugland BA & co.",
+      "description": "Vi er Haugland BA & co., et kjent entertainselskap som tilbyr unike og underholdende opplevelser. Vi spekulerer på å utvide voksende markedsføringen vår gjennom innovative kreativt arbeid.",
+      "website": "https://www.strand.com/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "johanjenssen@ahmed.org",
+      "phone": "+47 05 34 87 22",
+      "logoUrl": "https://picsum.photos/seed/253bb896/512/512",
+      "category": "Entertainment",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:29:27.254251Z",
+      "updatedAt": "2025-12-19T08:29:27.254251Z",
+      "managerIds": [
+        "user_ec4ca4"
+      ],
+      "memberIds": [
+        "user_ec4ca4"
+      ]
+    },
+    {
+      "id": "comp_9f7b5b",
+      "ownerId": "user_be9a00",
+      "ownerEmail": "lundetobias@example.com",
+      "name": "Drammen Entertainment",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "website": "http://johannessen.no/",
+      "address": null,
+      "city": null,
+      "zip": null,
+      "country": "NO",
+      "email": "adrian30@lund-haug.no",
+      "phone": "25233546",
+      "logoUrl": "https://picsum.photos/seed/4c037ce8/512/512",
+      "category": "Entertainment",
+      "subcategory": null,
+      "tier": "free",
+      "slinks": null,
+      "onboardingStatus": "complete",
+      "aiSuggestedData": null,
+      "createdAt": "2025-12-19T08:29:39.617088Z",
+      "updatedAt": "2025-12-19T08:29:39.617088Z",
+      "managerIds": [
+        "user_be9a00"
+      ],
+      "memberIds": [
+        "user_be9a00"
+      ]
+    }
+  ],
+  "stores": [
+    {
+      "id": "store_dd1dc2",
+      "companyId": "comp_b63e5c",
+      "name": "Drammen Entertainment - Fjell",
+      "slug": "drammen-entertainment-fjell",
+      "address": "Aasenrøa 38D",
+      "zip": "3021",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.740145,
+        "lng": 10.179707
+      },
+      "geoHash": null,
+      "about": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "images": [
+        "https://picsum.photos/seed/store_dd1dc2-1/800/600",
+        "https://picsum.photos/seed/store_dd1dc2-2/800/600",
+        "https://picsum.photos/seed/store_dd1dc2-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "ticketing",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:29:09.142767Z",
+      "updatedAt": "2025-12-19T08:29:09.142767Z"
+    },
+    {
+      "id": "store_432abd",
+      "companyId": "comp_d36261",
+      "name": "Drammen Entertainment - Åssiden",
+      "slug": "drammen-entertainment-assiden",
+      "address": "Martinsenhagen 6",
+      "zip": "3048",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.74926,
+        "lng": 10.216782
+      },
+      "geoHash": null,
+      "about": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "images": [
+        "https://picsum.photos/seed/store_432abd-1/800/600",
+        "https://picsum.photos/seed/store_432abd-2/800/600",
+        "https://picsum.photos/seed/store_432abd-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "ticketing",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:29:17.963410Z",
+      "updatedAt": "2025-12-19T08:29:17.963410Z"
+    },
+    {
+      "id": "store_ec760b",
+      "companyId": "comp_e89bce",
+      "name": "Drammen Entertainment - Fjell",
+      "slug": "drammen-entertainment-fjell",
+      "address": "Jenssenåsen 490",
+      "zip": "3021",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.740682,
+        "lng": 10.225614
+      },
+      "geoHash": null,
+      "about": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "images": [
+        "https://picsum.photos/seed/store_ec760b-1/800/600",
+        "https://picsum.photos/seed/store_ec760b-2/800/600",
+        "https://picsum.photos/seed/store_ec760b-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "ticketing",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:29:17.964139Z",
+      "updatedAt": "2025-12-19T08:29:17.964139Z"
+    },
+    {
+      "id": "store_4bfc41",
+      "companyId": "comp_23dd25",
+      "name": "Drammen Entertainment - Skoger",
+      "slug": "drammen-entertainment-skoger",
+      "address": "Ruudrøa 1",
+      "zip": "3079",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.745107,
+        "lng": 10.206078
+      },
+      "geoHash": null,
+      "about": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "images": [
+        "https://picsum.photos/seed/store_4bfc41-1/800/600",
+        "https://picsum.photos/seed/store_4bfc41-2/800/600",
+        "https://picsum.photos/seed/store_4bfc41-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "ticketing",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:29:17.964738Z",
+      "updatedAt": "2025-12-19T08:29:17.964738Z"
+    },
+    {
+      "id": "store_d79ac5",
+      "companyId": "comp_60e3ca",
+      "name": "Thorsen RFH og Sønner - Svelvik",
+      "slug": "thorsen-rfh-og-sonner-svelvik",
+      "address": "Bøetjernet 2",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.755006,
+        "lng": 10.218127
+      },
+      "geoHash": null,
+      "about": "Thorsen RFH og Sønner er et kjent entrettelsesfirma i Norge som tilbyr unikke og spennende opplevelser for alle aldersgrupper.",
+      "images": [
+        "https://picsum.photos/seed/store_d79ac5-1/800/600",
+        "https://picsum.photos/seed/store_d79ac5-2/800/600",
+        "https://picsum.photos/seed/store_d79ac5-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "ticketing",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:29:17.965428Z",
+      "updatedAt": "2025-12-19T08:29:17.965428Z"
+    },
+    {
+      "id": "store_56b153",
+      "companyId": "comp_a4644d",
+      "name": "Haugland BA & co. - Svelvik",
+      "slug": "haugland-ba-co-svelvik",
+      "address": "Jørgensenhavna 9C",
+      "zip": "3053",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.751123,
+        "lng": 10.201541
+      },
+      "geoHash": null,
+      "about": "Vi er Haugland BA & co., et kjent entertainselskap som tilbyr unike og underholdende opplevelser. Vi spekulerer på å utvide voksende markedsføringen vår gjennom innovative kreativt arbeid.",
+      "images": [
+        "https://picsum.photos/seed/store_56b153-1/800/600",
+        "https://picsum.photos/seed/store_56b153-2/800/600",
+        "https://picsum.photos/seed/store_56b153-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "ticketing",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:29:27.254251Z",
+      "updatedAt": "2025-12-19T08:29:27.254251Z"
+    },
+    {
+      "id": "store_22a5d0",
+      "companyId": "comp_9f7b5b",
+      "name": "Drammen Entertainment - Krokstadelva",
+      "slug": "drammen-entertainment-krokstadelva",
+      "address": "Christensenvollen 9",
+      "zip": "3018",
+      "city": "Drammen",
+      "country": "NO",
+      "gmapCoord": {
+        "lat": 59.731995,
+        "lng": 10.210684
+      },
+      "geoHash": null,
+      "about": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "images": [
+        "https://picsum.photos/seed/store_22a5d0-1/800/600",
+        "https://picsum.photos/seed/store_22a5d0-2/800/600",
+        "https://picsum.photos/seed/store_22a5d0-3/800/600"
+      ],
+      "openingSchedule": {
+        "mon": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "tue": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "wed": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "thu": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "fri": {
+          "isOpen": true,
+          "open": "09:00",
+          "close": "17:00"
+        },
+        "sat": {
+          "isOpen": true,
+          "open": "10:00",
+          "close": "15:00"
+        },
+        "sun": {
+          "isOpen": false,
+          "open": "00:00",
+          "close": "00:00"
+        }
+      },
+      "timezone": "Europe/Oslo",
+      "bookingFormType": "ticketing",
+      "isPublished": true,
+      "isActive": true,
+      "aggregateRating": null,
+      "createdAt": "2025-12-19T08:29:39.617088Z",
+      "updatedAt": "2025-12-19T08:29:39.617088Z"
+    }
+  ],
+  "persons": [
+    {
+      "id": "pers_7d74a0",
+      "storeId": "store_432abd",
+      "userId": null,
+      "name": "Rolf Svendsen",
+      "roles": "Arrangør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_7d74a0/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_f41b5b",
+      "storeId": "store_432abd",
+      "userId": null,
+      "name": "Kåre Nielsen-Aas",
+      "roles": "Arrangør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_f41b5b/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_8d8dd2",
+      "storeId": "store_4bfc41",
+      "userId": null,
+      "name": "Elise-Siv Rønning",
+      "roles": "Arrangør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_8d8dd2/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_6addcd",
+      "storeId": "store_4bfc41",
+      "userId": null,
+      "name": "Gro Evensen",
+      "roles": "Arrangør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_6addcd/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_f90f04",
+      "storeId": "store_4bfc41",
+      "userId": null,
+      "name": "Harald-Marius Jakobsen",
+      "roles": "Arrangør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_f90f04/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_884ae5",
+      "storeId": "store_d79ac5",
+      "userId": null,
+      "name": "Øystein Ruud",
+      "roles": "Arrangør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_884ae5/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_ea6d59",
+      "storeId": "store_22a5d0",
+      "userId": null,
+      "name": "Karoline Svendsen",
+      "roles": "Arrangør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_ea6d59/256/256",
+      "isBookable": true,
+      "schedule": null
+    },
+    {
+      "id": "pers_ea3982",
+      "storeId": "store_22a5d0",
+      "userId": null,
+      "name": "Torill Strøm",
+      "roles": "Arrangør",
+      "groups": [
+        "staff"
+      ],
+      "imageUrl": "https://picsum.photos/seed/pers_ea3982/256/256",
+      "isBookable": true,
+      "schedule": null
+    }
+  ],
+  "services": [
+    {
+      "id": "serv_be0288",
+      "storeId": "store_dd1dc2",
+      "personId": null,
+      "title": "Billetter",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 872,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_cdd979",
+      "storeId": "store_dd1dc2",
+      "personId": null,
+      "title": "Drop-in",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1803,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_a8627e",
+      "storeId": "store_dd1dc2",
+      "personId": null,
+      "title": "Gruppebooking",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1079,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_559386",
+      "storeId": "store_432abd",
+      "personId": "pers_f41b5b",
+      "title": "Billetter",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1493,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c1d811",
+      "storeId": "store_432abd",
+      "personId": "pers_f41b5b",
+      "title": "Drop-in",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 873,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_4693cf",
+      "storeId": "store_432abd",
+      "personId": "pers_7d74a0",
+      "title": "Gruppebooking",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1368,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c3f615",
+      "storeId": "store_ec760b",
+      "personId": null,
+      "title": "Billetter",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1983,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_44844b",
+      "storeId": "store_ec760b",
+      "personId": null,
+      "title": "Drop-in",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 30,
+      "price": 1046,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c86348",
+      "storeId": "store_ec760b",
+      "personId": null,
+      "title": "Gruppebooking",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1240,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_2c3115",
+      "storeId": "store_4bfc41",
+      "personId": "pers_f90f04",
+      "title": "Billetter",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 1427,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d5fe2e",
+      "storeId": "store_4bfc41",
+      "personId": "pers_6addcd",
+      "title": "Drop-in",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 45,
+      "price": 990,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7b458e",
+      "storeId": "store_4bfc41",
+      "personId": "pers_8d8dd2",
+      "title": "Gruppebooking",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1190,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_d68d4a",
+      "storeId": "store_d79ac5",
+      "personId": "pers_884ae5",
+      "title": "Billetter",
+      "description": "Thorsen RFH og Sønner er et kjent entrettelsesfirma i Norge som tilbyr unikke og spennende opplevelser for alle aldersgrupper.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "entretegning",
+        "norsk",
+        "tilbud",
+        "opplevelse",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1971,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_8a654c",
+      "storeId": "store_d79ac5",
+      "personId": "pers_884ae5",
+      "title": "Drop-in",
+      "description": "Thorsen RFH og Sønner er et kjent entrettelsesfirma i Norge som tilbyr unikke og spennende opplevelser for alle aldersgrupper.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "entretegning",
+        "norsk",
+        "tilbud",
+        "opplevelse",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1597,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6036df",
+      "storeId": "store_d79ac5",
+      "personId": "pers_884ae5",
+      "title": "Gruppebooking",
+      "description": "Thorsen RFH og Sønner er et kjent entrettelsesfirma i Norge som tilbyr unikke og spennende opplevelser for alle aldersgrupper.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "entretegning",
+        "norsk",
+        "tilbud",
+        "opplevelse",
+        "drammen"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 521,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_9a728d",
+      "storeId": "store_56b153",
+      "personId": null,
+      "title": "Billetter",
+      "description": "Vi er Haugland BA & co., et kjent entertainselskap som tilbyr unike og underholdende opplevelser. Vi spekulerer på å utvide voksende markedsføringen vår gjennom innovative kreativt arbeid.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "entertain",
+        "underholdningsselskap",
+        "norskmarkedsføring",
+        "innovativtarbeid",
+        "kreativeopplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 911,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_c145c8",
+      "storeId": "store_56b153",
+      "personId": null,
+      "title": "Drop-in",
+      "description": "Vi er Haugland BA & co., et kjent entertainselskap som tilbyr unike og underholdende opplevelser. Vi spekulerer på å utvide voksende markedsføringen vår gjennom innovative kreativt arbeid.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "entertain",
+        "underholdningsselskap",
+        "norskmarkedsføring",
+        "innovativtarbeid",
+        "kreativeopplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1216,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_cd0347",
+      "storeId": "store_56b153",
+      "personId": null,
+      "title": "Gruppebooking",
+      "description": "Vi er Haugland BA & co., et kjent entertainselskap som tilbyr unike og underholdende opplevelser. Vi spekulerer på å utvide voksende markedsføringen vår gjennom innovative kreativt arbeid.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "entertain",
+        "underholdningsselskap",
+        "norskmarkedsføring",
+        "innovativtarbeid",
+        "kreativeopplevelser"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1625,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_7e41d2",
+      "storeId": "store_22a5d0",
+      "personId": "pers_ea3982",
+      "title": "Billetter",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 545,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_6a5acf",
+      "storeId": "store_22a5d0",
+      "personId": "pers_ea3982",
+      "title": "Drop-in",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 90,
+      "price": 1492,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    },
+    {
+      "id": "serv_93d8e1",
+      "storeId": "store_22a5d0",
+      "personId": "pers_ea6d59",
+      "title": "Gruppebooking",
+      "description": "Drammen Entertainment er en underholdningsbedrift som tilbyr diverse aktiviteter for både lokale og fremmede besøkere.",
+      "serviceType": [
+        "Entertainment"
+      ],
+      "subcategory": null,
+      "keywords": [
+        "underholder",
+        "aktiviteter",
+        "fremmede",
+        "lokale",
+        "tilbud"
+      ],
+      "aiDescription": null,
+      "duration": 60,
+      "price": 1876,
+      "bufferTime": 0,
+      "capacity": 1,
+      "currency": "NOK",
+      "isActive": true
+    }
+  ]
+}

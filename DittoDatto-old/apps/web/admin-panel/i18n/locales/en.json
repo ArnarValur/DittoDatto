@@ -1,0 +1,91 @@
+{
+  "welcome": "Welcome to the Admin Panel",
+  "settings": "Settings",
+  "nav": {
+    "users": "Users",
+    "stores": "Stores",
+    "companies": "Companies",
+    "mainboard": "Mainboard",
+    "inbox": "Inbox",
+    "user_lookup": "User Lookup",
+    "new_company": "New Company",
+    "overview": "Overview",
+    "bookings": "Bookings",
+    "mercury_engine": "MercuryEngine",
+    "reviews": "Reviews",
+    "media": "Media",
+    "restaurants": "Restaurants",
+    "list": "List",
+    "events": "Events",
+    "ticketing": "Ticketing",
+    "general": "General",
+    "categories": "Categories",
+    "icon_manager": "Icon Manager",
+    "members": "Members",
+    "notifications": "Notifications",
+    "security": "Security",
+    "feedback": "Feedback",
+    "help_support": "Help & Support",
+    "go_to": "Go to",
+    "code": "Code",
+    "view_page_source": "View page source"
+  },
+  "dashboard": {
+    "new_mail": "New mail",
+    "new_customer": "New customer",
+    "home": "Home"
+  },
+  "user_menu": {
+    "logout": "Logout",
+    "profile": "Profile",
+    "billing": "Billing",
+    "settings": "Settings",
+    "theme": "Theme",
+    "primary": "Primary",
+    "neutral": "Neutral",
+    "appearance": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "templates": "Templates",
+    "starter": "Starter",
+    "landing": "Landing",
+    "docs": "Docs",
+    "saas": "SaaS",
+    "dashboard": "Dashboard",
+    "chat": "Chat",
+    "portfolio": "Portfolio",
+    "changelog": "Changelog",
+    "documentation": "Documentation",
+    "github_repo": "GitHub repository"
+  },
+  "login": {
+    "email": "Email",
+    "email_placeholder": "Enter your email",
+    "password": "Password",
+    "password_placeholder": "Enter your password",
+    "remember_me": "Remember me",
+    "invalid_email": "Invalid email",
+    "password_required": "Password is required",
+    "title": "Dittodatto Admin",
+    "description": "Restricted Area"
+  },
+  "authForm": {
+    "submit": "Sign In",
+    "loading": "Verifying..."
+  },
+  "dashboardSearchButton": {
+    "label": "Search"
+  },
+  "dashboardSearch": {
+    "placeholder": "Search in dashboard...",
+    "title": "Search",
+    "description": "Search anything in the dashboard"
+  },
+  "commandPalette": {
+    "placeholder": "Type a command or search...",
+    "noMatch": "No results for \"{searchTerm}\"",
+    "noData": "No results",
+    "back": "Back",
+    "close": "Close"
+  }
+}
