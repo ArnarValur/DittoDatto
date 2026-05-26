@@ -3,26 +3,26 @@
 > Domain glossary and ubiquitous language for **DittoDatto**.
 > Updated by `/grill` and `/new-track` sessions.
 >
-> **Pre-populated from targeted domain scan during `/conductor-init` (2026-05-26)** — sourced from `DittoDatto-old/services/mercury-engine/src/mercury_core/models/`, `DittoDatto-old/schemas/*.surql`, `DittoDatto-old/.docs/types/`, and `DittoDatto-old/.docs/CONTEXT.md`. Refine with `/grill`.
+> **Last refined:** 2026-05-26 (`/grill foundation`) — sharpened during the post-disruption foundation grill: namespace rename (`titan`/`enceladus` → `companies`/`users`), surface inventory locked (Flutter primary, Nuxt = landing only), TheOracle scrubbed (non-concept), Saturn staging architecture committed.
 >
-> **Authoritative legacy starting point:** `conductor/docs/legacy/CONTEXT.md` — the foundation grill will sharpen this into the canonical v2.1 glossary.
+> **Authoritative legacy starting point:** `conductor/docs/legacy/CONTEXT.md` — superseded by this file as of the foundation grill.
 
 ---
 
 ## Entities
 
-> Confirmed via brownfield scan. Foundation grill will refine definitions, resolve open ambiguities, and add relationships.
+> Confirmed via brownfield scan + foundation grill refinement. Per-surface grills may add domain-specific entries.
 
-| Term | Definition (seed — refine in grill) | Also known as |
-|------|-------------------------------------|---------------|
+| Term | Definition | Also known as |
+|------|------------|---------------|
 | **Establishment** | A business location registered on the platform — salons, restaurants, garages, clinics, venues. The user-facing term for the `establishment` table. | `store` (legacy Zod / `StoreSchema`), `storeId` (legacy FK) |
 | **EstablishmentPage** | The detail screen for a single Establishment in the Public Marketplace (Flutter). | store page, shop page, detail page |
-| **Company** | The owning business entity on the platform; one Company owns many Establishments. Registered in `titan/platform`. | tenant, merchant, business owner |
-| **Service** | An offered booking unit at an Establishment (e.g., "Haircut 30 min"). Booking mode lives here (`standard` / `tableReservation` / `ticketSystem`). | offering, treatment |
+| **Company** | The owning business entity on the platform; one Company owns many Establishments. Registered in `companies/registry`. | tenant, merchant, business owner |
+| **Service** | An offered booking unit at an Establishment (e.g., "Haircut 30 min"). Booking mode lives here (`standard` / `tableReservation` / `ticketSystem`) — ADR-0010. | offering, treatment |
 | **ServiceGroup** | A grouping of Services on an Establishment (e.g., "Hair", "Beard"). | category (internal), service category |
 | **StaffMember** | A person who performs Services at an Establishment. Migrated from `Person`. | `Person` (deprecated), `personId` (deprecated → `staffId`) |
 | **Customer** | A person who books at an Establishment. Can be Establishment-scoped (walk-in, no BankID) or a platform User (BankID-verified consumer). | guest, walk-in |
-| **User** | A consumer with a BankID-verified platform account, stored in `enceladus/users`. | consumer, platform user |
+| **User** | A consumer with a BankID-verified platform account, stored in `users/profiles`. | consumer, platform user |
 | **Booking** | A confirmed reservation of a Service at a specific time with optional Staff assignment. Fiscally immutable once created. | appointment (when `standard` mode) |
 | **Hold** | A short-lived slot lock (TTL via `expires_at`) that prevents double-booking during checkout. | slot lock, reservation lock |
 | **Reservation** | A table/resource booking via `tableReservation` mode (restaurants). | table booking, group booking |
@@ -35,109 +35,126 @@
 | **DateOverride** | A one-off override to a Schedule for a specific date. | exception, schedule override |
 | **Resource** | A bookable non-staff asset (e.g., a chair, a table, a room). | asset, table (when restaurant) |
 | **ResourceGroup** | Grouping of Resources for cohort booking (e.g., "Window tables"). | resource pool |
-| **Favorite** | A User's saved Establishment (or Staff, deferred). Stored in `enceladus/users`. | save, bookmark |
-| **Category** | A top-level service classification used by DittoBar (e.g., "Beauty", "Restaurant", "Fitness"). Stored in `titan/discovery`. | service type |
-| **Area** | A geographic region used for filtering / browsing (e.g., a fylke, a city). Stored in `titan/discovery`. | region, zone |
+| **Favorite** | A User's saved Establishment (or Staff, deferred). Stored in `users/profiles`. | save, bookmark |
+| **Category** | A top-level service classification used by DittoBar (e.g., "Beauty", "Restaurant", "Fitness"). Stored in `companies/discovery`. | service type |
+| **Area** | A geographic region used for filtering / browsing (e.g., a fylke, a city). Stored in `companies/discovery`. | region, zone |
 | **EstablishmentListing** | A discovery-side projection of an Establishment for DittoBar search (denormalized for read-perf). | search listing, discovery card |
-| **SearchEvent** | A logged DittoBar query — query string, result count, session, selected result, timestamp, geo location, active filters. Stored in `titan/discovery.search_event`. | search log, analytics event |
+| **SearchEvent** | A logged DittoBar query — query string, result count, session, selected result, timestamp, geo location, active filters. Stored in `companies/discovery.search_event`. | search log, analytics event |
 | **Zero-Result Signal** | A SearchEvent with `resultCount === 0`. Represents unmet market demand for outbound B2B sales. | failed search, demand gap |
-| **SystemAlert** | Operational notices broadcast by Admin to consumers / businesses (e.g., scheduled maintenance). Stored in `titan/platform`. | banner, broadcast notice |
-| **IconCollection** | Curated icon sets used across surfaces (categories, badges, agent icons). Stored in `titan/platform`. | icon library |
-| **AuditLog** | Database-level audit trail (CREATE/UPDATE on critical entities) via SurrealDB `DEFINE EVENT`. Stored in `titan/platform`. | activity log |
-| **MessageThread** | Conversation between a Customer (or Ditto) and an Establishment (or Datto). Stored in `titan/company_{slug}`. v1.4 scope. | conversation |
+| **SystemAlert** | Operational notices broadcast by Admin to consumers / businesses (e.g., scheduled maintenance). Stored in `companies/registry`. | banner, broadcast notice |
+| **IconCollection** | Curated icon sets used across surfaces (categories, badges, agent icons). Stored in `companies/registry`. | icon library |
+| **AuditLog** | Database-level audit trail (CREATE/UPDATE on critical entities) via SurrealDB `DEFINE EVENT`. Stored in `companies/registry`. | activity log |
+| **MessageThread** | Conversation between a Customer (or Ditto) and an Establishment (or Datto). Stored in `companies/{slug}`. v1.4 scope. | conversation |
 | **Message** | Single message within a MessageThread. | comm |
 | **Entity** (agent memory) | Graph-node representing an actor/object the agent has knowledge of. | knowledge node |
 | **Fact** (agent memory) | Graph-edge or attribute the agent has learned. | knowledge edge |
 
 ### Conceptual entities (platform concepts, not DB tables)
 
-| Term | Definition (seed) | Also known as |
-|------|-------------------|---------------|
+| Term | Definition | Also known as |
+|------|------------|---------------|
 | **MercuryEngine** (V2) | The unified FastAPI/Pydantic API server: booking + discovery + CRUD + admin domains, on SurrealDB 3.0. **Single API server** — no separate microservices. | booking API, engine, backend |
 | **DittoBar** | The unified search interface in the Public Marketplace. An A2UI visor — Ditto's eyes into the knowledge graph. Dual purpose: user search + demand intelligence harvester. | search bar (avoid), search component (avoid) |
 | **Ditto** | The consumer's personal AI agent (future Layer 2). Finds services, handles bookings, watches marketplaces. | chatbot (avoid), assistant (avoid) |
 | **Datto** | The business's AI receptionist agent (future Layer 2, tiered upgrade). Handles inquiries, manages availability, communicates with Ditto via UCP. | bot (avoid), auto-responder (avoid) |
 | **UCP (Universal Commerce Protocol)** | Future agent-to-agent interoperability protocol — agent-mediated commerce instead of SEO/browsing. | API (avoid), webhook (avoid) |
-| **TheOracle** *(deprecated)* | The discovery concern originally planned as a separate microservice (ADR-0007 v1). **Absorbed** into MercuryEngine after the SurrealDB unification — discovery routes + `titan/discovery` DB remain logically separate but share the API server. | search service (avoid), search API (avoid) |
-| **Public Marketplace (Flutter)** | The consumer-facing native app (iOS + Android). Primary product surface for consumers. | webapp (avoid), frontend (avoid) |
-| **Public Marketplace (web)** | The Nuxt 4 / Vue 3 web surface of the consumer marketplace at `dittodatto.no`. **Real product surface, not a transitional shell.** | web shell (deprecated framing) |
-| **Business Portal** | Merchant dashboard for managing establishments, services, staff, bookings. **To be re-grilled** — full Flutter replacement of legacy Nuxt webapp planned. | admin dashboard (avoid), merchant app (avoid) |
-| **Admin Panel** | Internal platform operations and analytics — Captain/Merkurial Studio super-admin tool. **Flutter** (`apps/admin/`), Android-first (LineageOS tablet). Migration from legacy Nuxt in progress (S19–S20 shipped Dashboard/Users/Companies/Categories). | back-office (avoid), control panel (avoid) |
+| **Public Marketplace (Flutter)** | The consumer-facing native app (iOS + Android). **THE canonical consumer surface** for DittoDatto. | webapp (avoid), frontend (avoid) |
+| **`dittodatto.no` landing page** | The Nuxt 4 / Vue 3 web surface at `dittodatto.no` (Cloud Run-hosted). **Public marketing/landing page only** — NOT a co-equal product surface. Polished AFTER the Flutter app reaches feature completeness. | Public Marketplace (web) — *deprecated framing*, Web Shell — *deprecated framing* |
+| **Business Portal** | Merchant dashboard for managing establishments, services, staff, bookings. **Flutter (planned, full replacement of legacy Nuxt webapp).** | admin dashboard (avoid), merchant app (avoid) |
+| **Admin Panel** | Internal platform operations and analytics — Merkurial Studio super-admin tool. **Flutter** (`apps/admin/`), cross-platform (Android + iOS + Linux desktop + Web). The tablet form-factor is a convenient test surface, not a design constraint. Migration from legacy Nuxt complete on the 4 shipped screens (S19–S20: Dashboard / Users / Companies / Categories). | back-office (avoid), control panel (avoid) |
 | **MasterDatto** | A future cross-Establishment Datto for platform-wide super-business agents. Inbox slot is reserved in the Flutter Admin Panel. | (none yet) |
 | **BankID** | Norwegian digital identity verification via Vipps Login (OIDC). Mandatory for self-service consumer transactions. NOT required for staff-created walk-in customer accounts. | ID verification (avoid), identity check (avoid) |
 | **Tracer Bullet** | A single, thin end-to-end path through every layer of the system that proves the architecture works. Term from *The Pragmatic Programmer*. v1.0 IS the tracer bullet. | steel thread (avoid), proof of concept (avoid) |
 | **Vertical Slice** | A development unit that cuts through all layers (UI → API → DB) for one feature, independently shippable. | horizontal slice (avoid) |
 | **Time Tetris** | The slot-availability algorithm — maps "Minutes from Midnight" to answer "Can I book?" in <200ms. Pure-function `mercury_core.calculators.slots`. | slot algorithm |
 | **Shadow Demand** | The data signal from unauthenticated DittoBar searches — anonymized query+location, used to identify high-demand services for outbound business recruitment. | demand intelligence |
-| **AaaS** (Anything-as-a-Service) | The platform's monetization model (ADR-0005) — nothing locked, everything has a limit; feature access scales with usage. Datto (v1.5) mediates activation conversationally. | SaaS (rejected framing) |
+| **AaaS** (Anything-as-a-Service) | The platform's monetization model (ADR-0011) — nothing locked, everything has a limit; feature access scales with usage. Datto (v1.5) mediates activation conversationally. | SaaS (rejected framing) |
+| **Saturn** | The on-prem NVIDIA GX10 server hosting the DittoDatto Hub (SurrealDB) and other backend STAGING services. Always-on, Tailscale-gated, accessible to Arnar + Höddi + AI agents + occasional showcase guests. Never public. **Staging only — never the production target.** Tailscale machine name: `saturn`; tailnet: `tailb251cd.ts.net`; tailnet IPv4: `100.87.99.59`. Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. | (none) |
+| **DittoDatto Hub** | The SurrealDB 3.0 instance running on Saturn (Docker container, port `8001`) — the staging-environment source of truth. Hosts both `companies` and `users` namespaces. **Distinct from local dev SurrealDB** — dev runs its own independent instance with the same namespace topology but isolated data. | the Hub, staging DB |
+| **`companies` namespace** | The SurrealDB namespace holding all non-PII platform data: per-company databases (`companies/{slug}`), the cross-company DittoBar aggregator (`companies/discovery`), and the platform registry (`companies/registry` — company list, system alerts, audit log, icon collections). Replaces the legacy `titan` codename. | (formerly `titan`) |
+| **`users` namespace** | The SurrealDB namespace holding consumer PII (`users/profiles` — `vipps_sub`, name, email, phone). GDPR-isolated from `companies` via SurrealDB namespace-level user credentials. Replaces the legacy `enceladus` codename. | (formerly `enceladus`) |
+| **Tailscale** | Mesh VPN used by the Merkurial Studio team + AI agents to reach Saturn-hosted staging services. Paid subscription tier; MagicDNS enabled (services reach via `http://saturn:<port>`). No public exposure. | (none) |
 
 ---
 
 ## Relationships
 
-> **Open for foundation grill.** Seed relationships from the legacy CONTEXT.md and schemas:
+> Seed relationships refined during the foundation grill. Per-surface grills may extend.
 
 - A **Company** owns one or more **Establishment**s.
-- An **Establishment** offers many **Service**s. A **Service** has exactly one **booking mode** (`standard` / `tableReservation` / `ticketSystem`) — ADR-0004.
-- An **Establishment** employs many **StaffMember**s. A **Service** has an `assignedStaff` list (empty = not bookable — ADR-0006).
+- An **Establishment** offers many **Service**s. A **Service** has exactly one **booking mode** (`standard` / `tableReservation` / `ticketSystem`) — ADR-0010.
+- An **Establishment** employs many **StaffMember**s. A **Service** has an `assignedStaff` list (empty = not bookable — ADR-0012).
 - A **Booking** holds: one **Service**, optionally one **StaffMember**, optionally one **Resource**, exactly one **Customer** (Establishment-scoped) or one **User** (platform-wide).
 - A **Hold** precedes a **Booking** with a TTL (`expires_at`). Slot calculator filters expired holds.
-- A **SearchEvent** logs a **DittoBar** query; a zero-result subset becomes a **Zero-Result Signal** for B2B sales.
+- A **SearchEvent** logs a **DittoBar** query; a zero-result subset becomes a **Zero-Result Signal** for B2B sales (Shadow Demand).
 - **Ditto** ↔ **Datto** communicate via **UCP** (future).
-- The **Public Marketplace (Flutter)** consumes **MercuryEngine** for all booking + discovery.
-- The **Public Marketplace (web)** consumes **MercuryEngine** for the same — dual surface, same backend.
-- The **Business Portal** configures what **MercuryEngine** serves.
-- The **Admin Panel** monitors all platform operations via `/admin/*` routes.
+- The **Public Marketplace (Flutter)** consumes **MercuryEngine** for all booking + discovery — the canonical consumer surface.
+- The **`dittodatto.no` landing page** consumes **MercuryEngine** for marketing-page content (categories, featured listings, SEO) — supplementary marketing layer, not a co-equal product.
+- The **Business Portal** (Flutter, planned) configures what **MercuryEngine** serves.
+- The **Admin Panel** (Flutter, in-progress) monitors all platform operations via `/admin/*` routes.
+- **Saturn** hosts the **DittoDatto Hub** (SurrealDB) + MercuryEngine V2 staging build; Flutter clients on devices talk to it over **Tailscale**.
 
 ---
 
 ## Terminology Boundaries
 
-> Resolved ambiguities. Foundation grill should validate and extend.
+> Resolved ambiguities. Per-surface grills may extend.
 
-- We say **Establishment** (domain term + SurrealDB table name), not "store" (user-facing) or "shop" or "venue".
+- We say **Establishment** (domain term + SurrealDB table name), not "store" / "shop" / "venue".
   - *Exception:* `StoreSchema`, `storeId` remain in legacy `packages/shared-types/` Zod for Chapter 1 backward compatibility. Flutter / Python use `Establishment` / `establishmentId`.
 - We say **StaffMember** (`StaffMemberSchema`, `staffId`), not "Person". `personId` was migrated to `staffId` across all schemas in Session 3 (2026-05-02).
-- We say **Public Marketplace (Flutter)** for the native consumer app; **Public Marketplace (web)** for the Nuxt webapp. The two are equal product surfaces, **not** "app vs. shell". *(Foundation grill: confirm and codify this — the legacy CONTEXT.md frames the web as a "Web Shell" / transitional scaffolding.)*
-- We say **Admin Panel = Flutter** (`apps/admin/`). The legacy CONTEXT.md and vision.md say "Nuxt web, no migration planned" — this is **stale**; the Flutter Admin Panel was shipped in S19–S20 (Dashboard / Users / Companies / Categories). *(Foundation grill: write this into the canonical glossary, retire the Nuxt framing.)*
-- We say **MercuryEngine** (single API server), not "TheOracle" (deprecated — absorbed). The discovery routes and `titan/discovery` DB remain logically separate but live in the same FastAPI app.
+- We say **Public Marketplace** for the Flutter consumer app (`apps/marketplace/`, iOS + Android) — the canonical consumer surface. We say **`dittodatto.no` landing page** for the Nuxt 4 web surface (`apps/web/public-marketplace/`) — a public marketing/landing page, NOT a co-equal product. The "Web Shell" framing and the "equal dual surface" framing are both **dead**.
+- We say **Admin Panel = Flutter** (`apps/admin/`), cross-platform. The legacy CONTEXT.md and vision.md said "Nuxt web, no migration planned" — that is **stale** and superseded by ADR-0006.
+- We say **Business Portal = Flutter (planned)** — full replacement of the legacy Nuxt webapp. ADR-0007 locks all client-facing surfaces as Flutter.
+- We say **MercuryEngine** (single API server) — discovery routes live in the same FastAPI app as booking/CRUD/admin (`/discovery/*`). There is no separate discovery service.
 - We say **Tracer Bullet** or **Vertical Slice**, never "steel thread" (no Microsoft terminology).
 - We say **BankID** (or "BankID via Vipps Login"), not "ID verification".
+- We say **`companies` namespace** and **`users` namespace** — the legacy `titan` / `enceladus` codenames are dead. Any code, schema, or doc still using `titan` or `enceladus` is pre-rename and needs migration.
+- **Saturn is staging, never production.** When you read "production target" or "live deployment," the answer is **Cloud Run `europe-west1`**. Saturn exists to validate behaviour e2e before Cloud Run deploys — not to host live traffic. Saturn's NVIDIA hardware is a future agent-inference option, not a production hosting option.
+- **DittoDatto Hub** refers ONLY to the Saturn-deployed SurrealDB instance (the staging source of truth). Local dev SurrealDB is "the dev DB" or "the local SurrealDB instance" — never "the Hub."
+- The **`dittodatto.no` landing page** is on **Cloud Run** for now. Cloud Run scope going forward is **only the marketing/landing layer** + the frozen legacy Nuxt apps until retired. New backend services target Saturn (staging) → Cloud Run (production).
 
 ---
 
-## Notes / Open Questions for the Foundation Grill
+## Notes / Open Questions
 
-The following items are **flagged as inputs** to the upcoming foundation grill session:
+> Items resolved this session vs. items deferred to per-surface grills.
 
-1. **Surface inventory contradictions:**
-   - Legacy CONTEXT.md says Admin Panel = "Nuxt web, no migration planned." Reality: `apps/admin/` is a **fully built Flutter app** (S19–S20). **Fix in this conductor.**
-   - Legacy vision.md says Business Portal = "Nuxt web (Chapter 1 frozen), Flutter if demand later." Reality: User intends Flutter replacement. **Decide and document.**
-   - Legacy frames the consumer web as "Web Shell" (transitional). Reality: User intends a real Nuxt webapp alongside the Flutter app. **Decide and document.**
+### Resolved during `/grill foundation` (2026-05-26)
 
-2. **PRD freshness:**
-   - `conductor/docs/legacy/prd-public-marketplace-v1-STALE.md` references Hono/TypeScript backend and 156 tests. The backend is now Python/FastAPI/377 tests. **Refresh during Public Marketplace grill (Session 4).**
+- [x] **Surface inventory contradictions** — Admin Panel = Flutter (ADR-0006); Business Portal = Flutter planned (ADR-0007); Public Marketplace = Flutter primary + `dittodatto.no` landing-only (ADR-0007).
+- [x] **SurrealDB namespace rename** — `titan`/`enceladus` → `companies`/`users`; `titan/platform` → `companies/registry`; `enceladus/users` → `users/profiles`; `titan/company_{slug}` → `companies/{slug}` (drop redundant prefix) (ADR-0002).
+- [x] **ADR triage** — 11 legacy ADRs reviewed: 0008/0009 → canonical 0001/0002 (SurrealDB), 0010 → canonical 0004 (auth identity), 0011 → canonical 0006 (Flutter Admin); new ADRs written: 0003 (Saturn staging), 0005 (admin tier expansion, stub), 0007 (Flutter-only strategy); legacy 0001/0002/0004/0005/0006 promoted as canonical 0008–0012; legacy 0003 (Unified DateTimeSchema) left in legacy as Chapter 1 reference (Pydantic/SurrealDB solve datetime natively); legacy 0007 (DittoBar on TheOracle) dropped as a non-concept.
+- [x] **Saturn topology** — staging environment locked; Tailscale-gated; runbook at `saturn-setup-runbook.md` (workspace root) ready for SSH-capable agent (ADR-0003).
+- [x] **TheOracle** — scrubbed from the glossary as a non-concept (legacy ADR-0007 was a misunderstanding).
+- [x] **Glossary boundaries** — Establishment vs. Company vs. Business locked; Booking vs. Reservation vs. Ticket = mode-on-Service per ADR-0010; Ditto (consumer) vs. Datto (business) personas distinct.
 
-3. **ADR triage:**
-   - 11 legacy ADRs live in `conductor/docs/legacy/adr-source/`. Foundation grill should triage:
-     - ADR-0010 (auth architecture) — Firebase Auth was "on probation"; what's the current stance vs. SurrealDB native + Vipps OIDC?
-     - ADR-0011 (Flutter Admin Panel) — was "planned"; now built. Update status, possibly supersede.
-     - New ADR likely needed: Public Marketplace dual surface (Flutter + Nuxt web).
-     - New ADR likely needed: Business Portal Flutter migration strategy.
-     - New ADR likely needed: Saturn deployment model.
+### Deferred to per-surface grills
 
-4. **Domain entity refinements not yet locked:**
-   - `Favorite.type: "store" | "person"` — surface staff favoriting in v1.0 or defer to v1.1? (Legacy CONTEXT.md flagged this.)
+1. **`/grill admin-panel`:**
+   - BankID re-auth for super-admin actions? (ADR-0005 open question)
+   - Tablet-only super-admin restrictions?
+   - Super-admin → operator impersonation pattern?
+   - Audit log depth for admin/super-admin actions?
+   - Inbox screen scope (MasterDatto messaging surface).
+
+2. **`/grill business-portal`:**
+   - Full PRD from scratch (legacy never had one).
+   - Migration strategy from legacy Nuxt webapp (timing, parity threshold).
+   - Operator-side UX patterns (calendar, staff management, booking inbox).
+
+3. **`/grill public-marketplace`:**
+   - Refresh the stale `prd-public-marketplace-v1-STALE.md`.
+   - Lock the Flutter consumer app PRD (v1.0 tracer-bullet scope).
+   - Confirm Hybrid Collapsible Map Home as the default Home pattern (ADR-0009).
+   - DittoBar interaction model + Search Event schema extensions for v1.5 agentic queries.
+
+4. **`/grill mercury-engine`** (when scheduled):
+   - Pydantic v2 datetime conventions (always-UTC? timezone-aware?) — successor to the dead Zod DateTimeSchema problem.
+   - Migration plan for `DittoDatto-old/schemas/*.surql` into `services/mercury-engine/`.
+   - 377-test review and reconciliation post-disruption.
+
+5. **Open domain refinements (any grill):**
+   - `Favorite.type: "store" | "person"` — surface staff favoriting in v1.0 or defer to v1.1?
    - MasterDatto (cross-establishment business agent) — when, what scope, what entity model?
-
-5. **Glossary boundaries not yet formalized:**
-   - Establishment vs. Company vs. Business — legacy docs use these inconsistently. Lock the boundary.
-   - Booking vs. Reservation vs. Ticket — three modes on the engine; ensure the glossary cleanly separates the *mode* from the *entity*.
-   - Ditto (consumer agent) vs. Datto (business agent) — clear boundary; the personas differ.
-
-6. **`Search Event` schema future:**
-   - Currently captures geo, filters, nearest result distance. Foundation grill may extend for v1.5 agentic queries.
-
----
-
-*Refine in `/grill foundation`.*
+   - SearchEvent schema future — v1.5 agentic queries may need new fields.
