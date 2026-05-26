@@ -22,3 +22,11 @@
 ## Documentation
 
 - [Project Docs](./docs/)
+
+---
+
+## Agent Rules
+
+| File                                          | Purpose                                      |
+|-----------------------------------------------|----------------------------------------------|
+| [agent-rules/](./agent-rules/)                | Book-sourced coding rules for AI agents      |
