@@ -4,6 +4,23 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-26 20:49 (Saturn Hub deployed)
+
+- **Session:** Conductor resume + Saturn DittoDatto Hub deployment (Hermes on Antigravity, Opus 4.6 Thinking).
+- **Tracks touched:** None (no tracks exist yet).
+- **Status:** **Saturn Hub live.** SurrealDB 3.0 running on Saturn at `100.87.99.59:8001` (Docker container `dittodatto-hub`, network `dittodatto-net`, RocksDB engine). Remote smoke test from PlutoII: 200 OK via `saturn:8001`. Hub intentionally empty — schemas deferred to MercuryEngine migration track.
+- **Infrastructure done this session:**
+  - SSH key auth PlutoII → Saturn established (`~/.ssh/config` host `saturn`, user `arnar`).
+  - Tailscale Service `dittodatto` defined in admin console (ports `tcp:8001-8005`).
+  - Saturn tagged `tag:dittodatto-hub` in Tailscale ACL.
+  - `saturn-setup-runbook.md` cleaned up: 6 stale references patched (ADR-XXXX → 0003, titan/enceladus → companies/users, "to be written" → settled).
+  - SurrealDB root credentials in Bitwarden (entry: "DittoDatto Hub — SurrealDB root, Saturn").
+- **Decisions:** None (0 ADRs — all operational, classified at checkpoint).
+- **Blocker cleared:** "DittoDatto Hub not running on Saturn" is resolved. Staging-environment verification is now unblocked for all surfaces.
+- **Next:** `/grill admin-panel` (user is opening a new window for this). Then `/grill business-portal`, `/grill public-marketplace` per strategy.
+
+---
+
 ## 2026-05-26 16:12 (close of `/grill foundation`)
 
 - **Session:** Conductor v2.1 — foundation grill, post-workstation-disruption refocus.
