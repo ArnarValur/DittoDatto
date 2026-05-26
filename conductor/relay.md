@@ -4,6 +4,17 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-26 22:49 (Flutter design system cohesion — checkpoint)
+
+- **Session:** Flutter design system cohesion discussion + grill briefing (Hermes on Antigravity, Claude Opus 4.6 Thinking).
+- **Tracks touched:** None (no tracks exist yet).
+- **Status:** **Grill briefing prepared.** Identified critical prerequisite: shared Flutter design system (`ditto_design` package) must be grilled before admin panel implementation to prevent visual drift across 3 Flutter surfaces. Briefing artifact created with 6 key decisions to resolve. `flutter_adaptive_scaffold` confirmed discontinued — use core Material 3 adaptive widgets. Melos 7.7.0 confirmed as monorepo orchestrator.
+- **Decisions:** None (0 ADRs — all operational, classified at checkpoint). ADR-0014 is a *candidate* pending `/grill-me`.
+- **Artifacts:** `grill_briefing_flutter_design_system.md` — briefing for the `/grill-me` session. Location: Antigravity artifacts for conversation `81f75b40-7639-402c-8b33-b5495bbbef6e`.
+- **Next:** 🔴 **`/grill-me` with Flutter design system briefing** — the new #1 priority. Resolves: package boundary, theme modes per surface, responsive scaffold strategy, Melos vs Dart Workspaces, widget gallery, admin retrofit → produces ADR-0014. Then `/new-track admin-panel` (now depends on design system grill). User intends to continue in a new context window.
+
+---
+
 ## 2026-05-26 22:38 (`/grill admin-panel` complete)
 
 - **Session:** `/grill admin-panel` domain refinement (Hermes on Antigravity, Claude Opus 4.6 Thinking).

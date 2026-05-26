@@ -1,14 +1,15 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-05-26 22:38 (post `/grill admin-panel`)
-**Session Focus:** `/grill admin-panel` — domain refinement, ADR-0013, PRD v1.0
+**Last Updated:** 2026-05-26 22:49 (post Flutter design system cohesion discussion)
+**Session Focus:** Flutter design system cohesion — grill briefing for shared `ditto_design` package
 
 ## 🚀 Active Tracks
 
-_No tracks yet. `/grill admin-panel` complete — PRD v1.0 locked. Next: `/new-track admin-panel` to create the implementation track._
+_No tracks yet. `/grill admin-panel` complete — PRD v1.0 locked. **Blocked on design system grill** — `/grill-me` with Flutter design system briefing must resolve before `/new-track admin-panel`._
 
 ## ✅ Recently Completed
 
+- **2026-05-26 (late night)** — **Flutter design system cohesion briefing prepared.** Identified that 3 Flutter apps (Admin, Business Portal, Marketplace) risk visual drift without a shared design package. Researched Flutter responsive layout best practices (official Flutter skill), confirmed `flutter_adaptive_scaffold` is discontinued (use core Material 3 directly), confirmed Melos 7.7.0 as monorepo orchestrator. Prepared `/grill-me` briefing with 6 key decisions (package boundary, theme modes, responsive scaffold strategy, Melos vs Dart Workspaces, widget gallery, admin retrofit). ADR-0014 candidate identified. **Critical prerequisite before admin panel implementation.**
 - **2026-05-26 (late night)** — **`/grill admin-panel` complete.** Admin Panel reframed as "breaker box" (2-user private tool for Arnar + Höddi). ADR-0013 written (resolves all 4 ADR-0005 open questions, refines ADR-0006). PRD v1.0 created and versionized. 6 glossary updates: Admin Panel, Business Portal (dogfooding), Inbox, MasterDatto, SearchAnalytics. Scope locked: 5 screens + Inbox. Targets: Android + Linux + Web (no iOS). Login: maximum opacity (email + pass + sign in, no branding, no error feedback). Responsive shell from day one. Migration: fresh `flutter create` + port from old.
 - **2026-05-26 (late evening)** — **PlutoII Flutter dev environment setup.** Flutter 3.44.0 / Dart 3.12.0 confirmed at `~/Flutter/flutter/`. JDK 21 (OpenJDK) installed. Android SDK 36.1.0 cmdline-tools installed + licenses accepted. Linux desktop toolchain (clang 18 + cmake 3.28 + ninja 1.11) installed. PATH wired in `~/.zshrc`. Chrome (Flatpak) wired via `CHROME_EXECUTABLE`. System symlinks at `/usr/local/bin/{dart,flutter}`. Dart MCP server configured for Antigravity (`~/.gemini/config/mcp_config.json`, absolute path). `flutter doctor -v` all green. Setup script at `setup-flutter-dev.sh` (disposable).
 - **2026-05-26 (evening)** — **DittoDatto Hub deployed on Saturn.** SurrealDB 3.0 (RocksDB) running in Docker container `dittodatto-hub` on `dittodatto-net` network, bound to Tailnet IP `100.87.99.59:8001`. Remote smoke test from PlutoII: 200 OK via `saturn:8001`. OpenWebUI on `:8080` confirmed healthy. SSH key auth established PlutoII → Saturn. Tailscale Service `dittodatto` defined (ports `tcp:8001-8005`), Saturn tagged `tag:dittodatto-hub`. `saturn-setup-runbook.md` cleaned up (6 stale references: ADR-XXXX → ADR-0003, titan/enceladus → companies/users, "to be written" → settled). Hub intentionally empty — schemas deferred to MercuryEngine migration track.
@@ -42,13 +43,16 @@ _None._ Saturn Hub is live — staging-environment verification is unblocked.
 - *2026-05-26* — SurrealDB root credentials: user `dittodatto_root`, password stored in Bitwarden (entry: "DittoDatto Hub — SurrealDB root, Saturn") _(operational)_
 - *2026-05-26* — SSH key auth PlutoII → Saturn established; config at `~/.ssh/config` host `saturn`, user `arnar` _(operational)_
 - *2026-05-26* — PlutoII Flutter dev environment: Flutter 3.44.0 at `~/Flutter/flutter/`, JDK 21, Android SDK 36.1.0, Linux toolchain. PATH in `~/.zshrc`. Symlinks at `/usr/local/bin/{dart,flutter}`. Chrome via Flatpak (`CHROME_EXECUTABLE`). Dart MCP server in Antigravity uses absolute path _(operational)_
+- *2026-05-26* — **Shared Flutter design system (`ditto_design`) grill is a critical prerequisite before admin panel implementation.** Briefing artifact created. Grill covers: package boundary, theme modes per surface, responsive scaffold strategy, Melos 7.7.0 vs Dart Workspaces, widget gallery, admin retrofit. ADR-0014 candidate. _(operational)_
+- *2026-05-26* — `flutter_adaptive_scaffold` package is **discontinued**. Use `AdaptiveLayout` + core Material 3 adaptive widgets (`NavigationRail`, `NavigationBar`, `NavigationDrawer`) directly. _(operational)_
 
 ## 📋 Next Session Suggestions
 
-1. **`/new-track admin-panel`** — create the implementation track. Fresh `flutter create` at `apps/admin/`, port `mercury_client` + feature-first architecture from `DittoDatto-old/`. Version bump to Flutter 3.44 / Dart 3.12. PRD v1.0 is the spec. Dart MCP server is configured and ready.
-2. **`/grill business-portal`** — greenfield grill: full Flutter Portal PRD, migration strategy from frozen Nuxt, operator-side UX. Moderate-to-heavy budget.
-3. **`/grill public-marketplace`** — refresh the stale `prd-public-marketplace-v1-STALE.md`, lock the Flutter consumer PRD (v1.0 tracer-bullet scope), validate ADR-0009 (Hybrid Map Home). Moderate budget.
-4. **`/grill mercury-engine`** *(deferred)* — Pydantic v2 datetime conventions, migration of `DittoDatto-old/schemas/*.surql`, 377-test post-disruption review.
-5. **Platform messaging/notification system** *(future `/grill`)* — human-readable + A2A messaging architecture. Impacts Inbox depth in Admin Panel.
+1. 🔴 **`/grill-me` — Flutter Design System Cohesion** — **CRITICAL PREREQUISITE.** Run with briefing artifact (`grill_briefing_flutter_design_system.md`). Resolves 6 key decisions: package boundary, theme modes, responsive scaffold strategy, Melos vs Dart Workspaces, widget gallery, admin retrofit. Produces ADR-0014. Must complete before admin panel implementation.
+2. **`/new-track admin-panel`** — create the implementation track. Fresh `flutter create` at `apps/admin/`, port `mercury_client` + feature-first architecture from `DittoDatto-old/`. Version bump to Flutter 3.44 / Dart 3.12. PRD v1.0 is the spec. **Depends on design system grill completing first.**
+3. **`/grill business-portal`** — greenfield grill: full Flutter Portal PRD, migration strategy from frozen Nuxt, operator-side UX. Moderate-to-heavy budget.
+4. **`/grill public-marketplace`** — refresh the stale `prd-public-marketplace-v1-STALE.md`, lock the Flutter consumer PRD (v1.0 tracer-bullet scope), validate ADR-0009 (Hybrid Map Home). Moderate budget.
+5. **`/grill mercury-engine`** *(deferred)* — Pydantic v2 datetime conventions, migration of `DittoDatto-old/schemas/*.surql`, 377-test post-disruption review.
+6. **Platform messaging/notification system** *(future `/grill`)* — human-readable + A2A messaging architecture. Impacts Inbox depth in Admin Panel.
 
 Strategy reference: `grill_strategy.md` at workspace root.
