@@ -154,7 +154,7 @@ cat > /srv/dittodatto/docker-compose.yml <<'EOF'
 # Source ADR: "Saturn as Staging Environment" (conductor/adr/, /grill foundation 2026-05-26)
 # Maintained by: future /new-track infrastructure-saturn
 
-name: dittodatto-staging
+name: dittodatto-net
 
 services:
   # ─── DittoDatto Hub: SurrealDB 3.0 ───────────────────────────────
@@ -223,8 +223,10 @@ services:
 
 networks:
   default:
-    name: dittodatto-staging
+    name: dittodatto-net
     driver: bridge
+    # Umbrella network for all DittoDatto containers on Saturn.
+    # Future DD services (Ditto/Datto agents) join this same network.
 EOF
 ```
 
@@ -330,7 +332,7 @@ DittoDatto Hub setup — REPORT
 | Seeding dogfood data (Merkurial Studio + dittodatto companies) | Future dogfood-seed track |
 | Building + publishing the MercuryEngine V2 Docker image | Future CI/build track |
 | Caddy / reverse proxy for HTTPS hostnames | Optional polish — Tailscale's built-in TLS via `tailscale serve` is sufficient for now |
-| Tailscale Domains / separate `//DittoDatto` short name | Optional polish — defer until at least two distinct hostnames are needed |
+| Tailscale Service `dittodatto` configuration (admin panel: ports + ACL tags) | Handled by Arnar via the Tailscale admin UI in parallel with this runbook. Once configured, services reach the Hub via `dittodatto.tailb251cd.ts.net:<port>` in addition to `saturn:<port>`. |
 | Future Ditto/Datto agent containers (NVIDIA GPU inference) | Future agent-runtime track (Saturn's NVIDIA kernel preserves this option) |
 | Backup / restore automation | Future ops track |
 | Monitoring (Prometheus, logs aggregation) | Future ops track |
