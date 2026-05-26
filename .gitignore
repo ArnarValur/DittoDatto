@@ -1,0 +1,63 @@
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Editor / IDE
+.idea/
+.vscode/
+*.iml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.python-version
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# uv
+.uv-cache/
+
+# Dart / Flutter
+.dart_tool/
+.packages
+build/
+*.lock # commented intentionally — re-add per-app if needed
+!pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Node (legacy webapps)
+node_modules/
+.nuxt/
+.output/
+dist/
+.next/
+
+# Local env
+.env
+.env.local
+.env.*.local
+*.env.local
+
+# Logs / temp
+*.log
+logs/
+tmp/
+.tmp/
+
+# Coverage
+coverage/
+.coverage
+*.lcov
+.nyc_output/
+
+# SurrealDB local data
+.surrealdb-data/
+surreal.db
