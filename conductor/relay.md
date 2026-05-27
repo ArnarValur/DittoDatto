@@ -4,6 +4,16 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-27 15:28 (`/new-track admin-panel` — checkpoint)
+
+- **Session:** Conductor resume → `/new-track admin-panel` (Hermes on Antigravity, Claude Opus 4.6 Thinking).
+- **Tracks touched:** `admin_panel_20260527` (created).
+- **Status:** **Track created.** Spec anchored to PRD v1.1 + ADR-0006/0013/0014. 5-phase TDD plan. Mock-first API strategy (repository interface for future real-backend swap). Clean-room port from old codebase (~3,500 lines inventoried). All dependency versions verified: Riverpod 3.3.1, GoRouter 17.2.3, flutter_secure_storage 10.3.0, google_fonts 8.1.0, json_annotation 4.12.0, json_serializable 6.14.0. Phase 1 implementation starting immediately.
+- **Decisions:** None (0 ADRs — all decisions this session are tactical/operational within existing ADRs).
+- **Next:** Phase 1: Monorepo + `ditto_design` + Shell Scaffold. User setting up Android Studio concurrently. Reconvene when there's something visual.
+
+---
+
 ## 2026-05-26 22:49 (Flutter design system cohesion — checkpoint)
 
 - **Session:** Flutter design system cohesion discussion + grill briefing (Hermes on Antigravity, Claude Opus 4.6 Thinking).
