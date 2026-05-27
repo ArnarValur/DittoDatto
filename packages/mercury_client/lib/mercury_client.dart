@@ -15,4 +15,8 @@ export 'src/auth/auth_state.dart';
 export 'src/exceptions.dart';
 
 // Models
+export 'src/models/admin_stats.dart';
 export 'src/models/token_response.dart';
+
+// Repository
+export 'src/repository/admin_repository.dart';
