@@ -22,9 +22,10 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 ## Active Tracks
 
-_No tracks yet._
-
-> The foundation grill (next session) will lock the surface inventory and triage the 11 legacy ADRs. The first `/new-track` calls land after that.
+- [ ] **Admin Panel — Flutter breaker box for platform infrastructure operations**
+  - *Type:* feature | *Domain:* admin-panel | *Status:* new
+  - *Link:* [tracks/admin-panel/admin_panel_20260527/](./tracks/admin-panel/admin_panel_20260527/)
+  - *Phases:* 5 — (1) Monorepo + ditto_design + Shell, (2) Auth + Login, (3) Dashboard, (4) Users + Companies + Categories, (5) Inbox + Polish
 
 ---
 
