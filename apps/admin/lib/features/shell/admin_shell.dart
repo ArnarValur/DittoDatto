@@ -1,9 +1,13 @@
 import 'package:ditto_design/ditto_design.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mercury_client/mercury_client.dart';
+
+import '../auth/auth_provider.dart';
 
 /// Admin-specific shell that wraps [DittoDashboardShell] with
 /// the admin panel's navigation destinations, branding, and footer.
-class AdminShell extends StatelessWidget {
+class AdminShell extends ConsumerWidget {
   const AdminShell({
     super.key,
     required this.currentIndex,
@@ -24,8 +28,9 @@ class AdminShell extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final authState = ref.watch(authProvider);
 
     return DittoDashboardShell(
       destinations: _destinations,
@@ -74,7 +79,7 @@ class AdminShell extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                'Arnar',
+                authState is Authenticated ? authState.email.split('@').first : 'Admin',
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: Colors.white70,
                 ),
@@ -89,7 +94,7 @@ class AdminShell extends StatelessWidget {
               ),
               tooltip: 'Logout',
               onPressed: () {
-                // Phase 2: wire to AuthNotifier.logout()
+                ref.read(authProvider.notifier).logout();
               },
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(

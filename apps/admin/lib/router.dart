@@ -1,15 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'features/shell/admin_shell.dart';
-import 'features/dashboard/dashboard_screen.dart';
-import 'features/users/users_screen.dart';
-import 'features/companies/companies_screen.dart';
+import 'features/auth/auth_provider.dart';
+import 'features/auth/login_screen.dart';
 import 'features/categories/categories_screen.dart';
+import 'features/companies/companies_screen.dart';
+import 'features/dashboard/dashboard_screen.dart';
 import 'features/inbox/inbox_screen.dart';
+import 'features/shell/admin_shell.dart';
+import 'features/users/users_screen.dart';
+
+import 'package:mercury_client/mercury_client.dart';
 
 /// Route paths.
 abstract final class AppRoutes {
+  static const login = '/login';
   static const dashboard = '/dashboard';
   static const users = '/users';
   static const companies = '/companies';
@@ -28,12 +33,35 @@ const _shellRoutes = [
 
 /// GoRouter configuration for the admin panel.
 ///
-/// Phase 1: No auth guard — all screens accessible.
-/// Phase 2 adds login screen + auth redirect.
+/// Auth guard redirects to /login if unauthenticated.
+/// ShellRoute wraps authenticated screens in the sidebar shell.
 final routerProvider = Provider<GoRouter>((ref) {
+  final authState = ref.watch(authProvider);
+
   return GoRouter(
     initialLocation: AppRoutes.dashboard,
+    redirect: (context, state) {
+      final isAuthenticated = authState is Authenticated;
+      final isLoginRoute = state.matchedLocation == AppRoutes.login;
+
+      // Don't redirect while loading (token restore in progress).
+      if (authState is AuthLoading) return null;
+
+      if (!isAuthenticated && !isLoginRoute) {
+        return AppRoutes.login;
+      }
+      if (isAuthenticated && isLoginRoute) {
+        return AppRoutes.dashboard;
+      }
+      return null;
+    },
     routes: [
+      // Login — no shell
+      GoRoute(
+        path: AppRoutes.login,
+        builder: (context, state) => const LoginScreen(),
+      ),
+
       // Authenticated shell
       ShellRoute(
         builder: (context, state, child) {

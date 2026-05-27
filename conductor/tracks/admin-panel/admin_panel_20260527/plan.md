@@ -11,44 +11,45 @@
 Establish the Dart Workspaces monorepo, create `ditto_design` as the shared design system,
 and scaffold the admin app with `DittoDashboardShell` rendering on all 3 targets.
 
-- [ ] **Task 1.1:** Create Dart Workspaces monorepo root
-    - [ ] Create root `pubspec.yaml` with `workspace:` resolution for `apps/admin/`, `packages/mercury_client/`, `packages/ditto_design/`
-    - [ ] Create root `analysis_options.yaml` (flutter lints)
-    - [ ] Verify `dart pub get` resolves all workspace members
+- [x] **Task 1.1:** Create Dart Workspaces monorepo root
+    - [x] Create root `pubspec.yaml` with `workspace:` resolution for `apps/admin/`, `packages/mercury_client/`, `packages/ditto_design/`
+    - [x] Create root `analysis_options.yaml` (flutter lints)
+    - [x] Verify `dart pub get` resolves all workspace members (107 deps resolved)
 
-- [ ] **Task 1.2:** Create `packages/ditto_design/` — design tokens
-    - [ ] Write tests for color palette generation (Moody Blue `#6F71CC` seed → dark surface grades `#0f1117` → `#1c1f2b`)
-    - [ ] Implement `DittoColors` — primary palette (50→950), dark surface grades, status colors (success, error, warning, premium, free)
-    - [ ] Write tests for spacing grid constants
-    - [ ] Implement `DittoSpacing` — 4/8/12/16/24/32px grid
-    - [ ] Implement `DittoBorderRadius` — 8/12/16/24px
-    - [ ] Implement `DittoAnimationDuration` — 150/300/500ms
+- [x] **Task 1.2:** Create `packages/ditto_design/` — design tokens
+    - [x] Write tests for color palette generation (Moody Blue `#6F71CC` seed → dark surface grades `#0f1117` → `#1c1f2b`)
+    - [x] Implement `DittoColors` — primary palette (50→950), dark surface grades, status colors (success, error, warning, premium, free)
+    - [x] Write tests for spacing grid constants
+    - [x] Implement `DittoSpacing` — 4/8/12/16/24/32px grid
+    - [x] Implement `DittoBorderRadius` — 8/12/16/24px
+    - [x] Implement `DittoAnimationDuration` — 150/300/500ms
 
-- [ ] **Task 1.3:** Create `packages/ditto_design/` — theme
-    - [ ] Write tests for `DittoTheme.dark` and `DittoTheme.light` (verify ColorScheme seed, surface colors, text theme)
-    - [ ] Implement `DittoTheme.dark` — extract from old `AppTheme.dark` (zero visual regression): `ColorScheme.fromSeed` + hand-tuned dark surfaces + Inter typography + component themes (Card, Input, Button, AppBar, NavigationDrawer, Snackbar)
-    - [ ] Implement `DittoTheme.light` — same seed, default light surfaces
+- [x] **Task 1.3:** Create `packages/ditto_design/` — theme
+    - [x] Write tests for `DittoTheme.dark` and `DittoTheme.light` (verify ColorScheme seed, surface colors, text theme)
+    - [x] Implement `DittoTheme.dark` — extract from old `AppTheme.dark` (zero visual regression): `ColorScheme.fromSeed` + hand-tuned dark surfaces + Inter typography + component themes (Card, Input, Button, AppBar, NavigationDrawer, Snackbar)
+    - [x] Implement `DittoTheme.light` — same seed, default light surfaces
 
-- [ ] **Task 1.4:** Create `packages/ditto_design/` — layout utilities
-    - [ ] Write tests for `DittoWindowClass` enum (compact <600, medium 600–839, expanded 840–1199, large ≥1200)
-    - [ ] Implement `DittoWindowClass` enum + `windowClassOf(double width)` factory
+- [x] **Task 1.4:** Create `packages/ditto_design/` — layout utilities
+    - [x] Write tests for `DittoWindowClass` enum (compact <600, medium 600–839, expanded 840–1199, large ≥1200)
+    - [x] Implement `DittoWindowClass` enum + `of(double width)` factory
     - [ ] Write tests for `DittoDashboardShell` widget (renders sidebar on wide, drawer on compact)
-    - [ ] Implement `DittoDashboardShell` — collapsible sidebar, nav groups with expandable children, header/footer slots, main content panel, drawer on `compact`
+    - [x] Implement `DittoDashboardShell` — permanent sidebar (≥600px) / drawer (<600px), header/footer slots, AnimatedContainer nav items
 
-- [ ] **Task 1.5:** Create `packages/ditto_design/` — shared utility widgets
-    - [ ] Implement `DittoErrorView` — reusable error display (icon + message + retry action)
-    - [ ] Implement `DittoEmptyView` — reusable empty state (icon + message + optional action)
-    - [ ] Implement `DittoConfirmDialog` — generic confirmation dialog (title + message + confirm/cancel)
-    - [ ] Create barrel exports (`ditto_design.dart`)
+- [x] **Task 1.5:** Create `packages/ditto_design/` — shared utility widgets
+    - [x] Implement `DittoErrorView` — reusable error display (icon + message + retry action)
+    - [x] Implement `DittoEmptyView` — reusable empty state (icon + message + optional action)
+    - [x] Implement `DittoConfirmDialog` — generic confirmation dialog (title + message + confirm/cancel)
+    - [x] Create barrel exports (`ditto_design.dart`)
 
-- [ ] **Task 1.6:** Scaffold `apps/admin/` — Flutter app shell
-    - [ ] `flutter create` at `apps/admin/` (org `no.dittodatto.admin`, platforms: android, linux, web)
-    - [ ] Wire `ditto_design` as path dependency
-    - [ ] Implement `main.dart` → `ProviderScope` → `AdminApp`
-    - [ ] Implement `AdminApp` with `MaterialApp.router`, `DittoTheme.dark`
-    - [ ] Implement initial `GoRouter` with shell route wrapping `DittoDashboardShell`
-    - [ ] Stub 5 placeholder screens (Dashboard, Users, Companies, Categories, Inbox) with screen titles
-    - [ ] Verify: `flutter run -d linux`, `flutter run -d chrome`, `flutter build apk --debug`
+- [x] **Task 1.6:** Scaffold `apps/admin/` — Flutter app shell
+    - [x] `flutter create` at `apps/admin/` (org `no.dittodatto`, platforms: android, linux, web)
+    - [x] Wire `ditto_design` + `mercury_client` as path dependencies
+    - [x] Implement `main.dart` → `ProviderScope` → `AdminApp`
+    - [x] Implement `AdminApp` with `MaterialApp.router`, `DittoTheme.dark`
+    - [x] Implement initial `GoRouter` with shell route wrapping `DittoDashboardShell`
+    - [x] Stub 5 placeholder screens (Dashboard, Users, Companies, Categories, Inbox) with screen titles
+    - [x] Verify: `flutter build web --debug` ✓, `flutter build apk --debug` (in progress)
+    - [ ] Verify: `flutter build linux` (blocked: libstdc++.so symlink missing on PlutoII — need `sudo`)
 
 ---
 
