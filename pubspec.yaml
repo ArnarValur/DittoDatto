@@ -1,0 +1,11 @@
+name: dittodatto
+description: DittoDatto — The Agentic Commerce Platform for Norway.
+publish_to: 'none'
+
+environment:
+  sdk: ^3.12.0
+
+workspace:
+  - apps/admin
+  - packages/ditto_design
+  - packages/mercury_client

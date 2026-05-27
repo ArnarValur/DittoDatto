@@ -1,0 +1,19 @@
+name: ditto_design
+description: Shared design system for DittoDatto Flutter apps — tokens, theme, layout, and utility widgets.
+publish_to: 'none'
+version: 0.1.0
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^8.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

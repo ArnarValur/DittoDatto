@@ -1,63 +1,28 @@
-# OS
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-*~
-
-# Editor / IDE
-.idea/
-.vscode/
-*.iml
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-.python-version
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
-
-# uv
-.uv-cache/
-
-# Dart / Flutter
+# Dart/Flutter
 .dart_tool/
 .packages
 build/
-*.lock # commented intentionally — re-add per-app if needed
-!pubspec.lock
-.flutter-plugins
-.flutter-plugins-dependencies
+*.iml
+.metadata
 
-# Node (legacy webapps)
-node_modules/
-.nuxt/
-.output/
-dist/
-.next/
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
 
-# Local env
+# OS
+.DS_Store
+Thumbs.db
+
+# Flutter generated
+*.g.dart
+*.freezed.dart
+pubspec.lock
+
+# Old codebase (tracked separately)
+# DittoDatto-old/ is tracked in git already
+
+# Env
 .env
-.env.local
-.env.*.local
-*.env.local
-
-# Logs / temp
-*.log
-logs/
-tmp/
-.tmp/
-
-# Coverage
-coverage/
-.coverage
-*.lcov
-.nyc_output/
-
-# SurrealDB local data
-.surrealdb-data/
-surreal.db
+.env.*

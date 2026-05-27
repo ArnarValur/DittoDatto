@@ -1,0 +1,23 @@
+name: mercury_client
+description: DittoDatto API client — HTTP client, auth, models, and admin API layer.
+publish_to: 'none'
+version: 0.1.0
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.4.0
+  flutter_secure_storage: ^10.3.0
+  json_annotation: ^4.12.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  json_serializable: ^6.14.0
+  build_runner: ^2.4.15
