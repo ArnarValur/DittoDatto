@@ -1,0 +1,11 @@
+{
+  "track_id": "mercury_migration_20260528",
+  "type": "feature",
+  "status": "new",
+  "domain": "core-migration",
+  "created_at": "2026-05-28T14:52:00+02:00",
+  "updated_at": "2026-05-28T14:52:00+02:00",
+  "description": "MercuryEngine V2 Core Migration — Complete test-driven port of legacy models, repositories, availability engines, and FastAPI routes from mercury-engine-old to services/mercury-engine.",
+  "current_phase": 1,
+  "phase_status": "new"
+}
