@@ -1,0 +1,17 @@
+{
+  "trackId": "search_dashboard_mvp_20260219",
+  "name": "Search Dashboard MVP",
+  "domain": "dashboard",
+  "type": "feature",
+  "created": "2026-02-19",
+  "status": "planned",
+  "description": "MVP dashboard for DittoBar search analytics — zero-result queries, top queries, KPIs, and activity feed. Reads from DittoDatto's searchEvents Firestore collection.",
+  "cautionLevel": "normal",
+  "relatedTracks": [
+    {
+      "project": "DittoDatto",
+      "trackId": "dittobar_search_20260216",
+      "phase": "2.2"
+    }
+  ]
+}

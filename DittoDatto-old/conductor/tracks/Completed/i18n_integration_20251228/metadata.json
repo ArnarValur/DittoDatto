@@ -1,8 +1,0 @@
-{
-  "track_id": "i18n_integration_20251228",
-  "type": "feature",
-  "status": "completed",
-  "created_at": "2025-12-28T19:30:00Z",
-  "updated_at": "2025-12-28T21:37:00Z",
-  "description": "Enable multi-language support (EN, NB, NN) in the Admin Panel using @nuxtjs/i18n and a shared LanguageSelector component."
-}

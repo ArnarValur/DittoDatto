@@ -26,3 +26,6 @@ pubspec.lock
 # Env
 .env
 .env.*
+
+# Sub-Projects within the DittoDatto family.
+DittoDatto-Hub/

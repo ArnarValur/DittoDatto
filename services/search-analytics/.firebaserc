@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "cs-poc-4zmxog23jmy4io0d4yx6rj0"
+  },
+  "targets": {
+    "cs-poc-4zmxog23jmy4io0d4yx6rj0": {
+      "hosting": {
+        "searchanalytics": [
+          "sa.dittodatto.no",
+          "sa-dittodatto-no"
+        ]
+      }
+    }
+  }
+}
