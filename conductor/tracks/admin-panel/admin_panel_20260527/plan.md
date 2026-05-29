@@ -57,27 +57,27 @@ and scaffold the admin app with `DittoDashboardShell` rendering on all 3 targets
 
 Implement the auth flow with mock backend and the maximum-opacity Login screen.
 
-- [ ] **Task 2.1:** Create `packages/mercury_client/` — foundation
-    - [ ] Create package with `pubspec.yaml` (dependencies: `http`, `flutter_secure_storage`, `json_annotation`; dev: `json_serializable`, `build_runner`)
-    - [ ] Implement `MercuryApi` — HTTP client with JWT injection, GET/POST/PUT/DELETE, timeout, platform-agnostic error handling (no `dart:io`)
-    - [ ] Implement `MercuryApiException` and `MercuryConnectionException` (no `SocketException` — use `ClientException` from `package:http`)
-    - [ ] Implement repository interface pattern: `AdminRepository` abstract class + `MockAdminRepository` + `HttpAdminRepository` (future)
+- [x] **Task 2.1:** Create `packages/mercury_client/` — foundation
+    - [x] Create package with `pubspec.yaml` (dependencies: `http`, `flutter_secure_storage`, `json_annotation`; dev: `json_serializable`, `build_runner`)
+    - [x] Implement `MercuryApi` — HTTP client with JWT injection, GET/POST/PUT/DELETE, timeout, platform-agnostic error handling (no `dart:io`)
+    - [x] Implement `MercuryApiException` and `MercuryConnectionException` (no `SocketException` — use `ClientException` from `package:http`)
+    - [x] Implement repository interface pattern: `AdminRepository` abstract class + `MockAdminRepository` + `HttpAdminRepository` (future)
 
-- [ ] **Task 2.2:** Create `mercury_client` — auth models & service
-    - [ ] Write tests for `TokenResponse` serialization (round-trip JSON)
-    - [ ] Implement `TokenResponse` model (`accessToken`, `tokenType`, `expiresIn`)
-    - [ ] Write tests for `AuthService` (login success, login failure, token restore, logout, expiry check with 30s buffer)
-    - [ ] Implement `AuthService` — JWT lifecycle with `FlutterSecureStorage`, expiry decode, 30s buffer
-    - [ ] Implement `AuthApi` — `devLogin(email, password)` endpoint wrapper
-    - [ ] Implement `MockAuthService` — returns fake token on known credentials, rejects unknown
-    - [ ] Create barrel exports (`mercury_client.dart`)
+- [x] **Task 2.2:** Create `mercury_client` — auth models & service
+    - [x] Write tests for `TokenResponse` serialization (round-trip JSON)
+    - [x] Implement `TokenResponse` model (`accessToken`, `tokenType`, `expiresIn`)
+    - [x] Write tests for `AuthService` (login success, login failure, token restore, logout, expiry check with 30s buffer)
+    - [x] Implement `AuthService` — JWT lifecycle with `FlutterSecureStorage`, expiry decode, 30s buffer
+    - [x] Implement `AuthApi` — `devLogin(email, password)` endpoint wrapper
+    - [x] Implement `MockAuthService` — returns fake token on known credentials, rejects unknown
+    - [x] Create barrel exports (`mercury_client.dart`)
 
-- [ ] **Task 2.3:** Implement Login screen
-    - [ ] Implement sealed `AuthState` ADT: `Unauthenticated | Loading | Authenticated | Error`
-    - [ ] Implement `AuthNotifier` (Riverpod) — login, logout, tryRestore
-    - [ ] Implement `LoginScreen` UI per PRD: lock icon, email field, password field, Sign In button. Dark theme. No branding text. No error feedback on auth failure. Maximum opacity.
-    - [ ] Implement GoRouter auth redirect guard (unauthenticated → /login, authenticated → /dashboard)
-    - [ ] Verify: login flow works with mock credentials, redirect works, logout clears token
+- [x] **Task 2.3:** Implement Login screen
+    - [x] Implement sealed `AuthState` ADT: `Unauthenticated | Loading | Authenticated | Error`
+    - [x] Implement `AuthNotifier` (Riverpod) — login, logout, tryRestore
+    - [x] Implement `LoginScreen` UI per PRD: lock icon, email field, password field, Sign In button. Dark theme. No branding text. No error feedback on auth failure. Maximum opacity.
+    - [x] Implement GoRouter auth redirect guard (unauthenticated → /login, authenticated → /dashboard)
+    - [x] Verify: login flow works with mock credentials, redirect works, logout clears token
 
 ---
 

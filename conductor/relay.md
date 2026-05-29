@@ -4,6 +4,16 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-29 13:17 (Emulator Setup & Admin Auth — checkpoint)
+
+- **Session:** Emulator setup, Phase 2 Auth + Login verification, and Clean Code mock-data alignment (Hermes on Antigravity, Gemini 3.5 Flash).
+- **Tracks touched:** `admin_panel_20260527` (Phase 1 & 2 completed).
+- **Status:** **Phase 1 & 2 complete.** Created three emulators (`pixel_7_api_35`, `pixel_tablet_api_35`, `generic_tablet_api_35`). Wrote robust widget test suite in `apps/admin` (100% green) using a synchronous `FakeAuthService` to eliminate timer leaks. Aligned on removing hardcoded mock data to obey Clean Code rules.
+- **Decisions:** None (0 ADRs — all operational notes recorded in pulse.md).
+- **Next:** 🧹 **Sanitize Mock Data** — Extract hardcoded mock arrays from `MockAdminRepository` and `inbox_screen.dart` into a local JSON asset (`apps/admin/assets/mock_data.json`) to satisfy Clean Code and Pragmatic Programmer guidelines. Then proceed to Phase 3 (Dashboard).
+
+---
+
 ## 2026-05-27 15:28 (`/new-track admin-panel` — checkpoint)
 
 - **Session:** Conductor resume → `/new-track admin-panel` (Hermes on Antigravity, Claude Opus 4.6 Thinking).
