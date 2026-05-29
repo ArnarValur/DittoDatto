@@ -46,7 +46,7 @@ A fully functional service marketplace that works **without** AI agents:
 
 | Year           | Milestone                                                                                                         |
 | -------------- | ----------------------------------------------------------------------------------------------------------------- |
-| **2026 Q1–Q2** | ✅ MercuryEngine V2 (Python/FastAPI/SurrealDB), Flutter scaffolding, auth architecture locked.                    |
+| **2026 Q1–Q2** | ✅ MercuryEngine (Python/FastAPI/SurrealDB), Flutter scaffolding, auth architecture locked.                    |
 | **2026 Q2–Q3** | Flutter native app v1.0 (tracer bullet). Saturn infrastructure. First business onboarding in Drammen.            |
 | **2026 Q3–Q4** | Ditto/Datto MVP — basic agentic booking. Waitlist + rebook engine. Vipps payment.                                |
 | **2027**       | Scale beyond Drammen — open one fylke at a time. Ticketing system. Restaurant vertical.                          |

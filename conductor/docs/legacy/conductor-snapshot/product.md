@@ -27,7 +27,7 @@ To be the premier service discovery and booking platform in Norway, leveraging a
 ```
 Clients (Flutter iOS/Android, Business Portal, Ditto/Datto agents)
     ↓ (REST API)
-MercuryEngine V2 (FastAPI / Python / Pydantic)
+MercuryEngine (FastAPI / Python / Pydantic)
     ↓ (SurrealDB Python SDK)
 SurrealDB 3.0
     ├── titan/company_{slug}    ← Per-company data (booking, staff, services)
@@ -40,7 +40,7 @@ SurrealDB 3.0
 
 | Component | Technology | Purpose |
 |-----------|-----------|---------|
-| **MercuryEngine V2** | FastAPI + Pydantic + uv | Unified API: booking + discovery + CRUD |
+| **MercuryEngine** | FastAPI + Pydantic + uv | Unified API: booking + discovery + CRUD |
 | **SurrealDB 3.0** | Docker (Pluto → Saturn) | Sole platform database — graph, search, geo, vector |
 | **Flutter App** | Dart + Riverpod + GoRouter | Consumer marketplace (iOS + Android) |
 | **Auth** | SurrealDB native auth + BankID/Vipps OIDC | Three-tier: public, auth, operator (ADR-0010) |

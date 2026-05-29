@@ -9,7 +9,7 @@ Development services for the Chapter 2 stack:
 
 | Service            | Port  | Start Command                                  |
 | ------------------ | ----- | ---------------------------------------------- |
-| MercuryEngine V2   | :8000 | `cd services/mercury-engine && uv run uvicorn mercury_engine.main:app --reload` |
+| MercuryEngine   | :8000 | `cd services/mercury-engine && uv run uvicorn mercury_engine.main:app --reload` |
 | SurrealDB          | :8000 | Docker container on `merkurial-networks`       |
 | Flutter App (web)  | :3000 | `cd apps/mobile/dittodatto-flutter && flutter run -d chrome` |
 

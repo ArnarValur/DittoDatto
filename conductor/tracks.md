@@ -22,8 +22,8 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 ## Active Tracks
 
-- [ ] **Admin Panel — Flutter breaker box for platform infrastructure operations**
-  - *Type:* feature | *Domain:* admin-panel | *Status:* new
+- [/] **Admin Panel — Flutter breaker box for platform infrastructure operations**
+  - *Type:* feature | *Domain:* admin-panel | *Status:* in_progress
   - *Link:* [tracks/admin-panel/admin_panel_20260527/](./tracks/admin-panel/admin_panel_20260527/)
   - *Phases:* 5 — (1) Monorepo + ditto_design + Shell, (2) Auth + Login, (3) Dashboard, (4) Users + Companies + Categories, (5) Inbox + Polish
 

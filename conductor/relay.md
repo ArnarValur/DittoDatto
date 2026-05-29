@@ -21,7 +21,7 @@ Timestamped entries for context continuity between sessions.
 - **Session:** Attempted to plan admin panel Saturn deployment. Aborted by user — plan was overcomplicated, mixed booking engine and auth architecture concerns into what should have been a simple deployment task.
 - **Tracks touched:** None (no implementation started).
 - **What got done:**
-  - "MercuryEngine V2" → "MercuryEngine" scrubbed from all 13 live conductor files. Terminology boundary added to `context.md`. V1 is dead, no version suffix needed.
+  - "MercuryEngine" → "MercuryEngine" scrubbed from all 13 live conductor files. Terminology boundary added to `context.md`. V1 is dead, no version suffix needed.
   - Grapher started for DittoDatto Core (PID 280221, log at `/tmp/ditto-grapher.log`).
   - Research completed: MercuryEngine child conductor already resolved auth boundary (its ADR-0002: admin routes gone, admin panel talks direct to SurrealDB). Parent conductor's `platform-auth-architecture.md` is stale.
 - **What went wrong:** Overengineered the plan. The goal was simple — (1) deploy admin panel web build on Saturn via Tailscale, (2) two users authenticate against SurrealDB, (3) CRUD on users/companies/categories against real SurrealDB. Instead, the plan spiraled into cross-namespace auth model debates, MercuryEngine involvement questions, and architecture discussions that were already settled by the child conductor.

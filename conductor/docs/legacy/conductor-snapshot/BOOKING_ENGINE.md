@@ -1,4 +1,4 @@
-# 🔴 MercuryEngine V2 — Booking Engine Safety Manual
+# 🔴 MercuryEngine — Booking Engine Safety Manual
 
 > **Caution Level: 🔴 CRITICAL**
 > This engine handles real money, real time slots, and real customer trust.
@@ -138,4 +138,4 @@ uv run ruff check .
 
 ---
 
-_Rewritten for MercuryEngine V2 (Python/FastAPI/SurrealDB) — 2026-05-05_
+_Rewritten for MercuryEngine (Python/FastAPI/SurrealDB) — 2026-05-05_

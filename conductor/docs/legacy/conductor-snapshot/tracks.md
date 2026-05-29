@@ -10,7 +10,7 @@ Tracks organized by domain. Each track has its own folder with plan.md and metad
 
 | Domain             | Path                                    | ⚠️ Level                                                       |
 | ------------------ | --------------------------------------- | -------------------------------------------------------------- |
-| MercuryEngine V2   | `services/mercury-engine/`              | 🔴 **Critical** — See [BOOKING_ENGINE.md](./BOOKING_ENGINE.md) |
+| MercuryEngine   | `services/mercury-engine/`              | 🔴 **Critical** — See [BOOKING_ENGINE.md](./BOOKING_ENGINE.md) |
 | Flutter Admin      | `apps/admin/`                           | 🟡 **Active** — [ADR-0011](../.docs/adr/0011-flutter-admin-panel.md) |
 | Flutter Marketplace| `apps/marketplace/` (future)            | ⏳ After admin panel validates patterns                        |
 | Shared Packages    | `packages/mercury_client/`              | 🟡 **Active** — shared Dart package for all Flutter apps       |
@@ -33,7 +33,7 @@ Tracks organized by domain. Each track has its own folder with plan.md and metad
 
 ## 🔄 Active Tracks — Chapter 2
 
-### Step 1: MercuryEngine V2 — Core Platform
+### Step 1: MercuryEngine — Core Platform
 
 The engine is the foundation. Everything else depends on it.
 
@@ -106,7 +106,7 @@ The consumer-facing app. Depends on MercuryEngine auth + patterns validated by a
 
 | What | Date | Notes |
 |---|---|---|
-| MercuryEngine V2 scaffold | 2026-05-05 | FastAPI + Pydantic + uv |
+| MercuryEngine scaffold | 2026-05-05 | FastAPI + Pydantic + uv |
 | Core domain port (157→197 tests) | 2026-05-05 | All pure calculators ported |
 | Auth architecture grill (ADR-0010) | 2026-05-05 | 8 decisions locked |
 | SurrealDB data layer (10 repos) | 2026-05-05 | Dual-connection, CRUD routes |

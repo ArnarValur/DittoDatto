@@ -1,7 +1,7 @@
 # Technology Stack: DittoDatto.no
 
 > ⚠️ **Updated 2026-05-05 (Session 11)** — Full language migration from TypeScript to Python.
-> MercuryEngine V2 = Python/FastAPI/Pydantic/SurrealDB. TypeScript is out of the platform stack.
+> MercuryEngine = Python/FastAPI/Pydantic/SurrealDB. TypeScript is out of the platform stack.
 > See [Session 11 Grill](../.docs/grill/session-11-python-migration-grill.md) for decision register.
 
 ## Core Infrastructure
@@ -10,7 +10,7 @@
   * **Dev/Staging:** Docker container on Saturn (GX10) / Mercury (Pluto host)
   * **Lite-Production:** Docker container on Cloud Run (`europe-west1`)
   * **Storage Engine:** RocksDB (abstracted KV layer)
-* **API Gateway:** MercuryEngine V2 (FastAPI · Python · Pydantic)
+* **API Gateway:** MercuryEngine (FastAPI · Python · Pydantic)
   * Booking domain (`/appointments/*`, `/reservations/*`, `/tickets/*`)
   * Discovery domain (`/discovery/*`) — was TheOracle, now unified
   * Establishment CRUD domain (`/establishments/*`, `/services/*`, `/staff/*`) — NEW
@@ -44,7 +44,7 @@
 ## Shared Packages
 
 * `packages/mercury-core` (Python): Pydantic models + pure domain logic (shared by API and agents)
-* `packages/mercury-api` (Python): FastAPI thin shell (MercuryEngine V2)
+* `packages/mercury-api` (Python): FastAPI thin shell (MercuryEngine)
 * `packages/shared-types` (TypeScript): Zod schemas — **FROZEN** (Chapter 1 reference for Nuxt apps)
 * `packages/mercury-engine` (TypeScript): Booking engine V1 — **FROZEN** (reference + 156 test spec)
 
@@ -58,7 +58,7 @@
 * **ML Integration:** SurrealDB ML model import/export (`surreal ml`)
 * **LLM Orchestration:** Google ADK (Agent Development Kit) — Python, Pydantic-native
 * **Agent Framework:** ADK for Ditto (consumer agent) and Datto (business agent)
-* **Agent Models:** Pydantic (shared with MercuryEngine V2 via mercury-core)
+* **Agent Models:** Pydantic (shared with MercuryEngine via mercury-core)
 
 ## What's Dead
 
@@ -72,6 +72,6 @@
 | Qdrant (vector DB) | SurrealDB HNSW vectors |
 | Vector Search with Firestore extension | SurrealDB native vector search |
 | BigQuery analytics | SurrealDB graph aggregation |
-| MercuryEngine V1 (Hono/TypeScript) | MercuryEngine V2 (FastAPI/Python/Pydantic) |
+| MercuryEngine V1 (Hono/TypeScript) | MercuryEngine (FastAPI/Python/Pydantic) |
 | Zod schemas (TypeScript) | Pydantic models (Python) |
 | TypeScript backend | Python unified backend |

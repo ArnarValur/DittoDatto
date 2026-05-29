@@ -44,7 +44,7 @@ tags:
 Captain's definitive statement: *"TypeScript is out of the picture completely. I don't like it anymore if it only brings overhead and extra layers."*
 
 This is not just about MercuryEngine — it's a platform-level language decision. Python is the unified backend language for:
-- MercuryEngine V2 (FastAPI)
+- MercuryEngine (FastAPI)
 - Ditto agent (ADK)
 - Datto agent (ADK)
 - SurrealDB integration (native Pydantic support)
@@ -81,7 +81,7 @@ SDB agent confirmed: different credentials = separate SurrealDB connections. Sha
 ### No Migration Risk
 
 - Nothing is in production. Firebase staging stays untouched.
-- MercuryEngine V2 is born on new infrastructure (Pluto → Saturn).
+- MercuryEngine is born on new infrastructure (Pluto → Saturn).
 - No cutover. No downtime. No traffic to protect.
 - 156 tests = migration specification.
 
@@ -129,7 +129,7 @@ SDB agent provided full auth capability summary:
 |---|---|---|
 | 1–10 | Domain Model → PRD → SurrealDB Schema | ✅ All complete |
 | **11** | **Python Migration Grill** | ✅ **Complete (this session)** |
-| **12** | **MercuryEngine V2 Foundation** — Python scaffolding, FastAPI skeleton, Pydantic models, pytest | `[ ]` Next |
+| **12** | **MercuryEngine Foundation** — Python scaffolding, FastAPI skeleton, Pydantic models, pytest | `[ ]` Next |
 | **13** | **Core Logic Port** — Pure functions + tests (calculators, availability, holds) | `[ ]` Blocked by 12 |
 | **14** | **SurrealDB Data Layer** — Repository against SurrealDB (replaces Firestore) | `[ ]` Blocked by 13 |
 | **15** | **Routes + Integration** — FastAPI endpoints, auth middleware, E2E | `[ ]` Blocked by 14 |
