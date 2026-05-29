@@ -24,8 +24,8 @@
   - **Agentic by design, value without AI** — platform works fully without agents (Layer 1); Datto-tier upgrade adds AI for businesses that want it.
   - **Norway-native** — BankID/Vipps mandatory, bokmål + English from day one, fylke-by-fylke growth model, dogfooded by Merkurial Studio.
   - **DittoBar + Shadow Demand** — unified search interface that doubles as a B2B sales lead engine (every zero-result query is a `Zero-Result Signal` for outbound).
-  - **Multi-vertical booking modes** — `standard` (appointments), `tableReservation` (restaurants), `ticketSystem` (venues/events) on one engine — booking mode lives on the Service, not the Establishment (canonical ADR-0010, originally ADR-0004).
-  - **AaaS over SaaS** (canonical ADR-0011, originally ADR-0005) — nothing locked, everything has a limit; feature access scales with usage. `enabledFeatures` is transitional scaffolding.
+  - **Multi-vertical booking modes** — `standard` (appointments), `tableReservation` (restaurants), `ticketSystem` (venues/events) on one engine — booking mode lives on the Service, not the Establishment.
+  - **AaaS over SaaS** — nothing locked, everything has a limit; feature access scales with usage. `enabledFeatures` is transitional scaffolding.
   - **Universal Commerce Protocol** ambition — long-horizon agent-to-agent commerce standard; MercuryEngine API designed to be callable by any AI agent (Gemini Extensions, GPT Actions, Apple App Intents), not just Ditto.
 
 ---
@@ -56,10 +56,10 @@
 ### Core Infrastructure
 
 - **Platform Database:** SurrealDB 3.0 — unified document + graph + vector (HNSW) + BM25 full-text + geo + time-series. Storage engine: RocksDB.
-  - Namespaces: `companies/{slug}` (per-company), `companies/discovery` (public aggregator), `companies/registry` (system ops), `users/profiles` (GDPR-isolated PII). See canonical ADR-0002.
-- **API Gateway:** MercuryEngine — FastAPI · Python 3.11+ · Pydantic v2 · uv package manager.
-  - Domains: booking (`/appointments/*`, `/reservations/*`, `/tickets/*`), discovery (`/discovery/*`), CRUD (`/establishments/*`, `/services/*`, `/staff/*`), admin (`/admin/*`).
-- **Auth:** SurrealDB native + BankID/Vipps OIDC. MercuryEngine issues JWTs. Five middleware tiers: `public` / `require_auth` / `require_operator` / `require_admin` / `require_super_admin` (per canonical ADR-0004 + 0005).
+  - Namespaces: `companies/{slug}` (per-company), `companies/discovery` (public aggregator), `companies/registry` (system ops), `users/profiles` (GDPR-isolated PII). See ADR-0002.
+- **Booking Engine:** MercuryEngine — FastAPI · Python 3.11+ · Pydantic v2 · uv package manager.
+  - Scope: Booking hold/booking lifecycle and Time Tetris availability calculator. Does not own admin routes or entity CRUD.
+- **Auth:** Direct-to-SurrealDB via native OIDC (Vipps integration). Admin Panel uses native credentials over WebSockets. MercuryEngine is a booking-only backend using Delegated Trust Service Account authentication (no token issuance). (ADR-0006)
 
 ### Languages
 
@@ -79,13 +79,13 @@
 
 | Surface | Stack | Path | Status |
 |---|---|---|---|
-| **Admin Panel** | Flutter (Dart) | `apps/admin/` | 🟡 In-progress migration from Nuxt — Dashboard / Users / Companies / Categories done (S19–S20). Cross-platform Flutter (Android + iOS + Linux + Web); tablet is a test surface, not a design constraint. See canonical ADR-0006. |
-| **Business Portal** | Flutter (Dart) — planned | `apps/business-portal/` (TBD) | 🔴 Pre-grill — full Flutter replacement of legacy Nuxt webapp. Strategy locked by canonical ADR-0007; PRD pending `/grill business-portal`. |
-| **Public Marketplace** | Flutter (Dart) | `apps/marketplace/` (Flutter, scaffold) | 🔴 Scaffold — tracer-bullet app; THE canonical consumer surface (canonical ADR-0007). |
+| **Admin Panel** | Flutter (Dart) | `apps/admin/` | 🟡 In-progress. Dashboard, Users, Companies, Categories, Inbox. Direct WebSocket DB queries, no intermediate API gateway. See ADR-0004 & ADR-0006. |
+| **Business Portal** | Flutter (Dart) — planned | `apps/business-portal/` (TBD) | 🔴 Pre-grill — full Flutter replacement of legacy Nuxt webapp. Strategy locked by ADR-0004; PRD pending `/grill business-portal`. |
+| **Public Marketplace** | Flutter (Dart) | `apps/marketplace/` (Flutter, scaffold) | 🔴 Scaffold — tracer-bullet app; THE canonical consumer surface (ADR-0004). |
 | **`dittodatto.no` landing page** | Nuxt 4 / Vue 3 | `apps/web/public-marketplace/` | 🟡 Active — public marketing/landing page only; polished after Flutter app reaches feature completeness. Hosted on Cloud Run. Not a co-equal product surface. |
 | **Legacy Nuxt webapps (admin-panel, business-portal)** | Nuxt 4 / Vue 3 | `apps/web/admin-panel/`, `apps/web/business-portal/` | ❄️ Frozen — retired once Flutter replacements ship; bug-fix-only in the interim. |
 
-> The "equal dual surface" framing from the brownfield seed is **superseded** (canonical ADR-0007): the canonical consumer surface is the Flutter app. `dittodatto.no` (Nuxt) is a public marketing layer, not a co-equal product.
+> The "equal dual surface" framing is **superseded** (ADR-0004): the canonical consumer surface is the Flutter app. `dittodatto.no` (Nuxt) is a public marketing layer, not a co-equal product.
 
 ### Data Storage / Search
 
@@ -98,7 +98,7 @@
 ### Deployment Targets
 
 - **Dev:** This workstation (local Docker for SurrealDB + native `uv run` for MercuryEngine + `flutter run` / `npm run dev` for client surfaces). Independent SurrealDB instance — never connects to the staging Hub during dev.
-- **Staging:** Saturn (GX10 on-prem, always-on, Tailscale-gated). Reachable at `saturn.tailb251cd.ts.net` (machine name) and `dittodatto.tailb251cd.ts.net` (Tailscale Service — routes to Saturn). Hosts the **DittoDatto Hub** (SurrealDB on port `8001`) + MercuryEngine staging + future Ditto/Datto agent containers, all on the `dittodatto-net` Docker network. Purpose: fast e2e iteration "as if in the wild" without paying Cloud Run deploy latency. Access: Arnar + Höddi + AI agents + occasional showcase guests. **Never public.** Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. See canonical ADR-0003.
+- **Staging:** Saturn (GX10 on-prem, always-on, Tailscale-gated). Reachable at `saturn.tailb251cd.ts.net` (machine name) and `dittodatto.tailb251cd.ts.net` (Tailscale Service — routes to Saturn). Hosts the **DittoDatto Hub** (SurrealDB on port `8001`) + MercuryEngine staging + future Ditto/Datto agent containers, all on the `dittodatto-net` Docker network. Purpose: fast e2e iteration "as if in the wild" without paying Cloud Run deploy latency. Access: Arnar + Höddi + AI agents + occasional showcase guests. **Never public.** Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. See ADR-0003.
 - **Production:** Cloud Run (`europe-west1` only — region-locked). The sole production target. Scales to thousands of consumers + hundreds of companies. The `dittodatto.no` Nuxt marketing webapp is the current Cloud Run service.
 
 ### Hosting
@@ -129,7 +129,7 @@
 |---|---|---|
 | **MercuryEngine** (`services/mercury-engine/`) | 🔴 **Critical** | Real money, real time slots, real customer trust. See `conductor/docs/legacy/conductor-snapshot/BOOKING_ENGINE.md` for the safety manual until it's promoted into a MercuryEngine track. |
 | **SurrealDB schemas** (`schemas/*.surql`) | 🔴 **Critical** | Data integrity — `REFERENCE` constraints, timestamps, audit triggers. |
-| **Auth / JWT pipeline** (canonical ADR-0004 + 0005) | 🔴 **Critical** | Tier mismatches = security holes. `require_operator` + company-access guard must agree. |
+| **Auth & Security topology** (ADR-0006) | 🔴 **Critical** | Database namespace credentials and direct WebSocket / OIDC boundaries. |
 | **Cloud config (region lock)** | 🔴 **Critical** | All Cloud Run must deploy to `europe-west1`. Never `us-central1`. |
 | **Shared packages** (`packages/mercury_client/`) | 🔴 **Critical** | Cross-app blast radius (Flutter Admin + Portal + Marketplace all consume it). |
 | **Flutter app UI** | 🟡 Careful | Visual impact; verify rendering on Android + iOS + Desktop preview. |
@@ -147,7 +147,7 @@
 | Python + FastAPI + Pydantic v2 + uv | High | MercuryEngine — 377 tests, ruff-clean, repository pattern, DI through FastAPI. |
 | SurrealDB 3.0 (data + graph + vector + geo + BM25) | High | Schema blueprints applied per company; dual-namespace isolation (`companies` / `users`). |
 | Dart shared packages | Medium-High | `packages/mercury_client/` — HTTP client + auth + 7 models + 11 admin endpoints. |
-| BankID / Vipps OIDC | Medium | Architecture decided (canonical ADR-0004), implementation pending Vipps merchant registration. |
+| BankID / Vipps OIDC | Medium | Direct-to-SurrealDB native OIDC (ADR-0006), implementation pending Vipps merchant registration. |
 | Google ADK (agent orchestration) | Low | Future Ditto/Datto — not yet implemented. |
 | Nuxt 4 / Vue 3 | Medium | Chapter 1 stack; `dittodatto.no` landing page is the only active Nuxt surface going forward. |
 | Saturn on-prem ops | Low | Hardware here; setup runbook at workspace root `saturn-setup-runbook.md` (foundation grill 2026-05-26). |
@@ -190,7 +190,7 @@
 - **Pydantic models as source of truth:** Domain schema authority lives in `services/mercury-engine/src/mercury_core/models/`. TypeScript Zod schemas in `packages/shared-types/` are **frozen** Chapter 1 reference only.
 - **Norwegian-first:** Bokmål is the primary locale; English is co-equal from day one. No locale should ship in production without both.
 - **Dogfooding non-negotiable:** Merkurial Studio runs its own business on the platform. If a feature doesn't work for us, it doesn't ship.
-- **Booking modes on the Service, not the Establishment:** Per canonical ADR-0010 — one establishment can host multiple booking modes (appointments + ticketed workshops + table reservations).
+- **Booking modes on the Service, not the Establishment:** One establishment can host multiple booking modes (appointments + ticketed workshops + table reservations).
 
 ---
 
@@ -209,5 +209,5 @@
   - Setup runbook: `saturn-setup-runbook.md` at workspace root.
   - Docker network: `dittodatto-net` (umbrella for all DD containers).
   - Tailscale: machine `saturn` + Service `dittodatto` (routes to Saturn) — accessible at `saturn.tailb251cd.ts.net` (machine) and `dittodatto.tailb251cd.ts.net` (Service).
-  - Staging only. Production runs on Cloud Run. See canonical ADR-0003.
+  - Staging only. Production runs on Cloud Run. See ADR-0003.
 - **Legacy reference:** Old Chapter 1 codebase + 11 ADRs + 32 type specs + engine docs live in `DittoDatto-old/`. Foundation grill (2026-05-26) triaged what's promoted into the new conductor; remainder stays as historical reference.
