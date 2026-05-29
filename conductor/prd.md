@@ -33,14 +33,17 @@ The Admin Panel is the platform administration interface for DittoDatto. It enab
 | **Inbox** | Within-platform messaging queue. Receives platform-level feedback, support tickets, and system notifications. |
 
 #### Shell and Navigation
+
 - **Responsive Layout:** Responsive sidebar (`NavigationRail` for wide viewpoints, compact navigation bar or drawer for narrow viewpoints).
 - **Theme:** Material 3 `ColorScheme.dark` using Moody Blue (`#6F71CC`) as the seed color.
 - **Typography:** Inter (Google Fonts).
 
 #### Shared Workspace Packages
+
 - `packages/ditto_design/` — Shared Material 3 styling tokens, responsive navigation shell, and breakpoint definitions (ADR-0005).
 
 #### Connection & Authentication
+
 - **Direct Database Path:** Connects directly to SurrealDB via WebSockets over the Caddy `/rpc` reverse proxy.
 - **Authentication:** Native SurrealDB namespace-level credentials (`companies` and `users` pools) utilizing the `surrealdb` Dart package.
 - **No Intermediaries:** Zero dependency on MercuryEngine admin routes or custom JWT/OIDC endpoints for administrative actions (ADR-0006).
