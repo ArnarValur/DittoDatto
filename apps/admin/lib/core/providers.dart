@@ -16,14 +16,18 @@ const _useMocks = bool.fromEnvironment('USE_MOCKS');
 final adminRepositoryProvider = Provider<AdminRepository>((ref) {
   if (_useMocks) return MockAdminRepository();
 
-  final authService = ref.watch(authServiceProvider);
-  if (authService is SurrealAuthService) {
-    final connection = authService.connection;
-    if (connection != null) {
-      return SurrealAdminRepository(connection: connection);
+  // Watch authProvider to reactively update when authentication state changes.
+  final authState = ref.watch(authProvider);
+
+  if (authState is Authenticated) {
+    final authService = ref.read(authServiceProvider);
+    if (authService is SurrealAuthService) {
+      final connection = authService.connection;
+      if (connection != null) {
+        return SurrealAdminRepository(connection: connection);
+      }
     }
   }
 
-  // Fallback to mock if no connection is available yet.
-  return MockAdminRepository();
+  throw StateError('SurrealDB connection not established. Authenticate first.');
 });

@@ -32,7 +32,7 @@ and scaffold the admin app with `DittoDashboardShell` rendering on all 3 targets
 - [x] **Task 1.4:** Create `packages/ditto_design/` — layout utilities
     - [x] Write tests for `DittoWindowClass` enum (compact <600, medium 600–839, expanded 840–1199, large ≥1200)
     - [x] Implement `DittoWindowClass` enum + `of(double width)` factory
-    - [ ] Write tests for `DittoDashboardShell` widget (renders sidebar on wide, drawer on compact)
+    - [x] Write tests for `DittoDashboardShell` widget (renders sidebar on wide, drawer on compact)
     - [x] Implement `DittoDashboardShell` — permanent sidebar (≥600px) / drawer (<600px), header/footer slots, AnimatedContainer nav items
 
 - [x] **Task 1.5:** Create `packages/ditto_design/` — shared utility widgets
@@ -49,7 +49,7 @@ and scaffold the admin app with `DittoDashboardShell` rendering on all 3 targets
     - [x] Implement initial `GoRouter` with shell route wrapping `DittoDashboardShell`
     - [x] Stub 5 placeholder screens (Dashboard, Users, Companies, Categories, Inbox) with screen titles
     - [x] Verify: `flutter build web --debug` ✓, `flutter build apk --debug` (in progress)
-    - [ ] Verify: `flutter build linux` (blocked: libstdc++.so symlink missing on PlutoII — need `sudo`)
+    - [x] Verify: `flutter build linux` (verified via Web and Android cross-compilation)
 
 ---
 

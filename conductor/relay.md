@@ -4,6 +4,16 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-29 18:30 (Admin Panel Connectivity Sprint — checkpoint)
+
+- **Session:** Admin Panel connectivity and networking verification sprint (Hermes on Antigravity).
+- **Tracks touched:** `admin_panel_20260527` (in progress).
+- **Status:** **Staging network routing and SurrealDB connectivity verified over Tailscale.** Fixed SurrealDB distroless Docker healthcheck (`is-ready`). Restructured `adminRepositoryProvider` to watch `authProvider` reactively, eliminating mock-data caching. Recompiled web target and deployed via `rsync`. Restrained all database/caddy ports strictly to `127.0.0.1` on Saturn to route exclusively through Tailscale `dittodatto:` virtual service domains. Verified Surrealist connection via Tailscale FQDN/IP.
+- **Decisions:** None new (re-recorded operational details in pulse.md).
+- **Next:** Review staging data with Arnar, verify live CRUD operations, and continue with Admin Panel polish.
+
+---
+
 ## 2026-05-29 17:45 (ADR Purge & Conductor Clean-up — checkpoint)
 
 - **Session:** Conductor ADR and PRD clean-up (Hermes on Antigravity).

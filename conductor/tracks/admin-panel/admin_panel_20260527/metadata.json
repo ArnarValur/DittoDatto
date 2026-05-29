@@ -4,8 +4,8 @@
   "status": "in_progress",
   "domain": "admin-panel",
   "created_at": "2026-05-27T14:59:38+02:00",
-  "updated_at": "2026-05-29T17:45:00+02:00",
-  "description": "Admin Panel — Flutter administration dashboard. Deployed to Saturn at http://saturn:8002. Wired to real SurrealDB directly (ADR-0006). All 5 screens implemented, CRUD functional against live data.",
+  "updated_at": "2026-05-29T18:30:00+02:00",
+  "description": "Admin Panel — Flutter administration dashboard. Deployed to Saturn at http://dittodatto:8002. Wired to real SurrealDB directly (ADR-0006). All 5 screens implemented, CRUD functional against live data.",
   "current_phase": 5,
   "phase_status": "in_progress"
 }
