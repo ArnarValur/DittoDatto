@@ -1,109 +1,77 @@
 # Product Requirements — Admin Panel v1.0
 
-> **Created:** 2026-05-26 (`/grill admin-panel`)
+> **Created:** 2026-05-26
 > **Version:** 1.0
 > **Surface:** Admin Panel (`apps/admin/`)
-> **Domain:** Platform infrastructure operations
+> **Domain:** Platform Administration
 
 ---
 
-## Overview
+## 1. Overview
 
-The Admin Panel is DittoDatto's internal **"breaker box"** — a 2-user private tool for Arnar and Höddi (Merkurial Studio) to manage platform infrastructure. It is NOT a customer-facing product and NOT a replacement for the Business Portal. Merkurial Studio dogfoods the Business Portal as a company on the platform; the Admin Panel manages the platform itself.
+The Admin Panel is the platform administration interface for DittoDatto. It enables direct database-level management of platform infrastructure, users, companies, and service taxonomies.
 
-**Stack:** Flutter (Dart) · Riverpod · GoRouter · Material 3 Dark · Moody Blue `#6f71cc`
-**Targets:** Android + Linux desktop + Web (same codebase). No iOS.
-**Users:** 2 (Arnar Valur, Höddi). No public access.
-**URL (web, future):** `panel.dittodatto.no` (replaces current Nuxt admin when Flutter web build is ready)
+- **Stack:** Flutter (Dart), Riverpod, GoRouter, Material 3 Dark
+- **Targets:** Web, Linux desktop, Android
+- **URL (Web):** `panel.dittodatto.no` (replacing legacy Nuxt admin)
 
 ---
 
-## In Scope (v1.0)
+## 2. Bounded Context & Scope
 
-### Screens
+### 2.1 In Scope (v1.0)
+
+#### Screens and Capabilities
 
 | Screen | Capabilities |
 |--------|-------------|
-| **Login** | Lock icon + email field + password field + Sign In button. Moody Blue dark theme. No application-identifying text. No error feedback on failure. Maximum opacity. |
-| **Dashboard** | 4 stat cards: user count, company count, category count, engine health status. Pull-to-refresh. |
-| **Users** | Paginated data table. Columns: ID, name, email, company, role. Inline role editing via dropdown/popup. Role badges (customer, business, admin, super_admin). |
-| **Companies** | Paginated data table. Columns: ID, name, slug, tier, onboarding status, created date, owner. Create/edit dialog with sections: basic info, contact, address, social links, policies, features, tier. Tier and onboarding badges. |
-| **Categories** | Full CRUD data table. Columns: ID, name, slug, icon, description. Create/edit dialog with slug auto-generation. Delete with confirmation. |
-| **Inbox** | Within-platform messaging. Receive feedback, support messages, notifications from businesses and users on the platform. Minimal v1 implementation. |
+| **Login** | Secure native database authentication. Moody Blue dark theme. Email and password fields only. Zero error-feedback or information leakage on authentication failure. |
+| **Dashboard** | Metrics display: user count, company count, category count, engine health. Pull-to-refresh data fetching. |
+| **Users** | Paginated table display. Columns: ID, Name, Email, Company, Role. Role badges (customer, business, admin, super_admin). Inline role updates via popup menus. |
+| **Companies** | Paginated table display. Columns: ID, Name, Slug, Tier, Onboarding Status, Created Date, Owner. CRUD operations including company database provisioning and tier management. |
+| **Categories** | Full CRUD table display. Columns: ID, Name, Slug, Icon, Description. Automatic slug generation with manual override detection. Delete with confirmation. |
+| **Inbox** | Within-platform messaging queue. Receives platform-level feedback, support tickets, and system notifications. |
 
-### Shell & Navigation
+#### Shell and Navigation
+- **Responsive Layout:** Responsive sidebar (`NavigationRail` for wide viewpoints, compact navigation bar or drawer for narrow viewpoints).
+- **Theme:** Material 3 `ColorScheme.dark` using Moody Blue (`#6F71CC`) as the seed color.
+- **Typography:** Inter (Google Fonts).
 
-- **Responsive shell** — `LayoutBuilder` + Material 3 adaptive navigation:
-  - Wide (≥600px): `NavigationRail` or permanent sidebar with 5 nav items (Dashboard, Users, Companies, Categories, Inbox)
-  - Narrow (<600px): `NavigationBar` (bottom nav) or `Drawer`
-- **Theme:** Material 3 `ColorScheme.fromSeed(seedColor: #6f71cc)`, dark mode only
-- **Typography:** Inter (Google Fonts)
+#### Shared Workspace Packages
+- `packages/ditto_design/` — Shared Material 3 styling tokens, responsive navigation shell, and breakpoint definitions (ADR-0005).
 
-### Shared Packages
+#### Connection & Authentication
+- **Direct Database Path:** Connects directly to SurrealDB via WebSockets over the Caddy `/rpc` reverse proxy.
+- **Authentication:** Native SurrealDB namespace-level credentials (`companies` and `users` pools) utilizing the `surrealdb` Dart package.
+- **No Intermediaries:** Zero dependency on MercuryEngine admin routes or custom JWT/OIDC endpoints for administrative actions (ADR-0006).
 
-- `packages/mercury_client/` — HTTP client, JWT injection, auth service, models, admin API endpoints
-- `packages/ditto_design/` — Design tokens, `DittoTheme.dark`, `DittoDashboardShell`, breakpoints, typography (ADR-0014)
-- Both consumed by Admin Panel, future Business Portal, and future Marketplace
-- Path dependencies: `path: ../../packages/mercury_client`, `path: ../../packages/ditto_design`
+### 2.2 Out of Scope
 
-### Auth
-
-- `POST /auth/dev-login` (email + password) → JWT
-- JWT stored via `flutter_secure_storage`
-- No Vipps OIDC in Admin Panel (deferred to Business Portal / Marketplace)
-- No biometric re-auth in Admin Panel (2-user tool, unnecessary)
-- Engine middleware: `require_admin` / `require_super_admin` per ADR-0005
-
-### Migration
-
-- Fresh `flutter create` at `apps/admin/`
-- Port feature-first architecture from `DittoDatto-old/apps/admin/`
-- Port `mercury_client` package from `DittoDatto-old/packages/mercury_client/`
-- Version bump: Flutter 3.44 / Dart 3.12, all dependencies to latest stable
+| Item | Bounded Context / Rationale | Target Surface |
+|------|-----------------------------|----------------|
+| Establishment Management | Belongs to company-scoped domain | Business Portal |
+| Service / Staff Management | Belongs to company-scoped domain | Business Portal |
+| Booking Oversight | Restricted under customer privacy boundaries | Business Portal |
+| Reviews / Media Management | Deferred to future platform versions | Business Portal |
+| Search Analytics | Dedicated demand analytics surface | `predict.dittodatto.no` |
+| Settings Screen | Platform configuration is managed via database schemas | N/A |
+| iOS Compilation | Excluded from target compilation metrics | N/A |
+| Biometric Re-authentication | Excluded from desktop/web administrative scopes | N/A |
 
 ---
 
-## Out of Scope
+## 3. Non-Functional Requirements
 
-| Item | Reason | Where it belongs |
-|------|--------|-----------------|
-| Establishments management | Company-scoped, not platform-level | Business Portal |
-| Services / Staff management | Company-scoped | Business Portal |
-| Booking oversight | Privacy boundary — admin should not inspect company–customer bookings | Business Portal |
-| Reviews, Media | Future v1.x features | Business Portal |
-| Search Analytics / Shadow Demand | Separate project under conceptualization | `predict.dittodatto.no` (SearchAnalytics) |
-| Settings screen | Unnecessary for 2 users | N/A |
-| iOS compilation | Not needed — Android + Linux + Web covers both users | N/A |
-| BankID re-auth | 2-user private tool, overhead unjustified | Business Portal / Marketplace |
-| Device restrictions | Unnecessary | N/A |
-| Operator impersonation | Only 2 users; Surrealist for direct DB access | N/A |
-| MasterDatto AI agent | Future concept | Future — Inbox is the human precursor |
-| System Alerts broadcasting | Simple for now; full design in messaging system grill | Future `/grill` session |
+- **Security:** Maximum opacity authentication. Silent failures on credentials mismatch to prevent enumeration attacks.
+- **Performance:** Direct WebSocket queries returning in under 200ms. Paginated data loading (limit 50).
+- **Responsiveness:** Fluid layout transitions across compact (360px+), medium, and expanded breakpoints.
+- **Accessibility:** WCAG 2.1 AA compliant color contrast, explicit semantic labels, and focus traversal.
 
 ---
 
-## Non-Functional Requirements
-
-- **Security:** Maximum opacity login. No information leakage on auth failure. JWT-based auth with `flutter_secure_storage`.
-- **Performance:** Sub-200ms screen transitions. Paginated data tables (page size 50).
-- **Accessibility:** WCAG 2.1 AA — high-contrast text, clear touch targets, screen-reader-friendly.
-- **Responsive:** Works on phone (360px+), tablet, desktop, and browser.
-- **Offline:** No offline requirement — always-connected admin tool.
-
----
-
-## Open Questions (deferred to future grills)
-
-1. **Platform messaging/notification system architecture** — human-readable + A2A (agent-to-agent) messaging model. Full design in a dedicated `/grill` session. Impacts Inbox screen depth.
-2. **SearchAnalytics merge** — whether `predict.dittodatto.no` functionality merges into the Admin Panel or stays as a separate project.
-3. **System Alerts in Inbox** — currently simple; full design when messaging system is grilled.
-4. **Server configuration** — Tailscale topology for staging deployment. Deferred to Saturn deployment session.
-
----
-
-## Version History
+## 4. Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0 | 2026-05-26 | Initial PRD from `/grill admin-panel` session. 5 screens + Inbox locked. Platform targets, auth, exclusions defined. |
-| 1.1 | 2026-05-27 | `/grill flutter-design-system`: Added `ditto_design` as shared package dependency (ADR-0014). |
+| 1.0 | 2026-05-26 | Initial specification from `/grill admin-panel` session. |
+| 1.1 | 2026-05-29 | Aligned with direct-to-database WebSocket architecture (ADR-0006) and shared design system renumbering (ADR-0005). |
