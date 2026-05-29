@@ -19,7 +19,7 @@ This question arose while discussing how Arnar and Höddi would access the admin
 
 **Platform auth is a cross-cutting concern. It does not belong in the booking engine.**
 
-MercuryEngine V2's reason to exist is booking, discovery, and CRUD. Auth is consumed by every surface:
+MercuryEngine's reason to exist is booking, discovery, and CRUD. Auth is consumed by every surface:
 
 | Surface | Needs auth? | Needs booking? |
 |---------|-------------|----------------|
@@ -76,7 +76,7 @@ The platform database is already the source of truth for user records. Having it
 - A 2-user breaker box behind Tailscale, talking to the platform DB for identity. Clean, simple, no middlemen.
 - The repository interface pattern in `mercury_client` means the auth implementation can be swapped cleanly regardless of what the grill concludes.
 
-### For MercuryEngine V2 (grill input)
+### For MercuryEngine (grill input)
 
 - MercuryEngine's scope may need to shrink: it **validates** JWTs but does not **issue** them.
 - The 377 existing tests include auth middleware tests — these validate tokens, not issue them, so they likely survive this change.

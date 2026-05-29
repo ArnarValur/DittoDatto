@@ -20,7 +20,7 @@ Your instinct about Option 2 is correct. Here's why:
 Your old conductor is **v2.0-era** with a solid but 3-week-stale state. Key things that need re-grilling:
 
 1. **Hardware shift** — Saturn arrived (or is arriving). The infra story changed.
-2. **Platform maturity** — MercuryEngine V2 has 377 tests, admin panel is functional. You're past "scaffold" and into "real product decisions."
+2. **Platform maturity** — MercuryEngine has 377 tests, admin panel is functional. You're past "scaffold" and into "real product decisions."
 3. **Chapter 1 → Chapter 2 boundary** — The old conductor still references Chapter 1 Nuxt apps as "frozen." A fresh init should treat them as **archived context**, not active tracks.
 4. **ADR currency** — 11 ADRs exist but some may need revision (especially 0010-auth and 0011-flutter-admin given 3 weeks of evolution).
 
@@ -125,7 +125,7 @@ Copy the following docs from `DittoDatto-old/` to wherever you want the new proj
 3. **Architecture decisions to re-validate:**
    - Auth model: Firebase Auth "on probation" vs. SurrealDB native auth — what's the current stance?
    - SurrealDB namespace model (titan/enceladus) — still correct?
-   - MercuryEngine V2 API boundary — what's internal vs. public?
+   - MercuryEngine API boundary — what's internal vs. public?
    - Saturn deployment model — Docker Compose? Dome? Cloud Run? (postit `saturn-local-stack.md` has a blueprint)
 
 4. **ADR triage:**

@@ -5,7 +5,7 @@
 
 ## Context
 
-The Chapter 1 Nuxt admin panel (`apps/web/admin-panel/`) had 24 pages, many incomplete given the new SurrealDB + Surrealist tooling. With MercuryEngine V2 stable (377 tests at v2.1 init time, auth wired), the platform needed a management tool that:
+The Chapter 1 Nuxt admin panel (`apps/web/admin-panel/`) had 24 pages, many incomplete given the new SurrealDB + Surrealist tooling. With MercuryEngine stable (377 tests at v2.1 init time, auth wired), the platform needed a management tool that:
 
 1. Runs natively on Android, iOS, Linux desktop, and Web (cross-platform Flutter).
 2. Connects to MercuryEngine over Tailscale (staging on Saturn — ADR-0003) or Cloud Run (production).
@@ -118,11 +118,11 @@ The Inbox stub and any further screens are scope for `/grill admin-panel`.
 Flutter Admin (apps/admin/) — Android / iOS / Linux desktop / Web
     │
     └── mercury_client (packages/mercury_client/)
-            ├── API client → HTTP → MercuryEngine V2 (Saturn staging or Cloud Run prod)
+            ├── API client → HTTP → MercuryEngine (Saturn staging or Cloud Run prod)
             ├── Auth → JWT → flutter_secure_storage + biometric guard
             └── Models → User, Company, Category, Auth DTOs
 
-MercuryEngine V2 (FastAPI · Pydantic v2)
+MercuryEngine (FastAPI · Pydantic v2)
     ├── POST /auth/dev-login (dev + staging) | POST /auth/vipps (production)
     ├── GET  /admin/stats
     ├── GET  /admin/users

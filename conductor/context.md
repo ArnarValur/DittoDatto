@@ -53,7 +53,7 @@
 
 | Term | Definition | Also known as |
 |------|------------|---------------|
-| **MercuryEngine** (V2) | The unified FastAPI/Pydantic API server: booking + discovery + CRUD + admin domains, on SurrealDB 3.0. **Single API server** — no separate microservices. | booking API, engine, backend |
+| **MercuryEngine** | The unified FastAPI/Pydantic API server: booking + discovery + CRUD + admin domains, on SurrealDB 3.0. **Single API server** — no separate microservices. | booking API, engine, backend |
 | **DittoBar** | The unified search interface in the Public Marketplace. An A2UI visor — Ditto's eyes into the knowledge graph. Dual purpose: user search + demand intelligence harvester. | search bar (avoid), search component (avoid) |
 | **Ditto** | The consumer's personal AI agent (future Layer 2). Finds services, handles bookings, watches marketplaces. | chatbot (avoid), assistant (avoid) |
 | **Datto** | The business's AI receptionist agent (future Layer 2, tiered upgrade). Handles inquiries, manages availability, communicates with Ditto via UCP. | bot (avoid), auto-responder (avoid) |
@@ -98,7 +98,7 @@
 - The **`dittodatto.no` landing page** consumes **MercuryEngine** for marketing-page content (categories, featured listings, SEO) — supplementary marketing layer, not a co-equal product.
 - The **Business Portal** (Flutter, planned) configures what **MercuryEngine** serves.
 - The **Admin Panel** (Flutter, in-progress) monitors all platform operations via `/admin/*` routes.
-- **Saturn** hosts the **DittoDatto Hub** (SurrealDB) + MercuryEngine V2 staging build; Flutter clients on devices talk to it over **Tailscale**.
+- **Saturn** hosts the **DittoDatto Hub** (SurrealDB) + MercuryEngine staging build; Flutter clients on devices talk to it over **Tailscale**.
 
 ---
 
@@ -113,6 +113,7 @@
 - We say **Admin Panel = Flutter** (`apps/admin/`), cross-platform. The legacy CONTEXT.md and vision.md said "Nuxt web, no migration planned" — that is **stale** and superseded by ADR-0006.
 - We say **Business Portal = Flutter (planned)** — full replacement of the legacy Nuxt webapp. ADR-0007 locks all client-facing surfaces as Flutter.
 - We say **MercuryEngine** (single API server) — discovery routes live in the same FastAPI app as booking/CRUD/admin (`/discovery/*`). There is no separate discovery service.
+- We say **MercuryEngine**, never "MercuryEngine V2". The Hono/TypeScript predecessor (V1) is dead — no version suffix needed for disambiguation. The name of the service is MercuryEngine.
 - We say **Tracer Bullet** or **Vertical Slice**, never "steel thread" (no Microsoft terminology).
 - We say **BankID** (or "BankID via Vipps Login"), not "ID verification".
 - We say **`companies` namespace** and **`users` namespace** — the legacy `titan` / `enceladus` codenames are dead. Any code, schema, or doc still using `titan` or `enceladus` is pre-rename and needs migration.

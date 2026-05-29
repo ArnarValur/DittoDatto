@@ -195,7 +195,7 @@ services:
       - "dittodatto.env=staging"
       - "dittodatto.adr=0001,0002"
 
-  # ─── MercuryEngine V2 (FastAPI/Pydantic v2) — DISABLED until image exists ───
+  # ─── MercuryEngine (FastAPI/Pydantic v2) — DISABLED until image exists ───
   # Uncomment once the staging Docker image is built and pushed to a registry
   # accessible from Saturn (GHCR, Docker Hub, or a private registry).
   #
@@ -288,7 +288,7 @@ If this fails but the Saturn-side curl works, suspect:
 
 ## 9. Initial namespace + auth setup (deferred — DO NOT RUN YET)
 
-The DittoDatto Hub schemas (`companies/{slug}`, `companies/discovery`, `companies/registry`, `users/profiles`) are **not** applied by this runbook. They depend on MercuryEngine V2 schema files that are currently still in `DittoDatto-old/schemas/` and will be migrated in a future track.
+The DittoDatto Hub schemas (`companies/{slug}`, `companies/discovery`, `companies/registry`, `users/profiles`) are **not** applied by this runbook. They depend on MercuryEngine schema files that are currently still in `DittoDatto-old/schemas/` and will be migrated in a future track.
 
 When that track lands, the steps will be approximately:
 
@@ -328,9 +328,9 @@ DittoDatto Hub setup — REPORT
 
 | Concern | Deferred to |
 |---|---|
-| Applying SurrealDB schemas (`companies`, `users` namespaces) | Future MercuryEngine V2 migration track |
+| Applying SurrealDB schemas (`companies`, `users` namespaces) | Future MercuryEngine migration track |
 | Seeding dogfood data (Merkurial Studio + dittodatto companies) | Future dogfood-seed track |
-| Building + publishing the MercuryEngine V2 Docker image | Future CI/build track |
+| Building + publishing the MercuryEngine Docker image | Future CI/build track |
 | Caddy / reverse proxy for HTTPS hostnames | Optional polish — Tailscale's built-in TLS via `tailscale serve` is sufficient for now |
 | Tailscale Service `dittodatto` configuration (admin panel: ports + ACL tags) | Handled by Arnar via the Tailscale admin UI in parallel with this runbook. Once configured, services reach the Hub via `dittodatto.tailb251cd.ts.net:<port>` in addition to `saturn:<port>`. |
 | Future Ditto/Datto agent containers (NVIDIA GPU inference) | Future agent-runtime track (Saturn's NVIDIA kernel preserves this option) |

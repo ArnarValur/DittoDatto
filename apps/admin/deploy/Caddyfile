@@ -1,0 +1,16 @@
+# DittoDatto Admin Panel — Caddy Configuration
+# HTTP on port 8002 (Tailscale WireGuard provides transport encryption)
+
+:8002 {
+	# SurrealDB WebSocket reverse proxy.
+	handle /rpc {
+		reverse_proxy dittodatto-hub:8000
+	}
+
+	# Flutter web static files with SPA fallback.
+	handle {
+		root * /srv/web
+		try_files {path} /index.html
+		file_server
+	}
+}

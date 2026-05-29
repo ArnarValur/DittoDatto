@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mercury_client/mercury_client.dart';
 
-/// Provider for the admin repository — mock for development.
-final adminRepositoryProvider = Provider<AdminRepository>((ref) {
-  return MockAdminRepository();
-});
+import '../../core/providers.dart';
 
 /// Provider for dashboard statistics — auto-disposes when dashboard is off-screen.
 final dashboardStatsProvider = FutureProvider.autoDispose<AdminStats>((ref) {

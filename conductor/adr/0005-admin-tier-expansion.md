@@ -7,7 +7,7 @@
 
 Canonical ADR-0004 defines three base middleware tiers: `public`, `require_auth`, `require_operator`. The Admin Panel (ADR-0006, originally legacy 0011) and the engine admin routes shipped during S15–S20 required two additional tiers — `require_admin` and `require_super_admin` — to gate platform-level operations distinct from company-operator actions.
 
-The 5-tier model is referenced in `project-context.md` §3 (auth pipeline) and exercised by 73 admin tests + 50 auth tests in MercuryEngine V2, but was never formally captured in an ADR.
+The 5-tier model is referenced in `project-context.md` §3 (auth pipeline) and exercised by 73 admin tests + 50 auth tests in MercuryEngine, but was never formally captured in an ADR.
 
 ## Decision
 
@@ -51,4 +51,4 @@ Super-Admin:  Request → require_auth → require_super_admin → handler → o
 
 ---
 
-*Origin: Inferred from project-context.md §3 + ADR-0011 §7 + MercuryEngine V2 test counts (S15–S20 evolution). Captured as a slim stub during /grill foundation 2026-05-26 with deeper grilling deferred to /grill admin-panel.*
+*Origin: Inferred from project-context.md §3 + ADR-0011 §7 + MercuryEngine test counts (S15–S20 evolution). Captured as a slim stub during /grill foundation 2026-05-26 with deeper grilling deferred to /grill admin-panel.*

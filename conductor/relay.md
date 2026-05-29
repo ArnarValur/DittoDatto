@@ -4,6 +4,37 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-29 15:51 (Saturn deployment sprint — checkpoint)
+
+- **Session:** Admin panel Saturn deployment — real SurrealDB wiring + Caddy reverse proxy (Hermes on Antigravity).
+- **Tracks touched:** `admin_panel_20260527` (Phase 4 in progress).
+- **Status:** **Admin panel deployed to Saturn.** SurrealDB bootstrapped (2 namespaces, 3 databases, 23 seed records, 2 namespace users). `SurrealAuthService` + `SurrealAdminRepository` implemented with dual-namespace WebSocket connections. Caddy container added to `docker-compose.yml` — serves Flutter web at `:8002` + reverse proxies `/rpc` to SurrealDB. Accessible at `http://saturn:8002`. Browser verification pending.
+- **Decisions:** 1 ADR — 0015 (admin panel direct SurrealDB data path). 3 operational (HTTP-over-Tailscale, single-origin architecture, mock/real toggle).
+- **Tweaks needed:** Minor non-blocking cleanup from deployment sprint — to be reviewed next session.
+- **Ask Arnar:** Network setup / Tailscale FQDN resolution (HTTPS deferred, `dittodatto.tailb251cd.ts.net` DNS timed out).
+- **Next:** Browser-verify login + CRUD at `http://saturn:8002`. Cleanup tweaks. HTTPS resolution. CI/CD pipeline. Sync track plan with reality.
+
+---
+
+## 2026-05-29 14:15 (Aborted — plan overengineered)
+
+- **Session:** Attempted to plan admin panel Saturn deployment. Aborted by user — plan was overcomplicated, mixed booking engine and auth architecture concerns into what should have been a simple deployment task.
+- **Tracks touched:** None (no implementation started).
+- **What got done:**
+  - "MercuryEngine V2" → "MercuryEngine" scrubbed from all 13 live conductor files. Terminology boundary added to `context.md`. V1 is dead, no version suffix needed.
+  - Grapher started for DittoDatto Core (PID 280221, log at `/tmp/ditto-grapher.log`).
+  - Research completed: MercuryEngine child conductor already resolved auth boundary (its ADR-0002: admin routes gone, admin panel talks direct to SurrealDB). Parent conductor's `platform-auth-architecture.md` is stale.
+- **What went wrong:** Overengineered the plan. The goal was simple — (1) deploy admin panel web build on Saturn via Tailscale, (2) two users authenticate against SurrealDB, (3) CRUD on users/companies/categories against real SurrealDB. Instead, the plan spiraled into cross-namespace auth model debates, MercuryEngine involvement questions, and architecture discussions that were already settled by the child conductor.
+- **Key facts for next attempt:**
+  - `surrealdb` Dart package `^1.1.2` — pure Dart, WebSocket, works on Flutter web.
+  - Admin app has two clean swap points: `authServiceProvider` (mock → real) and `adminRepositoryProvider` (mock → real). All screens and models already exist.
+  - Saturn ports: 8001 (SurrealDB active), 8002-8005 free. Docker network: `dittodatto-net`.
+  - Caddy for HTTPS + WebSocket proxy is the deployment path.
+  - Bootstrap schema exists at `services/mercury-engine/src/mercury_engine/infra/db/bootstrap_schemas.surql`.
+- **Next:** Arnar wants to grill DittoDatto parent conductor to clean up stale assumptions before retrying. Keep the plan simple next time.
+
+---
+
 ## 2026-05-29 13:17 (Emulator Setup & Admin Auth — checkpoint)
 
 - **Session:** Emulator setup, Phase 2 Auth + Login verification, and Clean Code mock-data alignment (Hermes on Antigravity, Gemini 3.5 Flash).
@@ -96,7 +127,7 @@ Timestamped entries for context continuity between sessions.
   - Saturn is staging only; Cloud Run is the sole production target (0003). Saturn is never production.
   - All client surfaces are Flutter (0007). `dittodatto.no` is the only Nuxt surface — public marketing/landing only, NOT a co-equal product. Polished post-Flutter completeness.
   - Auth: MercuryEngine issues JWTs; 3 base tiers (`public`/`require_auth`/`require_operator`) per 0004, 2 platform tiers (`require_admin`/`require_super_admin`) per 0005. NIN never stored.
-  - DittoBar discovery lives in MercuryEngine V2; TheOracle was never a real concept (the legacy ADR-0007 file in `conductor/docs/legacy/adr-source/` is a historical misunderstanding).
+  - DittoBar discovery lives in MercuryEngine; TheOracle was never a real concept (the legacy ADR-0007 file in `conductor/docs/legacy/adr-source/` is a historical misunderstanding).
 - **Pending external work (user's parallel session):**
   - Tailscale Service `dittodatto` mid-configuration in the merkurial-studio admin panel. Recommended ports: `tcp:8001-8005`. Service still needs to be advertised from Saturn (admin panel "Advertised by" assignment, or `sudo tailscale set --advertise-services=dittodatto` on Saturn).
   - DittoDatto Hub setup pending — `saturn-setup-runbook.md` is hand-off-ready for the SSH-capable adjacent agent. Docker network name aligned with user's umbrella convention: `dittodatto-net`.
@@ -114,7 +145,7 @@ Timestamped entries for context continuity between sessions.
 ## 2026-05-26 10:13
 
 - **Session:** Conductor v2.1 init (brownfield-by-import from `DittoDatto-old/`).
-- **Status:** Fresh `conductor/` scaffolded. Identity-first `project-context.md` locked. Brownfield `context.md` seeded from MercuryEngine V2 models + SurrealDB schemas + `.docs/types/` + legacy `CONTEXT.md`. Legacy reference material migrated into `conductor/docs/legacy/`.
+- **Status:** Fresh `conductor/` scaffolded. Identity-first `project-context.md` locked. Brownfield `context.md` seeded from MercuryEngine models + SurrealDB schemas + `.docs/types/` + legacy `CONTEXT.md`. Legacy reference material migrated into `conductor/docs/legacy/`.
 - **Key calls made at init:**
   - Workflow mode = **Strict** (TDD culture, 377 tests, real product).
   - Style guides = Python + Dart + general.

@@ -5,7 +5,7 @@
 
 ## Context
 
-MercuryEngine V2 needs an authentication and authorization model. The original PostIT (Session 3) proposed Vipps → Firebase Auth custom tokens, but Firebase Auth was deprecated in ADR-0001 (sole SurrealDB). This ADR defines the auth pipeline for the Python/FastAPI/SurrealDB stack.
+MercuryEngine needs an authentication and authorization model. The original PostIT (Session 3) proposed Vipps → Firebase Auth custom tokens, but Firebase Auth was deprecated in ADR-0001 (sole SurrealDB). This ADR defines the auth pipeline for the Python/FastAPI/SurrealDB stack.
 
 SurrealDB 3.0 supports native record-based auth, JWT validation, and field-level permissions — but the Vipps OIDC exchange must happen at the application layer.
 
@@ -122,7 +122,7 @@ Flutter clients (Admin, Business Portal, Marketplace) / Future agents
     └─ Agent: Pre-issued JWT ──→ MercuryEngine (any endpoint)
             same validation pipeline, role=agent in claims
 
-MercuryEngine V2 (FastAPI)
+MercuryEngine (FastAPI)
     ├── Middleware: JWT validation (PyJWT)
     ├── Guard: company_access (path vs claim)
     └── DB: db.use(namespace="companies", database=slug)

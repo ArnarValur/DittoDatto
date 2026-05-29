@@ -1,9 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mercury_client/mercury_client.dart';
 
-/// Provider for the auth service — mock for now, real HTTP in a future track.
+import '../../core/surreal_auth_service.dart';
+
+/// Whether to use mock implementations (set via `--dart-define=USE_MOCKS=true`).
+const _useMocks = bool.fromEnvironment('USE_MOCKS');
+
+/// Provider for the auth service.
+///
+/// In mock mode: [MockAuthService] with hardcoded dev credentials.
+/// In production mode: [SurrealAuthService] authenticating against real SurrealDB.
 final authServiceProvider = Provider<AuthService>((ref) {
-  return MockAuthService();
+  if (_useMocks) return MockAuthService();
+  return SurrealAuthService();
 });
 
 /// Provider for the current auth state.

@@ -15,7 +15,7 @@
 
 - **Name:** DittoDatto (`dittodatto.no`)
 - **Tagline:** The Agentic Commerce Platform for Norway
-- **Description:** A multi-agentic service booking platform. Layer 1 is a fully-functional non-AI marketplace + business portal + booking engine + admin panel; Layer 2 layers **Ditto** (consumer agent) and **Datto** (business agent) on top, mediated by the future **Universal Commerce Protocol (UCP)**. **MercuryEngine V2** (FastAPI / Pydantic) on **SurrealDB 3.0** is the single source of truth for booking, discovery, and CRUD across all surfaces. Drammen-first, fylke-by-fylke expansion, Scandinavia horizon.
+- **Description:** A multi-agentic service booking platform. Layer 1 is a fully-functional non-AI marketplace + business portal + booking engine + admin panel; Layer 2 layers **Ditto** (consumer agent) and **Datto** (business agent) on top, mediated by the future **Universal Commerce Protocol (UCP)**. **MercuryEngine** (FastAPI / Pydantic) on **SurrealDB 3.0** is the single source of truth for booking, discovery, and CRUD across all surfaces. Drammen-first, fylke-by-fylke expansion, Scandinavia horizon.
 - **Target Audience:**
   - **Service businesses** — salons, restaurants, garages, clinics, venues — starting in Drammen, scaling nationally.
   - **Norwegian general public** — locals seeking modern, efficient booking.
@@ -57,20 +57,20 @@
 
 - **Platform Database:** SurrealDB 3.0 — unified document + graph + vector (HNSW) + BM25 full-text + geo + time-series. Storage engine: RocksDB.
   - Namespaces: `companies/{slug}` (per-company), `companies/discovery` (public aggregator), `companies/registry` (system ops), `users/profiles` (GDPR-isolated PII). See canonical ADR-0002.
-- **API Gateway:** MercuryEngine V2 — FastAPI · Python 3.11+ · Pydantic v2 · uv package manager.
+- **API Gateway:** MercuryEngine — FastAPI · Python 3.11+ · Pydantic v2 · uv package manager.
   - Domains: booking (`/appointments/*`, `/reservations/*`, `/tickets/*`), discovery (`/discovery/*`), CRUD (`/establishments/*`, `/services/*`, `/staff/*`), admin (`/admin/*`).
 - **Auth:** SurrealDB native + BankID/Vipps OIDC. MercuryEngine issues JWTs. Five middleware tiers: `public` / `require_auth` / `require_operator` / `require_admin` / `require_super_admin` (per canonical ADR-0004 + 0005).
 
 ### Languages
 
-- **Python 3.11+** — MercuryEngine V2 backend, ADK agents (future Ditto/Datto), tooling.
+- **Python 3.11+** — MercuryEngine backend, ADK agents (future Ditto/Datto), tooling.
 - **Dart** — Flutter mobile + admin + portal + marketplace native apps.
 - **SurrealQL** — schema definition, queries, functions, events.
 - **TypeScript / Vue 3** — Nuxt 4 webapps (`dittodatto.no` landing page, plus legacy admin/portal Nuxt apps being phased out).
 
 ### Frameworks
 
-- **Backend:** FastAPI + Pydantic v2 + uv (MercuryEngine V2).
+- **Backend:** FastAPI + Pydantic v2 + uv (MercuryEngine).
 - **Flutter:** Riverpod (state) · GoRouter (routing) · Material 3 (design system) · `mercury_client` shared Dart package (HTTP client, auth, models).
 - **Web (Nuxt 4):** Nuxt UI · Tailwind CSS. Used for the `dittodatto.no` landing page.
 - **Agent Orchestration:** Google ADK (Agent Development Kit) — Python, Pydantic-native (future Ditto/Datto).
@@ -98,7 +98,7 @@
 ### Deployment Targets
 
 - **Dev:** This workstation (local Docker for SurrealDB + native `uv run` for MercuryEngine + `flutter run` / `npm run dev` for client surfaces). Independent SurrealDB instance — never connects to the staging Hub during dev.
-- **Staging:** Saturn (GX10 on-prem, always-on, Tailscale-gated). Reachable at `saturn.tailb251cd.ts.net` (machine name) and `dittodatto.tailb251cd.ts.net` (Tailscale Service — routes to Saturn). Hosts the **DittoDatto Hub** (SurrealDB on port `8001`) + MercuryEngine V2 staging + future Ditto/Datto agent containers, all on the `dittodatto-net` Docker network. Purpose: fast e2e iteration "as if in the wild" without paying Cloud Run deploy latency. Access: Arnar + Höddi + AI agents + occasional showcase guests. **Never public.** Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. See canonical ADR-0003.
+- **Staging:** Saturn (GX10 on-prem, always-on, Tailscale-gated). Reachable at `saturn.tailb251cd.ts.net` (machine name) and `dittodatto.tailb251cd.ts.net` (Tailscale Service — routes to Saturn). Hosts the **DittoDatto Hub** (SurrealDB on port `8001`) + MercuryEngine staging + future Ditto/Datto agent containers, all on the `dittodatto-net` Docker network. Purpose: fast e2e iteration "as if in the wild" without paying Cloud Run deploy latency. Access: Arnar + Höddi + AI agents + occasional showcase guests. **Never public.** Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. See canonical ADR-0003.
 - **Production:** Cloud Run (`europe-west1` only — region-locked). The sole production target. Scales to thousands of consumers + hundreds of companies. The `dittodatto.no` Nuxt marketing webapp is the current Cloud Run service.
 
 ### Hosting
@@ -117,7 +117,7 @@
 | Sync Pipe (Firestore → SurrealDB) | Eliminated — one database |
 | Qdrant (vector DB) | SurrealDB HNSW vectors |
 | BigQuery analytics | SurrealDB graph aggregation |
-| MercuryEngine V1 (Hono / TypeScript) | MercuryEngine V2 (FastAPI / Python / Pydantic) |
+| MercuryEngine V1 (Hono / TypeScript) | MercuryEngine (FastAPI / Python / Pydantic) |
 | Zod schemas (TypeScript) | Pydantic v2 models (Python) — `services/mercury-engine/src/mercury_core/models/` |
 | Mercury V1 staging (Pluto host) | Saturn staging (DittoDatto Hub) |
 
@@ -127,7 +127,7 @@
 
 | Domain | Level | Notes |
 |---|---|---|
-| **MercuryEngine V2** (`services/mercury-engine/`) | 🔴 **Critical** | Real money, real time slots, real customer trust. See `conductor/docs/legacy/conductor-snapshot/BOOKING_ENGINE.md` for the V2 safety manual until it's promoted into a MercuryEngine track. |
+| **MercuryEngine** (`services/mercury-engine/`) | 🔴 **Critical** | Real money, real time slots, real customer trust. See `conductor/docs/legacy/conductor-snapshot/BOOKING_ENGINE.md` for the safety manual until it's promoted into a MercuryEngine track. |
 | **SurrealDB schemas** (`schemas/*.surql`) | 🔴 **Critical** | Data integrity — `REFERENCE` constraints, timestamps, audit triggers. |
 | **Auth / JWT pipeline** (canonical ADR-0004 + 0005) | 🔴 **Critical** | Tier mismatches = security holes. `require_operator` + company-access guard must agree. |
 | **Cloud config (region lock)** | 🔴 **Critical** | All Cloud Run must deploy to `europe-west1`. Never `us-central1`. |
@@ -144,7 +144,7 @@
 | Area | Confidence | Notes |
 |---|---|---|
 | Flutter + Riverpod + GoRouter | High | Admin panel built end-to-end (S19–S20); Marketplace scaffold ready. Material 3 conventions applied. |
-| Python + FastAPI + Pydantic v2 + uv | High | MercuryEngine V2 — 377 tests, ruff-clean, repository pattern, DI through FastAPI. |
+| Python + FastAPI + Pydantic v2 + uv | High | MercuryEngine — 377 tests, ruff-clean, repository pattern, DI through FastAPI. |
 | SurrealDB 3.0 (data + graph + vector + geo + BM25) | High | Schema blueprints applied per company; dual-namespace isolation (`companies` / `users`). |
 | Dart shared packages | Medium-High | `packages/mercury_client/` — HTTP client + auth + 7 models + 11 admin endpoints. |
 | BankID / Vipps OIDC | Medium | Architecture decided (canonical ADR-0004), implementation pending Vipps merchant registration. |
@@ -172,7 +172,7 @@
    - Check legacy interference before blaming new code
    - If a fix fails twice, stop and escalate
    - Audit actual state vs documented state — especially across the surface inventory
-5. **MercuryEngine V2 (🔴 Critical):**
+5. **MercuryEngine (🔴 Critical):**
    - Always read `conductor/docs/legacy/conductor-snapshot/BOOKING_ENGINE.md` before changing anything in `services/mercury-engine/`
    - Tests-first: 377 tests must remain green (197 unit + 73 admin + 50 auth + 32 integration + 25 token)
    - Calculators are pure (zero DB calls); all I/O via repository interfaces
@@ -196,7 +196,7 @@
 
 ## 8. Environment Notes
 
-- **MercuryEngine V2 (services/mercury-engine/):**
+- **MercuryEngine (services/mercury-engine/):**
   - `uv` for dependency management — `uv run pytest`, `uv run ruff check .`
   - Dev: Docker on this workstation. Staging: Docker on Saturn (DittoDatto Hub).
   - SurrealDB connection: dual-connection pool (`companies` + `users`).

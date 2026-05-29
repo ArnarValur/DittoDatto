@@ -16,14 +16,14 @@ Build the DittoDatto Admin Panel — a 2-user Flutter "breaker box" for Arnar an
 
 1. **Dart Workspaces monorepo** — root `pubspec.yaml` with workspace resolution for `apps/admin/`, `packages/mercury_client/`, `packages/ditto_design/`
 2. **`packages/ditto_design/`** — shared design tokens, `DittoTheme.dark`/`.light`, `DittoDashboardShell`, `DittoWindowClass` breakpoints (ADR-0014)
-3. **`packages/mercury_client/`** — HTTP client with JWT injection, auth service, admin API layer, models — clean-room from old structure, rewritten for MercuryEngine V2 Pydantic schemas
+3. **`packages/mercury_client/`** — HTTP client with JWT injection, auth service, admin API layer, models — clean-room from old structure, rewritten for MercuryEngine Pydantic schemas
 4. **`apps/admin/`** — Flutter app with 6 screens (Login, Dashboard, Users, Companies, Categories, Inbox)
 
 ### API strategy
 
-**Mock-first.** The admin app builds against a local mock/fake API layer within `mercury_client`. No real MercuryEngine V2 endpoints are required for this track. The mock layer will:
+**Mock-first.** The admin app builds against a local mock/fake API layer within `mercury_client`. No real MercuryEngine endpoints are required for this track. The mock layer will:
 
-- Return realistic fake data matching V2 response shapes
+- Return realistic fake data matching MercuryEngine response shapes
 - Simulate auth flows (login success/failure, token expiry)
 - Simulate pagination, CRUD operations
 - Be swappable with real HTTP calls via a repository interface pattern
@@ -127,7 +127,7 @@ Real backend wiring deferred to a future MercuryEngine track.
 Per PRD v1.0 — see [prd.md](file:///home/solmundur/Projects/DittoDatto/conductor/prd.md#L66-L82) for full exclusion table.
 
 Key exclusions:
-- Real MercuryEngine V2 endpoints (future backend track)
+- Real MercuryEngine endpoints (future backend track)
 - Establishments/Services/Staff/Bookings (→ Business Portal)
 - BankID / Vipps OIDC (→ Business Portal / Marketplace)
 - iOS build target

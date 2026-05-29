@@ -35,7 +35,7 @@ Services bind to Saturn's Tailscale IPv4 (`100.87.99.59`) only. No LAN/WAN expos
 | Concern | Component | Port (host) |
 |---|---|---|
 | Database | SurrealDB 3.0 (DittoDatto Hub) | `8001` |
-| API | MercuryEngine V2 (FastAPI staging build) | `8002` |
+| API | MercuryEngine (FastAPI staging build) | `8002` |
 | Future agent runtime | Ditto agent | `8003` (reserved) |
 | Future agent runtime | Datto agent | `8004` (reserved) |
 | Out-of-scope, untouched | OpenWebUI (existing) | `8080` |

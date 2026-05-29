@@ -9,14 +9,14 @@ The original ADR-0008 positioned SurrealDB as a complementary database alongside
 
 ## Decision
 
-**SurrealDB 3.0** is the single source of truth for all DittoDatto platform data. There is no Firestore. There is no sync pipe. MercuryEngine V2 (FastAPI · Pydantic v2 · Python 3.11+) reads and writes SurrealDB directly via a repository adapter.
+**SurrealDB 3.0** is the single source of truth for all DittoDatto platform data. There is no Firestore. There is no sync pipe. MercuryEngine (FastAPI · Pydantic v2 · Python 3.11+) reads and writes SurrealDB directly via a repository adapter.
 
 ## Architecture
 
 ```
 Clients (Flutter Admin, Business Portal, Public Marketplace, future Ditto/Datto agents)
     ↓ (REST API)
-MercuryEngine V2 (FastAPI · Pydantic v2 · Python 3.11+)
+MercuryEngine (FastAPI · Pydantic v2 · Python 3.11+)
     ↓ (SurrealDB Python SDK)
 SurrealDB 3.0
     ├── companies/{slug}     ← Per-company data (booking, staff, services)

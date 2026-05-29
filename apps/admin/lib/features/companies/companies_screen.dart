@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mercury_client/mercury_client.dart';
 
-import '../dashboard/dashboard_screen.dart';
+import '../../core/providers.dart';
 import '../shared/badges.dart';
 import '../shared/format_date.dart';
 import '../shared/slug_utils.dart';
