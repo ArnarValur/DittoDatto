@@ -16,7 +16,7 @@ All tracks organized by domain. Each track links to its dedicated folder.
 | **Public Marketplace (native)** | `apps/marketplace/` | 🔴 To regrill | Flutter tracer-bullet (scaffold only in legacy). |
 | **Public Marketplace (web)** | `apps/web/public-marketplace/` | 🟡 Active | Nuxt 4 / Vue 3 — kept as a dual surface. |
 | **Shared Dart packages** | `packages/mercury_client/` | 🔴 Critical | Consumed by all Flutter apps. |
-| **Infrastructure** | Saturn (GX10) on-prem + SurrealDB | 🟡 Incoming | Day-1 blueprint in `conductor/docs/legacy/postit/saturn-local-stack.md`. |
+| **Infrastructure** | Saturn (GX10) on-prem + SurrealDB | 🟢 Active | Staging environment fully deployed and live (ADR-0003). |
 
 ---
 
