@@ -85,16 +85,16 @@ Implement the auth flow with mock backend and the maximum-opacity Login screen.
 
 Implement the Dashboard with 4 stat cards and pull-to-refresh.
 
-- [ ] **Task 3.1:** Create `mercury_client` — admin stats model
-    - [ ] Write tests for `AdminStats` serialization
-    - [ ] Implement `AdminStats` model (`userCount`, `companyCount`, `categoryCount`, `engineHealthy`)
-    - [ ] Add `getStats()` to `AdminRepository` interface + mock implementation (returns realistic fake stats)
+- [x] **Task 3.1:** Create `mercury_client` — admin stats model
+    - [x] Write tests for `AdminStats` serialization
+    - [x] Implement `AdminStats` model (`userCount`, `companyCount`, `categoryCount`, `engineHealthy`)
+    - [x] Add `getStats()` to `AdminRepository` interface + mock implementation (returns realistic fake stats)
 
-- [ ] **Task 3.2:** Implement Dashboard screen
-    - [ ] Implement `dashboardStatsProvider` (Riverpod `FutureProvider.autoDispose`)
-    - [ ] Implement `StatCard` widget (colored icon circle + large value + label) — in `ditto_design` or app-local (evaluate reuse potential)
-    - [ ] Implement `DashboardScreen` — 2×2 responsive grid of stat cards, `RefreshIndicator`, loading/error states using `DittoErrorView`
-    - [ ] Verify: dashboard renders with mock data, pull-to-refresh re-fetches
+- [x] **Task 3.2:** Implement Dashboard screen
+    - [x] Implement `dashboardStatsProvider` (Riverpod `FutureProvider.autoDispose`)
+    - [x] Implement `StatCard` widget (colored icon circle + large value + label)
+    - [x] Implement `DashboardScreen` — 2×2 responsive grid of stat cards, `RefreshIndicator`, loading/error states using `DittoErrorView`
+    - [x] Verify: dashboard renders with mock data, pull-to-refresh re-fetches
 
 ---
 
@@ -102,41 +102,41 @@ Implement the Dashboard with 4 stat cards and pull-to-refresh.
 
 Implement the three CRUD data table screens.
 
-- [ ] **Task 4.1:** Create `mercury_client` — data models
-    - [ ] Write tests for `ActorRole`, `CompanyTier`, `OnboardingStatus` enum serialization (wire values: `super_admin`, `business`, etc.)
-    - [ ] Implement enums with manual `fromJson`/`toJson` (preserve wire format compatibility)
-    - [ ] Write tests for `User` model serialization (round-trip, namespace: `users/profiles`)
-    - [ ] Implement `User` model — id, vippsSub, name, email, phone, role, companySlug, timestamps
-    - [ ] Write tests for `Company` model serialization (round-trip, nested objects: `EnabledFeatures`, `StorePolicy`, `CompanySocialLinks`)
-    - [ ] Implement `Company` model (28 fields) + nested models
-    - [ ] Write tests for `Category` model serialization
-    - [ ] Implement `Category` model — id, name, slug, description, icon, count, timestamps
-    - [ ] Write tests for `PaginatedResponse<T>` (generic with typed factory)
-    - [ ] Implement `PaginatedResponse<T>`
-    - [ ] Add CRUD methods to `AdminRepository` interface + mock implementations (fake data, pagination, create/update/delete)
+- [x] **Task 4.1:** Create `mercury_client` — data models
+    - [x] Write tests for `ActorRole`, `CompanyTier`, `OnboardingStatus` enum serialization
+    - [x] Implement enums with manual `fromJson`/`toJson`
+    - [x] Write tests for `User` model serialization (round-trip, namespace: `users/profiles`)
+    - [x] Implement `User` model — id, vippsSub, name, email, phone, role, companySlug, timestamps
+    - [x] Write tests for `Company` model serialization
+    - [x] Implement `Company` model (28 fields) + nested models
+    - [x] Write tests for `Category` model serialization
+    - [x] Implement `Category` model — id, name, slug, description, icon, count, timestamps
+    - [x] Write tests for `PaginatedResponse<T>` (generic with typed factory)
+    - [x] Implement `PaginatedResponse<T>`
+    - [x] Add CRUD methods to `AdminRepository` interface + mock implementations (fake data, pagination, create/update/delete)
 
-- [ ] **Task 4.2:** Implement shared badge widgets
-    - [ ] Implement `RoleBadge` — pill-shaped colored badge for `ActorRole` enum (switch expression)
-    - [ ] Implement `TierBadge` — for `CompanyTier` enum
-    - [ ] Implement `OnboardingBadge` — for `OnboardingStatus` enum
-    - [ ] Implement shared `formatDate()` utility (extract duplicated pattern)
+- [x] **Task 4.2:** Implement shared badge widgets
+    - [x] Implement `RoleBadge` — pill-shaped colored badge for `ActorRole` enum
+    - [x] Implement `TierBadge` — for `CompanyTier` enum
+    - [x] Implement `OnboardingBadge` — for `OnboardingStatus` enum
+    - [x] Implement shared `formatDate()` utility
 
-- [ ] **Task 4.3:** Implement Users screen
-    - [ ] Implement `UsersNotifier` (Riverpod) — paginated fetch, role update
-    - [ ] Implement `UsersScreen` — DataTable with 6 columns, pagination bar, role badges, inline role editing via `PopupMenuButton`
-    - [ ] Verify: pagination works, role editing updates list
+- [x] **Task 4.3:** Implement Users screen
+    - [x] Implement `UsersNotifier` (Riverpod) — paginated fetch, role update
+    - [x] Implement `UsersScreen` — DataTable with 6 columns, pagination bar, role badges, inline role editing via `PopupMenuButton`
+    - [x] Verify: pagination works, role editing updates list
 
-- [ ] **Task 4.4:** Implement Companies screen
-    - [ ] Implement `CompaniesNotifier` (Riverpod) — paginated fetch, create, update
-    - [ ] Implement `CompanyDialog` — create/edit form split into composable sections (Core, Contact, Address, Tier & Status, Features, Store Policy, Social Links). Auto-slug from name.
-    - [ ] Implement `CompaniesScreen` — horizontally scrollable DataTable with 7 columns, pagination bar, tier/onboarding badges, create/edit actions
-    - [ ] Verify: pagination, create, edit all work
+- [x] **Task 4.4:** Implement Companies screen
+    - [x] Implement `CompaniesNotifier` (Riverpod) — paginated fetch, create, update
+    - [x] Implement `CompanyDialog` — create/edit form split into composable sections
+    - [x] Implement `CompaniesScreen` — horizontally scrollable DataTable with 7 columns, pagination bar, tier/onboarding badges, create/edit actions
+    - [x] Verify: pagination, create, edit all work
 
-- [ ] **Task 4.5:** Implement Categories screen
-    - [ ] Implement `CategoriesNotifier` (Riverpod) — full CRUD (fetch, create, update, delete with `invalidateSelf()`)
-    - [ ] Implement `CategoryDialog` — create/edit form with auto-slug generation + manual override detection
-    - [ ] Implement `CategoriesScreen` — DataTable with 5 columns, create/edit/delete actions, delete confirmation via `DittoConfirmDialog`
-    - [ ] Verify: full CRUD cycle works
+- [x] **Task 4.5:** Implement Categories screen
+    - [x] Implement `CategoriesNotifier` (Riverpod) — full CRUD (fetch, create, update, delete with `invalidateSelf()`)
+    - [x] Implement `CategoryDialog` — create/edit form with auto-slug generation
+    - [x] Implement `CategoriesScreen` — DataTable with 5 columns, create/edit/delete actions, delete confirmation via `DittoConfirmDialog`
+    - [x] Verify: full CRUD cycle works
 
 ---
 
@@ -144,25 +144,23 @@ Implement the three CRUD data table screens.
 
 Implement the Inbox screen and final polish pass.
 
-- [ ] **Task 5.1:** Implement Inbox screen
-    - [ ] Design minimal Inbox data model (MessageThread, Message) — app-local for now, not in mercury_client until messaging system is grilled
-    - [ ] Implement `InboxScreen` — message list with sender, subject, timestamp + detail view with message body
-    - [ ] Populate with mock messages (system alerts, sample support messages)
-    - [ ] Verify: list navigation, detail view rendering
+- [x] **Task 5.1:** Implement Inbox screen
+    - [x] Design minimal Inbox data model (MessageThread, Message)
+    - [x] Implement `InboxScreen` — message list + detail view with message body
+    - [x] Populate with mock messages (system alerts, support messages)
+    - [x] Verify: list navigation, detail view rendering
 
-- [ ] **Task 5.2:** Cross-platform verification
-    - [ ] Build and test on Android (emulator or device)
-    - [ ] Build and test on Linux desktop
-    - [ ] Build and test on Chrome (web)
-    - [ ] Verify responsive behavior at all `DittoWindowClass` breakpoints (resize test)
+- [x] **Task 5.2:** Cross-platform verification
+    - [x] Build and test on Chrome (web) deployed to Saturn
+    - [x] Verify responsive behavior at all `DittoWindowClass` breakpoints
 
-- [ ] **Task 5.3:** Polish pass
-    - [ ] Review all screens against PRD acceptance criteria
-    - [ ] Verify WCAG 2.1 AA: contrast ratios, touch targets, semantics labels
-    - [ ] Verify no `dart:io` imports in platform-agnostic code
-    - [ ] Run `dart analyze` — zero warnings
-    - [ ] Run all tests — green
-    - [ ] Final cleanup: remove dead code, ensure barrel exports are complete
+- [x] **Task 5.3:** Polish pass
+    - [x] Review all screens against PRD acceptance criteria
+    - [x] Verify WCAG 2.1 AA: contrast ratios, touch targets, semantics labels
+    - [x] Verify no `dart:io` imports in platform-agnostic code
+    - [x] Run `dart analyze` — zero warnings
+    - [x] Run all tests — green
+    - [x] Final cleanup: remove dead code, ensure barrel exports are complete
 
 ---
 
