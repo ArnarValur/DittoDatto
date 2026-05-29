@@ -4,6 +4,16 @@ Timestamped entries for context continuity between sessions.
 
 ---
 
+## 2026-05-29 17:45 (ADR Purge & Conductor Clean-up — checkpoint)
+
+- **Session:** Conductor ADR and PRD clean-up (Hermes on Antigravity).
+- **Tracks touched:** `admin_panel_20260527` (Phase 5 in progress).
+- **Status:** **Conductor fully synchronized and de-bloated.** Stale, narrative-heavy, and speculative ADRs purged from disk. Consolidated and re-recorded 6 core active ADRs from first principles. Completely cleaned `prd.md` to remove narrative "breaker box" references and align with direct-to-database connection and auth architecture. Aligned `project-context.md` Tech Stack and Auth sections. Synchronized `plan.md` tasks for Phase 3, 4, 5 of the Admin Panel track.
+- **Decisions:** None new (re-recorded 6 core active ADRs).
+- **Next:** Browser-verify the Saturn deployment (`http://saturn:8002`) and start staging verification.
+
+---
+
 ## 2026-05-29 15:51 (Saturn deployment sprint — checkpoint)
 
 - **Session:** Admin panel Saturn deployment — real SurrealDB wiring + Caddy reverse proxy (Hermes on Antigravity).
