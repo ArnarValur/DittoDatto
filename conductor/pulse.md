@@ -1,19 +1,17 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-05-30 14:49
-**Session Focus:** Admin Panel audit + conductor file cleanup
+**Last Updated:** 2026-05-30 17:05
+**Session Focus:** Admin Panel — live SurrealDB wiring, mock removal, autofill fix
 
 ## 🚀 Active Tracks
 
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. Full audit completed. Codebase is scaffolded with real SurrealDB connection code, but no screen has been verified against live data. User plans to regrill this afternoon.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. Mocks removed. App now connects directly to SurrealDB on Saturn. Login verified working. CRUD screens need browser verification against empty database. Autofill fix deployed.
 
 ## ✅ Recently Completed
 
-- **2026-05-30** — **Admin Panel audit.** Three-subagent audit of auth, CRUD, and SurrealDB state. Audit artifact produced.
-- **2026-05-30** — **Conductor cleanup.** Purged informal language from 8 files. Trimmed context.md glossary to one-line entries. Rewrote relay.md to bullet-point facts. Removed all legacy references. Fixed metadata.json description.
-- **2026-05-29** — **Saturn infrastructure sprint.** SurrealDB healthcheck, port binding, Caddy reverse proxy.
-- **2026-05-27** — **`/new-track admin-panel` created.** Track `admin_panel_20260527` initialized.
-- **2026-05-26** — **`/grill admin-panel` complete.** PRD v1.0 created. Scope locked: 5 screens.
+- **2026-05-30** — **Live SurrealDB wiring.** Removed MockAdminRepository, MockAuthService, USE_MOCKS flag. Fixed login autofill (AutofillGroup + autofillHints + finishAutofillContext). Migrated schemas from DittoDatto-old to project root with namespace rename (titan→companies, enceladus→users). Purged fake seed data from Saturn. Built and deployed to Saturn. Login verified working.
+- **2026-05-30** — **Grill admin-panel.** PRD updated to v1.2. Dashboard deprioritized. Category model confirmed correct. ADR subdirectories created for domain separation. ADR audit: all 6 existing ADRs consistent with current decisions.
+- **2026-05-30** — **Admin Panel audit + conductor cleanup.** Three-subagent audit. Purged informal language. Trimmed context.md glossary.
 
 ## ⚠️ Blockers
 
@@ -21,15 +19,16 @@ _None._
 
 ## 🧠 Session Memory
 
-- **Admin Panel deployed:** `http://dittodatto:8002` — Caddy on `dittodatto-net`, Tailscale-gated.
-- **Mock/real toggle:** `--dart-define=USE_MOCKS=true`. Default build = SurrealDB.
-- _2026-05-30 14:49_ — Conductor prose must follow GEMINI.md rules: concise, no metaphors, no editorial _(operational)_
-- _2026-05-30 14:49_ — context.md glossary = one-line definitions only. No paragraphs. _(operational)_
-- _2026-05-30 14:49_ — relay.md = bullet-point facts only. No essays. _(operational)_
-- _2026-05-30 14:49_ — No legacy/historical references in context.md. File describes current state only. _(operational)_
+- **Admin Panel deployed:** `http://dittodatto.tailb251cd.ts.net:8002` — Caddy serves from `/srv/dittodatto/admin-panel/web/`, proxies `/rpc` to SurrealDB.
+- **Deploy command:** `rsync -avz --delete apps/admin/build/web/ saturn:/srv/dittodatto/admin-panel/web/`
+- **SurrealDB root creds:** `dittodatto_root` / stored in Bitwarden
+- **Namespace users:** `arnar` and `hoddi` (ROLES OWNER on both `companies` and `users` namespaces)
+- **Database is empty** — no user/company/category records. User will create real data via Admin Panel.
+- **Schemas source of truth:** `schemas/` at project root (migrated from DittoDatto-old, namespaces renamed)
+- **ADR structure:** Platform-wide at `adr/` root, domain-scoped in `adr/{admin-panel,business-portal,marketplace,mercury-engine}/`. Global sequential numbering.
 
 ## 📋 Next Session Suggestions
 
-1. 🔧 **Regrill Admin Panel** — User plans to regrill the project context this afternoon, then proceed with Admin Panel implementation.
-2. 🔐 **Fix login autofill** — 4 missing Flutter autofill attributes causing browser credential issues.
-3. 🗄️ **Apply schemas to Saturn Hub** — Database is empty; schemas + seed data need to be applied before any live verification.
+1. 🖥️ **Browser-verify all CRUD screens** — Dashboard stats, Users list, Companies list+CRUD, Categories CRUD. Test with empty DB, then create real records.
+2. 🧹 **Clean up stale test file** — `test/login_screen_test.dart` has unused import warning and references old mock patterns.
+3. 📦 **Inbox real data path** — Currently hardcoded app-local. Needs repository pattern when messaging is grilled.
