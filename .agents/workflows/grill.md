@@ -1,22 +1,8 @@
-# Source: TheOracle v2.1 @ 2026-05-25
-
 ---
-name: grill
-description: "Repeatable domain refinement — sharpen context.md, batch ADR proposals, offer to write/update prd.md when product scope crystallizes."
-reads:
-  - conductor/project-context.md
-  - conductor/context.md
-  - conductor/context-map.md
-  - conductor/prd.md
-  - conductor/adr/
-writes:
-  - conductor/context.md
-  - conductor/prd.md         # conditional — only when product scope emerges
-  - conductor/adr/*.md       # conditional — batched at command end, user-approved
-  - conductor/index.md       # link appends only, via protocols/index-sync.md
+description: Repeatable domain-refinement session. Sharpens context.md, batches ADR proposals, and offers to write/update prd.md
 ---
 
-# 🎵 Grill — Domain Refinement Session
+# Grill — Domain Refinement Session
 
 When the user invokes `/grill`, execute this repeatable interview loop to sharpen the project's domain language, batch architectural decisions, and lazily produce a living PRD as scope crystallizes.
 
@@ -28,7 +14,7 @@ When the user invokes `/grill`, execute this repeatable interview loop to sharpe
 
 ## Step 1: Pre-flight
 
-1. Resolve `conductor/` via [`protocols/file-resolution.md`](../protocols/file-resolution.md). If `conductor/` does not exist, halt with:
+1. Verify that `conductor/` exists in the project root. If it does not, halt with:
    > "Conductor is not initialized in this project. Run `/conductor-init` first."
 2. Read `conductor/project-context.md`. This file is the identity + operational source of truth — never write to it from `/grill`.
 
@@ -69,16 +55,16 @@ Apply any corrections inline, then proceed to Step 4.
 
 ## Step 4: Refinement Topic Selection
 
-Ask the user what they want to refine in this session:
+Ask the user what they want to refine in this session. **Use the `ask_question` tool** with `is_multi_select` set to true to present these options as a rich interactive GUI modal:
 
-| Focus | Outcome |
-|-------|---------|
-| **Domain language** | Sharpen `context.md` — definitions, entity relationships, terminology boundaries |
-| **Product scope** | Crystallize `prd.md` — features, capabilities, what's in / out |
-| **Architectural decision** | Talk through a specific decision and propose ADRs |
-| **General exploration** | Open-ended interview — surface candidate domain terms, decisions, scope edges |
+| Focus | Option Text | Outcome |
+|-------|-------------|---------|
+| **Domain language** | "Domain language (Sharpen context.md)" | Sharpen `context.md` — definitions, entity relationships, terminology boundaries |
+| **Product scope** | "Product scope (Crystallize prd.md)" | Crystallize `prd.md` — features, capabilities, what's in / out |
+| **Architectural decision** | "Architectural decision (Propose ADRs)" | Talk through a specific decision and propose ADRs |
+| **General exploration** | "General exploration (Open-ended interview)" | Open-ended interview — surface candidate domain terms, decisions, scope edges |
 
-The user may pick more than one. Mix freely during the interview.
+Fallback to standard text-based markdown options in the chat only if the tool fails. The user may pick more than one. Mix freely during the interview.
 
 ---
 
@@ -87,8 +73,8 @@ The user may pick more than one. Mix freely during the interview.
 **One question at a time.** Wait for the response before asking the next. For each question:
 
 1. **Read the codebase first** (when the question is grounded in code). Cite specific files and lines in your question.
-2. **Recommend 2–3 answers** based on what you've read, plus a write-in option. Default recommendations are based on the project's established conventions in `project-context.md`, `context.md`, and `adr/`.
-3. **Be specific.** Vague questions produce vague answers. Anchor every question to a concrete entity, file, or decision.
+2. **Formulate options and ask the user using the `ask_question` tool.** Recommend 2–3 specific answers based on what you've read. Anchor every question to a concrete entity, file, or decision, and list these recommendations under the `options` array in the tool. The IDE will render these as a cool interactive GUI modal.
+3. **Be specific.** Vague questions produce vague answers. Fallback to standard text-based markdown in the chat only if the tool is unavailable or fails.
 
 ### What to accumulate as you go
 
@@ -114,7 +100,24 @@ If the user is uncertain, **propose** based on the codebase or established conte
 
 For each **Domain term proposal** accumulated:
 
-1. If `context.md` does NOT exist, create it from the greenfield template (see [`conductor-v2.1-design-brief.md`](../conductor-v2.1-design-brief.md) → `context.md` Templates → Greenfield).
+1. If `context.md` does NOT exist, create it with this structure:
+
+   ```markdown
+   # Domain Glossary
+
+   > Ubiquitous language for this project. All commands, specs, and discussions use these terms verbatim.
+   > Last refined: {datetime}
+
+   ## Entities
+
+   | Term | Definition | Also Known As |
+   |------|-----------|---------------|
+
+   ## Relationships
+
+   ## Terminology Boundaries
+   ```
+
 2. Present each proposal to the user as a single batch:
    > "These terms came up — should I add them to the glossary?"
    > {list each term with proposed definition}
@@ -146,14 +149,14 @@ If any **PRD updates** were accumulated in Step 5:
 
 ## Step 8: ADR Batch (Command-End)
 
-This is the D3 + D10 batching point — runs once, at command end.
+This is the ADR batching point — runs once, at command end.
 
 1. **Filter candidates.** Re-check each ADR candidate against the three criteria (hard to reverse, surprising without context, real trade-off). Drop anything that doesn't meet all three.
 2. **Present the batch:**
    > "These decisions crystallized this session. Which should be recorded as ADRs?"
    > {numbered list of candidates with proposed titles + 1-sentence summary}
 3. For each candidate, the user can: **approve**, **reject**, or **defer** (re-surface in a future grill — keep in pulse Session Memory).
-4. For each approved candidate, write `conductor/adr/{NNNN}-{short-title-kebab}.md` using the format in [`conductor-v2.1-design-brief.md`](../conductor-v2.1-design-brief.md) → D3:
+4. For each approved candidate, write `conductor/adr/{NNNN}-{short-title-kebab}.md` using this format:
 
    ```markdown
    # {Short title of the decision}
@@ -167,7 +170,7 @@ This is the D3 + D10 batching point — runs once, at command end.
    Optional sections (only when they add genuine value): `## Considered Options`, `## Consequences`, `## Superseded by`.
 
 5. **Number sequentially** — read `conductor/adr/` to find the highest existing `NNNN` and increment.
-6. **No double-processing.** Settled candidates (approved or explicitly rejected here) MUST NOT resurface in `/checkpoint`'s decision classifier (see [S1] in the design brief, applied in `workflows/checkpoint.md`).
+6. **No double-processing.** Settled candidates (approved or explicitly rejected here) MUST NOT resurface in `/checkpoint`'s decision classifier.
 
 If this is the **first ADR** ever written for the project, queue an index-sync append for the `adr/` directory.
 
@@ -175,13 +178,13 @@ If this is the **first ADR** ever written for the project, queue an index-sync a
 
 ## Step 9: Index Sync
 
-For every lazy file or directory created this session, apply the rules in [`protocols/index-sync.md`](../protocols/index-sync.md). Cases:
+For every lazy file or directory created this session, update `conductor/index.md`:
 
-- `context.md` created → append `- [Domain Glossary](./context.md)` under `## Context`
-- `prd.md` created → append `- [Product Requirements](./prd.md)` under `## Context`
-- First ADR written → create `## Decisions` section + append `- [ADR Directory](./adr/)`
+- `context.md` created → append `- [Domain Glossary](./context.md)` under the `## Context` section
+- `prd.md` created → append `- [Product Requirements](./prd.md)` under the `## Context` section
+- First ADR written → create a `## Decisions` section and append `- [ADR Directory](./adr/)`
 
-Re-running an append must be a no-op (idempotent check before writing).
+Idempotency: if the link text already exists in `index.md`, skip (no-op). Never write a dead link.
 
 ---
 
@@ -205,6 +208,7 @@ If nothing changed (no glossary edits, no ADRs approved, no PRD touch), skip the
 Tell the user what landed:
 
 > "✅ Grill complete.
+>
 > - Domain glossary: **{N terms added}**
 > - ADRs recorded: **{M}** ({list titles})
 > - PRD: **{created | updated | unchanged}**
@@ -218,8 +222,9 @@ Tell the user what landed:
 
 While `/grill` is active:
 
-- Treat `conductor/project-context.md` as read-only (no command writes here — see brief D7 + [S3]).
-- Treat `conductor/docs/` as read-only (no command writes here — see brief D12 + [P1]).
+- **Use the `ask_question` tool** to present all multiple-choice questions, option lists, and selections to the user. This ensures they render as the rich interactive Antigravity GUI.
+- Treat `conductor/project-context.md` as read-only (read-only — no command writes here).
+- Treat `conductor/docs/` as read-only (read-only — no command writes here).
 - Treat ADRs in `conductor/adr/` as settled. Surface them in answers but never edit them; superseding ADRs use the `## Superseded by` link.
 - Never auto-create empty stubs for lazy files. Lazy = "exists only when there's something to write."
 - Never write a dead link to `index.md`.

@@ -2,6 +2,14 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-05-30 13:35 (Conductor & Workflow Standardization — checkpoint)
+
+- **Session:** Conductor and workflow standardization (Hermes on Antigravity).
+- **Tracks touched:** `admin_panel_20260527` (in progress).
+- **Status:** **Workflows standardized and Admin Panel track reverted to active.** Standardized `.agents/workflows/` with clean v2.1 templates. Removed redundant `conductor-init.md` file from the workspace. Reverted `metadata.json` status to `"in_progress"` to cleanly undo the unapproved track completion.
+- **Decisions:** None (0 ADRs — purely operational/maintenance fixes).
+- **Next:** Proceed with planning `/grill admin-panel` or `/grill business-portal` to align on track scope and review/approve progress.
+
 ---
 
 ## 2026-05-29 18:30 (Admin Panel Connectivity Sprint — checkpoint)

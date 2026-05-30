@@ -249,6 +249,7 @@ INFO surreal::dbs: Database engine: rocksdb:/data/dittodatto.db
 ```
 
 If the container restarts repeatedly, check:
+
 1. Volume permissions — `ls -ld /srv/dittodatto/data/surrealdb` should be owned by the user running Docker.
 2. `--bind` address — must be `0.0.0.0:8000` inside the container (the host-side bind is handled by the `ports:` mapping).
 3. RocksDB write capability — disk full, perms, etc.
@@ -281,6 +282,7 @@ curl -sS http://saturn:8001/health
 ```
 
 If this fails but the Saturn-side curl works, suspect:
+
 - MagicDNS not enabled on the tailnet (check Tailscale admin panel)
 - Tailscale ACLs blocking the port (check ACL config — should be open by default for owner devices)
 

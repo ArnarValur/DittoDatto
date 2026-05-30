@@ -93,6 +93,7 @@ Copy the following docs from `DittoDatto-old/` to wherever you want the new proj
 **Goal:** Scaffold v2.1 conductor with the new project identity.
 
 **Key inputs to provide during the interactive grill:**
+
 - **Project identity:** DittoDatto — Agentic Commerce Platform for Norway
 - **Brownfield:** Yes — point it at the docs you copied
 - **Tech stack:** Flutter (Dart) + Python (FastAPI/Pydantic) + SurrealDB 3.0
@@ -153,6 +154,7 @@ Copy the following docs from `DittoDatto-old/` to wherever you want the new proj
 **Goal:** Refine the admin panel domain now that the foundation is locked.
 
 **Focus areas:**
+
 - Screen inventory: Dashboard, Users, Companies, Categories — what's next?
 - Role model: ADMIN vs. SUPER_ADMIN — sufficient or needs refinement?
 - Platform operations: What does the admin actually need to DO day-to-day?
@@ -169,6 +171,7 @@ Copy the following docs from `DittoDatto-old/` to wherever you want the new proj
 **Goal:** Validate and sharpen the marketplace PRD.
 
 **Focus areas:**
+
 - v1.0 tracer bullet scope — still the right cut?
 - Auth flow (BankID/Vipps OIDC) — any updates?
 - Home + Map + DittoBar — interaction model
@@ -225,6 +228,7 @@ Copy the following docs from `DittoDatto-old/` to wherever you want the new proj
 ## When You Come Back to Antigravity
 
 Once the grill sessions are done in Cursor and the new conductor is scaffolded, bring it back here and I'll:
+
 - Review the new `conductor/` for consistency
 - Validate ADR coherence
 - Help set up tracks for the next sprint

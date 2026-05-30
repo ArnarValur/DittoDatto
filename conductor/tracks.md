@@ -22,16 +22,16 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 ## Active Tracks
 
-- [/] **Admin Panel — Flutter breaker box for platform infrastructure operations**
-  - *Type:* feature | *Domain:* admin-panel | *Status:* in_progress
+- [ ] **Admin Panel — Flutter platform administration interface**
+  - *Type:* feature | *Domain:* admin-panel | *Status:* in-progress (needs grill/alignment)
   - *Link:* [tracks/admin-panel/admin_panel_20260527/](./tracks/admin-panel/admin_panel_20260527/)
-  - *Phases:* 5 — (1) Monorepo + ditto_design + Shell, (2) Auth + Login, (3) Dashboard, (4) Users + Companies + Categories, (5) Inbox + Polish
+  - *Phases:* 5 — (1) Monorepo + ditto_design + Shell, (2) Auth + Login, (3) Dashboard, (4) Users + Companies + Categories, (5) Inbox + Polish [checkpoint: pending user approval]
 
 ---
 
 ## Completed Tracks
 
-_None yet._
+_None._
 
 > Chapter 1 + Chapter 2 historical track records live in `conductor/docs/legacy/conductor-snapshot/tracks.md` for reference (377 tests, S18 admin routes, S19 mercury_client + Flutter scaffold, S20 Admin Panel screens, etc.).
 

@@ -9,7 +9,7 @@ To test the ecosystem (database schemas, booking APIs, client applications) in a
 
 ## Decision
 
-We use **Saturn** (on-prem GPU server) as the staging environment. Deployment uses Docker on Saturn, and access is strictly gated behind the team's Tailscale VPN. The staging database is named the **DittoDatto Hub** (`saturn:8001`).
+We use **Saturn** (on-prem GPU server) as the staging environment. Deployment uses Docker on Saturn, and access is strictly gated behind the team's Tailscale VPN. The staging database is named the **DittoDatto Hub** (`dittodatto:8001`).
 
 ## Consequences
 
