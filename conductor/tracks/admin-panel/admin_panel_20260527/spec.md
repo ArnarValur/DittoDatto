@@ -10,7 +10,7 @@
 
 ## Overview
 
-Build the DittoDatto Admin Panel — a 2-user Flutter "breaker box" for Arnar and Höddi to manage platform infrastructure. This is a **migration** from the legacy admin at `DittoDatto-old/apps/admin/` to a clean-room reimplementation at `apps/admin/`, with shared packages (`ditto_design`, `mercury_client`) established as the foundation for all future Flutter surfaces.
+Build the DittoDatto Admin Panel — a Flutter platform administration interface for Arnar and Höddi to manage platform infrastructure. This is a **migration** from the legacy admin at `DittoDatto-old/apps/admin/` to a clean-room reimplementation at `apps/admin/`, with shared packages (`ditto_design`, `mercury_client`) established as the foundation for all future Flutter surfaces.
 
 ### What this track creates
 

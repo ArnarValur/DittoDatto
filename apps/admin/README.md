@@ -1,6 +1,6 @@
 # ditto_admin
 
-DittoDatto Admin Panel — platform management breaker box.
+DittoDatto Admin Panel — platform administration interface.
 
 ## Getting Started
 

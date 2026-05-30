@@ -73,7 +73,7 @@ The platform database is already the source of truth for user records. Having it
 ### For the Admin Panel (immediate)
 
 - Admin panel authenticating **directly against SurrealDB** is not a hack — it may be the correct permanent architecture.
-- A 2-user breaker box behind Tailscale, talking to the platform DB for identity. Clean, simple, no middlemen.
+- The admin panel behind Tailscale, talking to the platform DB for identity. Clean, simple, no middlemen.
 - The repository interface pattern in `mercury_client` means the auth implementation can be swapped cleanly regardless of what the grill concludes.
 
 ### For MercuryEngine (grill input)

@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "DittoDatto Admin Panel — platform management breaker box.",
+    "description": "DittoDatto Admin Panel — platform administration interface.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

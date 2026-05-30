@@ -1,5 +1,5 @@
 name: ditto_admin
-description: DittoDatto Admin Panel — platform management breaker box.
+description: DittoDatto Admin Panel — platform administration interface.
 publish_to: 'none'
 version: 0.1.0+1
 
