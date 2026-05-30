@@ -78,3 +78,4 @@ The Admin Panel is the platform administration interface for DittoDatto. It enab
 |---------|------|---------|
 | 1.0 | 2026-05-26 | Initial specification from `/grill admin-panel` session. |
 | 1.1 | 2026-05-29 | Aligned with direct-to-database WebSocket architecture (ADR-0006) and shared design system renumbering (ADR-0005). |
+| 1.2 | 2026-05-30 | `/grill admin-panel`: Dashboard deprioritized (stays, not user-requested — polish later). Mock data layer removal confirmed as cleanup, not a decision. Category model confirmed correct; icon system deferred. Schemas to be migrated from `DittoDatto-old/schemas/` with namespace rename (`titan`→`companies`, `enceladus`→`users`). |
