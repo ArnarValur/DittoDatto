@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,21 +32,39 @@ const _shellRoutes = [
   AppRoutes.inbox,
 ];
 
+/// Listenable that fires when authProvider changes.
+///
+/// GoRouter needs a [Listenable] to know when to re-evaluate redirects.
+/// This bridges Riverpod's [AsyncValue] to [ChangeNotifier].
+class _AuthChangeNotifier extends ChangeNotifier {
+  _AuthChangeNotifier(this._ref) {
+    _ref.listen(authProvider, (_, _) => notifyListeners());
+  }
+
+  final Ref _ref;
+}
+
 /// GoRouter configuration for the admin panel.
 ///
 /// Auth guard redirects to /login if unauthenticated.
 /// ShellRoute wraps authenticated screens in the sidebar shell.
+///
+/// Uses [refreshListenable] so the single GoRouter instance re-evaluates
+/// redirects when auth state changes, instead of recreating the router.
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authProvider);
+  final notifier = _AuthChangeNotifier(ref);
 
   return GoRouter(
     initialLocation: AppRoutes.dashboard,
+    refreshListenable: notifier,
     redirect: (context, state) {
-      final isAuthenticated = authState is Authenticated;
+      final authAsync = ref.read(authProvider);
       final isLoginRoute = state.matchedLocation == AppRoutes.login;
 
-      // Don't redirect while loading (token restore in progress).
-      if (authState is AuthLoading) return null;
+      // While loading (initial restore or login in progress), don't redirect.
+      if (authAsync.isLoading) return null;
+
+      final isAuthenticated = authAsync.value is Authenticated;
 
       if (!isAuthenticated && !isLoginRoute) {
         return AppRoutes.login;

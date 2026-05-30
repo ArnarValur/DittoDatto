@@ -11,7 +11,8 @@ import 'surreal_auth_service.dart';
 final adminRepositoryProvider = Provider<AdminRepository>((ref) {
 
   // Watch authProvider to reactively update when authentication state changes.
-  final authState = ref.watch(authProvider);
+  final authAsync = ref.watch(authProvider);
+  final authState = authAsync.value;
 
   if (authState is Authenticated) {
     final authService = ref.read(authServiceProvider);

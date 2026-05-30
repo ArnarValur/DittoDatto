@@ -1,4 +1,4 @@
-<!-- Template: TheOracle v2.1 -->
+<!-- Template: TheOracle -->
 # Project Context — MercuryEngine
 
 > Scoped operational document for the MercuryEngine microservice.
@@ -8,7 +8,7 @@
 
 ## 1. Product Definition & Guidelines
 
-- **Name:** MercuryEngine V2
+- **Name:** MercuryEngine
 - **Description:** The central core database, CRUD, discovery, and slot-availability booking microservice for DittoDatto.
 - **Parent Links:**
   - [Product Definition](../../../conductor/project-context.md#1-product-definition)

@@ -17,10 +17,10 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 ## Active Tracks
 
-- [ ] **MercuryEngine V2 Migration — Complete TDD port of legacy engine**
-  - *Type:* feature | *Domain:* core-migration | *Status:* new
+- [~] **MercuryEngine 1.0 Booking Engine Greenfield — Greenfield TDD implementation**
+  - *Type:* feature | *Domain:* core-booking-engine | *Status:* in-progress
   - *Link:* [tracks/mercury_migration_20260528/](./tracks/mercury_migration_20260528/)
-  - *Phases:* 5 — (1) Environment & health endpoint, (2) Base models & serializations, (3) Time Tetris & availability, (4) SurrealDB 3.0 repositories, (5) Route implementations & integration check.
+  - *Phases:* 5 — (1) Environment & FastAPI foundation, (2) Base models & shared kernel projections, (3) Time Tetris & availability engine, (4) SurrealDB 3.0 & repository integration, (5) Route implementation & lifecycle verification.
 
 ---
 

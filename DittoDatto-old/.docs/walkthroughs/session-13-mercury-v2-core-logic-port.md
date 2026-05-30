@@ -1,5 +1,5 @@
 ---
-title: "Session 13: MercuryEngine V2 Core Logic Port"
+title: "Session 13: MercuryEngine Core Logic Port"
 session: 13
 date: 2026-05-05
 type: execution

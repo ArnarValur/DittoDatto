@@ -1,4 +1,4 @@
-# 🚀 MercuryEngine V2
+# 🚀 MercuryEngine
 
 > Booking engine for the DittoDatto platform.  
 > **Stack:** Python · FastAPI · Pydantic · SurrealDB
@@ -61,4 +61,4 @@ src/
 
 ---
 
-*MercuryEngine V2 — Session 12 (2026-05-05)*
+*MercuryEngine — Session 12 (2026-05-05)*

@@ -17,7 +17,7 @@ tags:
 
 ## Context
 
-The Chapter 1 Nuxt admin panel (`apps/web/admin-panel/`) has 24 pages, many incomplete or unnecessary given the new SurrealDB + Surrealist tooling. With MercuryEngine V2 stable (304 tests, auth wired), the platform needs a management tool that:
+The Chapter 1 Nuxt admin panel (`apps/web/admin-panel/`) has 24 pages, many incomplete or unnecessary given the new SurrealDB + Surrealist tooling. With MercuryEngine stable (304 tests, auth wired), the platform needs a management tool that:
 
 1. Runs natively on the Captain's LineageOS tablet (Lenovo Tab M10 Plus)
 2. Connects to Saturn (MercuryEngine) over LAN or internet
@@ -158,7 +158,7 @@ LineageOS Tablet / Pluto Desktop / Browser
             │
             └── Riverpod providers → feature screens
 
-MercuryEngine V2 (FastAPI) — on Saturn
+MercuryEngine (FastAPI) — on Saturn
     ├── POST /auth/dev-login (extended: admin/super_admin)
     ├── GET  /admin/stats
     ├── GET  /admin/users

@@ -1,7 +1,7 @@
 /// DittoDatto API client.
 ///
 /// Provides HTTP client with JWT injection, authentication service,
-/// data models, and admin API layer for interacting with MercuryEngine V2.
+/// data models, and admin API layer for interacting with MercuryEngine.
 library;
 
 // API

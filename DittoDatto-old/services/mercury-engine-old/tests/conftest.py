@@ -1,4 +1,4 @@
-"""Shared test fixtures for MercuryEngine V2.
+"""Shared test fixtures for MercuryEngine.
 
 Replaces: packages/mercury-engine/tests/helpers/test-app.ts
 """

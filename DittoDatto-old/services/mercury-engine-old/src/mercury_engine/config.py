@@ -12,7 +12,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """MercuryEngine V2 configuration.
+    """MercuryEngine configuration.
 
     All values can be overridden via environment variables with MERCURY_ prefix.
     Example: MERCURY_PORT=8080, MERCURY_ENVIRONMENT=production

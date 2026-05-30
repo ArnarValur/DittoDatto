@@ -1,4 +1,4 @@
-"""MercuryEngine V2 — FastAPI application.
+"""MercuryEngine — FastAPI application.
 
 Replaces: packages/mercury-engine/src/server.ts (Hono)
 
@@ -144,7 +144,7 @@ def main() -> None:
     """Entry point for `mercury-engine` CLI command."""
     import uvicorn
 
-    logger.info("🚀 MercuryEngine V2 starting on port %d", settings.port)
+    logger.info("🚀 MercuryEngine starting on port %d", settings.port)
     logger.info("   Environment: %s", settings.environment)
 
     uvicorn.run(

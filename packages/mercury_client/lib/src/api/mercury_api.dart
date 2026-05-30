@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../exceptions.dart';
 
-/// Low-level HTTP client for MercuryEngine V2 API.
+/// Low-level HTTP client for MercuryEngine API.
 ///
 /// Handles JSON serialization, JWT injection, timeouts, and
 /// platform-agnostic error handling (no `dart:io` imports).
@@ -15,7 +15,7 @@ class MercuryApi {
     this.timeout = const Duration(seconds: 15),
   }) : _client = httpClient ?? http.Client();
 
-  /// Base URL of the MercuryEngine V2 API (e.g., `https://api.dittodatto.no`).
+  /// Base URL of the MercuryEngine API (e.g., `https://api.dittodatto.no`).
   final String baseUrl;
 
   /// HTTP timeout for all requests.
@@ -28,10 +28,10 @@ class MercuryApi {
 
   /// Common headers for all requests.
   Map<String, String> get _headers => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        if (accessToken != null) 'Authorization': 'Bearer $accessToken',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    if (accessToken != null) 'Authorization': 'Bearer $accessToken',
+  };
 
   /// Sends a GET request to [path] and returns the decoded JSON.
   Future<dynamic> get(String path) async {

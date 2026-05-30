@@ -17,7 +17,7 @@ tags:
 
 ## Context
 
-MercuryEngine V2 needs an authentication and authorization model. The original PostIT (Session 3) proposed Vipps → Firebase Auth custom tokens, but Firebase Auth was deprecated in ADR-0008. This ADR defines the auth architecture for the Python/FastAPI/SurrealDB stack.
+MercuryEngine needs an authentication and authorization model. The original PostIT (Session 3) proposed Vipps → Firebase Auth custom tokens, but Firebase Auth was deprecated in ADR-0008. This ADR defines the auth architecture for the Python/FastAPI/SurrealDB stack.
 
 Key input: SurrealDB 3.0 supports native record-based auth, JWT validation, and field-level permissions — but the Vipps OIDC exchange must happen at the application layer.
 

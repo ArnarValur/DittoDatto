@@ -3,6 +3,7 @@
 ## Context (Local)
 
 - [Project Context](./project-context.md)
+- [Product Requirements](./prd.md)
 - [Workflow](./workflow.md)
 - [Code Style Guides](./code_styleguides/)
 
@@ -21,6 +22,10 @@
 
 - [Canonical ADR Directory](../../../conductor/adr/)
 
+## Decisions (Local)
+
+- [Child ADR Directory](./adr/)
+
 ## State (Local)
 
 - [Pulse](./pulse.md)
@@ -28,3 +33,11 @@
 - [Scratchpad](./scratchpad.md)
 - [Tracks Registry](./tracks.md)
 - [Tracks Directory](./tracks/)
+
+## Documentation
+
+- [Docs Directory](./docs/)
+
+## Archives
+
+- [Pulse Archive](./pulse-archive/)

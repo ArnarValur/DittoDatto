@@ -12,40 +12,32 @@ final authServiceProvider = Provider<AuthService>((ref) {
 
 /// Provider for the current auth state.
 ///
-/// Uses a [Notifier] to manage auth lifecycle (login, logout, restore).
+/// Uses an [AsyncNotifier] to handle the async restore-on-startup correctly.
 /// GoRouter watches this provider for redirect decisions.
 final authProvider =
-    NotifierProvider<AuthNotifier, AuthState>(AuthNotifier.new);
+    AsyncNotifierProvider<AuthNotifier, AuthState>(AuthNotifier.new);
 
 /// Manages authentication state transitions.
 ///
-/// On app start, attempts to restore a previous session. On login,
-/// delegates to the [AuthService]. On logout, clears state.
-class AuthNotifier extends Notifier<AuthState> {
+/// On app start, attempts to restore a previous session (async, properly
+/// awaited). On login, delegates to the [AuthService]. On logout, clears state.
+class AuthNotifier extends AsyncNotifier<AuthState> {
   @override
-  AuthState build() {
-    // Attempt to restore on first build.
-    _tryRestore();
-    return const Unauthenticated();
+  Future<AuthState> build() async {
+    return _authService.tryRestore();
   }
 
   AuthService get _authService => ref.read(authServiceProvider);
 
-  /// Attempt to restore a previous session from secure storage.
-  Future<void> _tryRestore() async {
-    state = const AuthLoading();
-    state = await _authService.tryRestore();
-  }
-
   /// Log in with email and password.
   Future<void> login(String email, String password) async {
-    state = const AuthLoading();
-    state = await _authService.login(email, password);
+    state = const AsyncLoading();
+    state = AsyncData(await _authService.login(email, password));
   }
 
   /// Log out and clear stored credentials.
   Future<void> logout() async {
-    state = const AuthLoading();
-    state = await _authService.logout();
+    state = const AsyncLoading();
+    state = AsyncData(await _authService.logout());
   }
 }

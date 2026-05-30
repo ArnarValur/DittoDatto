@@ -1,4 +1,4 @@
-# MercuryEngine V2 — Multi-stage Docker build
+# MercuryEngine — Multi-stage Docker build
 # Uses uv for fast, reproducible dependency installation
 #
 # Build: docker build -t mercury-engine .

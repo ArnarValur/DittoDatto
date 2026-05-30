@@ -18,12 +18,14 @@ class SurrealConnection {
   /// Connection to the `users` namespace.
   final SurrealDB users;
 
-  /// Connect and authenticate to both namespaces.
+  /// Connect and authenticate to both namespaces using credentials.
   ///
   /// [user] and [pass] are SurrealDB namespace-level credentials.
   /// [url] is the WebSocket RPC endpoint (e.g. `wss://host:8002/rpc`).
   /// If [url] is null, it's derived from the current page origin.
-  static Future<SurrealConnection> connect({
+  ///
+  /// Returns the connection and the JWT tokens for session persistence.
+  static Future<({SurrealConnection connection, String companiesToken, String usersToken})> connect({
     required String user,
     required String pass,
     String? url,
@@ -33,7 +35,7 @@ class SurrealConnection {
     final companiesDb = SurrealDB(wsUrl);
     companiesDb.connect();
     await companiesDb.wait();
-    await companiesDb.signin(
+    final companiesToken = await companiesDb.signin(
       user: user,
       pass: pass,
       namespace: 'companies',
@@ -42,11 +44,38 @@ class SurrealConnection {
     final usersDb = SurrealDB(wsUrl);
     usersDb.connect();
     await usersDb.wait();
-    await usersDb.signin(
+    final usersToken = await usersDb.signin(
       user: user,
       pass: pass,
       namespace: 'users',
     );
+
+    return (
+      connection: SurrealConnection._(companies: companiesDb, users: usersDb),
+      companiesToken: companiesToken,
+      usersToken: usersToken,
+    );
+  }
+
+  /// Reconnect using previously obtained JWT tokens.
+  ///
+  /// Used for session restore — avoids needing the raw password.
+  static Future<SurrealConnection> connectWithTokens({
+    required String companiesToken,
+    required String usersToken,
+    String? url,
+  }) async {
+    final wsUrl = url ?? _deriveWsUrl();
+
+    final companiesDb = SurrealDB(wsUrl);
+    companiesDb.connect();
+    await companiesDb.wait();
+    await companiesDb.authenticate(companiesToken);
+
+    final usersDb = SurrealDB(wsUrl);
+    usersDb.connect();
+    await usersDb.wait();
+    await usersDb.authenticate(usersToken);
 
     return SurrealConnection._(companies: companiesDb, users: usersDb);
   }
@@ -70,4 +99,3 @@ class SurrealConnection {
     return '$protocol://$host$port/rpc';
   }
 }
-

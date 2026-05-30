@@ -1,5 +1,5 @@
 ---
-title: "Session 12: MercuryEngine V2 Foundation"
+title: "Session 12: MercuryEngine Foundation"
 session: 12
 date: 2026-05-05
 type: execution
@@ -17,7 +17,7 @@ tags:
 status: complete
 ---
 
-# Session 12 Walkthrough: MercuryEngine V2 Foundation
+# Session 12 Walkthrough: MercuryEngine Foundation
 
 ---
 

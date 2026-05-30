@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:ditto_admin/features/auth/login_screen.dart';
 import 'package:ditto_admin/features/auth/auth_provider.dart';
-import 'package:ditto_design/ditto_design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -37,6 +38,9 @@ void main() {
         ),
       );
 
+      // Let the AsyncNotifier build() complete.
+      await tester.pumpAndSettle();
+
       // Verify Lock Icon exists
       expect(find.byIcon(Icons.lock_rounded), findsOneWidget);
 
@@ -60,6 +64,8 @@ void main() {
         ),
       );
 
+      await tester.pumpAndSettle();
+
       // Click Sign In without entering any credentials
       await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
       await tester.pumpAndSettle();
@@ -69,11 +75,11 @@ void main() {
     });
 
     testWidgets('Displays loading indicator when authenticating', (tester) async {
-      // Overriding authProvider to state AuthLoading
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            authProvider.overrideWith(() => MockAuthLoadingNotifier()),
+            // Directly set the provider value to loading state.
+            authProvider.overrideWith(() => _AlwaysLoadingNotifier()),
           ],
           child: const MaterialApp(
             home: LoginScreen(),
@@ -81,20 +87,25 @@ void main() {
         ),
       );
 
-      // Verify loading indicator is displayed instead of 'Sign In' text
+      // The notifier build() is pending → isLoading is true.
+      // Verify loading indicator is displayed instead of 'Sign In' text.
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       expect(find.text('Sign In'), findsNothing);
     });
   });
 }
 
-class MockAuthLoadingNotifier extends Notifier<AuthState> implements AuthNotifier {
+/// Notifier whose build() never completes — state stays [AsyncLoading].
+class _AlwaysLoadingNotifier extends AsyncNotifier<AuthState>
+    implements AuthNotifier {
   @override
-  AuthState build() => const AuthLoading();
+  Future<AuthState> build() {
+    // A completer that never completes keeps the provider in AsyncLoading.
+    return Completer<AuthState>().future;
+  }
 
   @override
   Future<void> login(String email, String password) async {}
-
   @override
   Future<void> logout() async {}
 }

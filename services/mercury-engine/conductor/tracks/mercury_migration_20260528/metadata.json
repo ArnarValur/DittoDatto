@@ -1,11 +1,11 @@
 {
   "track_id": "mercury_migration_20260528",
   "type": "feature",
-  "status": "new",
-  "domain": "core-migration",
+  "status": "in-progress",
+  "domain": "core-booking-engine",
   "created_at": "2026-05-28T14:52:00+02:00",
-  "updated_at": "2026-05-28T14:52:00+02:00",
-  "description": "MercuryEngine V2 Core Migration — Complete test-driven port of legacy models, repositories, availability engines, and FastAPI routes from mercury-engine-old to services/mercury-engine.",
-  "current_phase": 1,
+  "updated_at": "2026-05-28T19:15:00+02:00",
+  "description": "MercuryEngine 1.0 Booking Engine Greenfield — Greenfield TDD implementation of the hold-to-booking lifecycle (Standard vertical), Time Tetris availability calculators, Pydantic v2 schemas, and mock payment gateway.",
+  "current_phase": 2,
   "phase_status": "new"
 }

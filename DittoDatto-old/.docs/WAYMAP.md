@@ -25,7 +25,7 @@ The structured path from grilling to building. Each session feeds the next. No w
 ## ⚠️ Session 11 Pivot: TypeScript → Python
 
 > Session 11 resolved 10 architectural questions confirming the full language migration.
-> TypeScript is out of the platform stack. MercuryEngine V2 = Python/FastAPI/Pydantic/SurrealDB.
+> TypeScript is out of the platform stack. MercuryEngine = Python/FastAPI/Pydantic/SurrealDB.
 > See [Session 11](./grill/session-11-python-migration-grill.md)
 
 ## The Pipeline (Updated)
@@ -55,7 +55,7 @@ Session 6 ✅ ────┘                                         │
                            └───────────────────────────────┬───────┘
                                                            │
                            ┌───────────────────────────────▼───────┐
-                           │   MercuryEngine V2 Rebuild (Python)   │
+                           │   MercuryEngine Rebuild (Python)   │
                            │                                       │
                            │  Phase 0 ✅ Schema blueprints (.surql)│
                            │  Session 12: V2 Foundation            │ ← NEXT
@@ -85,7 +85,7 @@ Session 6 ✅ ────┘                                         │
 | 9 | SurrealDB Schema Sequencing | 7 open questions locked (graph/record heuristic, sync) | ✅ Complete |
 | 10 | Schema Blueprint Writing | 4 `.surql` files written + tested on Pluto SurrealDB | ✅ Complete |
 | **11** | **Python Migration Grill** | **10 GQs locked — TS out, Python/FastAPI/Pydantic in** | ✅ Complete |
-| **12** | **MercuryEngine V2 Foundation** | **Python scaffolding, FastAPI skeleton, Pydantic models, pytest** | `[ ]` **Next** |
+| **12** | **MercuryEngine Foundation** | **Python scaffolding, FastAPI skeleton, Pydantic models, pytest** | `[ ]` **Next** |
 | **13** | **Core Logic Port** | **Pure functions (calculators, availability, holds) + pytest tests** | `[ ]` Blocked by 12 |
 | **14** | **SurrealDB Data Layer** | **Repository implementation against SurrealDB** | `[ ]` Blocked by 13 |
 | **15** | **Routes + Integration** | **FastAPI endpoints, auth middleware, E2E tests** | `[ ]` Blocked by 14 |
@@ -184,7 +184,7 @@ graph TD
 ## 🔴 Firestore Residue (Reference — V1 stays frozen, V2 is clean Python)
 
 > With the Python migration decision (Session 11), these files are **not being migrated** — they're being **left behind**.
-> MercuryEngine V2 is a clean Python rewrite. The TS codebase stays frozen as Chapter 1 reference.
+> MercuryEngine is a clean Python rewrite. The TS codebase stays frozen as Chapter 1 reference.
 
 | Location | What | V2 Status |
 |----------|------|----------|

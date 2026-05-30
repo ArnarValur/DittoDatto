@@ -2,7 +2,7 @@ import 'package:ditto_design/ditto_design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mercury_client/mercury_client.dart';
+
 
 import 'auth_provider.dart';
 
@@ -47,8 +47,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
-    final isLoading = authState is AuthLoading;
+    final authAsync = ref.watch(authProvider);
+    final isLoading = authAsync.isLoading;
 
     return Scaffold(
       body: Center(

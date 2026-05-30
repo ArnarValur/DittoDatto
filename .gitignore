@@ -28,4 +28,4 @@ pubspec.lock
 .env.*
 
 # Sub-Projects within the DittoDatto family.
-DittoDatto-Hub/
+services/mercury-engine/

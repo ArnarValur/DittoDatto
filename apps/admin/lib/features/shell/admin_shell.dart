@@ -30,7 +30,7 @@ class AdminShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final authState = ref.watch(authProvider);
+    final authState = ref.watch(authProvider).value;
 
     return DittoDashboardShell(
       destinations: _destinations,
