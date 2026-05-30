@@ -2,7 +2,19 @@
 
 Timestamped entries for context continuity between sessions.
 
-## 2026-05-30 17:05 — Live SurrealDB wiring + mock purge
+## 2026-05-30 17:44 — Auth infrastructure + persistence
+
+- **Tracks:** `admin_panel_20260527` (in progress)
+- Fixed GoRouter recreation bug → single instance with refreshListenable
+- Switched AuthNotifier from Notifier to AsyncNotifier (eliminates restore race)
+- Added JWT persistence via FlutterSecureStorage (survives page reload, 1h TTL)
+- Created namespace users `arnarvalur` and `gurkudrengur` on both namespaces
+- Cleaned bootstrap.surql to schema-only
+- Tests green (3/3), deployed to Saturn
+- **Decisions:** ADR-0007 (admin auth infrastructure)
+- **Next:** Browser-verify CRUD screens. Remove legacy `arnar`/`hoddi` namespace users if no longer needed.
+
+---
 
 - **Tracks:** `admin_panel_20260527` (in progress)
 - Removed all mock code: MockAdminRepository, MockAuthService, USE_MOCKS flag
