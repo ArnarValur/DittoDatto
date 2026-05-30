@@ -14,7 +14,7 @@ Timestamped entries for context continuity between sessions.
 - Created ADR subdirectories (admin-panel, business-portal, marketplace, mercury-engine)
 - Audited all 6 ADRs — no contradictions with current decisions
 - 0 ADRs
-- **Next:** Browser-verify CRUD screens against empty DB, create real records, clean up test file
+- **Next:** Fix auth bug: SurrealDB Dart signin() doesn't throw on bad creds — any email gets past login but queries fail. Test with `arnar@dittodatto.no`/`admin123` first. Then browser-verify CRUD screens, create real records, clean up test file.
 
 ---
 
