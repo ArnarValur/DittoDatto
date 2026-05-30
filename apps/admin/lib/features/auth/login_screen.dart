@@ -1,5 +1,6 @@
 import 'package:ditto_design/ditto_design.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mercury_client/mercury_client.dart';
 
@@ -38,6 +39,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           _emailController.text.trim(),
           _passwordController.text,
         );
+    // Tell the browser the autofill context is complete so it stops
+    // re-prompting to save already-saved credentials.
+    TextInput.finishAutofillContext();
     // No error handling here — per PRD, auth failure is silent.
   }
 
@@ -52,9 +56,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           padding: const EdgeInsets.all(DittoSpacing.xl),
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 360),
-            child: Form(
-              key: _formKey,
-              child: Column(
+            child: AutofillGroup(
+              child: Form(
+                key: _formKey,
+                child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Lock icon — no branding text per PRD
@@ -80,6 +85,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     enabled: !isLoading,
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
+                    autofillHints: const [AutofillHints.email],
                     decoration: const InputDecoration(
                       labelText: 'Email',
                       prefixIcon: Icon(Icons.email_outlined),
@@ -100,6 +106,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     enabled: !isLoading,
                     obscureText: true,
                     textInputAction: TextInputAction.done,
+                    autofillHints: const [AutofillHints.password],
                     decoration: const InputDecoration(
                       labelText: 'Password',
                       prefixIcon: Icon(Icons.lock_outline),
@@ -134,6 +141,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ],
               ),
+            ),
             ),
           ),
         ),

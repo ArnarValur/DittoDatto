@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -91,59 +90,5 @@ class SecureAuthService implements AuthService {
     }
 
     return Authenticated(accessToken: token, email: email);
-  }
-}
-
-/// Mock auth service for development without a real backend.
-///
-/// Accepts a known set of credentials and returns a fake JWT.
-class MockAuthService implements AuthService {
-  MockAuthService({
-    this.validCredentials = const {
-      'arnar@dittodatto.no': 'admin123',
-      'hoddi@dittodatto.no': 'admin123',
-    },
-    this.latency = const Duration(milliseconds: 800),
-  });
-
-  /// Map of email → password that will succeed.
-  final Map<String, String> validCredentials;
-
-  /// Simulated network latency.
-  final Duration latency;
-
-  AuthState _state = const Unauthenticated();
-
-  @override
-  Future<AuthState> login(String email, String password) async {
-    await Future<void>.delayed(latency);
-
-    if (validCredentials[email] == password) {
-      // Generate a fake JWT-like token (not cryptographically valid).
-      final payload = base64Encode(
-        utf8.encode('{"sub":"$email","exp":${DateTime.now().add(const Duration(hours: 1)).millisecondsSinceEpoch ~/ 1000}}'),
-      );
-      final fakeToken = 'eyJhbGciOiJIUzI1NiJ9.$payload.mock-signature';
-
-      _state = Authenticated(accessToken: fakeToken, email: email);
-      return _state;
-    }
-
-    _state = const AuthError(message: 'Invalid credentials');
-    return _state;
-  }
-
-  @override
-  Future<AuthState> logout() async {
-    await Future<void>.delayed(const Duration(milliseconds: 100));
-    _state = const Unauthenticated();
-    return _state;
-  }
-
-  @override
-  Future<AuthState> tryRestore() async {
-    await Future<void>.delayed(const Duration(milliseconds: 100));
-    // Mock has no persistence — always unauthenticated on cold start.
-    return const Unauthenticated();
   }
 }

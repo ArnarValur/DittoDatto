@@ -1,0 +1,149 @@
+-- =============================================================================
+-- DittoDatto — Platform Database Schema
+-- =============================================================================
+-- Applied to: companies/registry
+-- Version:    0.1.0
+-- Created:    2026-05-03
+--
+-- System-level ops data: company registry, system alerts, shared assets.
+-- Accessed by MercuryEngine via the static `platform` connection.
+-- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- 1. company (source: CompanySchema)
+-- -----------------------------------------------------------------------------
+-- Company registry. The "phone book" of all Dattos.
+-- Each company record here corresponds to a companies/company_{slug} database.
+
+DEFINE TABLE company SCHEMAFULL;
+
+DEFINE FIELD owner_id          ON company TYPE string;
+DEFINE FIELD owner_email       ON company TYPE option<string>;
+DEFINE FIELD name              ON company TYPE string;
+DEFINE FIELD slug              ON company TYPE string;
+DEFINE FIELD description       ON company TYPE option<string>;
+DEFINE FIELD website           ON company TYPE option<string>;
+
+-- Address
+DEFINE FIELD address           ON company TYPE option<string>;
+DEFINE FIELD city              ON company TYPE option<string>;
+DEFINE FIELD zip               ON company TYPE option<string>;
+DEFINE FIELD country           ON company TYPE string                DEFAULT 'NO';
+
+-- Contact
+DEFINE FIELD email             ON company TYPE option<string>;
+DEFINE FIELD phone             ON company TYPE option<string>;
+DEFINE FIELD logo_url          ON company TYPE option<string>;
+
+-- Tier
+DEFINE FIELD tier              ON company TYPE string                DEFAULT 'free'
+  ASSERT $value IN ['free', 'premium'];
+
+-- Social
+DEFINE FIELD social_links      ON company TYPE option<object>;
+DEFINE FIELD social_links.fb   ON company TYPE option<string>;
+DEFINE FIELD social_links.ig   ON company TYPE option<string>;
+DEFINE FIELD social_links.x    ON company TYPE option<string>;
+
+-- Onboarding (Reverse Conductor pattern)
+DEFINE FIELD onboarding_status ON company TYPE string
+  ASSERT $value IN ['not_started', 'ai_suggested', 'verified', 'complete'];
+DEFINE FIELD ai_suggested_data ON company TYPE option<object>;
+DEFINE FIELD ai_suggested_data.name        ON company TYPE option<string>;
+DEFINE FIELD ai_suggested_data.website     ON company TYPE option<string>;
+DEFINE FIELD ai_suggested_data.description ON company TYPE option<string>;
+DEFINE FIELD ai_suggested_data.address     ON company TYPE option<string>;
+DEFINE FIELD ai_suggested_data.phone       ON company TYPE option<string>;
+DEFINE FIELD ai_suggested_data.suggested_at ON company TYPE option<datetime>;
+
+-- Feature Flags (transitional SaaS scaffolding → Datto-mediated in v1.5)
+DEFINE FIELD enabled_features  ON company TYPE object;
+DEFINE FIELD enabled_features.table_reservation ON company TYPE bool DEFAULT false;
+DEFINE FIELD enabled_features.ai_assistance     ON company TYPE bool DEFAULT false;
+DEFINE FIELD enabled_features.ticket_system     ON company TYPE bool DEFAULT false;
+DEFINE FIELD enabled_features.event_system      ON company TYPE bool DEFAULT false;
+
+-- Store Policy
+DEFINE FIELD store_policy      ON company TYPE object;
+DEFINE FIELD store_policy.max_stores          ON company TYPE int    DEFAULT 1;
+DEFINE FIELD store_policy.can_create_own_stores ON company TYPE bool DEFAULT false;
+
+-- Media Config
+DEFINE FIELD media_config      ON company TYPE object;
+DEFINE FIELD media_config.default_tags ON company TYPE array<string>
+  DEFAULT ['logo', 'cover', 'staff', 'store', 'menu', 'misc'];
+
+-- Database reference (maps to companies/company_{slug})
+DEFINE FIELD db_slug           ON company TYPE string;
+
+-- Manager/member references (cross-DB user IDs as strings)
+DEFINE FIELD manager_ids       ON company TYPE option<array<string>>;
+DEFINE FIELD member_ids        ON company TYPE option<array<string>>;
+
+DEFINE FIELD deleted_at        ON company TYPE option<datetime>;
+DEFINE FIELD created_at        ON company TYPE datetime              VALUE $value OR time::now();
+DEFINE FIELD updated_at        ON company TYPE datetime              VALUE time::now();
+
+-- Indexes
+DEFINE INDEX idx_company_slug ON company FIELDS slug UNIQUE;
+DEFINE INDEX idx_company_owner ON company FIELDS owner_id;
+
+-- -----------------------------------------------------------------------------
+-- 2. system_alert (source: SystemAlertSchema)
+-- -----------------------------------------------------------------------------
+
+DEFINE TABLE system_alert SCHEMAFULL;
+
+DEFINE FIELD title             ON system_alert TYPE string;
+DEFINE FIELD body              ON system_alert TYPE string;
+DEFINE FIELD severity          ON system_alert TYPE string
+  ASSERT $value IN ['info', 'warning', 'critical'];
+DEFINE FIELD target_audience   ON system_alert TYPE string
+  ASSERT $value IN ['all', 'business', 'customers', 'admin'];
+DEFINE FIELD is_active         ON system_alert TYPE bool             DEFAULT true;
+
+DEFINE FIELD starts_at         ON system_alert TYPE option<datetime>;
+DEFINE FIELD expires_at        ON system_alert TYPE option<datetime>;
+DEFINE FIELD action_url        ON system_alert TYPE option<string>;
+DEFINE FIELD action_label      ON system_alert TYPE option<string>;
+
+DEFINE FIELD created_by        ON system_alert TYPE option<string>;
+DEFINE FIELD created_at        ON system_alert TYPE datetime         VALUE $value OR time::now();
+DEFINE FIELD updated_at        ON system_alert TYPE option<datetime>;
+
+DEFINE INDEX idx_alert_active ON system_alert FIELDS is_active, target_audience;
+
+-- -----------------------------------------------------------------------------
+-- 3. icon_collection (source: IconCollectionSchema)
+-- -----------------------------------------------------------------------------
+
+DEFINE TABLE icon_collection SCHEMAFULL;
+
+DEFINE FIELD name              ON icon_collection TYPE string;
+DEFINE FIELD description       ON icon_collection TYPE option<string>;
+DEFINE FIELD icons             ON icon_collection TYPE array<string>;
+DEFINE FIELD is_default        ON icon_collection TYPE bool          DEFAULT false;
+
+DEFINE FIELD created_at        ON icon_collection TYPE datetime      VALUE $value OR time::now();
+DEFINE FIELD updated_at        ON icon_collection TYPE datetime      VALUE time::now();
+
+-- -----------------------------------------------------------------------------
+-- 4. audit_log (new — GDPR compliance, soft delete tracking)
+-- -----------------------------------------------------------------------------
+
+DEFINE TABLE audit_log SCHEMAFULL;
+
+DEFINE FIELD action            ON audit_log TYPE string
+  ASSERT $value IN ['user_deleted', 'customer_purged', 'company_provisioned', 'company_deactivated'];
+DEFINE FIELD actor_id          ON audit_log TYPE string;
+DEFINE FIELD target_type       ON audit_log TYPE string;
+DEFINE FIELD target_id         ON audit_log TYPE string;
+DEFINE FIELD metadata          ON audit_log TYPE object FLEXIBLE     DEFAULT {};
+DEFINE FIELD created_at        ON audit_log TYPE datetime            VALUE $value OR time::now();
+
+DEFINE INDEX idx_audit_action ON audit_log FIELDS action;
+DEFINE INDEX idx_audit_target ON audit_log FIELDS target_type, target_id;
+
+-- =============================================================================
+-- END OF PLATFORM SCHEMA
+-- =============================================================================
