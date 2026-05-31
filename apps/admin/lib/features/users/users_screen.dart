@@ -12,16 +12,15 @@ final usersProvider =
   UsersNotifier.new,
 );
 
-/// Manages paginated user data, search query, role updates, and creation.
+/// Manages paginated user data, role updates, manual creation, edit updates, and deletions.
 class UsersNotifier extends AsyncNotifier<PaginatedResponse<User>> {
   int _page = 1;
   static const _pageSize = 50;
-  String _searchQuery = '';
 
   @override
   Future<PaginatedResponse<User>> build() async {
     final repo = ref.watch(adminRepositoryProvider);
-    return repo.getUsers(page: _page, pageSize: _pageSize, searchQuery: _searchQuery);
+    return repo.getUsers(page: _page, pageSize: _pageSize);
   }
 
   Future<void> goToPage(int page) async {
@@ -35,15 +34,21 @@ class UsersNotifier extends AsyncNotifier<PaginatedResponse<User>> {
     ref.invalidateSelf();
   }
 
-  Future<void> search(String query) async {
-    _searchQuery = query;
-    _page = 1;
-    ref.invalidateSelf();
-  }
-
   Future<void> createUser(User user) async {
     final repo = ref.read(adminRepositoryProvider);
     await repo.createUser(user);
+    ref.invalidateSelf();
+  }
+
+  Future<void> updateUser(User user) async {
+    final repo = ref.read(adminRepositoryProvider);
+    await repo.updateUser(user);
+    ref.invalidateSelf();
+  }
+
+  Future<void> deleteUser(String id) async {
+    final repo = ref.read(adminRepositoryProvider);
+    await repo.deleteUser(id);
     ref.invalidateSelf();
   }
 }
@@ -104,47 +109,16 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 250,
-                  height: 40,
-                  child: TextField(
-                    onChanged: (v) {
-                      ref.read(usersProvider.notifier).search(v);
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Search users...',
-                      prefixIcon: const Icon(Icons.search_rounded, size: 18, color: Colors.white38),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: DittoSpacing.sm),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: DittoColors.moodyBlue),
-                      ),
-                    ),
-                  ),
+            FilledButton.icon(
+              onPressed: () => _showAddUserDialog(context),
+              icon: const Icon(Icons.add, size: 18),
+              label: const Text('Add User'),
+              style: FilledButton.styleFrom(
+                backgroundColor: DittoColors.moodyBlue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                const SizedBox(width: DittoSpacing.base),
-                FilledButton.icon(
-                  onPressed: () => _showAddUserDialog(context),
-                  icon: const Icon(Icons.add, size: 18),
-                  label: const Text('Add User'),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: DittoColors.moodyBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
         ),
@@ -234,10 +208,9 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                     )),
                     DataCell(Text(user.email)),
                     DataCell(Text(user.companySlug ?? '—')),
-                    DataCell(RoleBadge(role: user.role)),
                     DataCell(
                       PopupMenuButton<ActorRole>(
-                        icon: const Icon(Icons.more_vert_rounded, size: 20, color: Colors.white54),
+                        initialValue: user.role,
                         onSelected: (role) {
                           ref.read(usersProvider.notifier).updateRole(user.id, role);
                         },
@@ -254,6 +227,50 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                                   ),
                                 ))
                             .toList(),
+                        child: RoleBadge(role: user.role),
+                      ),
+                    ),
+                    DataCell(
+                      PopupMenuButton<String>(
+                        icon: const Icon(Icons.more_vert_rounded, size: 20, color: Colors.white54),
+                        onSelected: (action) async {
+                          if (action == 'edit') {
+                            _showEditUserDialog(context, user);
+                          } else if (action == 'delete') {
+                            final confirmed = await showDittoConfirmDialog(
+                              context: context,
+                              title: 'Delete User',
+                              message: 'Are you sure you want to delete "${user.name}"? This action is permanent.',
+                              confirmLabel: 'Delete',
+                              confirmColor: DittoColors.error,
+                            );
+                            if (confirmed && context.mounted) {
+                              ref.read(usersProvider.notifier).deleteUser(user.id);
+                            }
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          const PopupMenuItem(
+                            value: 'edit',
+                            child: Row(
+                              children: [
+                                Icon(Icons.edit_rounded, size: 18, color: Colors.white70),
+                                SizedBox(width: DittoSpacing.sm),
+                                Text('Edit User'),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'delete',
+                            child: Row(
+                              children: [
+                                Icon(Icons.delete_rounded, size: 18, color: DittoColors.error),
+                                const SizedBox(width: DittoSpacing.sm),
+                                Text('Delete User', style: TextStyle(color: DittoColors.error)),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -361,6 +378,63 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showEditUserDialog(BuildContext context, User user) {
+    final nameCtrl = TextEditingController(text: user.name);
+    final phoneCtrl = TextEditingController(text: user.phone ?? '');
+    final companyCtrl = TextEditingController(text: user.companySlug ?? '');
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit User'),
+        content: SizedBox(
+          width: 400,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameCtrl,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                ),
+                const SizedBox(height: DittoSpacing.sm),
+                TextField(
+                  controller: phoneCtrl,
+                  decoration: const InputDecoration(labelText: 'Phone (optional)'),
+                  keyboardType: TextInputType.phone,
+                ),
+                const SizedBox(height: DittoSpacing.sm),
+                TextField(
+                  controller: companyCtrl,
+                  decoration: const InputDecoration(labelText: 'Company Slug (optional)'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              final updatedUser = user.copyWith(
+                name: nameCtrl.text,
+                phone: phoneCtrl.text.isNotEmpty ? phoneCtrl.text : null,
+                companySlug: companyCtrl.text.isNotEmpty ? companyCtrl.text : null,
+                updatedAt: DateTime.now(),
+              );
+              ref.read(usersProvider.notifier).updateUser(updatedUser);
+              Navigator.pop(context);
+            },
+            child: const Text('Save'),
+          ),
+        ],
       ),
     );
   }

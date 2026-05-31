@@ -49,32 +49,19 @@ class SurrealAdminRepository implements AdminRepository {
   Future<PaginatedResponse<User>> getUsers({
     int page = 1,
     int pageSize = 50,
-    String? searchQuery,
   }) async {
     await connection.users.use('users', 'profiles');
     final start = (page - 1) * pageSize;
 
-    String countQuery = "SELECT count() FROM user WHERE role IN ['customer', 'business']";
-    String selectQuery = "SELECT * FROM user WHERE role IN ['customer', 'business']";
-    final Map<String, dynamic> params = {
-      'pageSize': pageSize,
-      'start': start,
-    };
-
-    if (searchQuery != null && searchQuery.trim().isNotEmpty) {
-      params['search'] = '%${searchQuery.trim().toLowerCase()}%';
-      final searchClause = r' AND (string::lowercase(name) LIKE $search OR string::lowercase(email) LIKE $search)';
-      countQuery += searchClause;
-      selectQuery += searchClause;
-    }
-
-    countQuery += ' GROUP ALL';
-    selectQuery += r' ORDER BY created_at DESC LIMIT $pageSize START $start';
-
-    final countResult = await connection.users.query(countQuery, params);
+    final countResult = await connection.users.query(
+      "SELECT count() FROM user WHERE role IN ['customer', 'business'] GROUP ALL",
+    );
     final total = _extractCount(countResult);
 
-    final result = await connection.users.query(selectQuery, params);
+    final result = await connection.users.query(
+      r"SELECT * FROM user WHERE role IN ['customer', 'business'] ORDER BY created_at DESC LIMIT $pageSize START $start",
+      {'pageSize': pageSize, 'start': start},
+    );
     final items = _parseList<User>(result, User.fromJson);
 
     return PaginatedResponse(
@@ -104,6 +91,27 @@ class SurrealAdminRepository implements AdminRepository {
 
     final result = await connection.users.create('user', data);
     return User.fromJson(_normalizeRecord(result));
+  }
+
+  @override
+  Future<User> updateUser(User user) async {
+    await connection.users.use('users', 'profiles');
+    final data = user.toJson()
+      ..remove('id')
+      ..remove('created_at')
+      ..remove('updated_at');
+
+    final result = await connection.users.update(
+      'user:${user.id}',
+      data,
+    );
+    return User.fromJson(_normalizeRecord(result));
+  }
+
+  @override
+  Future<void> deleteUser(String id) async {
+    await connection.users.use('users', 'profiles');
+    await connection.users.delete('user:$id');
   }
 
   // ── Companies ──
