@@ -341,7 +341,7 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
               child: const Text('Cancel'),
             ),
             FilledButton(
-              onPressed: () async {
+              onPressed: () {
                 final now = DateTime.now();
                 final newUser = User(
                   id: 'user${now.millisecondsSinceEpoch}',
@@ -354,10 +354,8 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                   createdAt: now,
                   updatedAt: now,
                 );
-                await ref.read(usersProvider.notifier).createUser(newUser);
-                if (context.mounted) {
-                  Navigator.pop(context);
-                }
+                ref.read(usersProvider.notifier).createUser(newUser);
+                Navigator.pop(context);
               },
               child: const Text('Create'),
             ),
