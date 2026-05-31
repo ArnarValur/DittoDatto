@@ -20,8 +20,8 @@ Thumbs.db
 *.freezed.dart
 pubspec.lock
 
-# Old codebase (tracked separately)
-# DittoDatto-old/ is tracked in git already
+# Old codebase (local reference only — not tracked)
+DittoDatto-old/
 
 # Env
 .env
