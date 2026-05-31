@@ -2,6 +2,20 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-01 00:20 — Users Premium Redesign + Staging Web Crypto Fix
+
+- **Tracks:** `admin_panel_20260527` (in progress)
+- Fully redesigned Users screen to match visual mockup (avatar initials, truncated IDs, subtext emails, options PopupMenu).
+- Restricted Users list and role management to only `customer` and `business` roles.
+- Resolved browser Web Crypto initialization crashes under non-secure HTTP Origin by introducing platform-agnostic WebStorage unencrypted fallback.
+- Added dynamic case-insensitive text search and manual user creation dialog.
+- Created `conductor/tests/admin-panel/verification-log.md` registry.
+- Deployed built production web app to Saturn staging server successfully.
+- **Decisions:** ADR-0008 (Admin Panel Users Scope Isolation), ADR-0009 (Web Storage HTTP Fallback)
+- **Next:** Browser-verify all other screens (Companies, Categories, Dashboard) on Saturn. Remove legacy staging users.
+
+---
+
 ## 2026-05-30 17:44 — Auth infrastructure + persistence
 
 - **Tracks:** `admin_panel_20260527` (in progress)

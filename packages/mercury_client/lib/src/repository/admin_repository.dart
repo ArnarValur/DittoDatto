@@ -12,8 +12,13 @@ abstract class AdminRepository {
   Future<AdminStats> getStats();
 
   // Users
-  Future<PaginatedResponse<User>> getUsers({int page = 1, int pageSize = 50});
+  Future<PaginatedResponse<User>> getUsers({
+    int page = 1,
+    int pageSize = 50,
+    String? searchQuery,
+  });
   Future<void> updateUserRole(String userId, ActorRole newRole);
+  Future<User> createUser(User user);
 
   // Companies
   Future<PaginatedResponse<Company>> getCompanies({int page = 1, int pageSize = 50});

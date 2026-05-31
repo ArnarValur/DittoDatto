@@ -49,20 +49,32 @@ class SurrealAdminRepository implements AdminRepository {
   Future<PaginatedResponse<User>> getUsers({
     int page = 1,
     int pageSize = 50,
+    String? searchQuery,
   }) async {
     await connection.users.use('users', 'profiles');
     final start = (page - 1) * pageSize;
 
-    final countResult = await connection.users.query(
-      'SELECT count() FROM user GROUP ALL',
-    );
+    String countQuery = "SELECT count() FROM user WHERE role IN ['customer', 'business']";
+    String selectQuery = "SELECT * FROM user WHERE role IN ['customer', 'business']";
+    final Map<String, dynamic> params = {
+      'pageSize': pageSize,
+      'start': start,
+    };
+
+    if (searchQuery != null && searchQuery.trim().isNotEmpty) {
+      params['search'] = '%${searchQuery.trim().toLowerCase()}%';
+      final searchClause = r' AND (string::lowercase(name) LIKE $search OR string::lowercase(email) LIKE $search)';
+      countQuery += searchClause;
+      selectQuery += searchClause;
+    }
+
+    countQuery += ' GROUP ALL';
+    selectQuery += r' ORDER BY created_at DESC LIMIT $pageSize START $start';
+
+    final countResult = await connection.users.query(countQuery, params);
     final total = _extractCount(countResult);
 
-    final result = await connection.users.query(
-      r'SELECT * FROM user ORDER BY created_at DESC LIMIT $pageSize START $start',
-      {'pageSize': pageSize, 'start': start},
-    );
-
+    final result = await connection.users.query(selectQuery, params);
     final items = _parseList<User>(result, User.fromJson);
 
     return PaginatedResponse(
@@ -80,6 +92,18 @@ class SurrealAdminRepository implements AdminRepository {
       r'UPDATE type::thing("user", $id) SET role = $role, updated_at = time::now()',
       {'id': userId, 'role': newRole.value},
     );
+  }
+
+  @override
+  Future<User> createUser(User user) async {
+    await connection.users.use('users', 'profiles');
+    final data = user.toJson()
+      ..remove('id')
+      ..['created_at'] = DateTime.now().toIso8601String()
+      ..['updated_at'] = DateTime.now().toIso8601String();
+
+    final result = await connection.users.create('user', data);
+    return User.fromJson(_normalizeRecord(result));
   }
 
   // ── Companies ──

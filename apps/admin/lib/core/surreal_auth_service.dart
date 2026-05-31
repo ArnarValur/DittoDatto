@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mercury_client/mercury_client.dart';
 
 import 'surreal_connection.dart';
+import 'web_storage.dart';
 
 /// Authenticates admin users against SurrealDB namespace-level users.
 ///
@@ -51,13 +53,20 @@ class SurrealAuthService implements AuthService {
       _connection = result.connection;
 
       // Persist tokens and email for session restore.
-      await _storage.write(key: _companiesTokenKey, value: result.companiesToken);
-      await _storage.write(key: _usersTokenKey, value: result.usersToken);
-      await _storage.write(key: _emailKey, value: email);
+      if (kIsWeb) {
+        await WebStorage.write(_companiesTokenKey, result.companiesToken);
+        await WebStorage.write(_usersTokenKey, result.usersToken);
+        await WebStorage.write(_emailKey, email);
+      } else {
+        await _storage.write(key: _companiesTokenKey, value: result.companiesToken);
+        await _storage.write(key: _usersTokenKey, value: result.usersToken);
+        await _storage.write(key: _emailKey, value: email);
+      }
 
       return Authenticated(accessToken: result.companiesToken, email: email);
-    } on Exception {
+    } catch (e) {
       // Per PRD: no error feedback. Return unauthenticated silently.
+      // Also catches JS runtime errors (like missing Web Crypto under HTTP) to prevent UI freeze.
       return const Unauthenticated();
     }
   }
@@ -66,18 +75,34 @@ class SurrealAuthService implements AuthService {
   Future<AuthState> logout() async {
     _connection?.close();
     _connection = null;
-    await _storage.delete(key: _companiesTokenKey);
-    await _storage.delete(key: _usersTokenKey);
-    await _storage.delete(key: _emailKey);
+    if (kIsWeb) {
+      await WebStorage.delete(_companiesTokenKey);
+      await WebStorage.delete(_usersTokenKey);
+      await WebStorage.delete(_emailKey);
+    } else {
+      await _storage.delete(key: _companiesTokenKey);
+      await _storage.delete(key: _usersTokenKey);
+      await _storage.delete(key: _emailKey);
+    }
     return const Unauthenticated();
   }
 
   @override
   Future<AuthState> tryRestore() async {
     try {
-      final companiesToken = await _storage.read(key: _companiesTokenKey);
-      final usersToken = await _storage.read(key: _usersTokenKey);
-      final email = await _storage.read(key: _emailKey);
+      final String? companiesToken;
+      final String? usersToken;
+      final String? email;
+
+      if (kIsWeb) {
+        companiesToken = await WebStorage.read(_companiesTokenKey);
+        usersToken = await WebStorage.read(_usersTokenKey);
+        email = await WebStorage.read(_emailKey);
+      } else {
+        companiesToken = await _storage.read(key: _companiesTokenKey);
+        usersToken = await _storage.read(key: _usersTokenKey);
+        email = await _storage.read(key: _emailKey);
+      }
 
       if (companiesToken == null || usersToken == null || email == null) {
         return const Unauthenticated();
@@ -93,11 +118,17 @@ class SurrealAuthService implements AuthService {
 
       _connection = conn;
       return Authenticated(accessToken: companiesToken, email: email);
-    } on Exception {
-      // Tokens expired or invalid — clean up and require fresh login.
-      await _storage.delete(key: _companiesTokenKey);
-      await _storage.delete(key: _usersTokenKey);
-      await _storage.delete(key: _emailKey);
+    } catch (e) {
+      // Tokens expired, invalid, or storage access failed — clean up and require fresh login.
+      if (kIsWeb) {
+        await WebStorage.delete(_companiesTokenKey);
+        await WebStorage.delete(_usersTokenKey);
+        await WebStorage.delete(_emailKey);
+      } else {
+        await _storage.delete(key: _companiesTokenKey);
+        await _storage.delete(key: _usersTokenKey);
+        await _storage.delete(key: _emailKey);
+      }
       return const Unauthenticated();
     }
   }
