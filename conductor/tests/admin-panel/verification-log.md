@@ -11,6 +11,7 @@ These test suites are executed via `flutter test` at the workspace level.
 | Suite | Component | Scope / What is being tested | Status |
 |:---|:---|:---|:---|
 | `login_screen_test.dart` | `LoginScreen` | Visual layout elements, input field validation errors, and loading state indicator during authentication. | 🟢 Passed |
+| `test_auth.dart` | Staging / CLI | Loopback authentication validation directly against `ws://dittodatto:8002/rpc` (asserts correct login works, incorrect fails). | 🟢 Passed |
 | `ditto_window_class_test.dart` | `DittoWindowClass` | Material 3 responsive viewport breakpoint evaluations (`compact`, `medium`, `expanded`, `large`). | 🟢 Passed |
 | `ditto_colors_test.dart` | `DittoColors` | Seed-based primary Moody Blue (#6F71CC) and dark surface grading definitions. | 🟢 Passed |
 | `ditto_spacing_test.dart` | `DittoSpacing` | Standard 4px-base layout spacing constants and grid bounds. | 🟢 Passed |
