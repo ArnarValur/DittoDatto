@@ -2,6 +2,19 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-01 00:50 — User Dialog Staging NULL Sweep & Safe Transitions
+
+- **Tracks:** `admin_panel_20260527` (in progress)
+- Resolved the SurrealDB `Expected none | string but found NULL` crash on manual user creation by filtering null-valued fields (`removeWhere((k, v) => v == null)`) from payload JSON maps, allowing empty fields to correctly evaluate to `none`.
+- Completely removed "Company Slug" input fields from both the Add User and Edit User dialog layouts to simplify UX as requested.
+- Refactored `UsersNotifier` state transitions to fetch reloads in-place instead of calling `ref.invalidateSelf()`, avoiding full-screen unmount/re-render animations and layout crashes.
+- Standardized `_normalizeRecord` in `SurrealAdminRepository` to safely parse list-wrapped database results alongside maps.
+- Recompiled and deployed built production web app to Saturn staging server successfully.
+- **Decisions:** None
+- **Next:** Browser-verify User CRUD creation, editing, role toggling, and deletion on Saturn staging server.
+
+---
+
 ## 2026-06-01 00:20 — Users Premium Redesign + Staging Web Crypto Fix
 
 - **Tracks:** `admin_panel_20260527` (in progress)

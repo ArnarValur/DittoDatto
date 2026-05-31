@@ -50,3 +50,4 @@ Checklists for live-environment verification on Asus Ascent staging (**Saturn**)
 | Date | Type | Target | Focus / Notes | Result |
 |:---|:---|:---|:---|:---|
 | 2026-06-01 00:37 | Hybrid | Staging (Saturn) | Verified WebStorage HTTP bypass, SurrealDB 3.0 type::record transition, dynamic text search, and manual user creation. Executed `test_auth.dart` and `test_users_crud.dart` integration tests. | 🟢 Success (All tests green) |
+| 2026-06-01 00:44 | Hybrid | Staging (Saturn) | Resolved user creation exception by sweeping null values from JSON maps (fixing NULL vs none schema mismatches), removing the unused Company Slug input from dialogs, standardizing list/map normalization, and locking dialog components during submit tasks. | 🟢 Success |

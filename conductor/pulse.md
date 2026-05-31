@@ -1,11 +1,11 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-01 00:15
-**Session Focus:** Admin Panel — Users screen premium redesign, search & manual registration, and HTTP Web Storage fallback fix.
+**Last Updated:** 2026-06-01 00:50
+**Session Focus:** Admin Panel — Resolved User screen database NULL constraint crash, removed Company Slug from dialog layouts, and stabilized notifier transitions.
 
 ## 🚀 Active Tracks
 
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed (checkbox selections, truncated IDs, initials badges, restricted role promotions, case-insensitive SurrealDB search, and manual user registration dialog). Deployed to Saturn.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed (checkbox selections, truncated IDs, initials badges, restricted role promotions, case-insensitive SurrealDB search, manual user registration without company slug fields, and try-catch form validation/loading). Deployed to Saturn.
 
 ## ✅ Recently Completed
 
@@ -33,9 +33,13 @@ _None._
 - **bootstrap.surql** — schema and namespace user definitions only. No fabricated data.
 - *2026-06-01 - 00:10* — Restricted back-office Users screen list and role modification options to `customer` and `business` only. _(operational)_
 - *2026-06-01 - 00:12* — Bypass Web Crypto secure-context crashes on Web targets by introducing conditional WebStorage fallback using standard window.localStorage under HTTP. _(operational)_
+- *2026-06-01 - 00:44* — Sweep null-valued entries from database query maps to satisfy strict none | string constraints on SurrealDB tables. _(operational)_
+- *2026-06-01 - 00:47* — Completely remove unused "Company Slug" fields from Add/Edit User dialogue forms to simplify back-office UX. _(operational)_
+- *2026-06-01 - 00:49* — Transition list notifier state updates to fetch in-place, preventing full-screen re-render unmounts and animation layout race conditions. _(operational)_
 
 ## 📋 Next Session Suggestions
 
-1. 🖥️ **Verify all other screens (Companies, Categories, Dashboard) on Saturn** to confirm they load and function correctly.
-2. 🧹 **Remove legacy namespace users** — `arnar` and `hoddi` still exist on Saturn. Delete if no longer needed.
-3. 📦 **Inbox real data path** — Currently hardcoded app-local. Needs repository pattern when messaging is grilled.
+1. 🖥️ **Verify Users screen CRUD on Saturn** — browser-verify that manual creations, editing, role promotions, and deletions work smoothly.
+2. 🖥️ **Verify all other screens (Companies, Categories, Dashboard) on Saturn** to confirm they load and function correctly.
+3. 🧹 **Remove legacy namespace users** — `arnar` and `hoddi` still exist on Saturn. Delete if no longer needed.
+4. 📦 **Inbox real data path** — Message thread repository interface wiring.
