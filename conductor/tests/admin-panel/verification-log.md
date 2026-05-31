@@ -12,6 +12,7 @@ These test suites are executed via `flutter test` at the workspace level.
 |:---|:---|:---|:---|
 | `login_screen_test.dart` | `LoginScreen` | Visual layout elements, input field validation errors, and loading state indicator during authentication. | 🟢 Passed |
 | `test_auth.dart` | Staging / CLI | Loopback authentication validation directly against `ws://dittodatto:8002/rpc` (asserts correct login works, incorrect fails). | 🟢 Passed |
+| `test_users_crud.dart` | Staging / CLI | Integration CRUD validation directly against `ws://dittodatto:8002/rpc` (asserts user creation, listing, role promotion using type::record, and cleanup work). | 🟢 Passed |
 | `ditto_window_class_test.dart` | `DittoWindowClass` | Material 3 responsive viewport breakpoint evaluations (`compact`, `medium`, `expanded`, `large`). | 🟢 Passed |
 | `ditto_colors_test.dart` | `DittoColors` | Seed-based primary Moody Blue (#6F71CC) and dark surface grading definitions. | 🟢 Passed |
 | `ditto_spacing_test.dart` | `DittoSpacing` | Standard 4px-base layout spacing constants and grid bounds. | 🟢 Passed |
@@ -48,4 +49,4 @@ Checklists for live-environment verification on Asus Ascent staging (**Saturn**)
 
 | Date | Type | Target | Focus / Notes | Result |
 |:---|:---|:---|:---|:---|
-| 2026-05-31 23:23 | Hybrid | Staging (Saturn) | Verified premium Users screen implementation, query role restrictions, and text search queries. Run `flutter test` and `dart analyze`. | 🟢 Success (All tests green) |
+| 2026-06-01 00:37 | Hybrid | Staging (Saturn) | Verified WebStorage HTTP bypass, SurrealDB 3.0 type::record transition, dynamic text search, and manual user creation. Executed `test_auth.dart` and `test_users_crud.dart` integration tests. | 🟢 Success (All tests green) |

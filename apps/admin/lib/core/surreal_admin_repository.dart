@@ -89,7 +89,7 @@ class SurrealAdminRepository implements AdminRepository {
   Future<void> updateUserRole(String userId, ActorRole newRole) async {
     await connection.users.use('users', 'profiles');
     await connection.users.query(
-      r'UPDATE type::thing("user", $id) SET role = $role, updated_at = time::now()',
+      r'UPDATE type::record("user", $id) SET role = $role, updated_at = time::now()',
       {'id': userId, 'role': newRole.value},
     );
   }
@@ -99,8 +99,8 @@ class SurrealAdminRepository implements AdminRepository {
     await connection.users.use('users', 'profiles');
     final data = user.toJson()
       ..remove('id')
-      ..['created_at'] = DateTime.now().toIso8601String()
-      ..['updated_at'] = DateTime.now().toIso8601String();
+      ..remove('created_at')
+      ..remove('updated_at');
 
     final result = await connection.users.create('user', data);
     return User.fromJson(_normalizeRecord(result));
