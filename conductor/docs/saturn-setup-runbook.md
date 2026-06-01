@@ -1,7 +1,7 @@
 # Saturn Setup Runbook — DittoDatto Hub (Staging)
 
 > **Hand-off document for an SSH-capable agent operating on Saturn.**
-> Source session: `/grill foundation` (Conductor v2.1), 2026-05-26.
+> Source session: `/grill foundation` (Conductor), 2026-05-26.
 > Authoritative architecture: [ADR-0003](conductor/adr/0003-saturn-staging-environment.md) "Saturn as Staging Environment".
 >
 > **Purpose:** Stand up the DittoDatto Hub (SurrealDB 3.0) on Saturn as the staging-environment source of truth, behind Tailscale, leaving the existing OpenWebUI on `saturn:8080` untouched.

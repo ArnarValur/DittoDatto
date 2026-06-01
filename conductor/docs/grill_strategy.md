@@ -90,7 +90,7 @@ Copy the following docs from `DittoDatto-old/` to wherever you want the new proj
 
 ### Session 1: `/conductor-init` (Brownfield)
 
-**Goal:** Scaffold v2.1 conductor with the new project identity.
+**Goal:** Scaffold conductor with the new project identity.
 
 **Key inputs to provide during the interactive grill:**
 

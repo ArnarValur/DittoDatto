@@ -1,4 +1,4 @@
-<!-- Template: TheOracle v2.1 -->
+<!-- Template: TheOracle -->
 # Project Context — DittoDatto
 
 > Single identity + operational document for this project.
@@ -15,7 +15,7 @@
 
 - **Name:** DittoDatto (`dittodatto.no`)
 - **Tagline:** The Agentic Commerce Platform for Norway
-- **Description:** A multi-agentic service booking platform. Layer 1 is a fully-functional non-AI marketplace + business portal + booking engine + admin panel; Layer 2 layers **Ditto** (consumer agent) and **Datto** (business agent) on top, mediated by the future **Universal Commerce Protocol (UCP)**. **MercuryEngine** (FastAPI / Pydantic) on **SurrealDB 3.0** is the single source of truth for booking, discovery, and CRUD across all surfaces. Drammen-first, fylke-by-fylke expansion, Scandinavia horizon.
+- **Description:** A multi-agentic service booking platform. Layer 1 is a fully-functional non-AI marketplace + business portal + booking engine + admin panel; Layer 2 layers **Ditto** (consumer agent) and **Datto** (business agent) on top, mediated by the future **Universal Commerce Protocol (UCP)**. **MercuryEngine** (FastAPI / Pydantic) on **SurrealDB 3.0** is the single source of truth for booking, discovery, and CRUD across all surfaces.
 - **Target Audience:**
   - **Service businesses** — salons, restaurants, garages, clinics, venues — starting in Drammen, scaling nationally.
   - **Norwegian general public** — locals seeking modern, efficient booking.
@@ -97,7 +97,7 @@
 ### Deployment Targets
 
 - **Dev:** This workstation (local Docker for SurrealDB + native `uv run` for MercuryEngine + `flutter run` / `npm run dev` for client surfaces). Independent SurrealDB instance — never connects to the staging Hub during dev.
-- **Staging:** Saturn (GX10 on-prem, always-on, Tailscale-gated). Reachable at `saturn.tailb251cd.ts.net` (machine name) and `dittodatto.tailb251cd.ts.net` (Tailscale Service — routes to Saturn). Hosts the **DittoDatto Hub** (SurrealDB on port `8001`) + MercuryEngine staging + future Ditto/Datto agent containers, all on the `dittodatto-net` Docker network. Purpose: fast e2e iteration "as if in the wild" without paying Cloud Run deploy latency. Access: Arnar + Höddi + AI agents + occasional showcase guests. **Never public.** Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. See ADR-0003.
+- **Staging:** Saturn (GX10 on-prem, always-on, Tailscale-gated). Reachable at `saturn.tailb251cd.ts.net` (machine name) and `dittodatto.tailb251cd.ts.net` (Tailscale Service — routes to Saturn). Hosts the **DittoDatto Hub** (SurrealDB on port `8001`) + MercuryEngine staging + future Ditto/Datto agent containers, all on the `dittodatto-net` Docker network. Purpose: fast e2e iteration "as if in the wild" without paying Cloud Run deploy latency. Access: Arnar + Höddi + AI agents **Never public.** Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. See ADR-0003.
 - **Production:** Cloud Run (`europe-west1` only — region-locked). The sole production target. Scales to thousands of consumers + hundreds of companies. The `dittodatto.no` Nuxt marketing webapp is the current Cloud Run service.
 
 ### Hosting

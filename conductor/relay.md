@@ -75,7 +75,7 @@ Timestamped entries for context continuity between sessions.
 ## 2026-05-30 13:35 — Conductor standardization + Admin Panel revert
 
 - **Tracks:** `admin_panel_20260527` (in progress)
-- Standardized `.agents/workflows/` with v2.1 templates
+- Standardized `.agents/workflows/` with templates
 - Removed redundant `conductor-init.md` from workspace
 - Reverted `metadata.json` status to `in_progress`
 - 0 ADRs
