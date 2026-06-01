@@ -5,7 +5,7 @@
 
 ## Context
 
-When deploying the Admin Panel to our on-premise staging environment (Saturn) over a Tailscale mesh VPN, it is served on an unsecure HTTP origin (`http://dittodatto.tailb251cd.ts.net:8002`). Under non-secure HTTP contexts, modern browsers disable the Web Cryptography API (`window.crypto.subtle`). 
+When deploying the Admin Panel to our on-premise staging environment (Saturn) over a Tailscale mesh VPN, it is served on an unsecure HTTP origin (`http://dittodatto:8002`). Under non-secure HTTP contexts, modern browsers disable the Web Cryptography API (`window.crypto.subtle`). 
 
 Using the `flutter_secure_storage` package on Web targets requires Web Crypto. Calling `write()` in non-secure contexts throws an unhandled JavaScript runtime error, which crashed the authentication flow and froze the login page.
 

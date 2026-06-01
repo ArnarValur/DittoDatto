@@ -97,7 +97,7 @@
 ### Deployment Targets
 
 - **Dev:** This workstation (local Docker for SurrealDB + native `uv run` for MercuryEngine + `flutter run` / `npm run dev` for client surfaces). Independent SurrealDB instance — never connects to the staging Hub during dev.
-- **Staging:** Saturn (GX10 on-prem, always-on, Tailscale-gated). Reachable at `saturn.tailb251cd.ts.net` (machine name) and `dittodatto.tailb251cd.ts.net` (Tailscale Service — routes to Saturn). Hosts the **DittoDatto Hub** (SurrealDB on port `8001`) + MercuryEngine staging + future Ditto/Datto agent containers, all on the `dittodatto-net` Docker network. Purpose: fast e2e iteration "as if in the wild" without paying Cloud Run deploy latency. Access: Arnar + Höddi + AI agents **Never public.** Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. See ADR-0003.
+- **Staging:** Saturn (GX10 on-prem, always-on, Tailscale-gated). Reachable at `saturn` (machine name) and `dittodatto` (Tailscale Service — routes to Saturn). Hosts the **DittoDatto Hub** (SurrealDB on port `8001`) + MercuryEngine staging + future Ditto/Datto agent containers, all on the `dittodatto-net` Docker network. Purpose: fast e2e iteration "as if in the wild" without paying Cloud Run deploy latency. Access: Arnar + Höddi + AI agents **Never public.** Pre-existing OpenWebUI on `saturn:8080` is outside DittoDatto scope. See ADR-0003.
 - **Production:** Cloud Run (`europe-west1` only — region-locked). The sole production target. Scales to thousands of consumers + hundreds of companies. The `dittodatto.no` Nuxt marketing webapp is the current Cloud Run service.
 
 ### Hosting
@@ -206,5 +206,5 @@
   - Nuxt 4 + Vue 3 + Nuxt UI + Tailwind CSS. Public marketing layer, hosted on Cloud Run.
 - **Saturn (DittoDatto Hub — staging):**
   - Docker network: `dittodatto-net` (umbrella for all DD containers).
-  - Tailscale: machine `saturn` + Service `dittodatto` (routes to Saturn) — accessible at `saturn.tailb251cd.ts.net` (machine) and `dittodatto.tailb251cd.ts.net` (Service).
+  - Tailscale: machine `saturn` + Service `dittodatto` (routes to Saturn) — accessible at `saturn` (machine) and `dittodatto` (Service).
   - Staging only. Production runs on Cloud Run. See ADR-0003.

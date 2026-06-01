@@ -13,6 +13,8 @@ These test suites are executed via `flutter test` at the workspace level.
 | `login_screen_test.dart` | `LoginScreen` | Visual layout elements, input field validation errors, and loading state indicator during authentication. | 🟢 Passed |
 | `test_auth.dart` | Staging / CLI | Loopback authentication validation directly against `ws://dittodatto:8002/rpc` (asserts correct login works, incorrect fails). | 🟢 Passed |
 | `test_users_crud.dart` | Staging / CLI | Integration CRUD validation directly against `ws://dittodatto:8002/rpc` (asserts user creation, listing, role promotion using type::record, and cleanup work). | 🟢 Passed |
+| `test_companies_crud.dart` | Staging / CLI | Integration CRUD validation directly against `ws://dittodatto:8002/rpc` (asserts company creation, listing, tier update, and cleanup work). | 🟢 Passed |
+| `test_null_remover.dart` | Staging / CLI | Verifies that nested JSON maps containing null values (e.g. social_links) are recursively stripped before SurrealDB injection to satisfy strict schema coercion rules. | 🟢 Passed |
 | `ditto_window_class_test.dart` | `DittoWindowClass` | Material 3 responsive viewport breakpoint evaluations (`compact`, `medium`, `expanded`, `large`). | 🟢 Passed |
 | `ditto_colors_test.dart` | `DittoColors` | Seed-based primary Moody Blue (#6F71CC) and dark surface grading definitions. | 🟢 Passed |
 | `ditto_spacing_test.dart` | `DittoSpacing` | Standard 4px-base layout spacing constants and grid bounds. | 🟢 Passed |
@@ -49,5 +51,7 @@ Checklists for live-environment verification on Asus Ascent staging (**Saturn**)
 
 | Date | Type | Target | Focus / Notes | Result |
 |:---|:---|:---|:---|:---|
+| 2026-06-01 13:38 | Hybrid | Staging (Saturn) | Developed recursive null-remover for all nested lists/maps in surreal_admin_repository.dart. Verified exact layout payload schema coercion by writing standalone integration suite test_null_remover.dart and resolving coercion crashes for social_links. | 🟢 Success |
+| 2026-06-01 13:21 | Hybrid | Staging (Saturn) | Verified Company CRUD (creation, editing, deletion) and atomic User profile connection. Successfully integrated owner dropdown loading dynamically from users/profiles and updated database schemas. | 🟢 Success |
 | 2026-06-01 00:37 | Hybrid | Staging (Saturn) | Verified WebStorage HTTP bypass, SurrealDB 3.0 type::record transition, dynamic text search, and manual user creation. Executed `test_auth.dart` and `test_users_crud.dart` integration tests. | 🟢 Success (All tests green) |
 | 2026-06-01 00:44 | Hybrid | Staging (Saturn) | Resolved user creation exception by sweeping null values from JSON maps (fixing NULL vs none schema mismatches), removing the unused Company Slug input from dialogs, standardizing list/map normalization, and locking dialog components during submit tasks. | 🟢 Success |

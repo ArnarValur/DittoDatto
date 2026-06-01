@@ -2,6 +2,18 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-01 13:40 — Staging Timezone & Recursive Null Coercion Fix
+
+- **Tracks:** `admin_panel_20260527` (in progress)
+- Implemented recursive `_removeNullsFromMap` and `_removeNullsFromList` cleaners to strip all deep null values (like optional unpopulated nested maps in `social_links`) before SurrealDB injection.
+- Standardized form-filled datetime columns in `surreal_admin_repository.dart` to strictly utilize `.toUtc().toIso8601String()`, solving timezone coercion crashes.
+- Created and successfully verified a standalone integration test `apps/admin/bin/test_null_remover.dart` replicating exact layout form payloads with nested nulls against Saturn.
+- Recompiled and pushed updated release assets to Saturn staging server at `/srv/dittodatto/admin-panel/web/`.
+- **Decisions:** None
+- **Next:** Complete cache clearance in browser (Ctrl + F5 or DevTools clear) to bypass old `main.dart.js` cache, and verify manual creation.
+
+---
+
 ## 2026-06-01 00:50 — User Dialog Staging NULL Sweep & Safe Transitions
 
 - **Tracks:** `admin_panel_20260527` (in progress)
