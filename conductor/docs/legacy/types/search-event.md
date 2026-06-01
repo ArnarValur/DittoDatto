@@ -9,11 +9,6 @@ noona_equivalent: N/A (DittoDatto original — demand intelligence)
 tags: [core, public-marketplace, intelligence, dittobar]
 ---
 
-# Search Event
-
-A logged record of a DittoBar query. Every search — successful or not — is captured for demand intelligence. Zero-result queries are the crown jewel: they represent unmet market demand and drive B2B sales targeting.
-
-> **DittoBar is not a search bar — it's a demand intelligence harvester.**
 
 ## Fields (SearchEvent)
 
@@ -45,7 +40,6 @@ Same as SearchEvent minus `id`, `userId` (server-enriched from auth), and `creat
 
 - A **Search Event** may reference a **User** (if logged in)
 - A **Search Event** may reference a selected **Store** or **Category** (via `selectedResult`)
-- **Zero-Result Signals** feed the B2B sales analytics dashboard
 - The **DittoBar** component creates Search Events on every query
 
 ## Design Notes

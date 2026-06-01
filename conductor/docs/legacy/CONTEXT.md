@@ -67,16 +67,11 @@ The agent-to-agent interoperability protocol. Replaces traditional discovery (SE
 _Avoid_: API, webhook
 
 **DittoBar**:
-The unified search interface in the **Public Marketplace**. An A2UI (Agent-to-User Interface) visor — Ditto's eyes into the knowledge graph. Dual purpose: (1) user-facing search across establishments, services, and categories via graph traversal, (2) demand intelligence harvester that logs every query — especially zero-result queries — as geo-enriched **Search Events** for B2B sales targeting. Query model: user's geo location + category intent → graph traversal → results. Search is server-side via **MercuryEngine** discovery routes backed by **SurrealDB** `titan/discovery` database (see [ADR-0007](adr/0007-dittobar-search-on-theoracle.md), [ADR-0008](adr/0008-surrealdb-platform-graph-database.md)). In v1.5, **Ditto** is the NLU/typo-tolerance layer — the agent interprets user intent and constructs structured graph queries.
 _Avoid_: search bar, search component
 
 **Search Event**:
 A logged record of a DittoBar query. Contains: query string, result count, session ID, selected result (if any), timestamp, **user geo location** (for demand mapping), **active filters** (category, radius, city), **nearest result distance** (for gap analysis). Stored in SurrealDB `titan/discovery` as the `search_event` table. Consumed by the SearchAnalytics dashboard.
 _Avoid_: search log, analytics event
-
-**Zero-Result Signal**:
-A **Search Event** where `resultCount === 0`. Represents unmet market demand — a service people are looking for that no onboarded business provides. Used for outbound B2B sales targeting.
-_Avoid_: failed search, empty search
 
 **Tracer Bullet**:
 A single, thin end-to-end path through every layer of the system that proves the architecture works. Term from _The Pragmatic Programmer_.

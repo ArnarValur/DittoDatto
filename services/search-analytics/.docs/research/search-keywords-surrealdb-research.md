@@ -142,10 +142,12 @@ enceladus (namespace)
 > The unified search interface in the Public Marketplace. An **A2UI (Agent-to-User Interface) visor** — Ditto's eyes into the knowledge graph.
 
 **Dual purpose:**
+
 1. **User-facing search** across establishments, services, and categories via graph traversal
 2. **Demand intelligence harvester** that logs every query as a geo-enriched SearchEvent
 
 **v1.0 behavior:**
+
 - Text input with 300ms debounce
 - Client-side autocomplete from cached categories
 - Cleaned query → MercuryEngine `/search` → SurrealDB graph traversal
@@ -197,9 +199,8 @@ Keywords exist at multiple levels:
 | `nearest_result_distance_m` | optional number | Distance to nearest result |
 | `created_at` | datetime | Auto-timestamped |
 
-**Zero-Result Signal** = SearchEvent where `result_count === 0` → unmet market demand for B2B sales targeting.
-
 **Proposed materialized view:**
+
 ```sql
 DEFINE TABLE search_demand TYPE NORMAL SCHEMAFULL AS
     SELECT count() AS query_count, query AS search_term,
@@ -251,6 +252,7 @@ keywords = kw_model.extract_keywords(
 ```
 
 **Why KeyBERT for DittoDatto:**
+
 - **Semantic understanding** — captures meaning, not just word frequency
 - **Multi-language ready** — Norwegian + English with multilingual models
 - **Diversity via MMR** — avoids redundant keywords ("hair cut", "hair styling", "hair coloring" → diversified set)
@@ -275,6 +277,7 @@ keywords = kw_model.extract_keywords(
 ### v3 Release Context
 
 SurrealDB v3.0 released **Feb 17, 2026** with a complete architectural overhaul:
+
 - In-memory MVCC storage engine (replaces RocksDB for primary)
 - Computed fields, custom API endpoints, Record References
 - File support, Surrealism extensions
@@ -325,6 +328,7 @@ ORDER BY score ASC;
 ```
 
 **v3.1 DiskANN** — for when vectors exceed RAM:
+
 ```sql
 DEFINE INDEX idx_embedding ON service
   FIELDS embedding DISKANN DIMENSION 768 DIST COSINE TYPE F32;
@@ -637,6 +641,7 @@ graph LR
 ### Recommended Implementation Phases
 
 #### Phase 1: Schema Foundation
+
 - Update [discovery.surql](file:///home/solmundur/Projects/DittoDatto/DittoDatto-old/schemas/discovery.surql) to v3 syntax
 - Add `keyword` table, `search_session` table
 - Add graph relations (`clicked`, `maps_to_category`, `extracted_from`, `related_to`)
@@ -644,18 +649,21 @@ graph LR
 - Add autocomplete analyzer with `edgengram(2, 10)`
 
 #### Phase 2: Search Pipeline
+
 - Build MercuryEngine `/search` route with hybrid BM25 + vector scoring
 - Implement query normalization pipeline (normalize, classify intent, extract keywords)
 - Implement `search::rrf()` hybrid ranking
 - Implement search event logging with enriched fields
 
 #### Phase 3: Keyword Intelligence
+
 - Deploy KeyBERT for service keyword generation (batch + on-create)
 - Build keyword → category mapping via AI classification
 - Implement semantic deduplication (Tier 3: BERT + DBSCAN clustering)
 - Populate `service.embedding` and enable HNSW index
 
 #### Phase 4: Analytics Migration
+
 - Migrate SearchAnalytics from Firestore to SurrealDB Live Queries
 - Build materialized views (`search_demand`, `trending_queries`)
 - Implement time-window selectors, trend calculations, charts

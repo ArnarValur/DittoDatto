@@ -23,33 +23,44 @@ class UsersNotifier extends AsyncNotifier<PaginatedResponse<User>> {
     return repo.getUsers(page: _page, pageSize: _pageSize);
   }
 
+  Future<void> _reload() async {
+    final repo = ref.read(adminRepositoryProvider);
+    try {
+      final response = await repo.getUsers(page: _page, pageSize: _pageSize);
+      state = AsyncData(response);
+    } catch (err, stack) {
+      state = AsyncError(err, stack);
+      rethrow;
+    }
+  }
+
   Future<void> goToPage(int page) async {
     _page = page;
-    ref.invalidateSelf();
+    await _reload();
   }
 
   Future<void> updateRole(String userId, ActorRole newRole) async {
     final repo = ref.read(adminRepositoryProvider);
     await repo.updateUserRole(userId, newRole);
-    ref.invalidateSelf();
+    await _reload();
   }
 
   Future<void> createUser(User user) async {
     final repo = ref.read(adminRepositoryProvider);
     await repo.createUser(user);
-    ref.invalidateSelf();
+    await _reload();
   }
 
   Future<void> updateUser(User user) async {
     final repo = ref.read(adminRepositoryProvider);
     await repo.updateUser(user);
-    ref.invalidateSelf();
+    await _reload();
   }
 
   Future<void> deleteUser(String id) async {
     final repo = ref.read(adminRepositoryProvider);
     await repo.deleteUser(id);
-    ref.invalidateSelf();
+    await _reload();
   }
 }
 
@@ -211,8 +222,19 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                     DataCell(
                       PopupMenuButton<ActorRole>(
                         initialValue: user.role,
-                        onSelected: (role) {
-                          ref.read(usersProvider.notifier).updateRole(user.id, role);
+                        onSelected: (role) async {
+                          try {
+                            await ref.read(usersProvider.notifier).updateRole(user.id, role);
+                          } catch (e) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Failed to update role: $e'),
+                                  backgroundColor: DittoColors.error,
+                                ),
+                              );
+                            }
+                          }
                         },
                         itemBuilder: (context) => [ActorRole.customer, ActorRole.business]
                             .map((role) => PopupMenuItem(
@@ -245,7 +267,18 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                               confirmColor: DittoColors.error,
                             );
                             if (confirmed && context.mounted) {
-                              ref.read(usersProvider.notifier).deleteUser(user.id);
+                              try {
+                                await ref.read(usersProvider.notifier).deleteUser(user.id);
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Failed to delete user: $e'),
+                                      backgroundColor: DittoColors.error,
+                                    ),
+                                  );
+                                }
+                              }
                             }
                           }
                         },
@@ -295,8 +328,9 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
     final nameCtrl = TextEditingController();
     final emailCtrl = TextEditingController();
     final phoneCtrl = TextEditingController();
-    final companyCtrl = TextEditingController();
     ActorRole selectedRole = ActorRole.customer;
+    bool isSubmitting = false;
+    String? errorMessage;
 
     showDialog(
       context: context,
@@ -309,26 +343,47 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  if (errorMessage != null) ...[
+                    Container(
+                      padding: const EdgeInsets.all(DittoSpacing.sm),
+                      decoration: BoxDecoration(
+                        color: DittoColors.error.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: DittoColors.error.withValues(alpha: 0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.error_outline_rounded, color: DittoColors.error, size: 18),
+                          const SizedBox(width: DittoSpacing.xs),
+                          Expanded(
+                            child: Text(
+                              errorMessage!,
+                              style: const TextStyle(color: DittoColors.error, fontSize: 13),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: DittoSpacing.sm),
+                  ],
                   TextField(
                     controller: nameCtrl,
                     decoration: const InputDecoration(labelText: 'Name'),
+                    enabled: !isSubmitting,
                   ),
                   const SizedBox(height: DittoSpacing.sm),
                   TextField(
                     controller: emailCtrl,
                     decoration: const InputDecoration(labelText: 'Email'),
                     keyboardType: TextInputType.emailAddress,
+                    enabled: !isSubmitting,
                   ),
                   const SizedBox(height: DittoSpacing.sm),
                   TextField(
                     controller: phoneCtrl,
                     decoration: const InputDecoration(labelText: 'Phone (optional)'),
                     keyboardType: TextInputType.phone,
-                  ),
-                  const SizedBox(height: DittoSpacing.sm),
-                  TextField(
-                    controller: companyCtrl,
-                    decoration: const InputDecoration(labelText: 'Company Slug (optional)'),
+                    enabled: !isSubmitting,
                   ),
                   const SizedBox(height: DittoSpacing.base),
                   DropdownButtonFormField<ActorRole>(
@@ -340,13 +395,15 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                               child: RoleBadge(role: role),
                             ))
                         .toList(),
-                    onChanged: (val) {
-                      if (val != null) {
-                        setState(() {
-                          selectedRole = val;
-                        });
-                      }
-                    },
+                    onChanged: isSubmitting
+                        ? null
+                        : (val) {
+                            if (val != null) {
+                              setState(() {
+                                selectedRole = val;
+                              });
+                            }
+                          },
                   ),
                 ],
               ),
@@ -354,27 +411,62 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: isSubmitting ? null : () => Navigator.pop(context),
               child: const Text('Cancel'),
             ),
             FilledButton(
-              onPressed: () {
-                final now = DateTime.now();
-                final newUser = User(
-                  id: 'user${now.millisecondsSinceEpoch}',
-                  vippsSub: 'vipps|${now.millisecondsSinceEpoch}',
-                  name: nameCtrl.text,
-                  email: emailCtrl.text,
-                  phone: phoneCtrl.text.isNotEmpty ? phoneCtrl.text : null,
-                  role: selectedRole,
-                  companySlug: companyCtrl.text.isNotEmpty ? companyCtrl.text : null,
-                  createdAt: now,
-                  updatedAt: now,
-                );
-                ref.read(usersProvider.notifier).createUser(newUser);
-                Navigator.pop(context);
-              },
-              child: const Text('Create'),
+              onPressed: isSubmitting
+                  ? null
+                  : () async {
+                      if (nameCtrl.text.trim().isEmpty) {
+                        setState(() {
+                          errorMessage = 'Name is required';
+                        });
+                        return;
+                      }
+                      if (emailCtrl.text.trim().isEmpty) {
+                        setState(() {
+                          errorMessage = 'Email is required';
+                        });
+                        return;
+                      }
+                      setState(() {
+                        isSubmitting = true;
+                        errorMessage = null;
+                      });
+                      try {
+                        final now = DateTime.now();
+                        final newUser = User(
+                          id: 'user${now.millisecondsSinceEpoch}',
+                          vippsSub: 'vipps|${now.millisecondsSinceEpoch}',
+                          name: nameCtrl.text.trim(),
+                          email: emailCtrl.text.trim(),
+                          phone: phoneCtrl.text.trim().isNotEmpty ? phoneCtrl.text.trim() : null,
+                          role: selectedRole,
+                          companySlug: null,
+                          createdAt: now,
+                          updatedAt: now,
+                        );
+                        await ref.read(usersProvider.notifier).createUser(newUser);
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          setState(() {
+                            isSubmitting = false;
+                            errorMessage = e.toString().replaceAll('Exception: ', '');
+                          });
+                        }
+                      }
+                    },
+              child: isSubmitting
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    )
+                  : const Text('Create'),
             ),
           ],
         ),
@@ -385,56 +477,108 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
   void _showEditUserDialog(BuildContext context, User user) {
     final nameCtrl = TextEditingController(text: user.name);
     final phoneCtrl = TextEditingController(text: user.phone ?? '');
-    final companyCtrl = TextEditingController(text: user.companySlug ?? '');
+    bool isSubmitting = false;
+    String? errorMessage;
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Edit User'),
-        content: SizedBox(
-          width: 400,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: nameCtrl,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                const SizedBox(height: DittoSpacing.sm),
-                TextField(
-                  controller: phoneCtrl,
-                  decoration: const InputDecoration(labelText: 'Phone (optional)'),
-                  keyboardType: TextInputType.phone,
-                ),
-                const SizedBox(height: DittoSpacing.sm),
-                TextField(
-                  controller: companyCtrl,
-                  decoration: const InputDecoration(labelText: 'Company Slug (optional)'),
-                ),
-              ],
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: const Text('Edit User'),
+          content: SizedBox(
+            width: 400,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (errorMessage != null) ...[
+                    Container(
+                      padding: const EdgeInsets.all(DittoSpacing.sm),
+                      decoration: BoxDecoration(
+                        color: DittoColors.error.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: DittoColors.error.withValues(alpha: 0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.error_outline_rounded, color: DittoColors.error, size: 18),
+                          const SizedBox(width: DittoSpacing.xs),
+                          Expanded(
+                            child: Text(
+                              errorMessage!,
+                              style: const TextStyle(color: DittoColors.error, fontSize: 13),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: DittoSpacing.sm),
+                  ],
+                  TextField(
+                    controller: nameCtrl,
+                    decoration: const InputDecoration(labelText: 'Name'),
+                    enabled: !isSubmitting,
+                  ),
+                  const SizedBox(height: DittoSpacing.sm),
+                  TextField(
+                    controller: phoneCtrl,
+                    decoration: const InputDecoration(labelText: 'Phone (optional)'),
+                    keyboardType: TextInputType.phone,
+                    enabled: !isSubmitting,
+                  ),
+                ],
+              ),
             ),
           ),
+          actions: [
+            TextButton(
+              onPressed: isSubmitting ? null : () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: isSubmitting
+                  ? null
+                  : () async {
+                      if (nameCtrl.text.trim().isEmpty) {
+                        setState(() {
+                          errorMessage = 'Name is required';
+                        });
+                        return;
+                      }
+                      setState(() {
+                        isSubmitting = true;
+                        errorMessage = null;
+                      });
+                      try {
+                        final updatedUser = user.copyWith(
+                          name: nameCtrl.text.trim(),
+                          phone: phoneCtrl.text.trim().isNotEmpty ? phoneCtrl.text.trim() : null,
+                          companySlug: user.companySlug,
+                          updatedAt: DateTime.now(),
+                        );
+                        await ref.read(usersProvider.notifier).updateUser(updatedUser);
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          setState(() {
+                            isSubmitting = false;
+                            errorMessage = e.toString().replaceAll('Exception: ', '');
+                          });
+                        }
+                      }
+                    },
+              child: isSubmitting
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    )
+                  : const Text('Save'),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () {
-              final updatedUser = user.copyWith(
-                name: nameCtrl.text,
-                phone: phoneCtrl.text.isNotEmpty ? phoneCtrl.text : null,
-                companySlug: companyCtrl.text.isNotEmpty ? companyCtrl.text : null,
-                updatedAt: DateTime.now(),
-              );
-              ref.read(usersProvider.notifier).updateUser(updatedUser);
-              Navigator.pop(context);
-            },
-            child: const Text('Save'),
-          ),
-        ],
       ),
     );
   }

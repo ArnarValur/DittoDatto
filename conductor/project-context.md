@@ -23,7 +23,6 @@
 - **Key Differentiators:**
   - **Agentic by design, value without AI** — platform works fully without agents (Layer 1); Datto-tier upgrade adds AI for businesses that want it.
   - **Norway-native** — BankID/Vipps mandatory, bokmål + English from day one, fylke-by-fylke growth model, dogfooded by Merkurial Studio.
-  - **DittoBar + Shadow Demand** — unified search interface that doubles as a B2B sales lead engine (every zero-result query is a `Zero-Result Signal` for outbound).
   - **Multi-vertical booking modes** — `standard` (appointments), `tableReservation` (restaurants), `ticketSystem` (venues/events) on one engine — booking mode lives on the Service, not the Establishment.
   - **AaaS over SaaS** — nothing locked, everything has a limit; feature access scales with usage. `enabledFeatures` is transitional scaffolding.
   - **Universal Commerce Protocol** ambition — long-horizon agent-to-agent commerce standard; MercuryEngine API designed to be callable by any AI agent (Gemini Extensions, GPT Actions, Apple App Intents), not just Ditto.
@@ -206,8 +205,6 @@
 - **`dittodatto.no` landing page (apps/web/public-marketplace/):**
   - Nuxt 4 + Vue 3 + Nuxt UI + Tailwind CSS. Public marketing layer, hosted on Cloud Run.
 - **Saturn (DittoDatto Hub — staging):**
-  - Setup runbook: `saturn-setup-runbook.md` at workspace root.
   - Docker network: `dittodatto-net` (umbrella for all DD containers).
   - Tailscale: machine `saturn` + Service `dittodatto` (routes to Saturn) — accessible at `saturn.tailb251cd.ts.net` (machine) and `dittodatto.tailb251cd.ts.net` (Service).
   - Staging only. Production runs on Cloud Run. See ADR-0003.
-- **Legacy reference:** Old Chapter 1 codebase + 11 ADRs + 32 type specs + engine docs live in `DittoDatto-old/`. Foundation grill (2026-05-26) triaged what's promoted into the new conductor; remainder stays as historical reference.

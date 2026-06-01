@@ -84,10 +84,9 @@ The app is designed as an **agentic-ready platform**: the DittoBar is an A2UI vi
 ### Platform Operator (Admin Panel / Analytics)
 
 1. As a platform operator, I want every DittoBar query logged as a SearchEvent with geo data, so that I can analyze demand patterns.
-2. As a platform operator, I want zero-result queries flagged as Zero-Result Signals, so that I can identify unmet market demand for B2B sales.
-3. As a platform operator, I want a SearchEvent to include `userLocation`, `filters`, and `nearestResultDistance_m`, so that demand mapping is geographically precise.
-4. As a platform operator, I want MercuryEngine's discovery data to stay consistent via dual-write to the `titan/discovery` database, so that the DittoBar graph stays current.
-5. As a platform operator, I want to monitor discovery route performance, so that I can ensure DittoBar response times stay acceptable.
+2. As a platform operator, I want a SearchEvent to include `userLocation`, `filters`, and `nearestResultDistance_m`, so that demand mapping is geographically precise.
+3. As a platform operator, I want MercuryEngine's discovery data to stay consistent via dual-write to the `titan/discovery` database, so that the DittoBar graph stays current.
+4. As a platform operator, I want to monitor discovery route performance, so that I can ensure DittoBar response times stay acceptable.
 
 ### System (Technical / Infrastructure)
 

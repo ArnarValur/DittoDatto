@@ -87,7 +87,8 @@ class SurrealAdminRepository implements AdminRepository {
     final data = user.toJson()
       ..remove('id')
       ..remove('created_at')
-      ..remove('updated_at');
+      ..remove('updated_at')
+      ..removeWhere((key, value) => value == null);
 
     final result = await connection.users.create('user', data);
     return User.fromJson(_normalizeRecord(result));
@@ -99,7 +100,8 @@ class SurrealAdminRepository implements AdminRepository {
     final data = user.toJson()
       ..remove('id')
       ..remove('created_at')
-      ..remove('updated_at');
+      ..remove('updated_at')
+      ..removeWhere((key, value) => value == null);
 
     final result = await connection.users.update(
       'user:${user.id}',
@@ -287,6 +289,10 @@ class SurrealAdminRepository implements AdminRepository {
   /// SurrealDB returns `id` as a record link (e.g. `user:abc123`).
   /// Our Dart models expect a plain string ID.
   Map<String, dynamic> _normalizeRecord(dynamic record) {
+    if (record is List) {
+      if (record.isEmpty) return <String, dynamic>{};
+      record = record.first;
+    }
     if (record is! Map<String, dynamic>) {
       return <String, dynamic>{};
     }

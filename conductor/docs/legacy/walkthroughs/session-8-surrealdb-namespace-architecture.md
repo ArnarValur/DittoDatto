@@ -53,6 +53,7 @@ SELECT company.name FROM establishment:sawasdee;
 ### GQ3: Graph Edges — Partially Explored
 
 Graph edges explained from first principles:
+
 - **Record link** = address written on paper inside a building (ownership, foreign key)
 - **Graph edge** = a road between buildings (traversable, carries metadata, has its own table)
 
@@ -79,7 +80,6 @@ Two agent scopes identified (previously conflated):
 | Agent | Scope | Database Access |
 |---|---|---|
 | **Datto** (per-company) | Single company's data, customers, bookings, services. Online marketing agent for that business. | Its own company database only |
-| **MasterDatto** (platform-level, Merkurial Studio) | Aggregate demand signals, market intelligence, B2B sales leads across all companies. | Cross-company visibility via discovery database |
 | **Ditto** (consumer agent) | User's personal context + public discovery across all companies. | `discovery` + user's own data |
 
 **Key correction from Captain:** Datto cannot do cross-company demand intelligence. That's MasterDatto's role. Datto only sees its own company's data.
@@ -108,6 +108,7 @@ enceladus (namespace)          ← User world (consumers)
 ```
 
 **Rationale for two namespaces:**
+
 - BankID/NIN data requires GDPR-level protection → hard isolation from company data
 - No cross-namespace transaction needed — MercuryEngine mediates sequentially
 - Booking source of truth lives in company database; user booking reference is an index that can be rebuilt
@@ -129,6 +130,7 @@ Discovery routes query `discovery` database. Booking routes target the specific 
 ### Data Sync: Company → Discovery
 
 When an establishment updates its public-facing data, the public profile is synced to the `discovery` database. Two approaches identified:
+
 1. `DEFINE EVENT` triggers in company databases that push public data to discovery
 2. MercuryEngine dual-writes on establishment updates
 
@@ -139,6 +141,7 @@ When an establishment updates its public-facing data, the public profile is sync
 ## Spectron Waitlist
 
 Captain submitted the Spectron waitlist application on 2026-05-03. Spectron is SurrealDB's native agent memory system with:
+
 - Knowledge graph with entity disambiguation
 - Bi-temporal, append-only fact storage
 - Hybrid retrieval (graph + vector + structured filters)
