@@ -11,6 +11,7 @@ These test suites are executed via `flutter test` at the workspace level.
 | Suite | Component | Scope / What is being tested | Status |
 |:---|:---|:---|:---|
 | `login_screen_test.dart` | `LoginScreen` | Visual layout elements, input field validation errors, and loading state indicator during authentication. | 🟢 Passed |
+| `companies_form_test.dart` | `CompanyDialog` | Form input validations (required fields, email format, slug safety regex checks), and successful mock submission. | 🟢 Passed |
 | `test_auth.dart` | Staging / CLI | Loopback authentication validation directly against `ws://dittodatto:8002/rpc` (asserts correct login works, incorrect fails). | 🟢 Passed |
 | `test_users_crud.dart` | Staging / CLI | Integration CRUD validation directly against `ws://dittodatto:8002/rpc` (asserts user creation, listing, role promotion using type::record, and cleanup work). | 🟢 Passed |
 | `test_companies_crud.dart` | Staging / CLI | Integration CRUD validation directly against `ws://dittodatto:8002/rpc` (asserts company creation, listing, tier update, and cleanup work). | 🟢 Passed |

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:mercury_client/mercury_client.dart';
 
 import 'surreal_connection.dart';
@@ -84,28 +85,30 @@ class SurrealAdminRepository implements AdminRepository {
   @override
   Future<User> createUser(User user) async {
     await connection.users.use('users', 'profiles');
-    final data = user.toJson()
+    final rawData = user.toJson()
       ..remove('id')
       ..remove('created_at')
-      ..remove('updated_at')
-      ..removeWhere((key, value) => value == null);
+      ..remove('updated_at');
 
-    final result = await connection.users.create('user', data);
+    final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
+    final cleanedData = _removeNullsFromMap(data);
+    final result = await connection.users.create('user', cleanedData);
     return User.fromJson(_normalizeRecord(result));
   }
 
   @override
   Future<User> updateUser(User user) async {
     await connection.users.use('users', 'profiles');
-    final data = user.toJson()
+    final rawData = user.toJson()
       ..remove('id')
       ..remove('created_at')
-      ..remove('updated_at')
-      ..removeWhere((key, value) => value == null);
+      ..remove('updated_at');
 
+    final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
+    final cleanedData = _removeNullsFromMap(data);
     final result = await connection.users.update(
       'user:${user.id}',
-      data,
+      cleanedData,
     );
     return User.fromJson(_normalizeRecord(result));
   }
@@ -149,27 +152,74 @@ class SurrealAdminRepository implements AdminRepository {
   @override
   Future<Company> createCompany(Company company) async {
     await connection.companies.use('companies', 'registry');
-    final data = company.toJson()
+    final rawData = company.toJson()
       ..remove('id')
-      ..['created_at'] = DateTime.now().toIso8601String()
-      ..['updated_at'] = DateTime.now().toIso8601String();
+      ..['created_at'] = DateTime.now().toUtc().toIso8601String()
+      ..['updated_at'] = DateTime.now().toUtc().toIso8601String();
 
-    final result = await connection.companies.create('company', data);
-    return Company.fromJson(_normalizeRecord(result));
+    final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
+    final cleanedData = _removeNullsFromMap(data);
+    final result = await connection.companies.create('company', cleanedData);
+    final createdCompany = Company.fromJson(_normalizeRecord(result));
+
+    // Atomically connect the User profile with the new company slug!
+    await connection.users.use('users', 'profiles');
+    await connection.users.query(
+      r'UPDATE type::record("user", $owner_id) SET role = "business", company_slug = $slug, company_membership_ids = array::add(company_membership_ids, $company_id), company_memberships = array::add(company_memberships, $membership)',
+      {
+        'owner_id': company.ownerId,
+        'slug': company.slug,
+        'company_id': createdCompany.id,
+        'membership': {
+          'company_id': createdCompany.id,
+          'role': 'owner',
+          'assigned_at': DateTime.now().toUtc().toIso8601String(),
+        }
+      },
+    );
+
+    return createdCompany;
   }
 
   @override
   Future<Company> updateCompany(Company company) async {
     await connection.companies.use('companies', 'registry');
-    final data = company.toJson()
+    final rawData = company.toJson()
       ..remove('id')
-      ..['updated_at'] = DateTime.now().toIso8601String();
+      ..['updated_at'] = DateTime.now().toUtc().toIso8601String();
 
+    final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
+    final cleanedData = _removeNullsFromMap(data);
     final result = await connection.companies.update(
       'company:${company.id}',
-      data,
+      cleanedData,
     );
     return Company.fromJson(_normalizeRecord(result));
+  }
+
+  @override
+  Future<void> deleteCompany(String id) async {
+    await connection.companies.use('companies', 'registry');
+    final queryResult = await connection.companies.query(
+      r'SELECT * FROM company WHERE id = $id',
+      {'id': id},
+    );
+    final companies = _parseList<Company>(queryResult, Company.fromJson);
+    if (companies.isNotEmpty) {
+      final comp = companies.first;
+      // Disassociate the owner user
+      await connection.users.use('users', 'profiles');
+      await connection.users.query(
+        r'UPDATE type::record("user", $ownerId) SET role = "customer", company_slug = none, company_membership_ids = array::difference(company_membership_ids, [$company_id]), company_memberships = []',
+        {
+          'ownerId': comp.ownerId,
+          'company_id': comp.id,
+        },
+      );
+    }
+
+    await connection.companies.use('companies', 'registry');
+    await connection.companies.delete('company:$id');
   }
 
   // ── Categories ──
@@ -205,25 +255,29 @@ class SurrealAdminRepository implements AdminRepository {
   @override
   Future<Category> createCategory(Category category) async {
     await connection.companies.use('companies', 'discovery');
-    final data = category.toJson()
+    final rawData = category.toJson()
       ..remove('id')
-      ..['created_at'] = DateTime.now().toIso8601String()
-      ..['updated_at'] = DateTime.now().toIso8601String();
+      ..['created_at'] = DateTime.now().toUtc().toIso8601String()
+      ..['updated_at'] = DateTime.now().toUtc().toIso8601String();
 
-    final result = await connection.companies.create('category', data);
+    final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
+    final cleanedData = _removeNullsFromMap(data);
+    final result = await connection.companies.create('category', cleanedData);
     return Category.fromJson(_normalizeRecord(result));
   }
 
   @override
   Future<Category> updateCategory(Category category) async {
     await connection.companies.use('companies', 'discovery');
-    final data = category.toJson()
+    final rawData = category.toJson()
       ..remove('id')
-      ..['updated_at'] = DateTime.now().toIso8601String();
+      ..['updated_at'] = DateTime.now().toUtc().toIso8601String();
 
+    final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
+    final cleanedData = _removeNullsFromMap(data);
     final result = await connection.companies.update(
       'category:${category.id}',
-      data,
+      cleanedData,
     );
     return Category.fromJson(_normalizeRecord(result));
   }
@@ -307,5 +361,47 @@ class SurrealAdminRepository implements AdminRepository {
     }
 
     return map;
+  }
+
+  /// Recursively removes keys with null values and filters out empty maps.
+  Map<String, dynamic> _removeNullsFromMap(Map<String, dynamic> map) {
+    final copy = <String, dynamic>{};
+    map.forEach((key, value) {
+      if (value != null) {
+        if (value is Map<String, dynamic>) {
+          final cleaned = _removeNullsFromMap(value);
+          if (cleaned.isNotEmpty) {
+            copy[key] = cleaned;
+          }
+        } else if (value is Map) {
+          final cleaned = _removeNullsFromMap(Map<String, dynamic>.from(value));
+          if (cleaned.isNotEmpty) {
+            copy[key] = cleaned;
+          }
+        } else if (value is List) {
+          final cleaned = _removeNullsFromList(value);
+          if (cleaned.isNotEmpty) {
+            copy[key] = cleaned;
+          }
+        } else {
+          copy[key] = value;
+        }
+      }
+    });
+    return copy;
+  }
+
+  /// Recursively removes keys with null values from elements in a list.
+  List<dynamic> _removeNullsFromList(List<dynamic> list) {
+    return list.map((item) {
+      if (item is Map<String, dynamic>) {
+        return _removeNullsFromMap(item);
+      } else if (item is Map) {
+        return _removeNullsFromMap(Map<String, dynamic>.from(item));
+      } else if (item is List) {
+        return _removeNullsFromList(item);
+      }
+      return item;
+    }).toList();
   }
 }
