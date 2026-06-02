@@ -165,7 +165,7 @@ class SurrealAdminRepository implements AdminRepository {
     // Atomically connect the User profile with the new company slug!
     await connection.users.use('users', 'profiles');
     await connection.users.query(
-      r'UPDATE type::record("user", $owner_id) SET role = "business", company_slug = $slug, company_membership_ids = array::add(company_membership_ids, $company_id), company_memberships = array::add(company_memberships, $membership)',
+      r'UPDATE type::record("user", $owner_id) SET role = "business", company_slug = $slug, company_membership_ids = array::add(company_membership_ids ?? [], $company_id), company_memberships = array::add(company_memberships ?? [], $membership)',
       {
         'owner_id': company.ownerId,
         'slug': company.slug,
@@ -210,7 +210,7 @@ class SurrealAdminRepository implements AdminRepository {
       // Disassociate the owner user
       await connection.users.use('users', 'profiles');
       await connection.users.query(
-        r'UPDATE type::record("user", $ownerId) SET role = "customer", company_slug = none, company_membership_ids = array::difference(company_membership_ids, [$company_id]), company_memberships = []',
+        r'UPDATE type::record("user", $ownerId) SET role = "customer", company_slug = none, company_membership_ids = array::difference(company_membership_ids ?? [], [$company_id]), company_memberships = []',
         {
           'ownerId': comp.ownerId,
           'company_id': comp.id,

@@ -194,6 +194,7 @@ class _CompaniesTable extends ConsumerWidget {
 
     String? selectedOwnerId = company?.ownerId;
     String? selectedOwnerEmail = company?.ownerEmail;
+    List<User> loadedUsers = [];
 
     String? errorMessage;
     bool isSubmitting = false;
@@ -279,6 +280,7 @@ class _CompaniesTable extends ConsumerWidget {
                         }
 
                         final users = snapshot.data!.items;
+                        loadedUsers = users;
                         final hasSelected = users.any((u) => u.id == selectedOwnerId);
 
                         return DropdownButtonFormField<String>(
@@ -376,6 +378,28 @@ class _CompaniesTable extends ConsumerWidget {
               ),
             ),
             actions: [
+              if (!isEdit)
+                TextButton(
+                  onPressed: isSubmitting
+                      ? null
+                      : () {
+                          setState(() {
+                            nameCtrl.text = 'Merkurial-Studio';
+                            slugCtrl.text = 'merkurial-studio';
+                            emailCtrl.text = 'arnarvalur@merkurial-studio.com';
+                            phoneCtrl.text = '92913093';
+                            addressCtrl.text = 'Skolegata 9';
+                            cityCtrl.text = 'Drammen';
+                            postalCtrl.text = '3046';
+                            slugManuallyEdited = true;
+                            if (loadedUsers.isNotEmpty) {
+                              selectedOwnerId = loadedUsers.first.id;
+                              selectedOwnerEmail = loadedUsers.first.email;
+                            }
+                          });
+                        },
+                  child: const Text('Fill Mock Data'),
+                ),
               TextButton(
                 onPressed: isSubmitting ? null : () => Navigator.pop(context),
                 child: const Text('Cancel'),
