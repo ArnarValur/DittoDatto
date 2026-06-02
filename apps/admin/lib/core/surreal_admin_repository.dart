@@ -106,11 +106,20 @@ class SurrealAdminRepository implements AdminRepository {
 
     final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
     final cleanedData = _removeNullsFromMap(data);
-    final result = await connection.users.update(
-      'user:${user.id}',
-      cleanedData,
+    
+    final result = await connection.users.query(
+      r'UPDATE type::record("user", $id) MERGE $data',
+      {
+        'id': user.id,
+        'data': cleanedData,
+      },
     );
-    return User.fromJson(_normalizeRecord(result));
+    
+    final list = _parseList<User>(result, User.fromJson);
+    if (list.isEmpty) {
+      throw Exception('Failed to update user: record not found');
+    }
+    return list.first;
   }
 
   @override
@@ -190,11 +199,20 @@ class SurrealAdminRepository implements AdminRepository {
 
     final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
     final cleanedData = _removeNullsFromMap(data);
-    final result = await connection.companies.update(
-      'company:${company.id}',
-      cleanedData,
+    
+    final result = await connection.companies.query(
+      r'UPDATE type::record("company", $id) MERGE $data',
+      {
+        'id': company.id,
+        'data': cleanedData,
+      },
     );
-    return Company.fromJson(_normalizeRecord(result));
+    
+    final list = _parseList<Company>(result, Company.fromJson);
+    if (list.isEmpty) {
+      throw Exception('Failed to update company: record not found');
+    }
+    return list.first;
   }
 
   @override
@@ -275,11 +293,20 @@ class SurrealAdminRepository implements AdminRepository {
 
     final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
     final cleanedData = _removeNullsFromMap(data);
-    final result = await connection.companies.update(
-      'category:${category.id}',
-      cleanedData,
+    
+    final result = await connection.companies.query(
+      r'UPDATE type::record("category", $id) MERGE $data',
+      {
+        'id': category.id,
+        'data': cleanedData,
+      },
     );
-    return Category.fromJson(_normalizeRecord(result));
+    
+    final list = _parseList<Category>(result, Category.fromJson);
+    if (list.isEmpty) {
+      throw Exception('Failed to update category: record not found');
+    }
+    return list.first;
   }
 
   @override
