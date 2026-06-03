@@ -25,6 +25,7 @@ abstract class AdminRepository {
   Future<PaginatedResponse<Company>> getCompanies({int page = 1, int pageSize = 50});
   Future<Company> createCompany(Company company);
   Future<Company> updateCompany(Company company);
+  Future<void> deleteCompany(String id);
 
   // Categories
   Future<PaginatedResponse<Category>> getCategories({int page = 1, int pageSize = 50});

@@ -122,25 +122,27 @@ class _DesktopLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: sidebarWidth,
-          child: _SidebarContent(
-            destinations: destinations,
-            selectedIndex: selectedIndex,
-            onDestinationSelected: onDestinationSelected,
-            header: header,
-            footer: footer,
+    return Scaffold(
+      body: Row(
+        children: [
+          SizedBox(
+            width: sidebarWidth,
+            child: _SidebarContent(
+              destinations: destinations,
+              selectedIndex: selectedIndex,
+              onDestinationSelected: onDestinationSelected,
+              header: header,
+              footer: footer,
+            ),
           ),
-        ),
-        VerticalDivider(
-          width: 1,
-          thickness: 1,
-          color: Colors.white.withValues(alpha: 0.06),
-        ),
-        Expanded(child: body),
-      ],
+          VerticalDivider(
+            width: 1,
+            thickness: 1,
+            color: Colors.white.withValues(alpha: 0.06),
+          ),
+          Expanded(child: body),
+        ],
+      ),
     );
   }
 }

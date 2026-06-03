@@ -124,12 +124,6 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
               onPressed: () => _showAddUserDialog(context),
               icon: const Icon(Icons.add, size: 18),
               label: const Text('Add User'),
-              style: FilledButton.styleFrom(
-                backgroundColor: DittoColors.moodyBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
             ),
           ],
         ),
@@ -158,7 +152,7 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                 ),
                 const DataColumn(label: Text('ID')),
                 const DataColumn(label: Text('Name')),
-                const DataColumn(label: Text('Email')),
+                const DataColumn(label: Text('Phone')),
                 const DataColumn(label: Text('Company')),
                 const DataColumn(label: Text('Role')),
                 const DataColumn(label: SizedBox(width: 32)),
@@ -217,7 +211,7 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                         ),
                       ],
                     )),
-                    DataCell(Text(user.email)),
+                    DataCell(Text(user.phone ?? '—')),
                     DataCell(Text(user.companySlug ?? '—')),
                     DataCell(
                       PopupMenuButton<ActorRole>(
@@ -476,7 +470,9 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
 
   void _showEditUserDialog(BuildContext context, User user) {
     final nameCtrl = TextEditingController(text: user.name);
+    final emailCtrl = TextEditingController(text: user.email);
     final phoneCtrl = TextEditingController(text: user.phone ?? '');
+    var selectedRole = user.role;
     bool isSubmitting = false;
     String? errorMessage;
 
@@ -521,10 +517,37 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                   ),
                   const SizedBox(height: DittoSpacing.sm),
                   TextField(
+                    controller: emailCtrl,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    keyboardType: TextInputType.emailAddress,
+                    enabled: !isSubmitting,
+                  ),
+                  const SizedBox(height: DittoSpacing.sm),
+                  TextField(
                     controller: phoneCtrl,
                     decoration: const InputDecoration(labelText: 'Phone (optional)'),
                     keyboardType: TextInputType.phone,
                     enabled: !isSubmitting,
+                  ),
+                  const SizedBox(height: DittoSpacing.base),
+                  DropdownButtonFormField<ActorRole>(
+                    initialValue: selectedRole,
+                    decoration: const InputDecoration(labelText: 'Role'),
+                    items: [ActorRole.customer, ActorRole.business]
+                        .map((role) => DropdownMenuItem(
+                              value: role,
+                              child: RoleBadge(role: role),
+                            ))
+                        .toList(),
+                    onChanged: isSubmitting
+                        ? null
+                        : (val) {
+                            if (val != null) {
+                              setState(() {
+                                selectedRole = val;
+                              });
+                            }
+                          },
                   ),
                 ],
               ),
@@ -545,6 +568,12 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                         });
                         return;
                       }
+                      if (emailCtrl.text.trim().isEmpty) {
+                        setState(() {
+                          errorMessage = 'Email is required';
+                        });
+                        return;
+                      }
                       setState(() {
                         isSubmitting = true;
                         errorMessage = null;
@@ -552,7 +581,9 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                       try {
                         final updatedUser = user.copyWith(
                           name: nameCtrl.text.trim(),
+                          email: emailCtrl.text.trim(),
                           phone: phoneCtrl.text.trim().isNotEmpty ? phoneCtrl.text.trim() : null,
+                          role: selectedRole,
                           companySlug: user.companySlug,
                           updatedAt: DateTime.now(),
                         );

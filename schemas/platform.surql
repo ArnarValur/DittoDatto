@@ -36,8 +36,7 @@ DEFINE FIELD phone             ON company TYPE option<string>;
 DEFINE FIELD logo_url          ON company TYPE option<string>;
 
 -- Tier
-DEFINE FIELD tier              ON company TYPE string                DEFAULT 'free'
-  ASSERT $value IN ['free', 'premium'];
+DEFINE FIELD tier              ON company TYPE string                DEFAULT 'free' ASSERT $value IN ['free', 'premium'];
 
 -- Social
 DEFINE FIELD social_links      ON company TYPE option<object>;
@@ -46,8 +45,7 @@ DEFINE FIELD social_links.ig   ON company TYPE option<string>;
 DEFINE FIELD social_links.x    ON company TYPE option<string>;
 
 -- Onboarding (Reverse Conductor pattern)
-DEFINE FIELD onboarding_status ON company TYPE string
-  ASSERT $value IN ['not_started', 'ai_suggested', 'verified', 'complete'];
+DEFINE FIELD onboarding_status ON company TYPE string ASSERT $value IN ['not_started', 'ai_suggested', 'verified', 'complete'];
 DEFINE FIELD ai_suggested_data ON company TYPE option<object>;
 DEFINE FIELD ai_suggested_data.name        ON company TYPE option<string>;
 DEFINE FIELD ai_suggested_data.website     ON company TYPE option<string>;
@@ -57,21 +55,20 @@ DEFINE FIELD ai_suggested_data.phone       ON company TYPE option<string>;
 DEFINE FIELD ai_suggested_data.suggested_at ON company TYPE option<datetime>;
 
 -- Feature Flags (transitional SaaS scaffolding → Datto-mediated in v1.5)
-DEFINE FIELD enabled_features  ON company TYPE object;
+DEFINE FIELD enabled_features  ON company TYPE object DEFAULT { table_reservation: false, ai_assistance: false, ticket_system: false, event_system: false };
 DEFINE FIELD enabled_features.table_reservation ON company TYPE bool DEFAULT false;
 DEFINE FIELD enabled_features.ai_assistance     ON company TYPE bool DEFAULT false;
 DEFINE FIELD enabled_features.ticket_system     ON company TYPE bool DEFAULT false;
 DEFINE FIELD enabled_features.event_system      ON company TYPE bool DEFAULT false;
 
 -- Store Policy
-DEFINE FIELD store_policy      ON company TYPE object;
+DEFINE FIELD store_policy      ON company TYPE object DEFAULT { max_stores: 1, can_create_own_stores: false };
 DEFINE FIELD store_policy.max_stores          ON company TYPE int    DEFAULT 1;
 DEFINE FIELD store_policy.can_create_own_stores ON company TYPE bool DEFAULT false;
 
 -- Media Config
-DEFINE FIELD media_config      ON company TYPE object;
-DEFINE FIELD media_config.default_tags ON company TYPE array<string>
-  DEFAULT ['logo', 'cover', 'staff', 'store', 'menu', 'misc'];
+DEFINE FIELD media_config      ON company TYPE object DEFAULT { default_tags: ['logo', 'cover', 'staff', 'store', 'menu', 'misc'] };
+DEFINE FIELD media_config.default_tags ON company TYPE array<string> DEFAULT ['logo', 'cover', 'staff', 'store', 'menu', 'misc'];
 
 -- Database reference (maps to companies/company_{slug})
 DEFINE FIELD db_slug           ON company TYPE string;
@@ -96,10 +93,8 @@ DEFINE TABLE system_alert SCHEMAFULL;
 
 DEFINE FIELD title             ON system_alert TYPE string;
 DEFINE FIELD body              ON system_alert TYPE string;
-DEFINE FIELD severity          ON system_alert TYPE string
-  ASSERT $value IN ['info', 'warning', 'critical'];
-DEFINE FIELD target_audience   ON system_alert TYPE string
-  ASSERT $value IN ['all', 'business', 'customers', 'admin'];
+DEFINE FIELD severity          ON system_alert TYPE string ASSERT $value IN ['info', 'warning', 'critical'];
+DEFINE FIELD target_audience   ON system_alert TYPE string ASSERT $value IN ['all', 'business', 'customers', 'admin'];
 DEFINE FIELD is_active         ON system_alert TYPE bool             DEFAULT true;
 
 DEFINE FIELD starts_at         ON system_alert TYPE option<datetime>;
@@ -133,8 +128,7 @@ DEFINE FIELD updated_at        ON icon_collection TYPE datetime      VALUE time:
 
 DEFINE TABLE audit_log SCHEMAFULL;
 
-DEFINE FIELD action            ON audit_log TYPE string
-  ASSERT $value IN ['user_deleted', 'customer_purged', 'company_provisioned', 'company_deactivated'];
+DEFINE FIELD action            ON audit_log TYPE string ASSERT $value IN ['user_deleted', 'customer_purged', 'company_provisioned', 'company_deactivated'];
 DEFINE FIELD actor_id          ON audit_log TYPE string;
 DEFINE FIELD target_type       ON audit_log TYPE string;
 DEFINE FIELD target_id         ON audit_log TYPE string;

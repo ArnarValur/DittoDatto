@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-01 13:40
-**Session Focus:** Admin Panel — Resolved UTC datetime coercion and nested map null-coercion using recursive JSON sanitizers in the SurrealAdminRepository.
+**Last Updated:** 2026-06-03 20:05
+**Session Focus:** Admin Panel — Restructured Edit User Dialog with validated email and role field editing, and successfully compiled & deployed to staging.
 
 ## 🚀 Active Tracks
 
@@ -9,6 +9,10 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-03** — **Validated Email & Role Editing in Edit User Dialog.** Restructured the Edit User dialog in [users_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/users/users_screen.dart) to include validated Email and Role fields, successfully saving updates to SurrealDB via `updateUser`.
+- **2026-06-03** — **Company owner update synchronization.** Added logic in `SurrealAdminRepository.updateCompany` to atomically update user profiles when a company owner changes (removing old owner slug/memberships and setting new owner credentials).
+- **2026-06-03** — **Phone field clearing fallback.** Addressed optional field clearing crash under SurrealDB 3.0 schema typing by mapping null/empty phone updates to `none` via conditional query expressions in `SurrealAdminRepository.updateUser`.
+- **2026-06-03** — **Users table layout update.** Replaced duplicated Email column with a dedicated Phone column in `users_screen.dart` to make user contact information directly visible.
 - **2026-06-01** — **Recursive null-remover logic.** Developed a deep JSON null-remover in `SurrealAdminRepository` to satisfy strict SurrealDB 3.0 schema constraints against nested null fields (like `social_links`).
 - **2026-06-01** — **Staging timezone coercion fix.** Modified timestamp fields in repository transactions to utilize `.toUtc().toIso8601String()`, solving coercion crashes in SurrealDB 3.0.
 - **2026-06-01** — **Nested payload verification test.** Created `apps/admin/bin/test_null_remover.dart` and verified recursive null-stripping logic successfully creates companies under staging database limits.
@@ -31,6 +35,7 @@ _None._
 - **Schemas source of truth:** `schemas/` at project root
 - **ADR structure:** Platform-wide at `adr/` root, domain-scoped in `adr/{admin-panel,business-portal,marketplace,mercury-engine}/`. Global sequential numbering.
 - **bootstrap.surql** — schema and namespace user definitions only. No fabricated data.
+- *2026-06-03 - 20:05* — Added Email and Role dropdown editing to Edit User dialog, validating required fields before submitting to `updateUser`. _(operational)_
 - *2026-06-01 - 13:38* — Implemented recursive JSON null-remover for database payloads to support strict schema typing of optional nested maps (e.g. social_links) in SurrealDB 3.0. _(operational)_
 - *2026-06-01 - 13:21* — Form-filled datetime columns standardized to UTC with explicit Z suffixes to pass type::datetime restrictions in SurrealDB 3.0. _(operational)_
 - *2026-06-01 - 00:10* — Restricted back-office Users screen list and role modification options to `customer` and `business` only. _(operational)_
@@ -41,8 +46,6 @@ _None._
 
 ## 📋 Next Session Suggestions
 
-1. 🖥️ **Verify Companies screen CRUD on Saturn** — clear browser local data/cache completely (or disable browser cache) and confirm that manual creation works perfectly from the live UI without caching issues.
-2. 🖥️ **Add Cache-Busting Headers in Caddyfile** — configure Caddy on Saturn to explicitly prevent aggressive browser caching on `main.dart.js` for development.
-3. 🧹 **Remove legacy namespace users** — `arnar` and `hoddi` still exist on Saturn. Delete if no longer needed.
-4. 📦 **Inbox real data path** — Message thread repository interface wiring.
-
+1. 🖥️ **Verify owner update and phone clearing** — confirm on the live UI on Saturn that when changing company owner, the User profile is updated atomically, and clearing the phone field works without database errors.
+2. 🧹 **Remove legacy namespace users** — `arnar` and `hoddi` still exist on Saturn. Delete if no longer needed.
+3. 📦 **Inbox real data path** — Message thread repository interface wiring.

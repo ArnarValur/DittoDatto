@@ -108,10 +108,12 @@ class SurrealAdminRepository implements AdminRepository {
     final cleanedData = _removeNullsFromMap(data);
     
     final result = await connection.users.query(
-      r'UPDATE type::record("user", $id) MERGE $data',
+      r'UPDATE type::record("user", $id) MERGE $data SET phone = IF $phone = NULL OR $phone = "" THEN none ELSE $phone END, company_slug = IF $company_slug = NULL OR $company_slug = "" THEN none ELSE $company_slug END',
       {
         'id': user.id,
         'data': cleanedData,
+        'phone': user.phone,
+        'company_slug': user.companySlug,
       },
     );
     
@@ -171,19 +173,30 @@ class SurrealAdminRepository implements AdminRepository {
     final result = await connection.companies.create('company', cleanedData);
     final createdCompany = Company.fromJson(_normalizeRecord(result));
 
-    // Atomically connect the User profile with the new company slug!
+    // Fetch all companies owned by this owner to list all slugs
+    final ownerCompaniesResult = await connection.companies.query(
+      r'SELECT * FROM company WHERE owner_id = $ownerId',
+      {'ownerId': company.ownerId},
+    );
+    final ownerCompanies = _parseList<Company>(ownerCompaniesResult, Company.fromJson);
+    if (!ownerCompanies.any((c) => c.id == createdCompany.id)) {
+      ownerCompanies.add(createdCompany);
+    }
+    final allSlugs = ownerCompanies.map((c) => c.slug).join(', ');
+
+    // Atomically connect the User profile with the new company slugs!
     await connection.users.use('users', 'profiles');
     await connection.users.query(
-      r'UPDATE type::record("user", $owner_id) SET role = "business", company_slug = $slug, company_membership_ids = array::add(company_membership_ids ?? [], $company_id), company_memberships = array::add(company_memberships ?? [], $membership)',
+      r'UPDATE type::record("user", $owner_id) SET role = "business", company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
       {
         'owner_id': company.ownerId,
-        'slug': company.slug,
-        'company_id': createdCompany.id,
-        'membership': {
-          'company_id': createdCompany.id,
+        'slugs': allSlugs,
+        'comp_ids': ownerCompanies.map((c) => c.id).toList(),
+        'memberships': ownerCompanies.map((c) => {
+          'company_id': c.id,
           'role': 'owner',
           'assigned_at': DateTime.now().toUtc().toIso8601String(),
-        }
+        }).toList(),
       },
     );
 
@@ -193,6 +206,15 @@ class SurrealAdminRepository implements AdminRepository {
   @override
   Future<Company> updateCompany(Company company) async {
     await connection.companies.use('companies', 'registry');
+    
+    // Get the old company details to check if owner changed
+    final oldResult = await connection.companies.query(
+      r'SELECT * FROM type::record("company", $id)',
+      {'id': company.id},
+    );
+    final oldList = _parseList<Company>(oldResult, Company.fromJson);
+    final String? oldOwnerId = oldList.isNotEmpty ? oldList.first.ownerId : null;
+
     final rawData = company.toJson()
       ..remove('id')
       ..['updated_at'] = DateTime.now().toUtc().toIso8601String();
@@ -212,7 +234,81 @@ class SurrealAdminRepository implements AdminRepository {
     if (list.isEmpty) {
       throw Exception('Failed to update company: record not found');
     }
-    return list.first;
+    
+    final updatedCompany = list.first;
+
+    // If owner changed, update the user records!
+    if (oldOwnerId != null && oldOwnerId != updatedCompany.ownerId) {
+      // Check if the old owner still owns any other companies (besides this one)
+      await connection.companies.use('companies', 'registry');
+      final otherCompaniesResult = await connection.companies.query(
+        r'SELECT * FROM company WHERE owner_id = $ownerId AND id != $company_id',
+        {
+          'ownerId': oldOwnerId,
+          'company_id': updatedCompany.id,
+        },
+      );
+      final otherCompanies = _parseList<Company>(otherCompaniesResult, Company.fromJson);
+
+      await connection.users.use('users', 'profiles');
+
+      if (otherCompanies.isNotEmpty) {
+        // The old owner still owns other companies. Update their primary slugs and memberships.
+        final otherSlugs = otherCompanies.map((c) => c.slug).join(', ');
+        final otherMemberships = otherCompanies.map((c) => {
+          'company_id': c.id,
+          'role': 'owner',
+          'assigned_at': DateTime.now().toUtc().toIso8601String(),
+        }).toList();
+
+        await connection.users.query(
+          r'UPDATE type::record("user", $ownerId) SET company_slug = $next_slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
+          {
+            'ownerId': oldOwnerId,
+            'next_slugs': otherSlugs,
+            'comp_ids': otherCompanies.map((c) => c.id).toList(),
+            'memberships': otherMemberships,
+          },
+        );
+      } else {
+        // The old owner owns no other companies. Revert them to customer.
+        await connection.users.query(
+          r'UPDATE type::record("user", $ownerId) SET role = "customer", company_slug = none, company_membership_ids = [], company_memberships = []',
+          {
+            'ownerId': oldOwnerId,
+          },
+        );
+      }
+
+      // 2. Add company membership/slug to the new owner
+      await connection.companies.use('companies', 'registry');
+      final newOwnerCompaniesResult = await connection.companies.query(
+        r'SELECT * FROM company WHERE owner_id = $ownerId',
+        {'ownerId': updatedCompany.ownerId},
+      );
+      final newOwnerCompanies = _parseList<Company>(newOwnerCompaniesResult, Company.fromJson);
+      if (!newOwnerCompanies.any((c) => c.id == updatedCompany.id)) {
+        newOwnerCompanies.add(updatedCompany);
+      }
+      final newSlugs = newOwnerCompanies.map((c) => c.slug).join(', ');
+
+      await connection.users.use('users', 'profiles');
+      await connection.users.query(
+        r'UPDATE type::record("user", $owner_id) SET role = "business", company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
+        {
+          'owner_id': updatedCompany.ownerId,
+          'slugs': newSlugs,
+          'comp_ids': newOwnerCompanies.map((c) => c.id).toList(),
+          'memberships': newOwnerCompanies.map((c) => {
+            'company_id': c.id,
+            'role': 'owner',
+            'assigned_at': DateTime.now().toUtc().toIso8601String(),
+          }).toList(),
+        },
+      );
+    }
+
+    return updatedCompany;
   }
 
   @override
@@ -225,15 +321,44 @@ class SurrealAdminRepository implements AdminRepository {
     final companies = _parseList<Company>(queryResult, Company.fromJson);
     if (companies.isNotEmpty) {
       final comp = companies.first;
-      // Disassociate the owner user
-      await connection.users.use('users', 'profiles');
-      await connection.users.query(
-        r'UPDATE type::record("user", $ownerId) SET role = "customer", company_slug = none, company_membership_ids = array::difference(company_membership_ids ?? [], [$company_id]), company_memberships = []',
+      
+      // Check if they own any other companies
+      final otherCompaniesResult = await connection.companies.query(
+        r'SELECT * FROM company WHERE owner_id = $ownerId AND id != $company_id',
         {
           'ownerId': comp.ownerId,
           'company_id': comp.id,
         },
       );
+      final otherCompanies = _parseList<Company>(otherCompaniesResult, Company.fromJson);
+
+      await connection.users.use('users', 'profiles');
+
+      if (otherCompanies.isNotEmpty) {
+        final otherSlugs = otherCompanies.map((c) => c.slug).join(', ');
+        final otherMemberships = otherCompanies.map((c) => {
+          'company_id': c.id,
+          'role': 'owner',
+          'assigned_at': DateTime.now().toUtc().toIso8601String(),
+        }).toList();
+
+        await connection.users.query(
+          r'UPDATE type::record("user", $ownerId) SET company_slug = $next_slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
+          {
+            'ownerId': comp.ownerId,
+            'next_slugs': otherSlugs,
+            'comp_ids': otherCompanies.map((c) => c.id).toList(),
+            'memberships': otherMemberships,
+          },
+        );
+      } else {
+        await connection.users.query(
+          r'UPDATE type::record("user", $ownerId) SET role = "customer", company_slug = none, company_membership_ids = [], company_memberships = []',
+          {
+            'ownerId': comp.ownerId,
+          },
+        );
+      }
     }
 
     await connection.companies.use('companies', 'registry');

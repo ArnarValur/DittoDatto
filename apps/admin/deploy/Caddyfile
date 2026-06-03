@@ -12,5 +12,11 @@
 		root * /srv/web
 		try_files {path} /index.html
 		file_server
+
+		# Cache control for development
+		@nocache {
+			path /index.html /main.dart.js /flutter_service_worker.js
+		}
+		header @nocache Cache-Control "no-cache, no-store, must-revalidate"
 	}
 }

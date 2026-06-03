@@ -50,6 +50,17 @@ DEFINE FIELD password_hash ON TABLE user TYPE option<string>;
 DEFINE FIELD role        ON TABLE user TYPE string DEFAULT 'customer';
 DEFINE FIELD company_slug ON TABLE user TYPE option<string>;
 DEFINE FIELD vipps_sub   ON TABLE user TYPE option<string>;
+
+-- RBAC & Company Memberships
+DEFINE FIELD company_memberships ON TABLE user TYPE array<object>          DEFAULT [];
+DEFINE FIELD company_memberships.*.company_id ON TABLE user TYPE string;
+DEFINE FIELD company_memberships.*.role       ON TABLE user TYPE string
+  ASSERT $value IN ['owner', 'admin', 'employee'];
+DEFINE FIELD company_memberships.*.assigned_at ON TABLE user TYPE datetime;
+
+-- Shortcut for permission checks
+DEFINE FIELD company_membership_ids ON TABLE user TYPE array<string>       DEFAULT [];
+
 DEFINE FIELD created_at  ON TABLE user TYPE datetime DEFAULT time::now();
 DEFINE FIELD updated_at  ON TABLE user TYPE datetime DEFAULT time::now();
 
@@ -64,16 +75,19 @@ USE NS companies DB registry;
 DEFINE TABLE IF NOT EXISTS company SCHEMAFULL;
 DEFINE FIELD name               ON TABLE company TYPE string;
 DEFINE FIELD slug               ON TABLE company TYPE string;
+DEFINE FIELD db_slug            ON TABLE company TYPE string;
+DEFINE FIELD owner_id           ON TABLE company TYPE string;
+DEFINE FIELD owner_email        ON TABLE company TYPE option<string>;
 DEFINE FIELD description        ON TABLE company TYPE option<string>;
 DEFINE FIELD email              ON TABLE company TYPE option<string>;
 DEFINE FIELD phone              ON TABLE company TYPE option<string>;
 DEFINE FIELD address            ON TABLE company TYPE option<string>;
 DEFINE FIELD city               ON TABLE company TYPE option<string>;
 DEFINE FIELD postal_code        ON TABLE company TYPE option<string>;
+DEFINE FIELD zip                ON TABLE company TYPE option<string>;
 DEFINE FIELD country            ON TABLE company TYPE string DEFAULT 'NO';
 DEFINE FIELD tier               ON TABLE company TYPE string DEFAULT 'free';
 DEFINE FIELD onboarding_status  ON TABLE company TYPE string DEFAULT 'not_started';
-DEFINE FIELD owner_email        ON TABLE company TYPE option<string>;
 DEFINE FIELD social_links       ON TABLE company TYPE option<object>;
 DEFINE FIELD store_policy       ON TABLE company TYPE option<object>;
 DEFINE FIELD enabled_features   ON TABLE company TYPE option<object>;

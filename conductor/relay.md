@@ -2,6 +2,28 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-03 20:05 — User Email & Role Dialog Restructuring
+
+- **Session:** Restructured Edit User Dialog to support validated email and role field editing, and compiled & deployed to Saturn.
+- **Tracks touched:** `admin_panel_20260527`
+- **Status:** In progress. Edit User Dialog is fully functional and validated. All tests green.
+- **Decisions:** None
+- **Next:** Browser-verify owner switch, phone clearing, and email updates on Saturn staging UI.
+
+---
+
+## 2026-06-03 15:40 — Company Owner Update Sync & Optional Phone Clearing
+
+- **Tracks:** `admin_panel_20260527` (in progress)
+- Resolved company owner update desynchronization by adding atomic User profile update inside `SurrealAdminRepository.updateCompany` (removing membership from old owner and adding to new owner).
+- Resolved optional phone field clearing crash under SurrealDB 3.0 schema typing by mapping null/empty phone updates to `none` via conditional query expressions in `SurrealAdminRepository.updateUser`.
+- Replaced duplicated Email column with a dedicated Phone column on the Users table layout in `users_screen.dart`.
+- Recompiled and pushed updated release assets to Saturn staging server at `/srv/dittodatto/admin-panel/web/` and restarted Caddy.
+- **Decisions:** None
+- **Next:** Browser-verify owner switch and phone clearing on Saturn staging.
+
+---
+
 ## 2026-06-01 13:40 — Staging Timezone & Recursive Null Coercion Fix
 
 - **Tracks:** `admin_panel_20260527` (in progress)

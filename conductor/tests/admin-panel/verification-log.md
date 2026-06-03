@@ -52,6 +52,8 @@ Checklists for live-environment verification on Asus Ascent staging (**Saturn**)
 
 | Date | Type | Target | Focus / Notes | Result |
 |:---|:---|:---|:---|:---|
+| 2026-06-03 20:00 | Hybrid | Staging (Saturn) | Added Email and Role dropdown editing to Edit User dialog in users_screen.dart, added validation, and fixed dialog syntax nesting. Verified via flutter analyze, flutter test, and integration tests. | 🟢 Success |
+| 2026-06-03 15:35 | Hybrid | Staging (Saturn) | Resolved company owner update desynchronization by adding atomic User profile update inside SurrealAdminRepository.updateCompany. Resolved optional phone field merge-clear crash by implementing query-level conditional parameter mapping. Replaced duplicated email column on the Users table with the new Phone column. | 🟢 Success |
 | 2026-06-01 13:38 | Hybrid | Staging (Saturn) | Developed recursive null-remover for all nested lists/maps in surreal_admin_repository.dart. Verified exact layout payload schema coercion by writing standalone integration suite test_null_remover.dart and resolving coercion crashes for social_links. | 🟢 Success |
 | 2026-06-01 13:21 | Hybrid | Staging (Saturn) | Verified Company CRUD (creation, editing, deletion) and atomic User profile connection. Successfully integrated owner dropdown loading dynamically from users/profiles and updated database schemas. | 🟢 Success |
 | 2026-06-01 00:37 | Hybrid | Staging (Saturn) | Verified WebStorage HTTP bypass, SurrealDB 3.0 type::record transition, dynamic text search, and manual user creation. Executed `test_auth.dart` and `test_users_crud.dart` integration tests. | 🟢 Success (All tests green) |
