@@ -1,14 +1,15 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-03 20:05
-**Session Focus:** Admin Panel — Restructured Edit User Dialog with validated email and role field editing, and successfully compiled & deployed to staging.
+**Last Updated:** 2026-06-03 20:12
+**Session Focus:** Admin Panel — Upgraded Categories screen with form validation, try-catch database exceptions, pagination, and premium UI styling, compiled & deployed to Saturn.
 
 ## 🚀 Active Tracks
 
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed (checkbox selections, truncated IDs, initials badges, restricted role promotions, case-insensitive SurrealDB search, manual user registration without company slug fields, and try-catch form validation/loading). Deployed to Saturn.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen and Categories screen completed (form validation, try-catch error banners, pagination, monospace ID display, horizontal scrolling). Deployed to Saturn.
 
 ## ✅ Recently Completed
 
+- **2026-06-03** — **Categories screen form validation & pagination.** Upgraded [categories_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/categories/categories_screen.dart) with full client-side Form validation, try-catch database error banner display, horizontal scroll support, a monospace-styled truncated ID column, and a pagination bar. Created [categories_form_test.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/test/categories_form_test.dart) to verify validation and submission.
 - **2026-06-03** — **Validated Email & Role Editing in Edit User Dialog.** Restructured the Edit User dialog in [users_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/users/users_screen.dart) to include validated Email and Role fields, successfully saving updates to SurrealDB via `updateUser`.
 - **2026-06-03** — **Company owner update synchronization.** Added logic in `SurrealAdminRepository.updateCompany` to atomically update user profiles when a company owner changes (removing old owner slug/memberships and setting new owner credentials).
 - **2026-06-03** — **Phone field clearing fallback.** Addressed optional field clearing crash under SurrealDB 3.0 schema typing by mapping null/empty phone updates to `none` via conditional query expressions in `SurrealAdminRepository.updateUser`.

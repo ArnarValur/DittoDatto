@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-03 20:12 — Categories Screen Upgrades & Validation
+
+- **Session:** Upgraded Categories screen with form validation, try-catch database exceptions, pagination, and premium styling; compiled and deployed to Saturn.
+- **Tracks touched:** `admin_panel_20260527`
+- **Status:** In progress. Categories screen is fully functional, styled, and validated. All unit and widget tests are passing.
+- **Decisions:** None
+- **Next:** Browser-verify Categories creation, editing, unique slug validation, and pagination on Saturn staging UI.
+
+---
+
 ## 2026-06-03 20:05 — User Email & Role Dialog Restructuring
 
 - **Session:** Restructured Edit User Dialog to support validated email and role field editing, and compiled & deployed to Saturn.
