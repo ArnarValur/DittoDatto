@@ -50,26 +50,26 @@ Depending on the selected target, execute the following commands:
 
 ```bash
 # For DittoDatto Core
-OBSIDIAN_VAULT_LIBRARIES=/home/solmundur/Documents nohup /home/solmundur/Hermes/conductor-graph/.venv/bin/python /home/solmundur/Hermes/conductor-graph/src/main.py --target /home/solmundur/Projects/DittoDatto --watch > /tmp/ditto-grapher.log 2>&1 &
+OBSIDIAN_VAULT_LIBRARIES=/home/solmundur/Documents nohup /home/solmundur/Hermes/AgentPollux/.venv/bin/python /home/solmundur/Hermes/AgentPollux/src/main.py --target /home/solmundur/Projects/DittoDatto --watch > /tmp/ditto-grapher.log 2>&1 &
 
 # For MercuryEngine
-OBSIDIAN_VAULT_LIBRARIES=/home/solmundur/Documents nohup /home/solmundur/Hermes/conductor-graph/.venv/bin/python /home/solmundur/Hermes/conductor-graph/src/main.py --target /home/solmundur/Projects/DittoDatto/services/mercury-engine --watch > /tmp/mercury-engine-grapher.log 2>&1 &
+OBSIDIAN_VAULT_LIBRARIES=/home/solmundur/Documents nohup /home/solmundur/Hermes/AgentPollux/.venv/bin/python /home/solmundur/Hermes/AgentPollux/src/main.py --target /home/solmundur/Projects/DittoDatto/services/mercury-engine --watch > /tmp/mercury-engine-grapher.log 2>&1 &
 
 # For SearchAnalytics
-OBSIDIAN_VAULT_LIBRARIES=/home/solmundur/Documents nohup /home/solmundur/Hermes/conductor-graph/.venv/bin/python /home/solmundur/Hermes/conductor-graph/src/main.py --target /home/solmundur/Projects/DittoDatto/services/search-analytics --watch > /tmp/search-analytics-grapher.log 2>&1 &
+OBSIDIAN_VAULT_LIBRARIES=/home/solmundur/Documents nohup /home/solmundur/Hermes/AgentPollux/.venv/bin/python /home/solmundur/Hermes/AgentPollux/src/main.py --target /home/solmundur/Projects/DittoDatto/services/search-analytics --watch > /tmp/search-analytics-grapher.log 2>&1 &
 ```
 
 ### B. Stop Watcher
 
 ```bash
 # For DittoDatto Core
-pkill -f "conductor-graph/src/main.py.*Projects/DittoDatto\b"
+pkill -f "AgentPollux/src/main.py.*Projects/DittoDatto\b"
 
 # For MercuryEngine
-pkill -f "conductor-graph/src/main.py.*mercury-engine"
+pkill -f "AgentPollux/src/main.py.*mercury-engine"
 
 # For SearchAnalytics
-pkill -f "conductor-graph/src/main.py.*search-analytics"
+pkill -f "AgentPollux/src/main.py.*search-analytics"
 ```
 
 ### C. Check Logs

@@ -17,8 +17,8 @@ The DittoDatto ConductorGraph agent runs as a native Antigravity 2.0 Sidecar pro
 
 ### Execution Details
 
-- **Interpreter:** `/home/solmundur/Hermes/conductor-graph/.venv/bin/python`
-- **Script:** `/home/solmundur/Hermes/conductor-graph/src/main.py`
+- **Interpreter:** `/home/solmundur/Hermes/AgentPollux/.venv/bin/python`
+- **Script:** `/home/solmundur/Hermes/AgentPollux/src/main.py`
 - **Arguments:** `--target /home/solmundur/Projects/DittoDatto --watch`
 - **Environment Overrides:** `OBSIDIAN_VAULT_LIBRARIES=/home/solmundur/Documents`
 - **Restart Policy:** `always` (the platform automatically revives the watcher if it crashes or the system reboots).
