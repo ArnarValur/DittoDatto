@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-05 02:45 — Category Screen Material Icons & Validation
+
+- **Session:** Upgraded Category dialog with a curated Google Material Icons grid picker, input validation, progress indicators, and staging deployment.
+- **Tracks touched:** `admin_panel_20260527`
+- **Status:** In progress. Categories screen is fully updated, compiles warning-free, and has been successfully compiled and deployed to staging.
+- **Decisions:** None
+- **Next:** Browser-verify Category creation, editing with the new icon selector, and deletion on Saturn staging UI.
+
+---
+
 ## 2026-06-03 20:05 — User Email & Role Dialog Restructuring
 
 - **Session:** Restructured Edit User Dialog to support validated email and role field editing, and compiled & deployed to Saturn.

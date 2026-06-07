@@ -1,14 +1,15 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-03 20:05
-**Session Focus:** Admin Panel — Restructured Edit User Dialog with validated email and role field editing, and successfully compiled & deployed to staging.
+**Last Updated:** 2026-06-05 02:45
+**Session Focus:** Category Screen — Curated Material Icon selector, input validation, submission loading spinners, and deployment.
 
 ## 🚀 Active Tracks
 
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed (checkbox selections, truncated IDs, initials badges, restricted role promotions, case-insensitive SurrealDB search, manual user registration without company slug fields, and try-catch form validation/loading). Deployed to Saturn.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed. Categories screen upgraded with curated Material Icons selector, validation, and in-place reloads. Deployed to Saturn.
 
 ## ✅ Recently Completed
 
+- **2026-06-05** — **Material Icon Picker & Validation in Category Dialog.** Upgraded the Categories screen in [categories_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/categories/categories_screen.dart) with a curated grid selector for Google Material Icons, required-field form validation, async progress indicators during database saves, error boundary display, and smooth in-place pagination reloads. Deployed to Saturn.
 - **2026-06-03** — **Validated Email & Role Editing in Edit User Dialog.** Restructured the Edit User dialog in [users_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/users/users_screen.dart) to include validated Email and Role fields, successfully saving updates to SurrealDB via `updateUser`.
 - **2026-06-03** — **Company owner update synchronization.** Added logic in `SurrealAdminRepository.updateCompany` to atomically update user profiles when a company owner changes (removing old owner slug/memberships and setting new owner credentials).
 - **2026-06-03** — **Phone field clearing fallback.** Addressed optional field clearing crash under SurrealDB 3.0 schema typing by mapping null/empty phone updates to `none` via conditional query expressions in `SurrealAdminRepository.updateUser`.
@@ -35,6 +36,7 @@ _None._
 - **Schemas source of truth:** `schemas/` at project root
 - **ADR structure:** Platform-wide at `adr/` root, domain-scoped in `adr/{admin-panel,business-portal,marketplace,mercury-engine}/`. Global sequential numbering.
 - **bootstrap.surql** — schema and namespace user definitions only. No fabricated data.
+- *2026-06-05 - 02:45* — Chosen static curated set of Google Material Icons in the frontend mapped to simple DB keys over a dynamic database-driven icon manager. _(operational)_
 - *2026-06-03 - 20:05* — Added Email and Role dropdown editing to Edit User dialog, validating required fields before submitting to `updateUser`. _(operational)_
 - *2026-06-01 - 13:38* — Implemented recursive JSON null-remover for database payloads to support strict schema typing of optional nested maps (e.g. social_links) in SurrealDB 3.0. _(operational)_
 - *2026-06-01 - 13:21* — Form-filled datetime columns standardized to UTC with explicit Z suffixes to pass type::datetime restrictions in SurrealDB 3.0. _(operational)_
@@ -46,6 +48,7 @@ _None._
 
 ## 📋 Next Session Suggestions
 
-1. 🖥️ **Verify owner update and phone clearing** — confirm on the live UI on Saturn that when changing company owner, the User profile is updated atomically, and clearing the phone field works without database errors.
-2. 🧹 **Remove legacy namespace users** — `arnar` and `hoddi` still exist on Saturn. Delete if no longer needed.
-3. 📦 **Inbox real data path** — Message thread repository interface wiring.
+1. 🖥️ **Verify Category CRUD** — verify creating, editing, and deleting categories with the new curated icon grid picker and validation on the staging site.
+2. 🖥️ **Verify owner update and phone clearing** — confirm on the live UI on Saturn that when changing company owner, the User profile is updated atomically.
+3. 🧹 **Remove legacy namespace users** — `arnar` and `hoddi` still exist on Saturn. Delete if no longer needed.
+4. 📦 **Inbox real data path** — Message thread repository interface wiring.
