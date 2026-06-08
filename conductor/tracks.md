@@ -27,6 +27,10 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Link:* [tracks/admin-panel/admin_panel_20260527/](./tracks/admin-panel/admin_panel_20260527/)
   - *Phases:* 5 — (1) Monorepo + ditto_design + Shell, (2) Auth + Login, (3) Dashboard, (4) Users + Companies + Categories, (5) Inbox + Polish [checkpoint: pending user approval]
 
+- [ ] **Business Portal — Scaffold project and router shell**
+  - *Type:* feature | *Domain:* business-portal | *Status:* new
+  - *Link:* [tracks/business-portal/business_portal_scaffold_20260608/](./tracks/business-portal/business_portal_scaffold_20260608/)
+
 ---
 
 ## Completed Tracks
