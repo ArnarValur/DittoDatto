@@ -2,6 +2,19 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-08 03:10 — Business Portal Audits & Flutter Architecture Blueprint
+
+- **Session:** Audited Business Portal, UI Layer integration, SurrealDB database flows, and designed cross-platform Flutter replication architecture.
+- **Tracks touched:** None
+- **Status:** Completed reports for Business Portal audit, UI layer, SurrealDB data flows, and Flutter architecture design. Saved to artifacts.
+- **Decisions:** None
+- **Next:** Investigate design questions:
+  1. Riverpod vs BLoC for managing Firestore real-time streams in the Flutter app.
+  2. Enabling Firestore offline caching on Web targets.
+  3. Adopting OpenStreetMap (`flutter_map`) to avoid billing/keys.
+
+---
+
 ## 2026-06-05 02:45 — Category Screen Material Icons & Validation
 
 - **Session:** Upgraded Category dialog with a curated Google Material Icons grid picker, input validation, progress indicators, and staging deployment.

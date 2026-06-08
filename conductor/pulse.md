@@ -1,13 +1,15 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-05 02:45
-**Session Focus:** Category Screen — Curated Material Icon selector, input validation, submission loading spinners, and deployment.
+**Last Updated:** 2026-06-08 03:10
+**Session Focus:** Business Portal technical audits (web application, UI layer integration, SurrealDB data flows) and Flutter cross-platform architecture design.
 
 ## 🚀 Active Tracks
 
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed. Categories screen upgraded with curated Material Icons selector, validation, and in-place reloads. Deployed to Saturn.
 
 ## ✅ Recently Completed
+
+- **2026-06-08** — **Business Portal Technical Audits & Flutter Architecture Design.** Audited the Nuxt 3 Business Portal web application, the `@dittodatto/ui` shared package integration, and SurrealDB multi-tenant authentication/authorization flows. Formulated a cross-platform system design and Flutter architecture blueprint featuring Riverpod stream providers, responsive layouts, and OpenStreetMap rendering. Stored four comprehensive reports in the artifact directory.
 
 - **2026-06-05** — **Material Icon Picker & Validation in Category Dialog.** Upgraded the Categories screen in [categories_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/categories/categories_screen.dart) with a curated grid selector for Google Material Icons, required-field form validation, async progress indicators during database saves, error boundary display, and smooth in-place pagination reloads. Deployed to Saturn.
 - **2026-06-03** — **Validated Email & Role Editing in Edit User Dialog.** Restructured the Edit User dialog in [users_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/users/users_screen.dart) to include validated Email and Role fields, successfully saving updates to SurrealDB via `updateUser`.
@@ -27,6 +29,11 @@
 _None._
 
 ## 🧠 Session Memory
+
+- **Saved technical audit reports:** [business_portal_audit.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/business_portal_audit.md), [ui_package_audit.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/ui_package_audit.md), [database_flow_design.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/database_flow_design.md), and [flutter_architecture_design.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/flutter_architecture_design.md). _(operational)_
+- **PostIt (State Management):** Investigate whether to adopt Riverpod 2.x or BLoC + GetIt for managing Firestore real-time streams in the Flutter app. _(operational)_
+- **PostIt (Offline Cache):** Decide on enabling Firestore offline client caching for Web targets or keeping it memory-only. _(operational)_
+- **PostIt (Maps Engine):** Determine if we should adopt OpenStreetMap (`flutter_map`) to avoid billing/keys or stick with native Google Maps. _(operational)_
 
 - **Admin Panel deployed:** `http://dittodatto:8002` — Caddy serves from `/srv/dittodatto/admin-panel/web/`, proxies `/rpc` to SurrealDB.
 - **Deploy command:** `rsync -avz --delete apps/admin/build/web/ saturn:/srv/dittodatto/admin-panel/web/`
@@ -48,7 +55,7 @@ _None._
 
 ## 📋 Next Session Suggestions
 
-1. 🖥️ **Verify Category CRUD** — verify creating, editing, and deleting categories with the new curated icon grid picker and validation on the staging site.
-2. 🖥️ **Verify owner update and phone clearing** — confirm on the live UI on Saturn that when changing company owner, the User profile is updated atomically.
-3. 🧹 **Remove legacy namespace users** — `arnar` and `hoddi` still exist on Saturn. Delete if no longer needed.
-4. 📦 **Inbox real data path** — Message thread repository interface wiring.
+1. 🧠 **Investigate Flutter Architecture Questions** — Review Riverpod vs BLoC options, Web client offline cache configurations, and OSM vs Google Maps.
+2. 🧹 **Clean up shared UI CSS duplication** — Resolve `@dittodatto/ui` config issues to prevent CSS variables duplication in the Business Portal.
+3. 📦 **Database & Auth Integration** — Review isolated `company_{slug}` databases and cross-namespace string references in staging.
+4. 🖥️ **Verify Category CRUD & owner switch** — Verify creating, editing, and deleting categories with the icon picker, and changing company owners atomically on Saturn staging UI.
