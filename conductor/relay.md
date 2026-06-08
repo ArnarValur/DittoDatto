@@ -39,8 +39,8 @@ Timestamped entries for context continuity between sessions.
 - **Status:** Completed reports for Business Portal audit, UI layer, SurrealDB data flows, and Flutter architecture design. Saved to artifacts.
 - **Decisions:** None
 - **Next:** Investigate design questions:
-  1. Riverpod vs BLoC for managing Firestore real-time streams in the Flutter app.
-  2. Enabling Firestore offline caching on Web targets.
+  1. Riverpod vs BLoC for managing SurrealDB real-time Live Queries in the Flutter app.
+  2. Implementing local database caching (using Drift/SQLite or Hive) vs direct-only connection.
   3. Adopting OpenStreetMap (`flutter_map`) to avoid billing/keys.
 
 ---

@@ -38,8 +38,8 @@ _None._
 - *2026-06-08 - 20:17* — Conditional SurrealQL role protection: Implemented conditional expressions (IF role = "admin" OR role = "super_admin" THEN role ELSE ... END) in repository operations to safeguard administrative accounts. _(operational)_
 - *2026-06-08 - 12:25* — Closed interface: Business Portal always requires Login first. Operator onboarding flow prioritizes Establishments setup (outlets configuration) before managing services, staff, and bookings. _(operational)_
 - **Saved technical audit reports:** [business_portal_audit.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/business_portal_audit.md), [ui_package_audit.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/ui_package_audit.md), [database_flow_design.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/database_flow_design.md), and [flutter_architecture_design.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/flutter_architecture_design.md). _(operational)_
-- **PostIt (State Management):** Investigate whether to adopt Riverpod 2.x or BLoC + GetIt for managing Firestore real-time streams in the Flutter app. _(operational)_
-- **PostIt (Offline Cache):** Decide on enabling Firestore offline client caching for Web targets or keeping it memory-only. _(operational)_
+- **PostIt (State Management):** Investigate whether to adopt Riverpod 2.x or BLoC + GetIt for managing SurrealDB real-time Live Queries in the Flutter app. _(operational)_
+- **PostIt (Offline Cache):** Decide on implementing custom local database caching (using Drift/SQLite or Hive) vs direct-only connection. _(operational)_
 - **PostIt (Maps Engine):** Determine if we should adopt OpenStreetMap (`flutter_map`) to avoid billing/keys or stick with native Google Maps. _(operational)_
 
 - **Admin Panel deployed:** `http://dittodatto:8002` — Caddy serves from `/srv/dittodatto/admin-panel/web/`, proxies `/rpc` to SurrealDB.
