@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-08 03:10
-**Session Focus:** Business Portal technical audits (web application, UI layer integration, SurrealDB data flows) and Flutter cross-platform architecture design.
+**Last Updated:** 2026-06-08 12:05
+**Session Focus:** Business Portal domain refinement, PRD creation, and architectural design constraints (WebSockets Live Queries, connection handling, works_at edge capabilities).
 
 ## 🚀 Active Tracks
 
@@ -9,6 +9,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-08** — **Business Portal Domain Refinement & PRD.** Completed the /grill session to establish the Business Portal domain, generated the business-portal-prd.md file, and recorded three new ADRs (ADR-0010, ADR-0011, and ADR-0012) governing real-time queries, connection alerts, and edge capabilities. Added StaffCapability to the ubiquitous glossary.
 - **2026-06-08** — **Business Portal Technical Audits & Flutter Architecture Design.** Audited the Nuxt 3 Business Portal web application, the `@dittodatto/ui` shared package integration, and SurrealDB multi-tenant authentication/authorization flows. Formulated a cross-platform system design and Flutter architecture blueprint featuring Riverpod stream providers, responsive layouts, and OpenStreetMap rendering. Stored four comprehensive reports in the artifact directory.
 
 - **2026-06-05** — **Material Icon Picker & Validation in Category Dialog.** Upgraded the Categories screen in [categories_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/categories/categories_screen.dart) with a curated grid selector for Google Material Icons, required-field form validation, async progress indicators during database saves, error boundary display, and smooth in-place pagination reloads. Deployed to Saturn.

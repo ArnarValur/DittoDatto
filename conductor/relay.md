@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-08 12:05 — Business Portal Domain Refinement & PRD
+
+- **Session:** Business Portal domain refinement and PRD setup.
+- **Tracks touched:** None
+- **Status:** Business Portal domain is now grilled, PRD created, and three new ADRs recorded.
+- **Decisions:** ADR-0010 (Business Portal Live Queries), ADR-0011 (Real-Time Connection Handling), ADR-0012 (Granular Capabilities on the works_at Edge)
+- **Next:** Create a new development track for the Business Portal Flutter application.
+
+---
+
 ## 2026-06-08 03:10 — Business Portal Audits & Flutter Architecture Blueprint
 
 - **Session:** Audited Business Portal, UI Layer integration, SurrealDB database flows, and designed cross-platform Flutter replication architecture.
