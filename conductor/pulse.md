@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-08 20:17
-**Session Focus:** Enabled administrative roles (`admin` & `super_admin`) in the Admin Panel user management and repository layer, and promoted Arnar & Höddi to `super_admin` on Saturn staging.
+**Last Updated:** 2026-06-08 20:55
+**Session Focus:** Business Portal Login screen, Authentication, and RBAC / Multi-Tenant routing design.
 
 ## 🚀 Active Tracks
 
@@ -10,6 +10,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-08** — **Business Portal RBAC & Tenant Auth Spec.** Clarified that the Business Portal operates on standard direct-to-SurrealDB WebSocket namespace authentication combined with a `business` role guard and tenant routing (`USE DB company_{slug}`). Recorded ADR-0013 to enforce this multi-tenant database isolation.
 - **2026-06-08** — **Administrative Roles Support.** Enabled managing all 4 roles in the Admin Panel back-office Users screen. Updated repository and DB healing queries to protect admin/super_admin roles from being overwritten, verified via E2E integration test, and deployed to Saturn.
 - **2026-06-08** — **Created Business Portal Scaffold Track.** Structured specifications and implementation plan (`plan.md`) for the first Business Portal development track. Registered the track in `tracks.md`.
 - **2026-06-08** — **Business Portal Domain Refinement & PRD.** Completed the /grill session to establish the Business Portal domain, generated the business-portal-prd.md file, and recorded three new ADRs (ADR-0010, ADR-0011, and ADR-0012) governing real-time queries, connection alerts, and edge capabilities. Added StaffCapability to the ubiquitous glossary.
