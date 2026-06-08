@@ -4,7 +4,7 @@
 > Source session: `/grill foundation` (Conductor), 2026-05-26.
 > Authoritative architecture: [ADR-0003](conductor/adr/0003-saturn-staging-environment.md) "Saturn as Staging Environment".
 >
-> **Purpose:** Stand up the DittoDatto Hub (SurrealDB 3.0) on Saturn as the staging-environment source of truth, behind Tailscale, leaving the existing OpenWebUI on `saturn:8080` untouched.
+> **Purpose:** Stand up the DittoDatto Hub (SurrealDB 3.1) on Saturn as the staging-environment source of truth, behind Tailscale, leaving the existing OpenWebUI on `saturn:8080` untouched.
 >
 > **Estimated execution time:** 15–25 minutes for a fresh box; 5–10 minutes if Docker is already installed.
 > **Reversible?** Yes — `docker compose down -v` + `rm -rf /srv/dittodatto` returns Saturn to its current state.
@@ -157,7 +157,7 @@ cat > /srv/dittodatto/docker-compose.yml <<'EOF'
 name: dittodatto-net
 
 services:
-  # ─── DittoDatto Hub: SurrealDB 3.0 ───────────────────────────────
+  # ─── DittoDatto Hub: SurrealDB 3.1 ───────────────────────────────
   # The single source of truth for staging data. Hosts both namespaces:
   #   companies ({slug}, discovery, registry)   — non-PII platform data
   #   users (profiles)                          — GDPR-isolated consumer PII

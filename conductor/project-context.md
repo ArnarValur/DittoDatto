@@ -15,7 +15,7 @@
 
 - **Name:** DittoDatto (`dittodatto.no`)
 - **Tagline:** The Agentic Commerce Platform for Norway
-- **Description:** A multi-agentic service booking platform. Layer 1 is a fully-functional non-AI marketplace + business portal + booking engine + admin panel; Layer 2 layers **Ditto** (consumer agent) and **Datto** (business agent) on top, mediated by the future **Universal Commerce Protocol (UCP)**. **MercuryEngine** (FastAPI / Pydantic) on **SurrealDB 3.0** is the single source of truth for booking, discovery, and CRUD across all surfaces.
+- **Description:** A multi-agentic service booking platform. Layer 1 is a fully-functional non-AI marketplace + business portal + booking engine + admin panel; Layer 2 layers **Ditto** (consumer agent) and **Datto** (business agent) on top, mediated by the future **Universal Commerce Protocol (UCP)**. **MercuryEngine** (FastAPI / Pydantic) on **SurrealDB 3.1** is the single source of truth for booking, discovery, and CRUD across all surfaces.
 - **Target Audience:**
   - **Service businesses** — salons, restaurants, garages, clinics, venues — starting in Drammen, scaling nationally.
   - **Norwegian general public** — locals seeking modern, efficient booking.
@@ -54,7 +54,7 @@
 
 ### Core Infrastructure
 
-- **Platform Database:** SurrealDB 3.0 — unified document + graph + vector (HNSW) + BM25 full-text + geo + time-series. Storage engine: RocksDB.
+- **Platform Database:** SurrealDB 3.1 — unified document + graph + vector (HNSW) + BM25 full-text + geo + time-series. Storage engine: RocksDB.
   - Namespaces: `companies/{slug}` (per-company), `companies/discovery` (public aggregator), `companies/registry` (system ops), `users/profiles` (GDPR-isolated PII). See ADR-0002.
 - **Booking Engine:** MercuryEngine — FastAPI · Python 3.11+ · Pydantic v2 · uv package manager.
   - Scope: Booking hold/booking lifecycle and Time Tetris availability calculator. Does not own admin routes or entity CRUD.
@@ -88,7 +88,7 @@
 
 ### Data Storage / Search
 
-- **Database:** SurrealDB 3.0 (sole platform DB — no Firestore, no separate vector DB, no BigQuery).
+- **Database:** SurrealDB 3.1 (sole platform DB — no Firestore, no separate vector DB, no BigQuery).
 - **Full-text search:** SurrealDB BM25 analyzers (Norwegian snowball stemmer on discovery listings).
 - **Vector search:** SurrealDB HNSW indexes (semantic search for Ditto fuzzy matching).
 - **Geo:** `geo::distance()` + native GeoJSON.
@@ -110,7 +110,7 @@
 
 | Former Component | Replacement |
 |---|---|
-| Cloud Firestore | SurrealDB 3.0 |
+| Cloud Firestore | SurrealDB 3.1 |
 | Cloud Functions | FastAPI services on Cloud Run |
 | Firebase Emulators | SurrealDB local Docker (workstation / Saturn) |
 | Sync Pipe (Firestore → SurrealDB) | Eliminated — one database |
@@ -144,7 +144,7 @@
 |---|---|---|
 | Flutter + Riverpod + GoRouter | High | Admin panel built end-to-end (S19–S20); Marketplace scaffold ready. Material 3 conventions applied. |
 | Python + FastAPI + Pydantic v2 + uv | High | MercuryEngine — 377 tests, ruff-clean, repository pattern, DI through FastAPI. |
-| SurrealDB 3.0 (data + graph + vector + geo + BM25) | High | Schema blueprints applied per company; dual-namespace isolation (`companies` / `users`). |
+| SurrealDB 3.1 (data + graph + vector + geo + BM25) | High | Schema blueprints applied per company; dual-namespace isolation (`companies` / `users`). |
 | Dart shared packages | Medium-High | `packages/mercury_client/` — HTTP client + auth + 7 models + 11 admin endpoints. |
 | BankID / Vipps OIDC | Medium | Direct-to-SurrealDB native OIDC (ADR-0006), implementation pending Vipps merchant registration. |
 | Google ADK (agent orchestration) | Low | Future Ditto/Datto — not yet implemented. |

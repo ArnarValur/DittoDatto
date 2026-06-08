@@ -230,7 +230,12 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                             }
                           }
                         },
-                        itemBuilder: (context) => [ActorRole.customer, ActorRole.business]
+                        itemBuilder: (context) => [
+                          ActorRole.customer,
+                          ActorRole.business,
+                          ActorRole.admin,
+                          ActorRole.superAdmin,
+                        ]
                             .map((role) => PopupMenuItem(
                                   value: role,
                                   child: Row(
@@ -383,7 +388,12 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                   DropdownButtonFormField<ActorRole>(
                     initialValue: selectedRole,
                     decoration: const InputDecoration(labelText: 'Role'),
-                    items: [ActorRole.customer, ActorRole.business]
+                    items: [
+                      ActorRole.customer,
+                      ActorRole.business,
+                      ActorRole.admin,
+                      ActorRole.superAdmin,
+                    ]
                         .map((role) => DropdownMenuItem(
                               value: role,
                               child: RoleBadge(role: role),
@@ -533,7 +543,12 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                   DropdownButtonFormField<ActorRole>(
                     initialValue: selectedRole,
                     decoration: const InputDecoration(labelText: 'Role'),
-                    items: [ActorRole.customer, ActorRole.business]
+                    items: [
+                      ActorRole.customer,
+                      ActorRole.business,
+                      ActorRole.admin,
+                      ActorRole.superAdmin,
+                    ]
                         .map((role) => DropdownMenuItem(
                               value: role,
                               child: RoleBadge(role: role),

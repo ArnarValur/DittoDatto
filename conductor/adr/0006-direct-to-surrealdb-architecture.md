@@ -5,7 +5,7 @@
 
 ## Context
 
-Using intermediate API gateways or servers to proxy all database queries and authentication adds latency, single-point-of-failure bottlenecks, and substantial boilerplate. SurrealDB 3.0 provides robust native user management, OIDC (Vipps integration), and row-level security (RLS), enabling client applications to interact with it directly.
+Using intermediate API gateways or servers to proxy all database queries and authentication adds latency, single-point-of-failure bottlenecks, and substantial boilerplate. SurrealDB 3.1 provides robust native user management, OIDC (Vipps integration), and row-level security (RLS), enabling client applications to interact with it directly.
 
 ## Decision
 

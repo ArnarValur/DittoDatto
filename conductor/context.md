@@ -69,7 +69,7 @@
 | **Shadow Demand**                     | Data signal from unauthenticated DittoBar searches. Identifies unmet demand on the platform.                                                  | demand intelligence      |
 | **AaaS** (Anything-as-a-Service)      | Monetization model — nothing locked, everything has a limit. Feature access scales with usage.                                                | SaaS (rejected)          |
 | **Saturn**                            | On-prem NVIDIA GX10 staging server. Tailscale-gated, never production. Hosts DittoDatto Hub.                                                  | (none)                   |
-| **DittoDatto Hub**                    | SurrealDB 3.0 on Saturn (port 8001). Staging source of truth. Both `companies` and `users` namespaces.                                        | the Hub                  |
+| **DittoDatto Hub**                    | SurrealDB 3.1 on Saturn (port 8001). Staging source of truth. Both `companies` and `users` namespaces.                                        | the Hub                  |
 | **`companies` namespace**             | SurrealDB namespace for non-PII data: per-company DBs, discovery aggregator, platform registry.                                               | (none)                   |
 | **`users` namespace**                 | SurrealDB namespace for consumer PII (`users/profiles`). GDPR-isolated.                                                                       | (none)                   |
 | **Tailscale**                         | Mesh VPN for team + AI agents to reach Saturn staging. No public exposure.                                                                    | (none)                   |

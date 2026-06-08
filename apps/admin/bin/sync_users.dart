@@ -59,13 +59,19 @@ void main(List<String> args) async {
       if (owned.isNotEmpty) {
         // This user owns companies!
         final allSlugs = owned.map((c) => c['slug'] as String).join(', ');
+        
+        final currentRole = user['role'] as String? ?? 'customer';
+        final targetRole = (currentRole == 'admin' || currentRole == 'super_admin')
+            ? currentRole
+            : 'business';
 
-        print('⚡ Healing owner $userId (owns: $allSlugs) -> setting slug to $allSlugs and role to business.');
+        print('⚡ Healing owner $userId (owns: $allSlugs) -> setting slug to $allSlugs and role to $targetRole.');
         
         await db.query(
-          r'UPDATE type::record("user", $userId) SET role = "business", company_slug = $slug, company_membership_ids = $compIds, company_memberships = $memberships',
+          r'UPDATE type::record("user", $userId) SET role = $role, company_slug = $slug, company_membership_ids = $compIds, company_memberships = $memberships',
           {
             'userId': userId,
+            'role': targetRole,
             'slug': allSlugs,
             'compIds': owned.map((c) => (c['id'] as String).split(':').last).toList(),
             'memberships': owned.map((c) => {
@@ -78,11 +84,17 @@ void main(List<String> args) async {
       } else {
         // This user owns no companies!
         if (user['role'] == 'business' || user['company_slug'] != null) {
-          print('⚡ Healing non-owner user $userId -> reverting role to customer and clearing slug.');
+          final currentRole = user['role'] as String? ?? 'customer';
+          final targetRole = (currentRole == 'admin' || currentRole == 'super_admin')
+              ? currentRole
+              : 'customer';
+
+          print('⚡ Healing non-owner user $userId -> setting role to $targetRole and clearing slug.');
           await db.query(
-            r'UPDATE type::record("user", $userId) SET role = "customer", company_slug = none, company_membership_ids = [], company_memberships = []',
+            r'UPDATE type::record("user", $userId) SET role = $role, company_slug = none, company_membership_ids = [], company_memberships = []',
             {
               'userId': userId,
+              'role': targetRole,
             },
           );
         }

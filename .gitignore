@@ -29,3 +29,4 @@ DittoDatto-old/
 
 # Sub-Projects within the DittoDatto family.
 services/mercury-engine/
+conductor/docs/keys/*

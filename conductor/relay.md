@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-08 20:17 — Administrative Roles Support
+
+- **Session:** Enabled administrative roles (`admin` & `super_admin`) in the Users back-office and protected them during company CRUD tenant operations.
+- **Tracks touched:** `admin_panel_20260527`
+- **Status:** Completed. Exposed all 4 roles in dropdowns/popup menus, updated queries to include admins, verified via E2E integration test, and deployed to Saturn staging. Promoted Arnar & Höddi to `super_admin` in database.
+- **Decisions:** None (operational decisions batched into Pulse/Session Memory).
+- **Next:** Continue implementing the Business Portal scaffold track.
+
+---
+
 ## 2026-06-08 12:25 — Business Portal Scaffold Track Created
 
 - **Session:** Scaffolding the Business Portal Flutter development track.
@@ -59,7 +69,7 @@ Timestamped entries for context continuity between sessions.
 
 - **Tracks:** `admin_panel_20260527` (in progress)
 - Resolved company owner update desynchronization by adding atomic User profile update inside `SurrealAdminRepository.updateCompany` (removing membership from old owner and adding to new owner).
-- Resolved optional phone field clearing crash under SurrealDB 3.0 schema typing by mapping null/empty phone updates to `none` via conditional query expressions in `SurrealAdminRepository.updateUser`.
+- Resolved optional phone field clearing crash under SurrealDB 3.1 schema typing by mapping null/empty phone updates to `none` via conditional query expressions in `SurrealAdminRepository.updateUser`.
 - Replaced duplicated Email column with a dedicated Phone column on the Users table layout in `users_screen.dart`.
 - Recompiled and pushed updated release assets to Saturn staging server at `/srv/dittodatto/admin-panel/web/` and restarted Caddy.
 - **Decisions:** None

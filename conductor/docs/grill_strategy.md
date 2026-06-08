@@ -96,7 +96,7 @@ Copy the following docs from `DittoDatto-old/` to wherever you want the new proj
 
 - **Project identity:** DittoDatto — Agentic Commerce Platform for Norway
 - **Brownfield:** Yes — point it at the docs you copied
-- **Tech stack:** Flutter (Dart) + Python (FastAPI/Pydantic) + SurrealDB 3.0
+- **Tech stack:** Flutter (Dart) + Python (FastAPI/Pydantic) + SurrealDB 3.1
 - **Workflow mode:** Your preference (likely `track-based` given the multi-surface structure)
 
 **Expected output:** Fresh `conductor/` with `project-context.md`, `context.md` (pre-populated from brownfield scan), `tech-stack.md`, `code_styleguides/`, and lazy `adr/` + `docs/` directories.

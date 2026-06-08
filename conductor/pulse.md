@@ -1,15 +1,16 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-08 12:25
-**Session Focus:** Business Portal domain setup and creation of the project scaffolding track (`business_portal_scaffold_20260608`).
+**Last Updated:** 2026-06-08 20:17
+**Session Focus:** Enabled administrative roles (`admin` & `super_admin`) in the Admin Panel user management and repository layer, and promoted Arnar & Höddi to `super_admin` on Saturn staging.
 
 ## 🚀 Active Tracks
 
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed. Categories screen upgraded with curated Material Icons selector, validation, and in-place reloads. Deployed to Saturn.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed. Categories screen upgraded with curated Material Icons selector, validation, and in-place reloads. Deployed to Saturn. Role management now fully supports administrative roles.
 - **Business Portal Scaffold** (`business_portal_scaffold_20260608`) — New. Scaffolding the Flutter Business Portal web app, integrating monorepo workspaces, setting up GoRouter auth guards and the responsive DittoDashboardShell.
 
 ## ✅ Recently Completed
 
+- **2026-06-08** — **Administrative Roles Support.** Enabled managing all 4 roles in the Admin Panel back-office Users screen. Updated repository and DB healing queries to protect admin/super_admin roles from being overwritten, verified via E2E integration test, and deployed to Saturn.
 - **2026-06-08** — **Created Business Portal Scaffold Track.** Structured specifications and implementation plan (`plan.md`) for the first Business Portal development track. Registered the track in `tracks.md`.
 - **2026-06-08** — **Business Portal Domain Refinement & PRD.** Completed the /grill session to establish the Business Portal domain, generated the business-portal-prd.md file, and recorded three new ADRs (ADR-0010, ADR-0011, and ADR-0012) governing real-time queries, connection alerts, and edge capabilities. Added StaffCapability to the ubiquitous glossary.
 - **2026-06-08** — **Business Portal Technical Audits & Flutter Architecture Design.** Audited the Nuxt 3 Business Portal web application, the `@dittodatto/ui` shared package integration, and SurrealDB multi-tenant authentication/authorization flows. Formulated a cross-platform system design and Flutter architecture blueprint featuring Riverpod stream providers, responsive layouts, and OpenStreetMap rendering. Stored four comprehensive reports in the artifact directory.
@@ -17,10 +18,10 @@
 - **2026-06-05** — **Material Icon Picker & Validation in Category Dialog.** Upgraded the Categories screen in [categories_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/categories/categories_screen.dart) with a curated grid selector for Google Material Icons, required-field form validation, async progress indicators during database saves, error boundary display, and smooth in-place pagination reloads. Deployed to Saturn.
 - **2026-06-03** — **Validated Email & Role Editing in Edit User Dialog.** Restructured the Edit User dialog in [users_screen.dart](file:///home/solmundur/Projects/DittoDatto/apps/admin/lib/features/users/users_screen.dart) to include validated Email and Role fields, successfully saving updates to SurrealDB via `updateUser`.
 - **2026-06-03** — **Company owner update synchronization.** Added logic in `SurrealAdminRepository.updateCompany` to atomically update user profiles when a company owner changes (removing old owner slug/memberships and setting new owner credentials).
-- **2026-06-03** — **Phone field clearing fallback.** Addressed optional field clearing crash under SurrealDB 3.0 schema typing by mapping null/empty phone updates to `none` via conditional query expressions in `SurrealAdminRepository.updateUser`.
+- **2026-06-03** — **Phone field clearing fallback.** Addressed optional field clearing crash under SurrealDB 3.1 schema typing by mapping null/empty phone updates to `none` via conditional query expressions in `SurrealAdminRepository.updateUser`.
 - **2026-06-03** — **Users table layout update.** Replaced duplicated Email column with a dedicated Phone column in `users_screen.dart` to make user contact information directly visible.
-- **2026-06-01** — **Recursive null-remover logic.** Developed a deep JSON null-remover in `SurrealAdminRepository` to satisfy strict SurrealDB 3.0 schema constraints against nested null fields (like `social_links`).
-- **2026-06-01** — **Staging timezone coercion fix.** Modified timestamp fields in repository transactions to utilize `.toUtc().toIso8601String()`, solving coercion crashes in SurrealDB 3.0.
+- **2026-06-01** — **Recursive null-remover logic.** Developed a deep JSON null-remover in `SurrealAdminRepository` to satisfy strict SurrealDB 3.1 schema constraints against nested null fields (like `social_links`).
+- **2026-06-01** — **Staging timezone coercion fix.** Modified timestamp fields in repository transactions to utilize `.toUtc().toIso8601String()`, solving coercion crashes in SurrealDB 3.1.
 - **2026-06-01** — **Nested payload verification test.** Created `apps/admin/bin/test_null_remover.dart` and verified recursive null-stripping logic successfully creates companies under staging database limits.
 - **2026-06-01** — **Users screen premium redesign.** Redesigned table layout to match mockup (initials badges, subtext email, options menu, truncated IDs). Excluded administrative accounts from back-office lists.
 - **2026-06-01** — **Staging Web HTTP Secure Context fix.** Solved browser Web Crypto initialization crashes under non-secure HTTP Origin by introducing conditional compile-time `WebStorage` localStorage fallback.
@@ -33,6 +34,8 @@ _None._
 
 ## 🧠 Session Memory
 
+- *2026-06-08 - 20:17* — Manage all roles in Admin UI: Allowed the back-office Users screen to list and edit all 4 roles (customer, business, admin, super_admin) to facilitate platform administration. _(operational)_
+- *2026-06-08 - 20:17* — Conditional SurrealQL role protection: Implemented conditional expressions (IF role = "admin" OR role = "super_admin" THEN role ELSE ... END) in repository operations to safeguard administrative accounts. _(operational)_
 - *2026-06-08 - 12:25* — Closed interface: Business Portal always requires Login first. Operator onboarding flow prioritizes Establishments setup (outlets configuration) before managing services, staff, and bookings. _(operational)_
 - **Saved technical audit reports:** [business_portal_audit.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/business_portal_audit.md), [ui_package_audit.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/ui_package_audit.md), [database_flow_design.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/database_flow_design.md), and [flutter_architecture_design.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/flutter_architecture_design.md). _(operational)_
 - **PostIt (State Management):** Investigate whether to adopt Riverpod 2.x or BLoC + GetIt for managing Firestore real-time streams in the Flutter app. _(operational)_
@@ -49,8 +52,8 @@ _None._
 - **bootstrap.surql** — schema and namespace user definitions only. No fabricated data.
 - *2026-06-05 - 02:45* — Chosen static curated set of Google Material Icons in the frontend mapped to simple DB keys over a dynamic database-driven icon manager. _(operational)_
 - *2026-06-03 - 20:05* — Added Email and Role dropdown editing to Edit User dialog, validating required fields before submitting to `updateUser`. _(operational)_
-- *2026-06-01 - 13:38* — Implemented recursive JSON null-remover for database payloads to support strict schema typing of optional nested maps (e.g. social_links) in SurrealDB 3.0. _(operational)_
-- *2026-06-01 - 13:21* — Form-filled datetime columns standardized to UTC with explicit Z suffixes to pass type::datetime restrictions in SurrealDB 3.0. _(operational)_
+- *2026-06-01 - 13:38* — Implemented recursive JSON null-remover for database payloads to support strict schema typing of optional nested maps (e.g. social_links) in SurrealDB 3.1. _(operational)_
+- *2026-06-01 - 13:21* — Form-filled datetime columns standardized to UTC with explicit Z suffixes to pass type::datetime restrictions in SurrealDB 3.1. _(operational)_
 - *2026-06-01 - 00:10* — Restricted back-office Users screen list and role modification options to `customer` and `business` only. _(operational)_
 - *2026-06-01 - 00:12* — Bypass Web Crypto secure-context crashes on Web targets by introducing conditional WebStorage fallback using standard window.localStorage under HTTP. _(operational)_
 - *2026-06-01 - 00:44* — Sweep null-valued entries from database query maps to satisfy strict none | string constraints on SurrealDB tables. _(operational)_

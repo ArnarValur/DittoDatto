@@ -55,12 +55,12 @@ class SurrealAdminRepository implements AdminRepository {
     final start = (page - 1) * pageSize;
 
     final countResult = await connection.users.query(
-      "SELECT count() FROM user WHERE role IN ['customer', 'business'] GROUP ALL",
+      "SELECT count() FROM user GROUP ALL",
     );
     final total = _extractCount(countResult);
 
     final result = await connection.users.query(
-      r"SELECT * FROM user WHERE role IN ['customer', 'business'] ORDER BY created_at DESC LIMIT $pageSize START $start",
+      r"SELECT * FROM user ORDER BY created_at DESC LIMIT $pageSize START $start",
       {'pageSize': pageSize, 'start': start},
     );
     final items = _parseList<User>(result, User.fromJson);
@@ -187,7 +187,7 @@ class SurrealAdminRepository implements AdminRepository {
     // Atomically connect the User profile with the new company slugs!
     await connection.users.use('users', 'profiles');
     await connection.users.query(
-      r'UPDATE type::record("user", $owner_id) SET role = "business", company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
+      r'UPDATE type::record("user", $owner_id) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "business" END, company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
       {
         'owner_id': company.ownerId,
         'slugs': allSlugs,
@@ -271,9 +271,9 @@ class SurrealAdminRepository implements AdminRepository {
           },
         );
       } else {
-        // The old owner owns no other companies. Revert them to customer.
+        // The old owner owns no other companies. Revert them to customer, preserving administrative roles.
         await connection.users.query(
-          r'UPDATE type::record("user", $ownerId) SET role = "customer", company_slug = none, company_membership_ids = [], company_memberships = []',
+          r'UPDATE type::record("user", $ownerId) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "customer" END, company_slug = none, company_membership_ids = [], company_memberships = []',
           {
             'ownerId': oldOwnerId,
           },
@@ -294,7 +294,7 @@ class SurrealAdminRepository implements AdminRepository {
 
       await connection.users.use('users', 'profiles');
       await connection.users.query(
-        r'UPDATE type::record("user", $owner_id) SET role = "business", company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
+        r'UPDATE type::record("user", $owner_id) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "business" END, company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
         {
           'owner_id': updatedCompany.ownerId,
           'slugs': newSlugs,
@@ -353,7 +353,7 @@ class SurrealAdminRepository implements AdminRepository {
         );
       } else {
         await connection.users.query(
-          r'UPDATE type::record("user", $ownerId) SET role = "customer", company_slug = none, company_membership_ids = [], company_memberships = []',
+          r'UPDATE type::record("user", $ownerId) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "customer" END, company_slug = none, company_membership_ids = [], company_memberships = []',
           {
             'ownerId': comp.ownerId,
           },

@@ -9,7 +9,7 @@ The DittoDatto ecosystem requires a high-performance database capable of documen
 
 ## Decision
 
-We use **SurrealDB 3.0** as the single source of truth and sole platform database for all services. All secondary databases and external sync pipelines are deprecated.
+We use **SurrealDB 3.1** as the single source of truth and sole platform database for all services. All secondary databases and external sync pipelines are deprecated.
 
 ## Consequences
 
