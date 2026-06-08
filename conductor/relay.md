@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-08 12:25 — Business Portal Scaffold Track Created
+
+- **Session:** Scaffolding the Business Portal Flutter development track.
+- **Tracks touched:** None (created `business_portal_scaffold_20260608`)
+- **Status:** Scaffold track spec, plan, and metadata generated and committed.
+- **Decisions:** None (OIDC vs SDB Auth resolved operationally for now).
+- **Next:** Start implementation of Phase 1 of the Business Portal scaffold track (`business_portal_scaffold_20260608`).
+
+---
+
 ## 2026-06-08 12:05 — Business Portal Domain Refinement & PRD
 
 - **Session:** Business Portal domain refinement and PRD setup.

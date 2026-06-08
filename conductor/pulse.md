@@ -1,14 +1,16 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-08 12:05
-**Session Focus:** Business Portal domain refinement, PRD creation, and architectural design constraints (WebSockets Live Queries, connection handling, works_at edge capabilities).
+**Last Updated:** 2026-06-08 12:25
+**Session Focus:** Business Portal domain setup and creation of the project scaffolding track (`business_portal_scaffold_20260608`).
 
 ## 🚀 Active Tracks
 
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed. Categories screen upgraded with curated Material Icons selector, validation, and in-place reloads. Deployed to Saturn.
+- **Business Portal Scaffold** (`business_portal_scaffold_20260608`) — New. Scaffolding the Flutter Business Portal web app, integrating monorepo workspaces, setting up GoRouter auth guards and the responsive DittoDashboardShell.
 
 ## ✅ Recently Completed
 
+- **2026-06-08** — **Created Business Portal Scaffold Track.** Structured specifications and implementation plan (`plan.md`) for the first Business Portal development track. Registered the track in `tracks.md`.
 - **2026-06-08** — **Business Portal Domain Refinement & PRD.** Completed the /grill session to establish the Business Portal domain, generated the business-portal-prd.md file, and recorded three new ADRs (ADR-0010, ADR-0011, and ADR-0012) governing real-time queries, connection alerts, and edge capabilities. Added StaffCapability to the ubiquitous glossary.
 - **2026-06-08** — **Business Portal Technical Audits & Flutter Architecture Design.** Audited the Nuxt 3 Business Portal web application, the `@dittodatto/ui` shared package integration, and SurrealDB multi-tenant authentication/authorization flows. Formulated a cross-platform system design and Flutter architecture blueprint featuring Riverpod stream providers, responsive layouts, and OpenStreetMap rendering. Stored four comprehensive reports in the artifact directory.
 
@@ -31,6 +33,7 @@ _None._
 
 ## 🧠 Session Memory
 
+- *2026-06-08 - 12:25* — Closed interface: Business Portal always requires Login first. Operator onboarding flow prioritizes Establishments setup (outlets configuration) before managing services, staff, and bookings. _(operational)_
 - **Saved technical audit reports:** [business_portal_audit.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/business_portal_audit.md), [ui_package_audit.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/ui_package_audit.md), [database_flow_design.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/database_flow_design.md), and [flutter_architecture_design.md](file:///home/solmundur/.gemini/antigravity/brain/9fdfa47f-3246-4d7a-8336-4a35f57444ee/flutter_architecture_design.md). _(operational)_
 - **PostIt (State Management):** Investigate whether to adopt Riverpod 2.x or BLoC + GetIt for managing Firestore real-time streams in the Flutter app. _(operational)_
 - **PostIt (Offline Cache):** Decide on enabling Firestore offline client caching for Web targets or keeping it memory-only. _(operational)_
