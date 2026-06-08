@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mercury_client/mercury_client.dart';
 
 import 'package:business_portal/features/auth/auth_provider.dart';
+import 'package:business_portal/features/dashboard/dashboard_screen.dart';
 import 'package:business_portal/router.dart';
 
 /// Creates a testable app with the router under the given auth state.
@@ -81,8 +82,8 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // Verify Dashboard content is visible.
-        expect(find.text('Dashboard'), findsOneWidget);
+        // Verify Dashboard screen is in the widget tree.
+        expect(find.byType(DashboardScreen), findsOneWidget);
 
         // Verify Login screen is NOT visible.
         expect(find.text('Sign In'), findsNothing);
@@ -120,7 +121,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Should redirect away from login to dashboard.
-        expect(find.text('Dashboard'), findsOneWidget);
+        expect(find.byType(DashboardScreen), findsOneWidget);
         expect(find.text('Sign In'), findsNothing);
       },
     );
