@@ -7,5 +7,6 @@ environment:
 
 workspace:
   - apps/admin
+  - apps/business-portal
   - packages/ditto_design
   - packages/mercury_client

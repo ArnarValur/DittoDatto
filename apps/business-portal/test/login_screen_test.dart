@@ -63,11 +63,7 @@ void main() {
 
       expect(find.widgetWithText(TextFormField, 'Password'), findsOneWidget);
 
-      // Verify the password field uses obscureText.
-      final passwordField = tester.widget<TextFormField>(
-        find.widgetWithText(TextFormField, 'Password'),
-      );
-      // TextFormField wraps TextField — check via EditableText.
+      // Verify the password field uses obscureText via EditableText.
       final editableText = tester.widget<EditableText>(
         find.descendant(
           of: find.widgetWithText(TextFormField, 'Password'),
