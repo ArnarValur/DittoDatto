@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-09 01:15 — Business Portal Phase 2 Complete (Router & Shell)
+
+- **Session:** Implemented all Phase 2 tasks of the Business Portal scaffold track using strict TDD workflow.
+- **Tracks touched:** `business_portal_scaffold_20260608`
+- **Status:** Phase 2 complete. GoRouter auth guard, LoginScreen, DittoDashboardShell PortalShell, and 7 placeholder screens implemented. 22 tests passing, 0 lint issues. Checkpoint: `4a24f3f`.
+- **Decisions:** None (pure implementation session following existing plan and ADRs)
+- **Next:** Phase 3 verification (flutter analyze + web/apk builds), then browser-test on Saturn, then start Establishments CRUD track.
+
+---
+
 ## 2026-06-08 20:55 — Business Portal Login & Tenant RBAC Spec
 
 - **Session:** Refined Business Portal login flow, multi-tenant database routing, and RBAC capabilities.

@@ -1,12 +1,12 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-08 20:55
-**Session Focus:** Business Portal Login screen, Authentication, and RBAC / Multi-Tenant routing design.
+**Last Updated:** 2026-06-09 01:15
+**Session Focus:** Business Portal Phase 2 — Router & Shell Setup (TDD implementation).
 
 ## 🚀 Active Tracks
 
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed. Categories screen upgraded with curated Material Icons selector, validation, and in-place reloads. Deployed to Saturn. Role management now fully supports administrative roles.
-- **Business Portal Scaffold** (`business_portal_scaffold_20260608`) — New. Scaffolding the Flutter Business Portal web app, integrating monorepo workspaces, setting up GoRouter auth guards and the responsive DittoDashboardShell.
+- **Business Portal Scaffold** (`business_portal_scaffold_20260608`) — In-progress. Phase 1 (project structure) and Phase 2 (router & shell) complete. GoRouter auth guard, LoginScreen, DittoDashboardShell integration, and 7 placeholder screens all passing 22 tests with zero lint issues. Phase 3 (verification & compilation) next.
 
 ## ✅ Recently Completed
 
@@ -35,6 +35,7 @@ _None._
 
 ## 🧠 Session Memory
 
+- *2026-06-09 - 01:15* — Completed Phase 2 of Business Portal scaffold: GoRouter with auth redirect guard (4 tests), LoginScreen with form validation (6 tests), PortalShell with DittoDashboardShell and 7 nav items (5 tests), navigation toggle verification (7 tests). All 22 tests green, zero lint issues. Commits: `78f7c56`, `b8e1b01`, `6f8076a`, `5965b38`, checkpoint `4a24f3f`. _(operational)_
 - *2026-06-08 - 20:17* — Manage all roles in Admin UI: Allowed the back-office Users screen to list and edit all 4 roles (customer, business, admin, super_admin) to facilitate platform administration. _(operational)_
 - *2026-06-08 - 20:17* — Conditional SurrealQL role protection: Implemented conditional expressions (IF role = "admin" OR role = "super_admin" THEN role ELSE ... END) in repository operations to safeguard administrative accounts. _(operational)_
 - *2026-06-08 - 12:25* — Closed interface: Business Portal always requires Login first. Operator onboarding flow prioritizes Establishments setup (outlets configuration) before managing services, staff, and bookings. _(operational)_
@@ -63,6 +64,6 @@ _None._
 
 ## 📋 Next Session Suggestions
 
-1. 🏗️ **Start Business Portal Scaffolding** — Implement Phase 1 tasks of `business_portal_scaffold_20260608` track (Task 1.1 `flutter create` and Task 1.2 configure workspace and packages dependencies `ditto_design` and `mercury_client`).
-2. 🔒 **Implement Multi-Tenant Auth Guard** — Build router auth guards redirecting to `/login` and routing successfully authenticated business users to their respective tenant database `company_{slug}` (ADR-0013).
-3. 🧹 **Clean up shared UI CSS duplication** — Resolve `@dittodatto/ui` config issues to prevent CSS variables duplication in the Business Portal.
+1. 🔨 **Business Portal Phase 3 — Verification & Compilation** — Run `flutter analyze`, `flutter build web --debug`, and `flutter build apk --debug` to close out the scaffold track.
+2. 🧪 **Browser-test the Business Portal** — Deploy to Saturn and manually verify the login flow + shell navigation in a real browser.
+3. 🏗️ **Start Establishments CRUD Track** — Begin the next Business Portal feature track: outlet management (create, edit, list establishments).
