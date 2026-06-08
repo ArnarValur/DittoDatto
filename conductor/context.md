@@ -3,7 +3,7 @@
 > Domain glossary and ubiquitous language for **DittoDatto**.
 > Updated by `/grill` and `/new-track` sessions.
 >
-> **Last refined:** 2026-05-27
+> **Last refined:** 2026-06-08
 
 ---
 
@@ -17,6 +17,7 @@
 | **Service**               | An offered booking unit at an Establishment (e.g., "Haircut 30 min"). Booking mode lives here (`standard` / `tableReservation` / `ticketSystem`) — ADR-0010.           | offering, treatment                   |
 | **ServiceGroup**          | A grouping of Services on an Establishment (e.g., "Hair", "Beard").                                                                                                    | category (internal), service category |
 | **StaffMember**           | A person who performs Services at an Establishment.                                                                                                                    | staff, company staff                  |
+| **StaffCapability**        | A granular permission token (e.g., `can_manage_services`) defining a specific action a staff member is allowed to perform at a given establishment.                   | permission token, privilege           |
 | **Customer**              | A person who books at an Establishment. Can be Establishment-scoped                                                                                                    | guest, walk-in                        |
 | **User**                  | A consumer platform account, stored in `users/profiles`.                                                                                                               | consumer, platform user               |
 | **Booking**               | A confirmed reservation of a Service at a specific time with optional Staff assignment. Fiscally immutable once created.                                               | appointment (when `standard` mode)    |

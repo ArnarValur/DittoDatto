@@ -7,6 +7,7 @@
 - [Code Style Guides](./code_styleguides/)
 - [Domain Glossary](./context.md)
 - [Product Requirements](./prd.md)
+- [Business Portal Requirements](./business-portal-prd.md)
 - [Agent Rules](./agent-rules/)
 
 ## Decisions
