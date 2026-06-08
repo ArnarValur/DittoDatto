@@ -1,17 +1,17 @@
 # DittoDatto Authentication, Authorization, and Database Flow Design
 
-This report documents the multi-tenant database structure, authentication workflows, and authorization checks between the **Business Portal**, the **Admin Panel**, and **SurrealDB**, mediated by **MercuryEngine**.
+This report documents the multi-tenant database structure, authentication workflows, and authorization checks between the **Business Portal**, the **Admin Panel**, and **SurrealDB**, aligning with the Direct-to-SurrealDB architecture (ADR-0006).
 
 ---
 
 ## 1. Database Architecture & Tenancy Model
 
-DittoDatto uses a hybrid multi-tenant architecture in SurrealDB 3.0. Security, compliance, and PII management are enforced using strict namespace and database isolation.
+DittoDatto uses a hybrid multi-tenant architecture in SurrealDB 3.1. Security, compliance, and PII management are enforced using strict namespace and database isolation.
 
 ```
 SurrealDB Instance
 ├── Namespace: users
-│   └── Database: profiles (or users)
+│   └── Database: profiles
 │       └── Table: user (GDPR-isolated consumer/business accounts)
 └── Namespace: companies
     ├── Database: registry (System-wide list of all registered Dattos)
@@ -42,7 +42,7 @@ Since SurrealDB record links cannot traverse namespace boundaries, references ac
 
 ## 2. Onboarding Flow: User & Company Association
 
-When a new business owner registers and associates with a company, the **Admin Panel** performs an atomic, multi-database sync.
+When a new business owner registers and associates with a company, the **Admin Panel** performs an atomic, multi-database sync directly against SurrealDB (using native namespace-level credentials with `ROLES OWNER` access).
 
 ```mermaid
 sequenceDiagram
@@ -120,89 +120,76 @@ sequenceDiagram
 
 ---
 
-## 3. Authentication & Authorization Flow
+## 3. Direct-to-SurrealDB Auth & RLS Authorization Flow
 
-### The Sequence
+In accordance with ADR-0006, the Business Portal and Public Marketplace connect and authenticate **directly** to SurrealDB. **MercuryEngine** is only invoked during transactions (booking holds, availability checking) and does not act as an auth gateway.
 
 ```mermaid
 sequenceDiagram
     autonumber
-    participant User as Business User
-    participant BP as Business Portal (Nuxt)
+    participant Client as Business Portal (Flutter)
+    participant Vipps as Vipps OIDC Provider
+    participant S_NS as SurrealDB (Native OIDC Access)
+    participant S_DB as SurrealDB (Tenant company_slug)
     participant ME as MercuryEngine (FastAPI)
-    participant S_Users as SurrealDB (users/profiles)
-    participant TenantDB as SurrealDB (companies/company_slug)
 
-    User->>BP: Logs in (Credentials)
-    BP->>BP: Authenticate with Firebase Auth & Fetch Custom Claims
-    BP->>ME: REST API Request + Bearer JWT (Authorization header)
-    ME->>ME: Decode JWT, extract user_id & requested company_slug
-    ME->>S_Users: Validate User role & Company access claims
-    S_Users-->>ME: Access Confirmed
-    ME->>TenantDB: ROUTE request (USE NS companies DB company_slug)
-    ME->>TenantDB: Query Graph: Check staff role at establishment
-    TenantDB-->>ME: Returns role (owner / admin)
-    ME->>TenantDB: Execute requested query/mutation
-    ME-->>BP: Return HTTP 200 / Action Success
+    Client->>Vipps: Initiates Login
+    Vipps-->>Client: Returns ID Token (JWT)
+    Client->>S_NS: Authenticate via WebSocket (signin token)
+    S_NS->>S_NS: Validate JWT against Vipps signature
+    S_NS-->>Client: Established Session ($auth context set)
+    Client->>S_DB: Execute Query / Mutation (SELECT, UPDATE)
+    S_DB->>S_DB: Evaluate Row-Level Security (RLS) and Graph relations
+    S_DB-->>Client: Returns Query Results
+    
+    Note over Client, ME: Transaction Flow Only
+    Client->>ME: REST API Request (Hold Booking)
+    ME->>S_DB: Write Hold (Delegated Trust Credentials)
+    S_DB-->>ME: Success
+    ME-->>Client: Return Transaction Success
 ```
 
 ### Detailed Trace
 
-#### Step 1: User Signs in at the Business Portal
-The user signs in using Firebase Auth. The frontend middleware extracts the user's custom claims from the ID token:
-```ts
-// Located in app/middleware/auth.global.ts
-const tokenResult = await user.getIdTokenResult(true);
-const role = tokenResult.claims.role; // e.g. 'business'
-const companyId = tokenResult.claims.companyId; // e.g. 'company:sawasdee_id'
-```
+#### Step 1: Client Authentication (OIDC)
+The client application authenticates directly with SurrealDB using native OIDC integration (`DEFINE ACCESS ... TYPE OIDC`) configured with Vipps. The returned session token establishes the `$auth` context inside the SurrealDB connection.
 
-#### Step 2: REST Request with Bearer Token
-When making a request to the backend, `useMercuryREST` attaches the token to the header:
-```
-Authorization: Bearer <firebase_jwt_token>
-```
+#### Step 2: Native Database Routing
+The client switches namespace and database to the active tenant database (`companies/company_{slug}`). Native OIDC credentials grant the client session a scoped user role matching the authenticated user profile.
 
-#### Step 3: MercuryEngine Claims Validation (Cross-Namespace Check)
-MercuryEngine validates the JWT and verifies that the `user_id` has access to the requested `company_slug`. It connects to the `users/profiles` database to check memberships:
+#### Step 3: Row-Level Security (RLS) & Graph Authorization
+Authorization is enforced natively in the database via table-level `PERMISSIONS` clauses, rather than inside application code. SurrealDB evaluates access rules for each record using graph traversal or user session attributes.
+
+For example, restricting update permissions on the `establishment` table:
 ```surql
--- Query run by MercuryEngine on users/profiles database
-SELECT company_membership_ids, role FROM user:xyz789;
-```
-*   **Pass Condition**: If `role == 'super_admin'` OR if the requested company ID exists in the `company_membership_ids` array, the authorization check passes.
-*   **Fail Condition**: An HTTP 403 Forbidden is returned.
-
-#### Step 4: Routing to Tenant Database
-Once authorized, MercuryEngine utilizes its `SurrealConnectionManager` to fetch a database client scoped to the company's tenant database:
-```python
-# Resolved via SurrealConnectionManager.get_company_client(company_slug)
-await client.use("companies", "company_sawasdee")
+-- Schema defined in tenant DB company_{slug}
+DEFINE TABLE establishment SCHEMAFULL
+    PERMISSIONS 
+        FOR select FULL
+        FOR update, delete, create WHERE 
+            (SELECT VALUE role FROM works_at WHERE in.user_id = $auth.id AND out = id AND role IN ['owner', 'admin'])[0] != NONE;
 ```
 
-#### Step 5: Graph-Based Establishment Authorization
-To verify that the logged-in user is authorized to perform changes on a specific establishment within that company, the backend traverses the `works_at` graph:
+When a business user tries to execute an update:
 ```surql
--- 1. Find the staff record representing the authenticated user ID string
-LET $staff_id = (SELECT VALUE id FROM staff WHERE user_id = "user:xyz789" LIMIT 1)[0];
-
--- 2. Traverse the works_at edge to check their role at the target establishment
-SELECT VALUE role FROM works_at WHERE in = $staff_id AND out = establishment:sawasdee_store1;
+-- Executed directly by the client app
+UPDATE establishment:drammen_spa SET name = "Drammen Wellness Spa";
 ```
-
-*   **Role Outcomes**:
-    *   `'owner'` / `'admin'`: Full management capabilities (updating schedules, changing services, viewing bookings).
-    *   `'employee'`: Limited capabilities (viewing personal schedule, booking/modifying own slots).
-    *   `NONE` (no relation exists): Request is blocked.
+SurrealDB automatically:
+1. Resolves `$auth.id` from the active WebSocket session.
+2. Locates the `staff` record whose `user_id` matches the `$auth.id`.
+3. Traverses the `works_at` edge from that staff member to the target establishment.
+4. Checks if the edge's `role` attribute is `'owner'` or `'admin'`. If yes, the update executes; otherwise, it is blocked.
 
 ---
 
-## 4. Key Architectural Observations
+## 4. The Role of MercuryEngine
 
-> [!NOTE]
-> **Cross-Namespace Decoupling**: Storing cross-namespace mappings as plain strings (like `user_id` on the `staff` table) instead of native SurrealDB record links prevents cross-database corruption. This guarantees that tenant data can be cleanly migrated, backed up, or deleted without leaving dangling pointers in the core `users` registry.
+**MercuryEngine** is a specialized booking engine service, not an authentication or gateway service. It behaves as follows:
 
-> [!TIP]
-> **Performance Optimization**: Because cross-namespace checks are relatively slow, the user's active memberships (`company_membership_ids`) are stored directly on the `user` table in `users/profiles`. This allows MercuryEngine to validate access with a single, fast point-lookup rather than scanning the entire `companies/registry` database.
+*   **Transactional Engine**: It only handles booking creation, hold locks, and availability calculations (using its pure Python Time Tetris solver).
+*   **Delegated Trust**: It connects to SurrealDB using namespace-level service account credentials (`mercury` service account with `ROLES OWNER`).
+*   **No Auth Mediation**: It does not intercept frontend CRUD operations (such as updating establishment names, configuring staff schedules, or creating services), which are queried directly against SurrealDB by the client.
 
 ---
 
@@ -211,6 +198,6 @@ SELECT VALUE role FROM works_at WHERE in = $staff_id AND out = establishment:saw
 | Service / App | Authentication Source | SurrealDB Connection Namespace / DB | Security Boundary |
 | :--- | :--- | :--- | :--- |
 | **Admin Panel** | Namespace credentials (e.g. `arnarvalur`) | `companies/registry`, `companies/discovery`, `users/profiles` | Namespace owner (access to all system data) |
-| **Business Portal (FE)** | Firebase Auth Cookie / ID Token | N/A (Mediated by Nitro/MercuryEngine) | Client-side routes protected by Firebase Claims |
-| **MercuryEngine (BE)** | Decoded JWT (Bearer Token) | `companies/company_{slug}`, `users/profiles` | Dual-namespace client; scoped database tenant routing |
+| **Business Portal (FE)** | Native OIDC JWT (Vipps Integration) | `companies/company_{slug}`, `users/profiles` | Direct WebSocket session; queries validated via RLS |
+| **MercuryEngine (BE)** | Service Account Credentials | `companies/company_{slug}`, `users/profiles` | Booking transaction engine; accesses DB with Delegated Trust |
 | **Public App (Marketplace)** | Scoped user session / Anonymous | `companies/discovery`, `companies/company_{slug}` | Read-only discovery listings; write-only hold creation |
