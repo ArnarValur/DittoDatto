@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-08 20:55 — Business Portal Login & Tenant RBAC Spec
+
+- **Session:** Refined Business Portal login flow, multi-tenant database routing, and RBAC capabilities.
+- **Tracks touched:** `business_portal_scaffold_20260608`
+- **Status:** Spec and ADR-0013 completed. SurrealDB 3.1 version update applied across all Conductor configurations.
+- **Decisions:** ADR-0013 (Business Portal Multi-Tenant Authentication and Routing)
+- **Next:** Proceed with Phase 1 scaffolding tasks of the Business Portal scaffold track (`business_portal_scaffold_20260608`).
+
+---
+
 ## 2026-06-08 20:17 — Administrative Roles Support
 
 - **Session:** Enabled administrative roles (`admin` & `super_admin`) in the Users back-office and protected them during company CRUD tenant operations.

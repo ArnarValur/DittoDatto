@@ -63,7 +63,6 @@ _None._
 
 ## 📋 Next Session Suggestions
 
-1. 🧠 **Investigate Flutter Architecture Questions** — Review Riverpod vs BLoC options, Web client offline cache configurations, and OSM vs Google Maps.
-2. 🧹 **Clean up shared UI CSS duplication** — Resolve `@dittodatto/ui` config issues to prevent CSS variables duplication in the Business Portal.
-3. 📦 **Database & Auth Integration** — Review isolated `company_{slug}` databases and cross-namespace string references in staging.
-4. 🖥️ **Verify Category CRUD & owner switch** — Verify creating, editing, and deleting categories with the icon picker, and changing company owners atomically on Saturn staging UI.
+1. 🏗️ **Start Business Portal Scaffolding** — Implement Phase 1 tasks of `business_portal_scaffold_20260608` track (Task 1.1 `flutter create` and Task 1.2 configure workspace and packages dependencies `ditto_design` and `mercury_client`).
+2. 🔒 **Implement Multi-Tenant Auth Guard** — Build router auth guards redirecting to `/login` and routing successfully authenticated business users to their respective tenant database `company_{slug}` (ADR-0013).
+3. 🧹 **Clean up shared UI CSS duplication** — Resolve `@dittodatto/ui` config issues to prevent CSS variables duplication in the Business Portal.
