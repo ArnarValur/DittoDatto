@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-09 15:43 — Code Quality Safeguards (Security Incident Resolved)
+
+- **Session:** Responded to post-mortem on hardcoded credentials in admin bin/ scripts. Created ADR-0015 + code-safety agent rule. Remediated all 7 scripts. Deleted 5 obsolete one-time scripts. Audited and trimmed agent-rules from 5→3 files.
+- **Tracks touched:** None (cross-cutting infrastructure)
+- **Status:** Security incident fully resolved. 115→0 lint warnings. All commits clean.
+- **Decisions:** ADR-0015 (No Hardcoded Secrets or Record IDs)
+- **Next:** Deploy & browser-test Business Portal on Saturn. Start Establishments CRUD track.
+
+---
+
 ## 2026-06-09 15:04 — BP Scaffold Closed + Security Incident in bin/ Scripts
 
 - **Session:** Closed BP scaffold track (Phase 3 verification). Discovered hardcoded credentials in `apps/admin/bin/` scripts from Gemini 3.5 session.

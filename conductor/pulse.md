@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-09 15:04
-**Session Focus:** BP scaffold closure + security incident discovery in bin/ scripts.
+**Last Updated:** 2026-06-09 15:43
+**Session Focus:** Code quality safeguards — ADR-0015, bin/ script remediation, agent-rules audit.
 
 ## 🚀 Active Tracks
 
@@ -9,6 +9,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-09** — **Code Quality Safeguards.** ADR-0015 (no hardcoded secrets/IDs). Created `code-safety.md` agent rule (6 rules). Remediated all 7 bin/ scripts (115→0 lint warnings). Deleted 5 obsolete scripts. Trimmed agent-rules from 5→3 files.
 - **2026-06-09** — **Business Portal Scaffold Track COMPLETE.** Phase 3 (Verification & Compilation) passed: `flutter analyze` zero issues, `flutter build web --debug` success, `flutter build apk --debug` success. 22 tests green. Checkpoint: `eadc310`. Track closed.
 - **2026-06-08** — **Business Portal RBAC & Tenant Auth Spec.** Clarified that the Business Portal operates on standard direct-to-SurrealDB WebSocket namespace authentication combined with a `business` role guard and tenant routing (`USE DB company_{slug}`). Recorded ADR-0013 to enforce this multi-tenant database isolation.
 - **2026-06-08** — **Administrative Roles Support.** Enabled managing all 4 roles in the Admin Panel back-office Users screen. Updated repository and DB healing queries to protect admin/super_admin roles from being overwritten, verified via E2E integration test, and deployed to Saturn.
@@ -35,7 +36,8 @@ _None._
 
 ## 🧠 Session Memory
 
-- *2026-06-09 - 15:04* — 🚨 **Security: hardcoded credentials discovered** in `apps/admin/bin/promote_admins.dart`, `test_admin_roles.dart`, and `sync_users.dart`. Created by Gemini 3.5 session `d16cccc8` on 2026-06-08. Commit `64baa3e`. Post-mortem extracted. Needs: repo-wide secrets scan + remediation + review of all code from that session. _(operational)_
+- *2026-06-09 - 15:43* — ✅ **Security incident RESOLVED.** ADR-0015 settled. All 7 bin/ scripts remediated (env vars, stderr.writeln, defensive parsing). 5 obsolete scripts deleted. `code-safety.md` rule file created with 6 enforceable rules. Agent-rules trimmed to 3 focused files. No pre-commit hooks (solo + AI, soft enforcement via conductor rules). _(operational)_
+- *2026-06-09 - 15:04* — 🚨 **Security: hardcoded credentials discovered** in `apps/admin/bin/`. Created by Gemini 3.5 session `d16cccc8` on 2026-06-08. Post-mortem extracted. _(operational, resolved same session)_
 - *2026-06-09 - 08:53* — Completed Phase 3 of Business Portal scaffold: `flutter analyze` zero issues, `flutter build web --debug` success (27.3s), `flutter build apk --debug` success (37.7s). 22/22 tests green. Checkpoint: `eadc310`. Track closed. _(operational)_
 - *2026-06-09 - 01:15* — Completed Phase 2 of Business Portal scaffold: GoRouter with auth redirect guard (4 tests), LoginScreen with form validation (6 tests), PortalShell with DittoDashboardShell and 7 nav items (5 tests), navigation toggle verification (7 tests). All 22 tests green, zero lint issues. Commits: `78f7c56`, `b8e1b01`, `6f8076a`, `5965b38`, checkpoint `4a24f3f`. _(operational)_
 - *2026-06-08 - 20:17* — Manage all roles in Admin UI: Allowed the back-office Users screen to list and edit all 4 roles (customer, business, admin, super_admin) to facilitate platform administration. _(operational)_
@@ -66,7 +68,6 @@ _None._
 
 ## 📋 Next Session Suggestions
 
-1. 🚨 **Security audit: repo-wide secrets scan** — Grep entire repo for hardcoded passwords/creds. Remediate `bin/` scripts. Review blast radius of Gemini 3.5 session `d16cccc8` (commit `64baa3e`).
-2. 🧪 **Deploy & Browser-test the Business Portal** — Deploy web build to Saturn and manually verify the login flow + shell navigation in a real browser.
-3. 🏗️ **Start Establishments CRUD Track** — Begin the next Business Portal feature track: outlet management (create, edit, list establishments).
-4. 🔬 **Resolve open PostIts** — State management (Riverpod vs BLoC), offline caching strategy, maps engine decision.
+1. 🧪 **Deploy & Browser-test the Business Portal** — Deploy web build to Saturn and manually verify the login flow + shell navigation in a real browser.
+2. 🏗️ **Start Establishments CRUD Track** — Begin the next Business Portal feature track: outlet management (create, edit, list establishments).
+3. 🔬 **Resolve open PostIts** — State management (Riverpod vs BLoC), offline caching strategy, maps engine decision.
