@@ -1,35 +1,47 @@
 import 'dart:io';
 import 'package:surrealdb/surrealdb.dart';
 
+/// Database healing script: syncs user roles and company memberships
+/// by cross-referencing companies/registry owners with users/profiles.
+///
+/// Usage:
+///   SURREAL_USER=arnarvalur SURREAL_PASS=xxx dart run bin/sync_users.dart [host]
+///
+/// TODO(ADR-0015): Wrap per-user updates in BEGIN TRANSACTION ... COMMIT
+/// to ensure atomicity. Currently, a mid-execution failure leaves the
+/// database in a partially updated state.
 void main(List<String> args) async {
   final host = args.isNotEmpty ? args[0] : 'dittodatto';
   final url = 'ws://$host:8002/rpc';
 
-  print('📡 Connecting to SurrealDB at $url...');
+  final user = Platform.environment['SURREAL_USER'];
+  final pass = Platform.environment['SURREAL_PASS'];
+  if (user == null || pass == null) {
+    stderr.writeln('Error: Set SURREAL_USER and SURREAL_PASS environment variables.');
+    exit(1);
+  }
+
+  stderr.writeln('📡 Connecting to SurrealDB at $url...');
   final db = SurrealDB(url);
-  
+
   try {
     db.connect();
     await db.wait().timeout(const Duration(seconds: 5));
-    print('✅ Connection established.');
+    stderr.writeln('✅ Connection established.');
   } catch (e) {
-    print('❌ Connection failed: $e');
+    stderr.writeln('❌ Connection failed: $e');
     exit(1);
   }
 
   try {
     // 1. Fetch all companies
-    print('\n🔑 Signing in to companies/registry...');
-    await db.signin(
-      user: 'arnarvalur',
-      pass: 'admin123',
-      namespace: 'companies',
-    );
+    stderr.writeln('\n🔑 Signing in to companies/registry...');
+    await db.signin(user: user, pass: pass, namespace: 'companies');
     await db.use('companies', 'registry');
-    
+
     final companiesResult = await db.query('SELECT * FROM company') as List;
     final companiesList = (companiesResult.first['result'] as List? ?? []);
-    print('🏢 Found ${companiesList.length} companies.');
+    stderr.writeln('🏢 Found ${companiesList.length} companies.');
 
     // Map owner_id -> list of owned companies
     final Map<String, List<Map<String, dynamic>>> ownerToCompanies = {};
@@ -39,34 +51,30 @@ void main(List<String> args) async {
     }
 
     // 2. Sign in to users/profiles
-    print('\n🔑 Signing in to users/profiles...');
-    await db.signin(
-      user: 'arnarvalur',
-      pass: 'admin123',
-      namespace: 'users',
-    );
+    stderr.writeln('\n🔑 Signing in to users/profiles...');
+    await db.signin(user: user, pass: pass, namespace: 'users');
     await db.use('users', 'profiles');
 
     // Fetch all users
     final usersResult = await db.query('SELECT * FROM user') as List;
     final usersList = (usersResult.first['result'] as List? ?? []).cast<Map<String, dynamic>>();
-    print('👥 Found ${usersList.length} users.');
+    stderr.writeln('👥 Found ${usersList.length} users.');
 
-    for (final user in usersList) {
-      final userId = (user['id'] as String).split(':').last;
+    for (final userRecord in usersList) {
+      final userId = (userRecord['id'] as String).split(':').last;
       final owned = ownerToCompanies[userId] ?? [];
 
       if (owned.isNotEmpty) {
         // This user owns companies!
         final allSlugs = owned.map((c) => c['slug'] as String).join(', ');
-        
-        final currentRole = user['role'] as String? ?? 'customer';
+
+        final currentRole = userRecord['role'] as String? ?? 'customer';
         final targetRole = (currentRole == 'admin' || currentRole == 'super_admin')
             ? currentRole
             : 'business';
 
-        print('⚡ Healing owner $userId (owns: $allSlugs) -> setting slug to $allSlugs and role to $targetRole.');
-        
+        stderr.writeln('⚡ Healing owner $userId (owns: $allSlugs) -> setting slug to $allSlugs and role to $targetRole.');
+
         await db.query(
           r'UPDATE type::record("user", $userId) SET role = $role, company_slug = $slug, company_membership_ids = $compIds, company_memberships = $memberships',
           {
@@ -83,13 +91,13 @@ void main(List<String> args) async {
         );
       } else {
         // This user owns no companies!
-        if (user['role'] == 'business' || user['company_slug'] != null) {
-          final currentRole = user['role'] as String? ?? 'customer';
+        if (userRecord['role'] == 'business' || userRecord['company_slug'] != null) {
+          final currentRole = userRecord['role'] as String? ?? 'customer';
           final targetRole = (currentRole == 'admin' || currentRole == 'super_admin')
               ? currentRole
               : 'customer';
 
-          print('⚡ Healing non-owner user $userId -> setting role to $targetRole and clearing slug.');
+          stderr.writeln('⚡ Healing non-owner user $userId -> setting role to $targetRole and clearing slug.');
           await db.query(
             r'UPDATE type::record("user", $userId) SET role = $role, company_slug = none, company_membership_ids = [], company_memberships = []',
             {
@@ -101,10 +109,10 @@ void main(List<String> args) async {
       }
     }
 
-    print('\n🎉 Database healing completed successfully!');
+    stderr.writeln('\n🎉 Database healing completed successfully!');
   } catch (e, stack) {
-    print('❌ Error during healing: $e');
-    print(stack);
+    stderr.writeln('❌ Error during healing: $e');
+    stderr.writeln(stack);
   } finally {
     db.close();
   }

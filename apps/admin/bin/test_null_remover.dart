@@ -3,34 +3,40 @@ import 'package:surrealdb/surrealdb.dart';
 
 /// Standalone CLI test verifying the recursive null remover logic
 /// against SurrealDB's strict schema coercion rules.
+///
+/// Usage:
+///   SURREAL_USER=arnarvalur SURREAL_PASS=xxx dart run bin/test_null_remover.dart [host]
 void main(List<String> args) async {
   final host = args.isNotEmpty ? args[0] : 'dittodatto';
   final url = 'ws://$host:8002/rpc';
 
-  print('📡 Connecting to SurrealDB at $url...');
+  final user = Platform.environment['SURREAL_USER'];
+  final pass = Platform.environment['SURREAL_PASS'];
+  if (user == null || pass == null) {
+    stderr.writeln('Error: Set SURREAL_USER and SURREAL_PASS environment variables.');
+    exit(1);
+  }
+
+  stderr.writeln('📡 Connecting to SurrealDB at $url...');
   final db = SurrealDB(url);
-  
+
   try {
     db.connect();
     await db.wait().timeout(const Duration(seconds: 5));
-    print('✅ Connection established.');
+    stderr.writeln('✅ Connection established.');
   } catch (e) {
-    print('❌ Connection failed: $e');
+    stderr.writeln('❌ Connection failed: $e');
     exit(1);
   }
 
   // Sign in
-  print('\n🔑 Signing in as admin...');
+  stderr.writeln('\n🔑 Signing in as admin...');
   try {
-    await db.signin(
-      user: 'arnarvalur',
-      pass: 'admin123',
-      namespace: 'companies',
-    );
+    await db.signin(user: user, pass: pass, namespace: 'companies');
     await db.use('companies', 'registry');
-    print('✅ Signed in and switched to companies/registry.');
+    stderr.writeln('✅ Signed in and switched to companies/registry.');
   } catch (e) {
-    print('❌ Signin failed: $e');
+    stderr.writeln('❌ Signin failed: $e');
     exit(1);
   }
 
@@ -38,7 +44,7 @@ void main(List<String> args) async {
   // with nested maps containing nulls.
   final timestamp = DateTime.now().millisecondsSinceEpoch;
   final testCompanyId = 'company:test_null_comp_$timestamp';
-  
+
   final rawCompanyData = {
     'name': 'Form Coercion Test Salon',
     'slug': 'form-coercion-salon-$timestamp',
@@ -55,13 +61,13 @@ void main(List<String> args) async {
     'db_slug': 'form-coercion-salon-$timestamp',
     'created_at': DateTime.now().toUtc().toIso8601String(),
     'updated_at': DateTime.now().toUtc().toIso8601String(),
-    
+
     // Nested policy (some valid non-null fields)
     'store_policy': {
       'max_stores': 1,
       'can_create_own_stores': false,
     },
-    
+
     // Nested features (some valid non-null fields)
     'enabled_features': {
       'table_reservation': false,
@@ -69,7 +75,7 @@ void main(List<String> args) async {
       'ticket_system': false,
       'event_system': false,
     },
-    
+
     // Nested social links with NULL values (the EXACT trigger of the crash)
     'social_links': {
       'website': null,
@@ -80,41 +86,41 @@ void main(List<String> args) async {
   };
 
   // Clean the payload using the recursive logic
-  print('\n🧹 Cleaning payload recursively to strip out all nested nulls...');
+  stderr.writeln('\n🧹 Cleaning payload recursively to strip out all nested nulls...');
   final cleanedCompanyData = removeNullsFromMap(rawCompanyData);
 
   // Assert that nested nulls are completely gone
   final socialLinks = cleanedCompanyData['social_links'] as Map;
-  print('Resulting social_links keys: ${socialLinks.keys.toList()}');
+  stderr.writeln('Resulting social_links keys: ${socialLinks.keys.toList()}');
   if (socialLinks.isNotEmpty) {
-    print('❌ FAIL: social_links should be empty but has keys: ${socialLinks.keys}');
+    stderr.writeln('❌ FAIL: social_links should be empty but has keys: ${socialLinks.keys}');
     exit(1);
   } else {
-    print('✅ SUCCESS: Nested nulls successfully stripped from social_links!');
+    stderr.writeln('✅ SUCCESS: Nested nulls successfully stripped from social_links!');
   }
 
   // 3. Attempt to save the cleaned payload to the database
-  print('\n➕ Test: Writing recursively cleaned payload to SurrealDB ($testCompanyId)...');
+  stderr.writeln('\n➕ Test: Writing recursively cleaned payload to SurrealDB ($testCompanyId)...');
   try {
     final result = await db.create(testCompanyId, cleanedCompanyData);
-    print('✅ SUCCESS: Created company with nested fields successfully: $result');
+    stderr.writeln('✅ SUCCESS: Created company with nested fields successfully: $result');
   } catch (e) {
-    print('❌ FAIL: Company creation failed with error: $e');
+    stderr.writeln('❌ FAIL: Company creation failed with error: $e');
     db.close();
     exit(1);
   }
 
   // 4. Cleanup
-  print('\n🧹 Cleaning up test company...');
+  stderr.writeln('\n🧹 Cleaning up test company...');
   try {
     await db.delete(testCompanyId);
-    print('✅ SUCCESS: Cleaned up test company.');
+    stderr.writeln('✅ SUCCESS: Cleaned up test company.');
   } catch (e) {
-    print('❌ WARNING: Cleanup failed: $e');
+    stderr.writeln('❌ WARNING: Cleanup failed: $e');
   }
 
   db.close();
-  print('\n🎉 All recursive null-removing verification tests passed successfully!');
+  stderr.writeln('\n🎉 All recursive null-removing verification tests passed successfully!');
   exit(0);
 }
 
@@ -148,4 +154,3 @@ List<dynamic> removeNullsFromList(List<dynamic> list) {
     return item;
   }).toList();
 }
-
