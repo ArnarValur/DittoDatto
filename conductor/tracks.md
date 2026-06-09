@@ -27,15 +27,16 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Link:* [tracks/admin-panel/admin_panel_20260527/](./tracks/admin-panel/admin_panel_20260527/)
   - *Phases:* 5 — (1) Monorepo + ditto_design + Shell, (2) Auth + Login, (3) Dashboard, (4) Users + Companies + Categories, (5) Inbox + Polish [checkpoint: pending user approval]
 
-- [~] **Business Portal — Scaffold project and router shell**
-  - *Type:* feature | *Domain:* business-portal | *Status:* in-progress
-  - *Link:* [tracks/business-portal/business_portal_scaffold_20260608/](./tracks/business-portal/business_portal_scaffold_20260608/)
+
 
 ---
 
 ## Completed Tracks
 
-_None._
+- [x] **Business Portal — Scaffold project and router shell** [checkpoint: `eadc310`]
+  - *Type:* feature | *Domain:* business-portal | *Status:* completed
+  - *Link:* [tracks/business-portal/business_portal_scaffold_20260608/](./tracks/business-portal/business_portal_scaffold_20260608/)
+  - *Phases:* 3 — (1) Project Scaffolding, (2) Router & Shell Setup, (3) Verification & Compilation
 
 > Chapter 1 + Chapter 2 historical track records live in `conductor/docs/legacy/conductor-snapshot/tracks.md` for reference (377 tests, S18 admin routes, S19 mercury_client + Flutter scaffold, S20 Admin Panel screens, etc.).
 

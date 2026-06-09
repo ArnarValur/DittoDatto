@@ -1,15 +1,15 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-09 01:15
-**Session Focus:** Business Portal Phase 2 — Router & Shell Setup (TDD implementation).
+**Last Updated:** 2026-06-09 08:53
+**Session Focus:** Business Portal Phase 3 — Verification & Compilation (closing scaffold track).
 
 ## 🚀 Active Tracks
 
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional with real SurrealDB namespace users. Web Storage fallback implemented to bypass Web Crypto crashes on non-secure HTTP. Premium Users screen completed. Categories screen upgraded with curated Material Icons selector, validation, and in-place reloads. Deployed to Saturn. Role management now fully supports administrative roles.
-- **Business Portal Scaffold** (`business_portal_scaffold_20260608`) — In-progress. Phase 1 (project structure) and Phase 2 (router & shell) complete. GoRouter auth guard, LoginScreen, DittoDashboardShell integration, and 7 placeholder screens all passing 22 tests with zero lint issues. Phase 3 (verification & compilation) next.
 
 ## ✅ Recently Completed
 
+- **2026-06-09** — **Business Portal Scaffold Track COMPLETE.** Phase 3 (Verification & Compilation) passed: `flutter analyze` zero issues, `flutter build web --debug` success, `flutter build apk --debug` success. 22 tests green. Checkpoint: `eadc310`. Track closed.
 - **2026-06-08** — **Business Portal RBAC & Tenant Auth Spec.** Clarified that the Business Portal operates on standard direct-to-SurrealDB WebSocket namespace authentication combined with a `business` role guard and tenant routing (`USE DB company_{slug}`). Recorded ADR-0013 to enforce this multi-tenant database isolation.
 - **2026-06-08** — **Administrative Roles Support.** Enabled managing all 4 roles in the Admin Panel back-office Users screen. Updated repository and DB healing queries to protect admin/super_admin roles from being overwritten, verified via E2E integration test, and deployed to Saturn.
 - **2026-06-08** — **Created Business Portal Scaffold Track.** Structured specifications and implementation plan (`plan.md`) for the first Business Portal development track. Registered the track in `tracks.md`.
@@ -35,6 +35,7 @@ _None._
 
 ## 🧠 Session Memory
 
+- *2026-06-09 - 08:53* — Completed Phase 3 of Business Portal scaffold: `flutter analyze` zero issues, `flutter build web --debug` success (27.3s), `flutter build apk --debug` success (37.7s). 22/22 tests green. Checkpoint: `eadc310`. Track closed. _(operational)_
 - *2026-06-09 - 01:15* — Completed Phase 2 of Business Portal scaffold: GoRouter with auth redirect guard (4 tests), LoginScreen with form validation (6 tests), PortalShell with DittoDashboardShell and 7 nav items (5 tests), navigation toggle verification (7 tests). All 22 tests green, zero lint issues. Commits: `78f7c56`, `b8e1b01`, `6f8076a`, `5965b38`, checkpoint `4a24f3f`. _(operational)_
 - *2026-06-08 - 20:17* — Manage all roles in Admin UI: Allowed the back-office Users screen to list and edit all 4 roles (customer, business, admin, super_admin) to facilitate platform administration. _(operational)_
 - *2026-06-08 - 20:17* — Conditional SurrealQL role protection: Implemented conditional expressions (IF role = "admin" OR role = "super_admin" THEN role ELSE ... END) in repository operations to safeguard administrative accounts. _(operational)_
@@ -64,6 +65,6 @@ _None._
 
 ## 📋 Next Session Suggestions
 
-1. 🔨 **Business Portal Phase 3 — Verification & Compilation** — Run `flutter analyze`, `flutter build web --debug`, and `flutter build apk --debug` to close out the scaffold track.
-2. 🧪 **Browser-test the Business Portal** — Deploy to Saturn and manually verify the login flow + shell navigation in a real browser.
-3. 🏗️ **Start Establishments CRUD Track** — Begin the next Business Portal feature track: outlet management (create, edit, list establishments).
+1. 🧪 **Deploy & Browser-test the Business Portal** — Deploy web build to Saturn and manually verify the login flow + shell navigation in a real browser.
+2. 🏗️ **Start Establishments CRUD Track** — Begin the next Business Portal feature track: outlet management (create, edit, list establishments).
+3. 🔬 **Resolve open PostIts** — State management (Riverpod vs BLoC), offline caching strategy, maps engine decision.
