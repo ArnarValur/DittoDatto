@@ -118,3 +118,35 @@ Every directory in this repository is production-grade:
 | `conductor/` | **Yes** |
 
 If you think "this is just a quick utility script" — that thought is the bug. The script will be committed, it will be read by other agents, and its patterns will be copied.
+
+---
+
+## 6. No One-Time Scripts in Version Control
+
+**Never** commit a script that only needs to run once.
+
+A committed script must be **repeatable** — an operational tool, a regression test, a migration with rollback. If it's a one-off action (promote a user, verify a fix, seed test data), it belongs in:
+
+- A **SurrealQL query** run directly via `surreal sql` or the DB CLI
+- A **scratch file** outside version control
+- An **agent artifact** or session note
+
+```dart
+// ❌ PROHIBITED — one-time verification, no reason to re-run
+void main() async {
+  // "just checking if the null remover works on staging"
+  await db.create('company:test_123', payload);
+  await db.delete('company:test_123');
+}
+
+// ✅ OK — repeatable operational tool
+/// Heals user roles by cross-referencing company ownership.
+/// Run after data migrations or manual DB edits.
+void main(List<String> args) async { ... }
+
+// ✅ OK — regression test for a real bug
+/// Verifies admin roles are preserved during company CRUD.
+void main(List<String> args) async { ... }
+```
+
+Ask yourself: *"Would someone run this script next month?"* If no, don't commit it.
