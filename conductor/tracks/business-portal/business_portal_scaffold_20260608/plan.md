@@ -45,9 +45,9 @@ Establish route navigation, login gating, and responsive shell placeholders.
 
 Final build and linting sanity checks.
 
-- [ ] **Task 3.1:** Run static analysis checks
-    - [ ] Verify `flutter analyze` returns zero warnings or errors
-- [ ] **Task 3.2:** Verify Web compilation
-    - [ ] Compile debug build: `flutter build web --debug`
-- [ ] **Task 3.3:** Verify native compile stubs
-    - [ ] Verify Android compilation: `flutter build apk --debug`
+- [x] **Task 3.1:** Run static analysis checks
+    - [x] Verify `flutter analyze` returns zero warnings or errors
+- [x] **Task 3.2:** Verify Web compilation
+    - [x] Compile debug build: `flutter build web --debug`
+- [x] **Task 3.3:** Verify native compile stubs
+    - [x] Verify Android compilation: `flutter build apk --debug`
