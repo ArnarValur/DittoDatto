@@ -3,11 +3,20 @@ import 'package:mercury_client/mercury_client.dart';
 
 import '../../core/surreal_auth_service.dart';
 
+/// WebSocket URL injected at build time via `--dart-define=SURREAL_URL=...`.
+///
+/// When empty (default), [SurrealConnection] derives the URL from the page
+/// origin — which only works when SurrealDB is reverse-proxied on the same
+/// host (e.g. Saturn deployment behind Caddy).
+const _surrealUrl = String.fromEnvironment('SURREAL_URL');
+
 /// Provider for the auth service.
 ///
 /// Uses [SurrealAuthService] authenticating against real SurrealDB.
 final authServiceProvider = Provider<AuthService>((ref) {
-  return SurrealAuthService();
+  return SurrealAuthService(
+    wsUrl: _surrealUrl.isNotEmpty ? _surrealUrl : null,
+  );
 });
 
 /// Provider for the current auth state.
