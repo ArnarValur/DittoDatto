@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-09 15:04 — BP Scaffold Closed + Security Incident in bin/ Scripts
+
+- **Session:** Closed BP scaffold track (Phase 3 verification). Discovered hardcoded credentials in `apps/admin/bin/` scripts from Gemini 3.5 session.
+- **Tracks touched:** `business_portal_scaffold_20260608` (closed)
+- **Status:** Scaffold track complete (`eadc310`). Security issue open — `promote_admins.dart`, `test_admin_roles.dart`, `sync_users.dart` all contain hardcoded DB creds (commit `64baa3e`, session `d16cccc8`). Post-mortem extracted from offending model but not yet saved to conductor.
+- **Decisions:** None
+- **Next:** 🚨 Repo-wide secrets scan + remediation of bin/ scripts + review blast radius of Gemini 3.5 session. Then deploy BP to Saturn for browser testing.
+
+---
+
 ## 2026-06-09 01:15 — Business Portal Phase 2 Complete (Router & Shell)
 
 - **Session:** Implemented all Phase 2 tasks of the Business Portal scaffold track using strict TDD workflow.
