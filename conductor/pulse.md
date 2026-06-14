@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-09 16:30
-**Session Focus:** E2E steel thread — Business Portal login verification and Saturn staging deployment.
+**Last Updated:** 2026-06-14 12:45
+**Session Focus:** Grill — Business Portal orientation, Flutter agent rules, track prioritization.
 
 ## 🚀 Active Tracks
 
@@ -35,14 +35,14 @@ _None._
 - **Schemas source of truth:** `schemas/` at project root
 - **ADR structure:** Platform-wide at `adr/` root, domain-scoped in `adr/{admin-panel,business-portal,marketplace,mercury-engine}/`.
 - **bootstrap.surql** — schema and namespace user definitions only. No fabricated data.
-- **PostIt (State Management):** Investigate whether to adopt Riverpod 2.x or BLoC + GetIt for managing SurrealDB real-time Live Queries.
-- **PostIt (Offline Cache):** Decide on implementing custom local database caching vs direct-only connection.
-- **PostIt (Maps Engine):** Determine if we should adopt OpenStreetMap (`flutter_map`) or stick with Google Maps.
+- **PostIt (State Management):** ✅ RESOLVED 2026-06-14 — Riverpod stays. BLoC considered and rejected (already using Riverpod everywhere, StreamProvider handles Live Queries). No ADR needed.
+- **PostIt (Offline Cache):** ✅ RESOLVED 2026-06-14 — Premature. Dropped from active consideration.
+- **PostIt (Maps Engine):** ✅ RESOLVED 2026-06-14 — Premature. Dropped from active consideration. Business Portal PRD specifies `flutter_map` + Nominatim for Establishments; decision stands but implementation is far out.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🎨 **Design Grill for Business Portal Login** — Refine the login screen aesthetics (user has Nuxt UI reference screenshot for desired look).
-2. 🏗️ **Start Establishments CRUD Track** — Begin the next Business Portal feature track: outlet management (create, edit, list establishments).
-3. 🔬 **Resolve open PostIts** — State management (Riverpod vs BLoC), offline caching strategy, maps engine decision.
+1. 🎨 **`/new-track` — Business Portal Login + Establishments** — Login redesign (Stitch-driven from Nuxt screenshots) + Establishments CRUD (list, create/edit, detail/preview). First vertical slice.
+2. 📸 **Gather Nuxt Portal screenshots** — Login, Establishments list, create/edit form, detail/preview — reference material for Stitch and track spec.
+3. 🧩 **Flutter agent rules installed** — `conductor/agent-rules/flutter-app-development.md` — distilled from Rap Payne ebook. Available for all future Flutter work.
