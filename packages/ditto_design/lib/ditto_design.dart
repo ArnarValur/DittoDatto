@@ -10,6 +10,7 @@ export 'src/tokens/ditto_colors.dart';
 export 'src/tokens/ditto_spacing.dart';
 export 'src/tokens/ditto_border_radius.dart';
 export 'src/tokens/ditto_animation.dart';
+export 'src/tokens/ditto_elevation.dart';
 
 // Theme
 export 'src/theme/ditto_theme.dart';
