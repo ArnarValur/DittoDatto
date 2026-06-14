@@ -112,5 +112,52 @@ void main() {
       expect(light.colorScheme.primary, isNotNull);
       expect(dark.colorScheme.primary, isNotNull);
     });
+
+    testWidgets('light theme uses Outfit for headlines', (tester) async {
+      final theme = DittoTheme.light;
+      // Headlines (displayLarge, headlineLarge, titleLarge) should use Outfit.
+      expect(
+        theme.textTheme.headlineLarge?.fontFamily,
+        contains('Outfit'),
+      );
+      expect(
+        theme.textTheme.displayLarge?.fontFamily,
+        contains('Outfit'),
+      );
+      expect(
+        theme.textTheme.titleLarge?.fontFamily,
+        contains('Outfit'),
+      );
+    });
+
+    testWidgets('light theme uses Manrope for body text', (tester) async {
+      final theme = DittoTheme.light;
+      // Body / label styles should use Manrope.
+      expect(
+        theme.textTheme.bodyLarge?.fontFamily,
+        contains('Manrope'),
+      );
+      expect(
+        theme.textTheme.bodyMedium?.fontFamily,
+        contains('Manrope'),
+      );
+      expect(
+        theme.textTheme.labelLarge?.fontFamily,
+        contains('Manrope'),
+      );
+    });
+
+    testWidgets('dark theme keeps Inter for all text', (tester) async {
+      final theme = DittoTheme.dark;
+      // Dark theme (Admin Panel) keeps Inter across the board.
+      expect(
+        theme.textTheme.headlineLarge?.fontFamily,
+        contains('Inter'),
+      );
+      expect(
+        theme.textTheme.bodyLarge?.fontFamily,
+        contains('Inter'),
+      );
+    });
   });
 }

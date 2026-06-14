@@ -148,9 +148,18 @@ abstract final class DittoTheme {
       surfaceContainer: DittoColors.surfaceContainerLight,
       surfaceContainerHigh: DittoColors.surfaceContainerHighLight,
     );
+    final baseLight = ThemeData(brightness: Brightness.light).textTheme;
+    final headlineTheme = GoogleFonts.outfitTextTheme(baseLight);
+    final bodyTheme = GoogleFonts.manropeTextTheme(baseLight);
 
-    final textTheme = GoogleFonts.interTextTheme(
-      ThemeData(brightness: Brightness.light).textTheme,
+    // Outfit for display/headline/title, Manrope for body/label.
+    final textTheme = headlineTheme.copyWith(
+      bodyLarge: bodyTheme.bodyLarge,
+      bodyMedium: bodyTheme.bodyMedium,
+      bodySmall: bodyTheme.bodySmall,
+      labelLarge: bodyTheme.labelLarge,
+      labelMedium: bodyTheme.labelMedium,
+      labelSmall: bodyTheme.labelSmall,
     );
 
     return ThemeData(
