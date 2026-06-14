@@ -39,6 +39,16 @@ class EstablishmentsNotifier extends AsyncNotifier<List<Establishment>> {
     final db = _db;
     if (db == null) return [];
 
+    // Guard: the companies connection must be routed to a tenant database
+    // before we can query establishment data. If slug is null, the login
+    // flow didn't complete tenant routing (ADR-0013 step 3).
+    if (db.slug == null) {
+      throw StateError(
+        'SurrealConnection is not routed to a tenant database. '
+        'Ensure login completes tenant routing before querying establishments.',
+      );
+    }
+
     final result = await db.companies.query('SELECT * FROM establishment');
 
     // SurrealDB query returns dynamic — could be List with {result: [...]}
