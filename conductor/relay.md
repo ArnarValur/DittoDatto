@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-14 18:17 — BP Phase 4b: Tenant-Scoped Login Wiring
+
+- **Session:** Wired ADR-0013 3-step login flow: NS auth → role/slug verification via `users/profiles` → tenant routing to `company_{slug}`. Discovered NS username ↔ user record link (username field, not email). Login confirmed working from server logs. Session restore (page refresh) hangs — blocked.
+- **Tracks touched:** `bp_login_establishments_20260614`
+- **Status:** Login flow works (verified). Session restore broken (blank screen on refresh). Existing tests pass (48) but only test mocks, not real DB. Needs integration tests before this can be considered production-ready.
+- **Decisions:** None (4 pulse-bucket operational notes)
+- **Next:** Investigate session restore hang (compare Admin Panel pattern). Write DB integration tests. Deploy once verified.
+
+---
+
 ## 2026-06-14 15:30 — BP Login + Establishments Phases 1–4
 
 - **Session:** Implemented Stitch Enterprise Slate light theme, Norwegian login redesign, Establishments list screen with card grid + tab filters, create dialog, and 4-tab edit view. Verified on Pluto dev server with Saturn SurrealDB.
