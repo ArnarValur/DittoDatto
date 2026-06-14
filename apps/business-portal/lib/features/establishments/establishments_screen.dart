@@ -1,7 +1,9 @@
 import 'package:ditto_design/ditto_design.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import 'create_establishment_dialog.dart';
 import 'establishment_model.dart';
 import 'establishment_providers.dart';
 
@@ -75,7 +77,10 @@ class _EstablishmentsScreenState extends ConsumerState<EstablishmentsScreen>
                 const Spacer(),
                 FilledButton.icon(
                   onPressed: () {
-                    // TODO: Open create dialog (Phase 4)
+                    showDialog<bool>(
+                      context: context,
+                      builder: (_) => const CreateEstablishmentDialog(),
+                    );
                   },
                   icon: const Icon(Icons.add),
                   label: const Text('Legg til virksomhet'),
@@ -178,7 +183,9 @@ class _EstablishmentCard extends StatelessWidget {
       child: InkWell(
         borderRadius: DittoBorderRadius.mediumAll,
         onTap: () {
-          // TODO: Navigate to establishment edit (Phase 4)
+          // Extract the short ID from 'establishment:abc123' → 'abc123'.
+          final shortId = establishment.id.split(':').last;
+          context.go('/establishments/$shortId');
         },
         child: Padding(
           padding: const EdgeInsets.all(DittoSpacing.base),

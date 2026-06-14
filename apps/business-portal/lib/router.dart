@@ -10,6 +10,7 @@ import 'features/auth/login_screen.dart';
 import 'features/shell/portal_shell.dart';
 import 'features/dashboard/dashboard_screen.dart';
 import 'features/establishments/establishments_screen.dart';
+import 'features/establishments/establishment_edit_view.dart';
 import 'features/appointments/appointments_screen.dart';
 import 'features/table_reservations/table_reservations_screen.dart';
 import 'features/staff/staff_screen.dart';
@@ -21,6 +22,7 @@ abstract final class PortalRoutes {
   static const login = '/login';
   static const dashboard = '/dashboard';
   static const establishments = '/establishments';
+  static const establishmentEdit = '/establishments/:id';
   static const appointments = '/appointments';
   static const tableReservations = '/table-reservations';
   static const staff = '/staff';
@@ -110,6 +112,17 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: PortalRoutes.establishments,
             builder: (context, state) => const EstablishmentsScreen(),
+            routes: [
+              GoRoute(
+                path: ':id',
+                builder: (context, state) {
+                  final id = state.pathParameters['id']!;
+                  return EstablishmentEditView(
+                    establishmentId: 'establishment:$id',
+                  );
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: PortalRoutes.appointments,
