@@ -33,7 +33,7 @@ Before any domain-related question or spec interview, load all v2.1 context docu
 | `conductor/context.md` | Domain glossary — use these terms verbatim in questions / suggestions |
 | `conductor/context-map.md` | Bounded-context registry — drives Step 2a validation |
 | `conductor/prd.md` | Product scope — surface relevant in-scope features when proposing track scope; surface out-of-scope items to avoid relitigating |
-| `conductor/adr/*.md` | Settled architectural decisions — propose ADR-consistent options; do NOT re-litigate without explicit user request |
+| `conductor/adr/**/*.md` | Settled architectural decisions (platform-wide at root + domain-scoped in subdirs) — propose ADR-consistent options; do NOT re-litigate without explicit user request |
 | `conductor/workflow.md` | Strict vs Light — drives plan-generation rules in Step 4 |
 
 If `conductor/` does not exist, halt with:

@@ -108,7 +108,7 @@ Per-bucket guidance (apply the same three criteria as `/grill` for the ADR bucke
 
 For each decision the user classified as **ADR**:
 
-1. Number sequentially from the highest existing `conductor/adr/NNNN-*.md`.
+1. Number sequentially from the highest existing ADR across **all** of `conductor/adr/` (root + domain subdirs like `adr/business-portal/`, `adr/admin-panel/`, etc.).
 2. Write `conductor/adr/{NNNN}-{short-title-kebab}.md` using this format:
 
    ```markdown

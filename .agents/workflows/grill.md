@@ -29,7 +29,7 @@ Load all v2.1 context documents that exist (lazy files may not — that's fine):
 | `conductor/context.md` | Authoritative current domain glossary |
 | `conductor/context-map.md` | Bounded-context registry (multi-context projects only) |
 | `conductor/prd.md` | Current product scope — features, capabilities, in/out of scope |
-| `conductor/adr/*.md` | Settled architectural decisions — do NOT re-litigate without explicit user request |
+| `conductor/adr/**/*.md` | Settled architectural decisions (platform-wide at root + domain-scoped in subdirs like `adr/business-portal/`, `adr/admin-panel/`, etc.) — do NOT re-litigate without explicit user request |
 
 For files that do not exist, note their absence internally. Do not pre-create them.
 

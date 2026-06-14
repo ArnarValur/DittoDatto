@@ -36,7 +36,7 @@ Read the following files from the project's `conductor/` directory. If any file 
 | `conductor/context.md` | Domain glossary | Authoritative domain language |
 | `conductor/context-map.md` | Bounded-context registry | Multi-context project |
 | `conductor/prd.md` | Living product requirements | Current scope |
-| `conductor/adr/*.md` | Architectural decision records | Settled decisions — do NOT re-litigate without explicit user request |
+| `conductor/adr/**/*.md` | Architectural decision records (platform-wide at root + domain-scoped in subdirs like `adr/business-portal/`, `adr/admin-panel/`, etc.) | Settled decisions — do NOT re-litigate without explicit user request |
 | `conductor/docs/` | Long-form human-authored documentation | Awareness only — list the directory but do not read all contents; load specific files on user request |
 | `conductor/agent-rules/*.md` | Book-sourced coding rules (from agent-rules plugin) | Read all `.md` files in this directory |
 | `conductor/relay.md` | Cross-session handoff messages | Last session's notes — surface in the status report |
@@ -84,7 +84,7 @@ The status report should present:
 📚 Domain knowledge:
   • Glossary: {N terms in context.md, or "not yet — run /grill"}
   • PRD: {present | not yet}
-  • ADRs: {M recorded, most recent: "{title}" on {date}}
+  • ADRs: {M total (N platform-wide + K domain-scoped), most recent: "{title}" on {date}}
   • Docs: {K files in conductor/docs/, or "none"}
 
 🛠️ Index:
@@ -136,7 +136,7 @@ Once initialized, maintain awareness of:
 - Current track context throughout the session
 - Workflow rules from `conductor/workflow.md`
 - Domain language from `conductor/context.md` — use these terms verbatim when discussing the project
-- Settled architectural decisions from `conductor/adr/*.md` — defer to them unless the user explicitly asks to reopen a decision (in which case the result is a new ADR that supersedes the old one, not an edit)
+- Settled architectural decisions from `conductor/adr/` — scan recursively (root for platform-wide ADRs + domain subdirs like `adr/business-portal/`, `adr/admin-panel/`, `adr/marketplace/`, `adr/mercury-engine/`). Defer to them unless the user explicitly asks to reopen a decision (in which case the result is a new ADR that supersedes the old one, not an edit)
 - Caution levels from `conductor/project-context.md`
 - Any blockers or urgent items from `conductor/pulse.md`
 - **`conductor/project-context.md` is user-owned.** Do not propose edits to it during a session. Surface them at `/checkpoint` time as Pulse-bucket items if they truly need recording.
