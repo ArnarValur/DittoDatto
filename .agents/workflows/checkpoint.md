@@ -1,10 +1,10 @@
 ---
-description: Save session state and classify accumulated decisions into ADR, pulse, or drop. The ADR gate.
+description: Save session state and record decisions. No questionnaires — agent auto-classifies silently.
 ---
 
 # Checkpoint — Save Session State
 
-When the user invokes `/checkpoint`, execute this sequence to persist the current session state. **Step 3 is the ADR gate** — it classifies accumulated decisions into architectural (→ ADR), operational (→ pulse Session Memory), and ephemeral (→ drop). Each decision ends up in exactly one place.
+When the user invokes `/checkpoint`, execute this sequence to persist the current session state. **Step 3 auto-classifies decisions** — ADRs only if explicitly proposed and approved during the session. Everything else goes to Pulse silently. No questionnaires.
 
 Supports `--quick` flag: `/checkpoint --quick` skips Step 3 (the decision classifier).
 
@@ -66,47 +66,32 @@ After updating, check if `pulse.md` exceeds 200 lines. If it does:
    > 📦 Full history: `conductor/pulse-archive/{YYYY-MM-DD}.md`
 4. Archive files are **append-only** — add new archived content at the bottom of existing files.
 
----
 
-## Step 3: Decision Classifier
+## Step 3: Decision Recording
 
 > **Skipped with `--quick` flag.**
 
-### Step 3a: Scope (no double-processing)
+**No questionnaires.** Decisions are handled in-context during the session, not retroactively at checkpoint time. The agent classifies silently using these rules:
 
-`/checkpoint` only classifies decisions that were **not already handled by a command-end batch**. Source these from:
+### Step 3a: Auto-classify
 
-- The Session Memory entries that were appended during free-form work (no `/grill` or `/new-track` active at the time).
-- Decisions inferred from conversation context that surfaced outside any batching command's session.
+Scan the session for decisions that were made. For each:
+
+| Bucket | Rule | Action |
+|--------|------|--------|
+| **ADR** | Only if the agent **explicitly proposed an ADR during the session** AND the user approved it. | Write the ADR file (Step 3c). |
+| **Pulse** | Everything else — operational notes, technical decisions, discoveries. | Append to Session Memory (already done in Step 2). |
+| **Drop** | Debugging tangents, dead-end experiments, trial-and-error noise. | Do nothing. |
+
+**Do NOT present a classification table or questionnaire to the user.** The agent makes the call. If something is genuinely ADR-worthy and wasn't proposed during the session, flag it as a one-liner suggestion — not a multi-choice form.
+
+### Step 3b: Scope (no double-processing)
 
 Decisions **already approved** by a prior `/grill` or `/new-track` ADR batch are already in `conductor/adr/` — do NOT re-record them.
 
-Decisions **explicitly rejected** by a prior batch are settled-as-dropped — do NOT re-surface them. Re-surfacing a deliberate rejection erodes trust in the batching UX.
-
-If unsure whether a decision was already handled, ask the user — do not silently re-prompt.
-
-### Step 3b: Classify
-
-Present the unhandled decisions to the user as a single batch:
-
-> "I noticed **{N}** decisions this session that weren't already batched into ADRs. Classify each:
->
-> | # | Decision | A → ADR (architectural) | B → Pulse (operational) | C → Drop (ephemeral) |
-> |---|----------|-------------------------|-------------------------|----------------------|
-> | 1 | {decision summary} | | | |
-> | … | … | | | |"
-
-Per-bucket guidance (apply the same three criteria as `/grill` for the ADR bucket):
-
-| Bucket | Test | Examples |
-|--------|------|----------|
-| **ADR** (architectural) | Hard to reverse, surprising without context, real trade-off | "Chose token-bucket over leaky-bucket", "Adopted event sourcing for orders" |
-| **Pulse** (operational) | Workflow/process notes, session-scoped reminders, future-self breadcrumbs | "Sprinted on the navbar — finished header, hamburger pending" |
-| **Drop** (ephemeral) | Thinking-out-loud, exploratory tangents that didn't pan out, transient debugging notes | "Tried `npx clear-cache` first, didn't help" |
-
 ### Step 3c: Write ADR-bucket decisions
 
-For each decision the user classified as **ADR**:
+For each decision classified as **ADR**:
 
 1. Number sequentially from the highest existing ADR across **all** of `conductor/adr/` (root + domain subdirs like `adr/business-portal/`, `adr/admin-panel/`, etc.).
 2. Write `conductor/adr/{NNNN}-{short-title-kebab}.md` using this format:
@@ -124,17 +109,7 @@ For each decision the user classified as **ADR**:
 
 3. If this is the **first ADR** for the project, queue an index-sync append for the `adr/` directory (applied in Step 7).
 
-### Step 3d: Pulse-bucket decisions
-
-For decisions classified as **Pulse**, append them to the Session Memory section of `pulse.md` using a compact format:
-
-```markdown
-- *{YYYY-MM-DD - HH:MM}* — {one-line decision summary} _(operational)_
-```
-
-These will be retained for the standard 200-line / 2-session archiving guardrail from Step 2.
-
-### Step 3e: Drop-bucket decisions
+### Step 3d: Drop-bucket decisions
 
 For decisions classified as **Drop**, do nothing. They remain only in the conversation transcript.
 
