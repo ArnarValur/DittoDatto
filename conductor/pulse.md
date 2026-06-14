@@ -1,19 +1,20 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-14 12:45
-**Session Focus:** Grill — Business Portal orientation, Flutter agent rules, track prioritization.
+**Last Updated:** 2026-06-14 15:30
+**Session Focus:** BP Login + Establishments — Phases 1–4 implementation (light theme, login redesign, establishments CRUD, create/edit views)
 
 ## 🚀 Active Tracks
 
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional. Premium Users screen completed. Categories screen upgraded. Deployed to Saturn. Role management supports administrative roles.
+- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phases 1–4 complete (light theme, login, list, create/edit). Phase 5 (DB wiring, integration polish) next session.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. Auth fully functional. Premium Users screen completed. Categories screen upgraded. Deployed to Saturn.
 
 ## ✅ Recently Completed
 
-- **2026-06-09** — **Business Portal E2E Login & Saturn Deployment.** Wired `SURREAL_URL` dart-define, verified login against Saturn SurrealDB, built web release, deployed to Saturn port 8005 with dedicated `dittodatto-portal-caddy` container. Login flow confirmed working end-to-end.
-- **2026-06-09** — **Code Quality Safeguards.** ADR-0015 (no hardcoded secrets/IDs). Created `code-safety.md` agent rule. Remediated all bin/ scripts. Deleted obsolete scripts.
-- **2026-06-09** — **Business Portal Scaffold Track COMPLETE.** 22 tests green. Checkpoint: `eadc310`. Track closed.
+- **2026-06-14** — **BP Login + Establishments Phases 1–4.** Light theme (Stitch Enterprise Slate), login redesign (Norwegian bokmål), establishments list (card grid + tab filters + badges), create dialog, 4-tab edit view. 94 tests across 3 suites. 7 commits on `track/bp-login-establishments`.
+- **2026-06-09** — **Business Portal E2E Login & Saturn Deployment.** Wired `SURREAL_URL` dart-define, verified login against Saturn SurrealDB, deployed to Saturn port 8005.
+- **2026-06-09** — **Code Quality Safeguards.** ADR-0015 (no hardcoded secrets/IDs). Created `code-safety.md` agent rule.
+- **2026-06-09** — **Business Portal Scaffold Track COMPLETE.** 22 tests green. Track closed.
 - **2026-06-08** — **Business Portal RBAC & Tenant Auth Spec.** ADR-0013 recorded.
-- **2026-06-08** — **Administrative Roles Support.** All 4 roles in Admin Panel Users screen.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
@@ -23,8 +24,12 @@ _None._
 
 ## 🧠 Session Memory
 
-- *2026-06-09 - 16:30* — Business Portal staging deployed to Saturn port 8005 with dedicated Caddy container (`dittodatto-portal-caddy`). Ports 8003/8004 occupied by terminal-arnar/terminal-hoddi. _(operational)_
-- *2026-06-09 - 16:30* — `SURREAL_URL` injected via `--dart-define` at build time per ADR-0015 pattern. No hardcoded URLs. Empty default falls back to page-origin derivation (works behind Caddy reverse proxy). _(operational)_
+- *2026-06-14 - 15:30* — BP uses `DittoTheme.light` (Stitch Enterprise Slate), Admin stays `DittoTheme.dark`. Typography split: Outfit+Manrope (BP light), Inter (Admin dark). _(operational)_
+- *2026-06-14 - 15:30* — Establishments `store_type` enum (store/restaurant/venue) mapped to Norwegian labels (Butikk/Restaurant/Spillested). Matches SurrealDB schema. _(operational)_
+- *2026-06-14 - 15:30* — Saturn Tailscale Service: `dittodatto` → `100.121.237.101`, ports 8001-8005. Short domain `dittodatto`, full domain `dittodatto.tailb251cd.ts.net`. _(operational)_
+- *2026-06-14 - 15:30* — Local dev workflow: `flutter run -d chrome --web-port 8085 --dart-define=SURREAL_URL=ws://dittodatto:8001/rpc` on Pluto. Deploy to Saturn when happy. _(operational)_
+- *2026-06-14 - 15:30* — BP Caddy container (`dittodatto-portal-caddy`) runs standalone — NOT in `dittodatto-net` compose file. Needs cleanup in future infra session. _(operational)_
+- *2026-06-14 - 15:30* — Establishments screen shows "Feil: Exception: Specify a database to use" — need `USE DB company_{slug}` after login. Wiring deferred to next session. _(operational)_
 
 - **Admin Panel deployed:** `http://dittodatto:8002` — Caddy serves from `/srv/dittodatto/admin-panel/web/`, proxies `/rpc` to SurrealDB.
 - **Admin deploy command:** `rsync -avz --delete apps/admin/build/web/ saturn:/srv/dittodatto/admin-panel/web/`
@@ -35,14 +40,13 @@ _None._
 - **Schemas source of truth:** `schemas/` at project root
 - **ADR structure:** Platform-wide at `adr/` root, domain-scoped in `adr/{admin-panel,business-portal,marketplace,mercury-engine}/`.
 - **bootstrap.surql** — schema and namespace user definitions only. No fabricated data.
-- **PostIt (State Management):** ✅ RESOLVED 2026-06-14 — Riverpod stays. BLoC considered and rejected (already using Riverpod everywhere, StreamProvider handles Live Queries). No ADR needed.
-- **PostIt (Offline Cache):** ✅ RESOLVED 2026-06-14 — Premature. Dropped from active consideration.
-- **PostIt (Maps Engine):** ✅ RESOLVED 2026-06-14 — Premature. Dropped from active consideration. Business Portal PRD specifies `flutter_map` + Nominatim for Establishments; decision stands but implementation is far out.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🎨 **`/new-track` — Business Portal Login + Establishments** — Login redesign (Stitch-driven from Nuxt screenshots) + Establishments CRUD (list, create/edit, detail/preview). First vertical slice.
-2. 📸 **Gather Nuxt Portal screenshots** — Login, Establishments list, create/edit form, detail/preview — reference material for Stitch and track spec.
-3. 🧩 **Flutter agent rules installed** — `conductor/agent-rules/flutter-app-development.md` — distilled from Rap Payne ebook. Available for all future Flutter work.
+1. 🔌 **Wire Establishments to SurrealDB** — Add `USE DB company_{slug}` after login in the auth service. Fix "Specify a database to use" error.
+2. 🧪 **Phase 5: Integration & Polish** — E2E login → list → create → edit flow. Responsive layout verification. Coverage gate.
+3. 🚀 **Deploy BP to Saturn** — Build web release, rsync to `/srv/dittodatto/business-portal/web/`, verify at `http://dittodatto:8005`.
+4. 🛠️ **Create deploy skill** — Automate build + deploy for both Admin and BP apps.
+5. 🧹 **Saturn Docker cleanup** — Add BP Caddy to compose, organize port assignments.
