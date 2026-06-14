@@ -22,6 +22,17 @@ abstract final class DittoColors {
   /// Elevated container surface.
   static const Color surfaceContainerHigh = Color(0xFF1c1f2b);
 
+  // ── Light surface grades (Stitch Enterprise Slate) ──
+
+  /// Light background surface — warm off-white.
+  static const Color surfaceLight = Color(0xFFF8F9FD);
+
+  /// Light container surface.
+  static const Color surfaceContainerLight = Color(0xFFEEEEF5);
+
+  /// Light elevated container surface.
+  static const Color surfaceContainerHighLight = Color(0xFFE4E1E9);
+
   // ── Status colors ──
 
   /// Success green.
