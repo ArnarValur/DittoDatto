@@ -42,82 +42,160 @@ Widget _buildLoginScreen({_MockAuthNotifier? mockNotifier}) {
       authProvider.overrideWith(() => notifier),
     ],
     child: MaterialApp(
-      theme: DittoTheme.dark,
+      theme: DittoTheme.light,
       home: const LoginScreen(),
     ),
   );
 }
 
 void main() {
-  group('LoginScreen', () {
-    testWidgets('renders email field', (tester) async {
+  group('LoginScreen (redesigned)', () {
+    // ── Storefront icon (replaces lock) ──
+
+    testWidgets('renders storefront icon (not lock)', (tester) async {
       await tester.pumpWidget(_buildLoginScreen());
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(TextFormField, 'Email'), findsOneWidget);
+      expect(find.byIcon(Icons.storefront_rounded), findsOneWidget);
+      // Lock icon should be gone.
+      expect(find.byIcon(Icons.lock_rounded), findsNothing);
     });
 
-    testWidgets('renders password field with obscured text', (tester) async {
+    // ── Norwegian headings ──
+
+    testWidgets('shows Norwegian heading', (tester) async {
       await tester.pumpWidget(_buildLoginScreen());
       await tester.pumpAndSettle();
 
-      expect(find.widgetWithText(TextFormField, 'Password'), findsOneWidget);
-
-      // Verify the password field uses obscureText via EditableText.
-      final editableText = tester.widget<EditableText>(
-        find.descendant(
-          of: find.widgetWithText(TextFormField, 'Password'),
-          matching: find.byType(EditableText),
-        ),
-      );
-      expect(editableText.obscureText, isTrue);
+      expect(find.text('Logg inn på DittoDatto'), findsOneWidget);
     });
 
-    testWidgets('renders Sign In button', (tester) async {
+    testWidgets('shows Norwegian subtitle', (tester) async {
       await tester.pumpWidget(_buildLoginScreen());
       await tester.pumpAndSettle();
 
       expect(
-        find.widgetWithText(ElevatedButton, 'Sign In'),
+        find.text('Velkommen tilbake. Skriv inn dine påloggingsdetaljer.'),
         findsOneWidget,
       );
     });
 
-    testWidgets('renders lock icon', (tester) async {
+    // ── Norwegian form fields ──
+
+    testWidgets('renders E-post field with Norwegian label', (tester) async {
       await tester.pumpWidget(_buildLoginScreen());
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.lock_rounded), findsOneWidget);
+      expect(find.widgetWithText(TextFormField, 'E-post'), findsOneWidget);
     });
 
-    testWidgets('validates empty email shows Required', (tester) async {
+    testWidgets('renders Passord field with Norwegian label', (tester) async {
       await tester.pumpWidget(_buildLoginScreen());
       await tester.pumpAndSettle();
 
-      // Tap Sign In without filling fields.
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
+      expect(find.widgetWithText(TextFormField, 'Passord'), findsOneWidget);
+    });
+
+    // ── Password visibility toggle ──
+
+    testWidgets('has password visibility toggle', (tester) async {
+      await tester.pumpWidget(_buildLoginScreen());
       await tester.pumpAndSettle();
 
-      expect(find.text('Required'), findsWidgets);
+      // Should have a visibility toggle icon button.
+      expect(
+        find.byIcon(Icons.visibility_off_rounded),
+        findsOneWidget,
+      );
     });
+
+    testWidgets('toggling visibility shows password text', (tester) async {
+      await tester.pumpWidget(_buildLoginScreen());
+      await tester.pumpAndSettle();
+
+      // Enter a password.
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Passord'),
+        'mypassword',
+      );
+
+      // Initially obscured.
+      var editableText = tester.widget<EditableText>(
+        find.descendant(
+          of: find.widgetWithText(TextFormField, 'Passord'),
+          matching: find.byType(EditableText),
+        ),
+      );
+      expect(editableText.obscureText, isTrue);
+
+      // Tap the toggle.
+      await tester.tap(find.byIcon(Icons.visibility_off_rounded));
+      await tester.pumpAndSettle();
+
+      // Now should be visible.
+      editableText = tester.widget<EditableText>(
+        find.descendant(
+          of: find.widgetWithText(TextFormField, 'Passord'),
+          matching: find.byType(EditableText),
+        ),
+      );
+      expect(editableText.obscureText, isFalse);
+    });
+
+    // ── Norwegian button ──
+
+    testWidgets('renders "Logg inn" button', (tester) async {
+      await tester.pumpWidget(_buildLoginScreen());
+      await tester.pumpAndSettle();
+
+      expect(
+        find.widgetWithText(ElevatedButton, 'Logg inn →'),
+        findsOneWidget,
+      );
+    });
+
+    // ── Contact admin text ──
+
+    testWidgets('shows "Kontakt administrator for tilgang" text',
+        (tester) async {
+      await tester.pumpWidget(_buildLoginScreen());
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text('Kontakt administrator for tilgang'),
+        findsOneWidget,
+      );
+    });
+
+    // ── Functional: validation still works ──
+
+    testWidgets('validates empty fields shows Påkrevd', (tester) async {
+      await tester.pumpWidget(_buildLoginScreen());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Logg inn →'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Påkrevd'), findsWidgets);
+    });
+
+    // ── Functional: login submission still works ──
 
     testWidgets('submits login with entered credentials', (tester) async {
       final mock = _MockAuthNotifier();
       await tester.pumpWidget(_buildLoginScreen(mockNotifier: mock));
       await tester.pumpAndSettle();
 
-      // Enter credentials.
       await tester.enterText(
-        find.widgetWithText(TextFormField, 'Email'),
+        find.widgetWithText(TextFormField, 'E-post'),
         'arnarvalur@dittodatto.no',
       );
       await tester.enterText(
-        find.widgetWithText(TextFormField, 'Password'),
+        find.widgetWithText(TextFormField, 'Passord'),
         'secret123',
       );
 
-      // Tap Sign In.
-      await tester.tap(find.widgetWithText(ElevatedButton, 'Sign In'));
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Logg inn →'));
       await tester.pumpAndSettle();
 
       expect(mock.loginCallCount, 1);

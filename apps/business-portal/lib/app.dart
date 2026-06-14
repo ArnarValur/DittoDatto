@@ -15,7 +15,7 @@ class PortalApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'DittoDatto Business Portal',
       debugShowCheckedModeBanner: false,
-      theme: DittoTheme.dark,
+      theme: DittoTheme.light,
       routerConfig: router,
     );
   }

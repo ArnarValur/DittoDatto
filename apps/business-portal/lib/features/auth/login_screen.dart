@@ -5,12 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'auth_provider.dart';
 
-/// Login screen per PRD v1.0 requirements.
+/// Redesigned login screen — Stitch Enterprise Slate light mode.
 ///
-/// Design specs:
-/// - Lock icon (no branding text)
-/// - Email field + password field + Sign In button
-/// - Moody Blue dark theme (maximum opacity)
+/// Design specs (spec.md F2):
+/// - Storefront icon in Moody Blue container
+/// - Norwegian bokmål text throughout
+/// - Password visibility toggle
+/// - "Kontakt administrator for tilgang" footer
 /// - **No error feedback on auth failure** — silent fail for security
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -23,6 +24,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -48,50 +50,78 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authAsync = ref.watch(authProvider);
     final isLoading = authAsync.isLoading;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(DittoSpacing.xl),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 360),
+            constraints: const BoxConstraints(maxWidth: 400),
             child: AutofillGroup(
               child: Form(
                 key: _formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Lock icon — no branding text per PRD
+                    // Storefront icon — per spec F2
                     Container(
                       width: 72,
                       height: 72,
                       decoration: BoxDecoration(
-                        color: DittoColors.moodyBlue.withValues(alpha: 0.15),
+                        color: DittoColors.moodyBlue.withValues(alpha: 0.12),
                         borderRadius: DittoBorderRadius.largeAll,
                       ),
                       child: const Icon(
-                        Icons.lock_rounded,
+                        Icons.storefront_rounded,
                         size: 36,
                         color: DittoColors.moodyBlue,
                       ),
                     ),
 
+                    const SizedBox(height: DittoSpacing.lg),
+
+                    // Heading — Norwegian
+                    Text(
+                      'Logg inn på DittoDatto',
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: colorScheme.onSurface,
+                      ),
+                    ),
+
+                    const SizedBox(height: DittoSpacing.sm),
+
+                    // Subtitle — Norwegian
+                    Text(
+                      'Velkommen tilbake. Skriv inn dine påloggingsdetaljer.',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
                     const SizedBox(height: DittoSpacing.xl),
 
-                    // Email field
+                    // E-post field
                     TextFormField(
                       controller: _emailController,
                       enabled: !isLoading,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
                       autofillHints: const [AutofillHints.email],
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
+                      decoration: InputDecoration(
+                        labelText: 'E-post',
+                        hintText: 'navn@bedrift.no',
+                        prefixIcon: Icon(
+                          Icons.email_outlined,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Required';
+                          return 'Påkrevd';
                         }
                         return null;
                       },
@@ -99,20 +129,36 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     const SizedBox(height: DittoSpacing.base),
 
-                    // Password field
+                    // Passord field with visibility toggle
                     TextFormField(
                       controller: _passwordController,
                       enabled: !isLoading,
-                      obscureText: true,
+                      obscureText: _obscurePassword,
                       textInputAction: TextInputAction.done,
                       autofillHints: const [AutofillHints.password],
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                        prefixIcon: Icon(Icons.lock_outline),
+                      decoration: InputDecoration(
+                        labelText: 'Passord',
+                        prefixIcon: Icon(
+                          Icons.lock_outline,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off_rounded
+                                : Icons.visibility_rounded,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Required';
+                          return 'Påkrevd';
                         }
                         return null;
                       },
@@ -121,7 +167,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     const SizedBox(height: DittoSpacing.lg),
 
-                    // Sign In button
+                    // Logg inn button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -132,10 +178,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 height: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: Colors.white,
                                 ),
                               )
-                            : const Text('Sign In'),
+                            : const Text('Logg inn →'),
+                      ),
+                    ),
+
+                    const SizedBox(height: DittoSpacing.lg),
+
+                    // Contact admin text
+                    Text(
+                      'Kontakt administrator for tilgang',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],

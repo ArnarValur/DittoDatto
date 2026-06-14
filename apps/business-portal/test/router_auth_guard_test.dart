@@ -60,8 +60,8 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        // Verify Login screen content is visible (Email field label).
-        expect(find.text('Email'), findsOneWidget);
+        // Verify Login screen content is visible (E-post field label).
+        expect(find.text('E-post'), findsOneWidget);
 
         // Verify Dashboard is NOT visible.
         expect(find.text('Dashboard'), findsNothing);
@@ -85,7 +85,7 @@ void main() {
         expect(find.byType(DashboardScreen), findsOneWidget);
 
         // Verify Login screen is NOT visible.
-        expect(find.text('Sign In'), findsNothing);
+        expect(find.text('Logg inn →'), findsNothing);
       },
     );
 
@@ -149,7 +149,7 @@ void main() {
         await tester.pumpAndSettle();
 
         // Should be redirected to login.
-        expect(find.text('Email'), findsOneWidget);
+        expect(find.text('E-post'), findsOneWidget);
         expect(find.text('Establishments'), findsNothing);
       },
     );

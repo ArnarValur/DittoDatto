@@ -31,7 +31,7 @@ Widget _buildShell({int selectedIndex = 0}) {
       authProvider.overrideWith(() => _MockAuthNotifier()),
     ],
     child: MaterialApp(
-      theme: DittoTheme.dark,
+      theme: DittoTheme.light,
       home: PortalShell(
         currentIndex: selectedIndex,
         onDestinationSelected: (_) {},

@@ -39,7 +39,7 @@ Widget _buildApp() {
       builder: (context, ref, _) {
         final router = ref.watch(routerProvider);
         return MaterialApp.router(
-          theme: DittoTheme.dark,
+          theme: DittoTheme.light,
           routerConfig: router,
         );
       },
