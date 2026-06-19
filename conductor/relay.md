@@ -2,7 +2,15 @@
 
 Timestamped entries for context continuity between sessions.
 
-## 2026-06-19 18:35 — Nuxt Landing Page Maintenance Redirect
+## 2026-06-19 20:42 — Infra Prep + Phase 5 Design Planning
+
+- **Session:** Rebuilt Admin Panel + deployed to Saturn. Applied company-blueprint to `company_house-of-the-north` (18 tables + 3 relations). Stored DB root creds in gitignored `conductor/docs/keys/saturn-db-root.env`. Researched professional portal UX patterns and Flutter theming architecture. Designed Phase 5 plan: sidebar identity (company top, full name bottom), login cleanup (email+password only), tabs → scrollable card sections with scrollspy, sticky top bar. Theme switching explicitly deferred to Phase 6.
+- **Tracks touched:** `bp_login_establishments_20260614`
+- **Status:** Phase 5 implementation plan approved. Ready for implementation in new session.
+- **Decisions:** None (design decisions recorded in Pulse session memory, no ADRs)
+- **Next:** Implement Phase 5 (reference `implementation_plan.md` artifact from conversation `96918de2-7254-451b-96f1-2a81bef1a195`). Then Phase 6 theme session.
+
+---
 
 - **Session:** Enforced global maintenance redirect both server-side and client-side on the public landing page. Revamped the Norwegian coming-soon page to fix browser emoji clipping and removed the Merkurial Studio footer. Built the container locally and deployed to Cloud Run.
 - **Tracks touched:** None
