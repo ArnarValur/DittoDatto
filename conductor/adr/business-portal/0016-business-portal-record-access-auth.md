@@ -46,6 +46,7 @@ DEFINE USER bp_portal ON DATABASE PASSWORD '<deployment-secret>' ROLES EDITOR;
 ```
 
 This is a **deployment credential** injected via `--dart-define=BP_PORTAL_PASS=<secret>` at build time. It is:
+
 - NOT the user's password
 - NOT a namespace-wide credential
 - Scoped to a single tenant database (EDITOR, not OWNER)
