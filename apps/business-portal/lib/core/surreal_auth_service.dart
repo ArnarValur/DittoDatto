@@ -8,8 +8,7 @@ import 'web_storage.dart';
 /// Authenticates Business Portal users via RECORD ACCESS on `users/users`.
 ///
 /// Login flow (ADR-0016):
-/// 1. Extract username from email (e.g. `arnarvalur@dittodatto.no` → `arnarvalur`)
-/// 2. RECORD ACCESS signin on `users/users` — validates username + password_hash
+/// 1. RECORD ACCESS signin on `users/users` — validates email + password_hash
 /// 3. Query `$auth` for role and company_slug (token is scoped to user's record)
 /// 4. Reject non-business roles
 /// 5. Connect to `company_{slug}` using DB-level service credentials
@@ -55,13 +54,11 @@ class SurrealAuthService implements AuthService {
   @override
   Future<AuthState> login(String email, String password) async {
     try {
-      final username = email.split('@').first;
-
       // ── Phase 1: RECORD ACCESS auth on users/users ──
-      // Validates username + password against password_hash in user record.
+      // Validates full email + password against password_hash in user record.
       // No database admin credentials involved.
       final authResult = await SurrealConnection.authenticateUser(
-        username: username,
+        email: email.trim().toLowerCase(),
         password: password,
         url: wsUrl,
       );

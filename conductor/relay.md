@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-19 17:09 — BP Auth Email Validation + Permissions Fix
+
+- **Session:** Fixed email validation hole (username prefix → full email matching in `bp_auth` SIGNIN). Fixed SCHEMAFULL RECORD ACCESS permissions (table needs explicit `PERMISSIONS FOR select WHERE id = $auth.id`). All 46 tests green before deployment.
+- **Tracks touched:** `bp_login_establishments_20260614`
+- **Status:** Deployed and user-verified on Saturn. BP login works E2E.
+- **Decisions:** None
+- **Next:** Rebuild Admin Panel. Apply company-blueprint to `company_house-of-the-north`. Phase 5.
+
+---
+
 ## 2026-06-19 15:38 — BP Auth Full-Stack Fix
 
 - **Session:** Fixed the fundamental auth plumbing end-to-end. DB consolidation (`users/profiles` → `users/users`), argon2 password hashing in Admin Panel, password fields in Create/Edit User dialogs, Saturn DB migration (3 users with password_hash + DEFINE ACCESS bp_auth + bp_portal service users on 2 company DBs). BP rebuilt with `BP_PORTAL_PASS=test-portal-pass`.

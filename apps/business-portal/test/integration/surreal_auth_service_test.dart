@@ -102,14 +102,15 @@ void main() {
       expect(result, isA<Unauthenticated>());
     });
 
-    test('email domain is irrelevant — only username prefix matters', () async {
+    test('wrong email domain is rejected — full email must match', () async {
       final fresh = makeService();
       final result = await fresh.login(
         'testbiz@gmail.com',
         'testbiz-pass',
       );
 
-      expect(result, isA<Authenticated>());
+      // Must NOT authenticate — only testbiz@dittodatto.no is valid.
+      expect(result, isA<Unauthenticated>());
       fresh.connection?.close();
     });
   });

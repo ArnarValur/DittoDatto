@@ -14,7 +14,10 @@
 -- 1. user (source: UserSchema)
 -- -----------------------------------------------------------------------------
 
-DEFINE TABLE user SCHEMAFULL;
+DEFINE TABLE user SCHEMAFULL
+  PERMISSIONS
+    FOR select WHERE id = $auth.id
+    FOR create, update, delete NONE;
 
 -- Profile
 DEFINE FIELD name              ON user TYPE string;
@@ -114,13 +117,13 @@ DEFINE INDEX idx_bookingref_time ON booking_ref FIELDS start_time;
 -- user's record ($auth).
 --
 -- Client signin params: { NS: 'users', DB: 'users', AC: 'bp_auth',
---                         username: '...', pass: '...' }
+--                         email: '...', pass: '...' }
 
 DEFINE ACCESS IF NOT EXISTS bp_auth ON DATABASE TYPE RECORD
   SIGNIN (
     SELECT *
     FROM user
-    WHERE username = $username
+    WHERE email = $email
       AND crypto::argon2::compare(password_hash, $pass)
   )
   DURATION FOR TOKEN 24h, FOR SESSION 7d;

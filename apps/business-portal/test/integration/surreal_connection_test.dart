@@ -31,7 +31,7 @@ void main() {
   group('SurrealConnection.authenticateUser() — RECORD ACCESS', () {
     test('valid business user authenticates via password_hash', () async {
       final result = await SurrealConnection.authenticateUser(
-        username: 'testbiz',
+        email: 'testbiz@dittodatto.no',
         password: 'testbiz-pass',
         url: testUrl,
       );
@@ -49,7 +49,7 @@ void main() {
     test('wrong password → throws (argon2 mismatch)', () async {
       expect(
         () => SurrealConnection.authenticateUser(
-          username: 'testbiz',
+          email: 'testbiz@dittodatto.no',
           password: 'wrong-password',
           url: testUrl,
         ),
@@ -60,7 +60,7 @@ void main() {
     test('nonexistent user → throws', () async {
       expect(
         () => SurrealConnection.authenticateUser(
-          username: 'nobody',
+          email: 'nobody@invalid.com',
           password: 'any-password',
           url: testUrl,
         ),
@@ -70,7 +70,7 @@ void main() {
 
     test('customer user authenticates but profile has customer role', () async {
       final result = await SurrealConnection.authenticateUser(
-        username: 'testcustomer',
+        email: 'testcustomer@dittodatto.no',
         password: 'testcustomer-pass',
         url: testUrl,
       );
@@ -87,7 +87,7 @@ void main() {
     test('connects to tenant DB with service credentials', () async {
       // Phase 1: authenticate user.
       final auth = await SurrealConnection.authenticateUser(
-        username: 'testbiz',
+        email: 'testbiz@dittodatto.no',
         password: 'testbiz-pass',
         url: testUrl,
       );
@@ -115,7 +115,7 @@ void main() {
 
     test('wrong service password → throws', () async {
       final auth = await SurrealConnection.authenticateUser(
-        username: 'testbiz',
+        email: 'testbiz@dittodatto.no',
         password: 'testbiz-pass',
         url: testUrl,
       );
@@ -137,7 +137,7 @@ void main() {
 
     test('nonexistent tenant DB → throws or empty', () async {
       final auth = await SurrealConnection.authenticateUser(
-        username: 'testbiz',
+        email: 'testbiz@dittodatto.no',
         password: 'testbiz-pass',
         url: testUrl,
       );
@@ -164,7 +164,7 @@ void main() {
     test('reconnects with valid tokens from a previous session', () async {
       // Full login flow.
       final auth = await SurrealConnection.authenticateUser(
-        username: 'testbiz',
+        email: 'testbiz@dittodatto.no',
         password: 'testbiz-pass',
         url: testUrl,
       );
@@ -232,7 +232,7 @@ void main() {
   group('SurrealConnection.close()', () {
     test('closes without error', () async {
       final auth = await SurrealConnection.authenticateUser(
-        username: 'testbiz',
+        email: 'testbiz@dittodatto.no',
         password: 'testbiz-pass',
         url: testUrl,
       );

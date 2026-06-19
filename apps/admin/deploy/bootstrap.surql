@@ -34,37 +34,81 @@ DEFINE DATABASE IF NOT EXISTS registry;
 DEFINE DATABASE IF NOT EXISTS discovery;
 
 USE NS users;
-DEFINE DATABASE IF NOT EXISTS profiles;
+DEFINE DATABASE IF NOT EXISTS users;
 
 -- ═══════════════════════════════════════════════════
--- 4. Table Schemas — users/profiles
+-- 4. Table Schemas — users/users
 -- ═══════════════════════════════════════════════════
+-- Aligned with production schema: schemas/users.surql
 
-USE NS users DB profiles;
+USE NS users DB users;
 
-DEFINE TABLE IF NOT EXISTS user SCHEMAFULL;
-DEFINE FIELD name        ON TABLE user TYPE string;
-DEFINE FIELD email       ON TABLE user TYPE string;
-DEFINE FIELD phone       ON TABLE user TYPE option<string>;
-DEFINE FIELD password_hash ON TABLE user TYPE option<string>;
-DEFINE FIELD role        ON TABLE user TYPE string DEFAULT 'customer';
-DEFINE FIELD company_slug ON TABLE user TYPE option<string>;
-DEFINE FIELD vipps_sub   ON TABLE user TYPE option<string>;
+DEFINE TABLE IF NOT EXISTS user SCHEMAFULL
+  PERMISSIONS
+    FOR select WHERE id = $auth.id
+    FOR create, update, delete NONE;
+
+-- Profile
+DEFINE FIELD name              ON user TYPE string;
+DEFINE FIELD email             ON user TYPE string;
+DEFINE FIELD username          ON user TYPE option<string>;
+DEFINE FIELD bio               ON user TYPE option<string>;
+DEFINE FIELD phone             ON user TYPE option<string>;
+DEFINE FIELD photo_url         ON user TYPE option<string>;
+
+-- System Access
+DEFINE FIELD role              ON user TYPE string                   DEFAULT 'customer'
+  ASSERT $value IN ['customer', 'business', 'admin', 'super_admin'];
+DEFINE FIELD is_onboarded      ON user TYPE bool                    DEFAULT false;
+
+-- Auth (ADR-0016 — RECORD ACCESS)
+DEFINE FIELD vipps_sub         ON user TYPE option<string>;
+DEFINE FIELD password_hash     ON user TYPE option<string>;
+DEFINE FIELD company_slug      ON user TYPE option<string>;
 
 -- RBAC & Company Memberships
-DEFINE FIELD company_memberships ON TABLE user TYPE array<object>          DEFAULT [];
-DEFINE FIELD company_memberships.*.company_id ON TABLE user TYPE string;
-DEFINE FIELD company_memberships.*.role       ON TABLE user TYPE string
+DEFINE FIELD company_memberships ON user TYPE array<object>          DEFAULT [];
+DEFINE FIELD company_memberships.*.company_id ON user TYPE string;
+DEFINE FIELD company_memberships.*.role       ON user TYPE string
   ASSERT $value IN ['owner', 'admin', 'employee'];
-DEFINE FIELD company_memberships.*.assigned_at ON TABLE user TYPE datetime;
+DEFINE FIELD company_memberships.*.assigned_at ON user TYPE datetime;
 
 -- Shortcut for permission checks
-DEFINE FIELD company_membership_ids ON TABLE user TYPE array<string>       DEFAULT [];
+DEFINE FIELD company_membership_ids ON user TYPE array<string>       DEFAULT [];
 
-DEFINE FIELD created_at  ON TABLE user TYPE datetime DEFAULT time::now();
-DEFINE FIELD updated_at  ON TABLE user TYPE datetime DEFAULT time::now();
+-- Preferences
+DEFINE FIELD language           ON user TYPE string                  DEFAULT 'en'
+  ASSERT $value IN ['nb', 'en'];
 
-DEFINE INDEX idx_user_email ON TABLE user FIELDS email UNIQUE;
+-- BankID / Vipps verification (GDPR-sensitive — stays in users ONLY)
+DEFINE FIELD bankid_verified    ON user TYPE bool                   DEFAULT false;
+DEFINE FIELD bankid_verified_at ON user TYPE option<datetime>;
+DEFINE FIELD nin_hash           ON user TYPE option<string>;
+
+-- Soft delete (GDPR right to erasure)
+DEFINE FIELD deleted_at         ON user TYPE option<datetime>;
+
+-- Timestamps
+DEFINE FIELD created_at         ON user TYPE datetime               VALUE $value OR time::now();
+DEFINE FIELD updated_at         ON user TYPE datetime               VALUE time::now();
+
+-- Indexes
+DEFINE INDEX idx_user_email ON user FIELDS email UNIQUE;
+DEFINE INDEX idx_user_username ON user FIELDS username UNIQUE;
+DEFINE INDEX idx_user_vipps ON user FIELDS vipps_sub UNIQUE;
+
+-- RECORD ACCESS — Business Portal Authentication (ADR-0016)
+-- Authenticates portal users against their password_hash.
+-- The user's login password is validated via argon2 — no database system
+-- credentials are involved.
+DEFINE ACCESS IF NOT EXISTS bp_auth ON DATABASE TYPE RECORD
+  SIGNIN (
+    SELECT *
+    FROM user
+    WHERE email = $email
+      AND crypto::argon2::compare(password_hash, $pass)
+  )
+  DURATION FOR TOKEN 24h, FOR SESSION 7d;
 
 -- ═══════════════════════════════════════════════════
 -- 5. Table Schemas — companies/registry

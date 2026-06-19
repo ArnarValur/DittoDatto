@@ -43,7 +43,7 @@ class SurrealConnection {
   /// Throws on invalid credentials.
   static Future<({SurrealDB usersDb, String usersToken, Map<String, dynamic> profile})>
       authenticateUser({
-    required String username,
+    required String email,
     required String password,
     String? url,
   }) async {
@@ -60,7 +60,7 @@ class SurrealConnection {
       database: 'users',
       access: 'bp_auth',
       extra: {
-        'username': username,
+        'email': email,
         'pass': password,
       },
     );
