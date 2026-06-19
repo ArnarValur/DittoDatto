@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-19 22:50 — Phase 5 Layout Implemented & Schema Validation Blockage
+
+- **Session:** Implemented Phase 5 layout updates (sidebar identity header/footer, reordered navigation to put Inbox at index 1, Login screen branding cleanups, and refactored establishment edit screen from tabs to scrollable card sections using `DittoScrollspyLayout`). Resolved Riverpod state sync issue in `surrealConnectionProvider`. Investigated and diagnosed establishment creation disappearance/failure on schema-applied database `company_house-of-the-north` due to missing required `opening_schedule` field in creation JSON.
+- **Tracks touched:** `bp_login_establishments_20260614`
+- **Status:** Phase 5 layout implemented and compilation/tests green (92 tests passing). Staged web build deployed to Saturn. Blocked on database schema modification for `opening_schedule`.
+- **Decisions:** None (no ADRs recorded)
+- **Next:** Fix database schema for `opening_schedule` to define `DEFAULT {}` or make it optional (`TYPE option<object>`), then run E2E verification.
+
+---
+
 ## 2026-06-19 20:42 — Infra Prep + Phase 5 Design Planning
 
 - **Session:** Rebuilt Admin Panel + deployed to Saturn. Applied company-blueprint to `company_house-of-the-north` (18 tables + 3 relations). Stored DB root creds in gitignored `conductor/docs/keys/saturn-db-root.env`. Researched professional portal UX patterns and Flutter theming architecture. Designed Phase 5 plan: sidebar identity (company top, full name bottom), login cleanup (email+password only), tabs → scrollable card sections with scrollspy, sticky top bar. Theme switching explicitly deferred to Phase 6.

@@ -4,6 +4,6 @@
   "status": "in-progress",
   "domain": "business-portal",
   "created_at": "2026-06-14T13:35:00+02:00",
-  "updated_at": "2026-06-19T20:42:00+02:00",
+  "updated_at": "2026-06-19T22:50:00+02:00",
   "description": "Business Portal — Login + Establishments CRUD. Phases 1-4 complete. Phase 5 plan approved: sidebar identity (company top, full name bottom), login cleanup, tabs → scrollspy sections, E2E + responsive + coverage. Theme switching deferred to Phase 6."
 }

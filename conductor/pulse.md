@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-19 20:42
-**Session Focus:** Infra prep (Admin rebuild + company-blueprint) + Phase 5 design planning.
+**Last Updated:** 2026-06-19 22:50
+**Session Focus:** Phase 5 Layout Implementation + State Sync Fix + Schema Investigation
 
 ## 🚀 Active Tracks
 
@@ -47,11 +47,15 @@
 - **Phase 5 design decisions (2026-06-19):** Tabs → scrollable card sections with scrollspy. Sidebar: company name top, full name bottom, Inbox after Dashboard. Login: email+password only, "DittoDatto Forretningsportal" branding, "Kontakt oss ved problemer" instead of "Kontakt administrator for tilgang". Theme switching = Phase 6. Implementation plan artifact: `brain/96918de2.../implementation_plan.md`.
 - **SurrealDB container name on Saturn:** `dittodatto-hub` (in `dittodatto-net` Docker network). Minimal container — no shell utils, connect remotely via Tailscale instead of `docker exec`.
 - **company_house-of-the-north:** Full company-blueprint applied (18 tables + 3 relations). Ready for BP E2E testing.
+- **Phase 5 Layout Implemented (2026-06-19):** Replaced tabbed view with `DittoScrollspyLayout`, updated `LoginScreen` branding/help text, reordered navigation to put Inbox at index 1, and set up sidebar identity header and footer.
+- **Riverpod State Propagation Fix (2026-06-19):** Updated `surrealConnectionProvider` to watch `authProvider` to reactively re-fetch and rebuild UI shell components upon login/auth status changes.
+- **Database Schema Validation Bug Discovered (2026-06-19):** Establishment creation fails on schemafull company databases (like `company_house-of-the-north`) because `opening_schedule` is defined as a required `object` field with no default in `company-blueprint.surql`, but the client does not send this field.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🟡 **Phase 5: Implement** — open new session, reference implementation plan. Sub-phases: 5a sidebar, 5b login, 5c scrollspy edit, 5d E2E+responsive+coverage.
-2. 🟢 **Phase 6: Theme session** — grill + implement light/dark switching, DittoDashboardShell theme-awareness, typography unification.
-3. 🟢 **Clean up legacy `users/profiles` DB** on Saturn.
+1. 🟡 **Fix Establishment Schema Blockage:** Define a `DEFAULT {}` or default weekly object structure for `opening_schedule` in `company-blueprint.surql`, or make it optional (`TYPE option<object>`), and apply/sync the migration on Saturn.
+2. 🟡 **Phase 5 Verification:** Verify E2E creation works for all database tenants after the schema fix, complete responsive tweaks, and run full coverage check.
+3. 🟢 **Phase 6: Theme session** — grill + implement light/dark switching, DittoDashboardShell theme-awareness, typography unification.
+4. 🟢 **Clean up legacy `users/profiles` DB** on Saturn.

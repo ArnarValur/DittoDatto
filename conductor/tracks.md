@@ -28,9 +28,10 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Phases:* 5 — (1) Monorepo + ditto_design + Shell, (2) Auth + Login, (3) Dashboard, (4) Users + Companies + Categories, (5) Inbox + Polish [checkpoint: pending user approval]
 
 - [ ] **Business Portal — Login redesign + Establishments CRUD**
-  - *Type:* feature | *Domain:* business-portal | *Status:* new
+  - *Type:* feature | *Domain:* business-portal | *Status:* in-progress
   - *Link:* [tracks/business-portal/bp_login_establishments_20260614/](./tracks/business-portal/bp_login_establishments_20260614/)
   - *Phases:* 5 — (1) Design System Light Theme, (2) Login Redesign, (3) Establishments List, (4) Establishment Create + Edit, (5) Integration & Polish
+
 
 
 
