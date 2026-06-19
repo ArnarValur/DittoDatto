@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-19 12:31 — Production-Grade Testing Infrastructure + Bug Fix
+
+- **Session:** Built testing infrastructure (Docker Compose ephemeral DB, seed scripts, test reorganization). Wrote 20 integration tests against real SurrealDB. Found and fixed `profiles`→`users` DB name mismatch in `surreal_connection.dart` — caught on first integration test run. Aligned MercuryEngine tests with `SURREAL_TEST_URL` env var.
+- **Tracks touched:** `bp_login_establishments_20260614`
+- **Status:** 85 tests green (65 widget/unit + 20 integration). Bug fixed. Phase 5 unblocked. Deploy to Saturn next.
+- **Decisions:** None (4 pulse-bucket operational notes)
+- **Next:** Deploy BP to Saturn. Verify session restore works post-fix. Run integration tests against Saturn schema.
+
+---
+
 ## 2026-06-14 18:17 — BP Phase 4b: Tenant-Scoped Login Wiring
 
 - **Session:** Wired ADR-0013 3-step login flow: NS auth → role/slug verification via `users/profiles` → tenant routing to `company_{slug}`. Discovered NS username ↔ user record link (username field, not email). Login confirmed working from server logs. Session restore (page refresh) hangs — blocked.
