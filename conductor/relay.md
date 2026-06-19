@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-19 18:35 — Nuxt Landing Page Maintenance Redirect
+
+- **Session:** Enforced global maintenance redirect both server-side and client-side on the public landing page. Revamped the Norwegian coming-soon page to fix browser emoji clipping and removed the Merkurial Studio footer. Built the container locally and deployed to Cloud Run.
+- **Tracks touched:** None
+- **Status:** Deployed and verified live at dittodatto.no.
+- **Decisions:** None
+- **Next:** Rebuild Admin Panel. Apply company-blueprint to `company_house-of-the-north`. Phase 5 of BP track.
+
+---
+
 ## 2026-06-19 17:09 — BP Auth Email Validation + Permissions Fix
 
 - **Session:** Fixed email validation hole (username prefix → full email matching in `bp_auth` SIGNIN). Fixed SCHEMAFULL RECORD ACCESS permissions (table needs explicit `PERMISSIONS FOR select WHERE id = $auth.id`). All 46 tests green before deployment.
