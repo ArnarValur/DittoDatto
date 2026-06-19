@@ -3,79 +3,120 @@ import 'package:surrealdb/surrealdb.dart';
 
 /// Manages authenticated SurrealDB WebSocket connections for the Business Portal.
 ///
-/// Similar to the Admin Panel connection but adds tenant routing:
-/// after login, the companies connection is switched to `company_{slug}`
-/// database per ADR-0013.
+/// **Security model (ADR-0016):**
+/// - `users` connection: RECORD ACCESS auth on `users/users` database.
+///   Authenticates against the `password_hash` field in the user's profile.
+///   The issued token is scoped to the user's own record (`$auth`).
+/// - `companies` connection: database-level system user (`bp_portal`) on
+///   `company_{slug}`. This is a deployment credential (injected via
+///   `--dart-define`), NOT the user's password. The user never sees it.
 ///
-/// Connections:
-/// - `companies` namespace → tenant database (`company_{slug}`)
-/// - `users` namespace → profiles database (role verification)
+/// This ensures:
+/// - Users authenticate with their OWN password (hashed in their profile)
+/// - No database admin/root credentials are used for portal login
+/// - Company DB access uses a service credential, not user credentials
+/// - Cross-tenant isolation via per-DB system users
 class SurrealConnection {
   SurrealConnection._({required this.companies, required this.users});
 
-  /// Connection to the `companies` namespace (tenant-scoped after login).
+  /// Connection to the tenant's company database (DB-scoped).
   final SurrealDB companies;
 
-  /// Connection to the `users` namespace.
+  /// Connection to `users/users` database (RECORD ACCESS scoped).
   final SurrealDB users;
 
-  /// The tenant slug this connection is routed to (e.g. `sawasdee`).
-  /// Null until [routeToTenant] is called.
+  /// The tenant slug this connection is routed to.
   String? _slug;
 
-  /// The active tenant slug, or null if not yet routed.
+  /// The active tenant slug.
   String? get slug => _slug;
 
-  /// Route the companies connection to a specific tenant database.
+  /// Phase 1: Authenticate the user via RECORD ACCESS on `users/users`.
   ///
-  /// Executes `USE NS companies DB company_{slug}` — all subsequent queries
-  /// on [companies] will be scoped to that tenant's isolated database.
-  Future<void> routeToTenant(String slug) async {
-    await companies.use('companies', 'company_$slug');
-    _slug = slug;
-  }
-
-  /// Connect and authenticate to both namespaces using credentials.
+  /// The SIGNIN clause in the `bp_auth` access definition validates
+  /// [username] + [password] against the `password_hash` field in the
+  /// user's profile record. No system credentials involved.
   ///
-  /// [user] and [pass] are SurrealDB namespace-level credentials.
-  /// [url] is the WebSocket RPC endpoint (e.g. `wss://host:8002/rpc`).
-  /// If [url] is null, it's derived from the current page origin.
+  /// Returns the authenticated users connection and the user's profile.
+  /// The token is scoped to the authenticated user's record (`$auth`).
   ///
-  /// After signin, the `users` connection is immediately routed to
-  /// `users/profiles`. The `companies` connection remains unrouted —
-  /// call [routeToTenant] after discovering the user's `company_slug`.
-  ///
-  /// Returns the connection and the JWT tokens for session persistence.
-  static Future<({SurrealConnection connection, String companiesToken, String usersToken})> connect({
-    required String user,
-    required String pass,
+  /// Throws on invalid credentials.
+  static Future<({SurrealDB usersDb, String usersToken, Map<String, dynamic> profile})>
+      authenticateUser({
+    required String username,
+    required String password,
     String? url,
   }) async {
     final wsUrl = url ?? _deriveWsUrl();
 
+    final usersDb = SurrealDB(wsUrl);
+    usersDb.connect();
+    await usersDb.wait();
+
+    // RECORD ACCESS signin — validates against password_hash in user record.
+    // The access method `bp_auth` is defined on the `users/users` database.
+    final usersToken = await usersDb.signin(
+      namespace: 'users',
+      database: 'users',
+      access: 'bp_auth',
+      extra: {
+        'username': username,
+        'pass': password,
+      },
+    );
+
+    // After RECORD ACCESS signin, $auth is the authenticated user record.
+    // Query the profile for role and company_slug.
+    final profileResult = await usersDb.query(
+      r'SELECT role, company_slug FROM $auth',
+    );
+
+    final profile = _extractFirstRow(profileResult);
+    if (profile == null) {
+      usersDb.close();
+      throw AuthenticationException('User profile not found');
+    }
+
+    return (usersDb: usersDb, usersToken: usersToken, profile: profile);
+  }
+
+  /// Phase 2: Connect to the tenant's company database.
+  ///
+  /// Uses a DB-level system user (`bp_portal`) — a deployment credential
+  /// injected via `--dart-define`, NOT the user's password.
+  ///
+  /// [usersDb] is the RECORD ACCESS-authenticated connection from Phase 1.
+  /// [usersToken] is the RECORD ACCESS token for session persistence.
+  /// [slug] is the tenant slug from the user's profile.
+  /// [serviceUser] and [servicePass] are the `bp_portal` DB-level credentials.
+  static Future<({SurrealConnection connection, String companiesToken, String usersToken})>
+      connectTenant({
+    required SurrealDB usersDb,
+    required String usersToken,
+    required String slug,
+    required String serviceUser,
+    required String servicePass,
+    String? url,
+  }) async {
+    final wsUrl = url ?? _deriveWsUrl();
+
+    // DB-level system user signin — scoped to companies/company_{slug}.
+    // This is a deployment credential, not the user's password.
     final companiesDb = SurrealDB(wsUrl);
     companiesDb.connect();
     await companiesDb.wait();
     final companiesToken = await companiesDb.signin(
-      user: user,
-      pass: pass,
+      user: serviceUser,
+      pass: servicePass,
       namespace: 'companies',
+      database: 'company_$slug',
     );
 
-    final usersDb = SurrealDB(wsUrl);
-    usersDb.connect();
-    await usersDb.wait();
-    final usersToken = await usersDb.signin(
-      user: user,
-      pass: pass,
-      namespace: 'users',
-    );
-
-    // Users connection always targets the profiles database.
-    await usersDb.use('users', 'profiles');
+    final conn = SurrealConnection._(companies: companiesDb, users: usersDb);
+    conn._slug = slug;
 
     return (
-      connection: SurrealConnection._(companies: companiesDb, users: usersDb),
+      connection: conn,
       companiesToken: companiesToken,
       usersToken: usersToken,
     );
@@ -83,8 +124,8 @@ class SurrealConnection {
 
   /// Reconnect using previously obtained JWT tokens.
   ///
-  /// If [slug] is provided, the companies connection is routed to that
-  /// tenant database and the users connection to `users/profiles`.
+  /// [companiesToken] is a DB-scoped token for `companies/company_{slug}`.
+  /// [usersToken] is a RECORD ACCESS token for `users/users`.
   static Future<SurrealConnection> connectWithTokens({
     required String companiesToken,
     required String usersToken,
@@ -93,8 +134,6 @@ class SurrealConnection {
   }) async {
     final wsUrl = url ?? _deriveWsUrl();
 
-    // Timeout the entire reconnection — if WebSockets hang on page reload,
-    // we fall back to the login screen instead of blank-screening.
     return Future(() async {
       final companiesDb = SurrealDB(wsUrl);
       companiesDb.connect();
@@ -106,14 +145,9 @@ class SurrealConnection {
       await usersDb.wait();
       await usersDb.authenticate(usersToken);
 
-      // Route to profiles so downstream queries work.
-      await usersDb.use('users', 'profiles');
-
       final conn = SurrealConnection._(companies: companiesDb, users: usersDb);
-
-      // Re-route to the tenant database if slug was persisted.
       if (slug != null) {
-        await conn.routeToTenant(slug);
+        conn._slug = slug;
       }
 
       return conn;
@@ -129,6 +163,26 @@ class SurrealConnection {
     users.close();
   }
 
+  /// Extract the first row from a SurrealDB query result.
+  static Map<String, dynamic>? _extractFirstRow(dynamic result) {
+    if (result is! List || result.isEmpty) return null;
+
+    final first = result.first;
+    if (first is Map && first.containsKey('result')) {
+      final inner = first['result'];
+      if (inner is List && inner.isNotEmpty && inner.first is Map) {
+        return Map<String, dynamic>.from(inner.first as Map);
+      }
+      return null;
+    }
+
+    if (first is Map) {
+      return Map<String, dynamic>.from(first);
+    }
+
+    return null;
+  }
+
   /// Derive the WebSocket URL from the current browser origin.
   static String _deriveWsUrl() {
     final base = Uri.base;
@@ -137,4 +191,13 @@ class SurrealConnection {
     final port = base.hasPort ? ':${base.port}' : '';
     return '$protocol://$host$port/rpc';
   }
+}
+
+/// Thrown when authentication fails during the login flow.
+class AuthenticationException implements Exception {
+  AuthenticationException(this.message);
+  final String message;
+
+  @override
+  String toString() => 'AuthenticationException: $message';
 }

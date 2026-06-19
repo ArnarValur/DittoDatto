@@ -1,7 +1,7 @@
 # ADR-0013: Business Portal Multi-Tenant Authentication and Routing
 
 > **Recorded:** 2026-06-08 20:50
-> **Status:** accepted
+> **Status:** superseded by [ADR-0016](0016-business-portal-record-access-auth.md)
 > **Domain:** business-portal
 
 ## Context

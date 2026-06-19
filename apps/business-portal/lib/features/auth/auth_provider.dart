@@ -10,12 +10,20 @@ import '../../core/surreal_auth_service.dart';
 /// host (e.g. Saturn deployment behind Caddy).
 const _surrealUrl = String.fromEnvironment('SURREAL_URL');
 
+/// DB-level service credentials for company DB access (ADR-0016).
+/// Injected at build time — NEVER the user's password.
+const _bpPortalUser = String.fromEnvironment('BP_PORTAL_USER', defaultValue: 'bp_portal');
+const _bpPortalPass = String.fromEnvironment('BP_PORTAL_PASS');
+
 /// Provider for the auth service.
 ///
-/// Uses [SurrealAuthService] authenticating against real SurrealDB.
+/// Uses [SurrealAuthService] with RECORD ACCESS for user auth
+/// and DB-level service credentials for company DB access.
 final authServiceProvider = Provider<AuthService>((ref) {
   return SurrealAuthService(
     wsUrl: _surrealUrl.isNotEmpty ? _surrealUrl : null,
+    serviceUser: _bpPortalUser.isNotEmpty ? _bpPortalUser : null,
+    servicePass: _bpPortalPass.isNotEmpty ? _bpPortalPass : null,
   );
 });
 

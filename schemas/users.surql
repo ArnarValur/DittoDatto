@@ -105,6 +105,26 @@ DEFINE FIELD created_at        ON booking_ref TYPE datetime          VALUE $valu
 DEFINE INDEX idx_bookingref_user ON booking_ref FIELDS user;
 DEFINE INDEX idx_bookingref_time ON booking_ref FIELDS start_time;
 
+-- -----------------------------------------------------------------------------
+-- 3. RECORD ACCESS — Business Portal Authentication (ADR-0016)
+-- -----------------------------------------------------------------------------
+-- Authenticates portal users against their password_hash.
+-- The user's login password is validated via argon2 — no database system
+-- credentials are involved. The issued token is scoped to the authenticated
+-- user's record ($auth).
+--
+-- Client signin params: { NS: 'users', DB: 'users', AC: 'bp_auth',
+--                         username: '...', pass: '...' }
+
+DEFINE ACCESS IF NOT EXISTS bp_auth ON DATABASE TYPE RECORD
+  SIGNIN (
+    SELECT *
+    FROM user
+    WHERE username = $username
+      AND crypto::argon2::compare(password_hash, $pass)
+  )
+  DURATION FOR TOKEN 24h, FOR SESSION 7d;
+
 -- =============================================================================
 -- END OF USERS SCHEMA
 -- =============================================================================

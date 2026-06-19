@@ -5,22 +5,33 @@ import 'package:mercury_client/mercury_client.dart';
 import 'surreal_connection.dart';
 import 'web_storage.dart';
 
-/// Authenticates Business Portal users against SurrealDB namespace-level users.
+/// Authenticates Business Portal users via RECORD ACCESS on `users/users`.
 ///
-/// Login flow (per ADR-0013):
+/// Login flow (ADR-0016):
 /// 1. Extract username from email (e.g. `arnarvalur@dittodatto.no` → `arnarvalur`)
-/// 2. Connect two WebSocket clients to SurrealDB
-/// 3. Signin as namespace user on both `companies` and `users` namespaces
-/// 4. Query `users/profiles` for the user's role and `company_slug`
-/// 5. Reject non-business roles (customer accounts cannot access the portal)
-/// 6. Route the companies connection to `company_{slug}` (tenant isolation)
-/// 7. Store JWT tokens + slug in secure storage for persistence
+/// 2. RECORD ACCESS signin on `users/users` — validates username + password_hash
+/// 3. Query `$auth` for role and company_slug (token is scoped to user's record)
+/// 4. Reject non-business roles
+/// 5. Connect to `company_{slug}` using DB-level service credentials
+/// 6. Store JWT tokens + slug for session persistence
+///
+/// The user's password is NEVER used as a database credential. It's validated
+/// against `password_hash` in their profile via `crypto::argon2::compare()`.
 class SurrealAuthService implements AuthService {
-  SurrealAuthService({this.wsUrl, FlutterSecureStorage? storage})
-      : _storage = storage ?? const FlutterSecureStorage();
+  SurrealAuthService({
+    this.wsUrl,
+    this.serviceUser,
+    this.servicePass,
+    FlutterSecureStorage? storage,
+  }) : _storage = storage ?? const FlutterSecureStorage();
 
   /// Optional explicit WebSocket URL. If null, derived from page origin.
   final String? wsUrl;
+
+  /// DB-level service credentials for company DB access.
+  /// Injected via `--dart-define` at build time — never the user's password.
+  final String? serviceUser;
+  final String? servicePass;
 
   final FlutterSecureStorage _storage;
 
@@ -31,6 +42,9 @@ class SurrealAuthService implements AuthService {
 
   /// Roles permitted to access the Business Portal.
   static const _allowedRoles = {'business', 'admin', 'super_admin'};
+
+  /// Default service account name for company DB access.
+  static const _defaultServiceUser = 'bp_portal';
 
   /// The active connection, available after successful login.
   SurrealConnection? _connection;
@@ -43,62 +57,69 @@ class SurrealAuthService implements AuthService {
     try {
       final username = email.split('@').first;
 
-      final result = await SurrealConnection.connect(
-        user: username,
-        pass: password,
+      // ── Phase 1: RECORD ACCESS auth on users/users ──
+      // Validates username + password against password_hash in user record.
+      // No database admin credentials involved.
+      final authResult = await SurrealConnection.authenticateUser(
+        username: username,
+        password: password,
         url: wsUrl,
       );
 
-      final conn = result.connection;
+      final profile = authResult.profile;
 
-      // ── Step 2: Role verification + slug discovery ──
-      // The users connection is already routed to users/profiles by connect().
-      // Look up by username — the NS identity we authenticated with. This
-      // decouples the login form from the real email on the user record.
-      // (The email domain in the form is irrelevant for NS auth.)
-      final profileResult = await conn.users.query(
-        r'SELECT role, company_slug FROM user WHERE username = $username LIMIT 1',
-        {'username': username},
-      );
-
-      final profile = _extractFirstRow(profileResult);
-      if (profile == null) {
-        conn.close();
-        return const Unauthenticated();
-      }
-
+      // ── Role check ──
       final role = profile['role'] as String?;
       if (role == null || !_allowedRoles.contains(role)) {
-        conn.close();
+        authResult.usersDb.close();
         return const Unauthenticated();
       }
 
       final rawSlug = profile['company_slug'] as String?;
       if (rawSlug == null || rawSlug.trim().isEmpty) {
-        conn.close();
+        authResult.usersDb.close();
         return const Unauthenticated();
       }
 
-      // Option A: take the first slug (single-company MVP).
-      // company_slug can be comma-separated for multi-company users.
+      // Single-company MVP: take the first slug.
       final slug = rawSlug.split(',').first.trim();
 
-      // ── Step 3: Tenant routing ──
-      await conn.routeToTenant(slug);
+      // ── Phase 2: Connect to tenant DB with service credentials ──
+      final svcUser = serviceUser ?? _defaultServiceUser;
+      final svcPass = servicePass ?? '';
+      if (svcPass.isEmpty) {
+        authResult.usersDb.close();
+        throw AuthenticationException(
+          'BP_PORTAL_PASS not configured. '
+          'Set via --dart-define=BP_PORTAL_PASS=<value>',
+        );
+      }
 
-      _connection = conn;
+      final tenantResult = await SurrealConnection.connectTenant(
+        usersDb: authResult.usersDb,
+        usersToken: authResult.usersToken,
+        slug: slug,
+        serviceUser: svcUser,
+        servicePass: svcPass,
+        url: wsUrl,
+      );
+
+      _connection = tenantResult.connection;
 
       // Persist tokens, email, and slug for session restore.
       await _writeAll({
-        _companiesTokenKey: result.companiesToken,
-        _usersTokenKey: result.usersToken,
+        _companiesTokenKey: tenantResult.companiesToken,
+        _usersTokenKey: tenantResult.usersToken,
         _emailKey: email,
         _slugKey: slug,
       });
 
-      return Authenticated(accessToken: result.companiesToken, email: email);
+      return Authenticated(accessToken: tenantResult.companiesToken, email: email);
+    } on AuthenticationException {
+      // Config error — rethrow so it surfaces.
+      rethrow;
     } catch (e) {
-      // Per PRD: no error feedback. Return unauthenticated silently.
+      // Auth failure (wrong password, nonexistent user, etc.) — silent fail per PRD.
       return const Unauthenticated();
     }
   }
@@ -153,29 +174,6 @@ class SurrealAuthService implements AuthService {
   }
 
   // ── Storage helpers ──
-
-  /// Extract the first row from a SurrealDB query result.
-  ///
-  /// The Dart SDK can return results in different shapes depending on version:
-  /// `[{result: [...]}]` or a flat `[{...}]`.
-  Map<String, dynamic>? _extractFirstRow(dynamic result) {
-    if (result is! List || result.isEmpty) return null;
-
-    final first = result.first;
-    if (first is Map && first.containsKey('result')) {
-      final inner = first['result'];
-      if (inner is List && inner.isNotEmpty && inner.first is Map) {
-        return Map<String, dynamic>.from(inner.first as Map);
-      }
-      return null;
-    }
-
-    if (first is Map) {
-      return Map<String, dynamic>.from(first);
-    }
-
-    return null;
-  }
 
   Future<String?> _read(String key) async {
     if (kIsWeb) return WebStorage.read(key);

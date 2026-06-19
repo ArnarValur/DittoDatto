@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-19 13:29 — 🔴 Critical Security Fix: BP Auth RECORD ACCESS Rewrite
+
+- **Session:** Discovered BP auth was using namespace-level system user credentials (`DEFINE USER ON NAMESPACE ROLES OWNER`) for portal login — user's password was literally the database admin password. Rewrote entire auth stack to use RECORD ACCESS (`password_hash` via argon2) for user auth + DB-level service user (`bp_portal` EDITOR) for company DB access. Wrote ADR-0016, superseded ADR-0013. Updated port to :8003.
+- **Tracks touched:** `bp_login_establishments_20260614`
+- **Status:** Code changes complete (7 files rewritten). Needs compile verification + integration test run. Not deployed.
+- **Decisions:** ADR-0016 (Business Portal RECORD ACCESS Authentication)
+- **Next:** `flutter analyze`, integration tests with `BP_PORTAL_PASS=test-portal-pass`, provision Saturn (DEFINE ACCESS bp_auth + bp_portal user), deploy to :8003.
+
+---
+
 ## 2026-06-19 12:31 — Production-Grade Testing Infrastructure + Bug Fix
 
 - **Session:** Built testing infrastructure (Docker Compose ephemeral DB, seed scripts, test reorganization). Wrote 20 integration tests against real SurrealDB. Found and fixed `profiles`→`users` DB name mismatch in `surreal_connection.dart` — caught on first integration test run. Aligned MercuryEngine tests with `SURREAL_TEST_URL` env var.
