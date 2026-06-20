@@ -2,6 +2,15 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-20 12:26 — Saturn DB Wipe + Admin Panel NULL→NONE Fix + Deploy
+
+- **Session:** Wiped Saturn DB clean (all company DBs + user records removed). Re-applied schemas from source of truth (users, registry, discovery). Created 2 NS OWNER users (arnarvalur, gurkudrengur, pw admin123). Fixed Admin Panel CREATE user query — was sending NULL for optional fields (`company_slug`, `vipps_sub`) which SurrealDB `option<string>` rejects. Verified fix against real Saturn DB. Rebuilt + deployed Admin Panel. Removed oasai references from conductor. Quality audit scored overnight work 8.2/10.
+- **Tracks touched:** `bp_login_establishments_20260614`, `admin_panel_20260527`
+- **Status:** Saturn DB is clean. Admin Panel deployed with fix. User creation verified on real DB. Ready for Admin Panel E2E (create users → create company → test BP login).
+- **Decisions:** None
+- **Next:** Log into Admin Panel as `arnarvalur` → create users → create company → BP E2E.
+
+---
 ## 2026-06-20 12:05 — Quality Audit + platform→registry Fix + Saturn DB Assessment
 
 - **Session:** Quality-audited overnight Gemini 3.5 work (scored 8.2/10). Fixed 4 stale `platform`→`registry` references in README, seed script, platform.surql (commit `12511cf`). Seed script was broken — would apply schemas to wrong DB name. User inspected Saturn DB via Surrealist: `company_dittodatto-as` has only 1 table (missing blueprint), `merkurial-studio` in registry with no company DB, stale Surrealist connection. User wants DB wipe + clean re-provision before continuing E2E.
