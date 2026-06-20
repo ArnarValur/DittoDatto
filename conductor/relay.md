@@ -2,6 +2,15 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-20 12:05 — Quality Audit + platform→registry Fix + Saturn DB Assessment
+
+- **Session:** Quality-audited overnight Gemini 3.5 work (scored 8.2/10). Fixed 4 stale `platform`→`registry` references in README, seed script, platform.surql (commit `12511cf`). Seed script was broken — would apply schemas to wrong DB name. User inspected Saturn DB via Surrealist: `company_dittodatto-as` has only 1 table (missing blueprint), `merkurial-studio` in registry with no company DB, stale Surrealist connection. User wants DB wipe + clean re-provision before continuing E2E.
+- **Tracks touched:** `bp_login_establishments_20260614` (indirectly — schema infra)
+- **Status:** Schema refs fixed. Saturn DB cleanup blocker identified. E2E paused until DB is clean.
+- **Decisions:** None
+- **Next:** Decide on Saturn DB wipe strategy. Write provisioning script or manual wipe + re-apply schemas. Then resume E2E.
+
+---
 ## 2026-06-20 02:29 — Gemini 3.5 Session Audit + Database Cleanup + Schema Fix
 
 - **Session:** Audited Gemini 3.5 Flash session (c962aebc) — found scope creep (Admin Panel touched without being asked), hallucinated APIs, uncommitted code. All code reviewed and committed in 6 logical groups. Fixed `opening_schedule` schema blocker (DEFAULT {}) on both company DBs on Saturn. Dropped legacy `users/profiles` DB on Saturn. Fixed `init.surql` naming (platform→registry). Updated stale ADR-0002 (profiles→users) and ADR-0016 (username→email). Fixed scrollspy 200px magic number with dynamic offset calculation. Discarded Gemini 3.5 artifacts (.saropa/, reports/, history.txt changes). 138 tests green.
