@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-20 17:11 — Project Health Assessment + Agent Rules Overhaul
+
+- **Session:** Diagnosed root cause of Flutter migration pain: AI-generated Dart↔SurrealDB code passes widget tests but breaks on real DB, repeated across every session for 25 days. Trimmed agent rules from 4→3: dropped `clean-code.mini.md` and `domain-driven-design-distilled.mini.md` (generic book noise, ~100 lines of context waste per session). Added `surrealdb-dart.md` — 274-line battle-tested rule covering 9 foot-gun patterns (NULL/NONE coercion, MERGE vs SET, record IDs, query response parsing, argon2 hashing, SCHEMAFULL permissions, integration test mandate). Every future session reads this automatically.
+- **Tracks touched:** None (cross-cutting infrastructure)
+- **Status:** Agent rules committed (`70ed444`). Health report in session artifacts.
+- **Decisions:** None
+- **Next:** Admin Panel E2E (create users → create company → verify BP login). Consider building thin typed SurrealDB query helper to eliminate raw SurrealQL string bugs entirely.
+
+---
+
 ## 2026-06-20 15:31 — Admin Panel Integration Test Suite + Deploy Gate
 
 - **Session:** Built 28 integration tests for Admin Panel against real SurrealDB (users/companies/categories/stats CRUD + NS auth). First run caught 3 production bugs: (1) `updateUser` invalid MERGE+SET syntax, (2) `deleteCompany` record ID mismatch, (3) `createUser` phone missing NULL→NONE coercion. All fixed, tests green. Added `.agents/AGENTS.md` deploy gate rule — tests must pass before any deploy. Extended `test-db-seed.sh` with `testadmin` on `companies` namespace.

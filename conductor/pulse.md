@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-20 15:31
-**Session Focus:** Admin Panel Integration Test Suite + Production Bug Fixes + Deploy Gate Rule
+**Last Updated:** 2026-06-20 17:11
+**Session Focus:** Project Health Assessment + Agent Rules Overhaul
 
 ## 🚀 Active Tracks
 
@@ -10,6 +10,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-20** — Project health assessment: diagnosed root cause of Flutter migration pain (AI-generated Dart↔SurrealDB code passing widget tests but failing on real DB). Trimmed agent rules: dropped generic clean-code + DDD book rules (context noise), added battle-tested `surrealdb-dart.md` covering 9 foot-gun patterns from 25 days of production bugs (NULL/NONE, MERGE vs SET, record IDs, query parsing, argon2, SCHEMAFULL permissions, integration test mandate).
 - **2026-06-20** — Built Admin Panel integration test suite: 28 tests against real SurrealDB covering Users/Companies/Categories/Stats CRUD + NS-level auth. Caught and fixed 3 production bugs: (1) `updateUser` used invalid `MERGE+SET` SurrealQL syntax, (2) `deleteCompany` record ID mismatch prevented owner role revert, (3) `createUser` phone field missing NULL→NONE coercion. Extended `test-db-seed.sh` with `testadmin` on `companies` namespace. Added `.agents/AGENTS.md` deploy gate rule: tests must pass before any deploy.
 - **2026-06-20** — Saturn DB wiped clean. Re-applied init + schemas. Fixed Admin Panel CREATE user NULL→NONE coercion for `company_slug` and `vipps_sub`. Verified against real Saturn DB. Rebuilt + deployed.
 - **2026-06-20** — Quality audit of overnight Gemini 3.5 session (8.2/10). Fixed 4 stale `platform`→`registry` references.
@@ -43,6 +44,7 @@
 - **NULL vs NONE (2026-06-20):** SurrealDB `option<T>` accepts `NONE` (absent) or `T`, but rejects `NULL`. Dart null maps to SurrealDB NULL. ALL optional fields in CREATE/UPDATE queries must coerce: `IF $field = NULL THEN none ELSE $field END`. Phone was missed initially — caught by integration test suite.
 - **Deploy gate rule (2026-06-20):** `.agents/AGENTS.md` mandates: test-db-up → flutter test --tags integration → all green → build → deploy. No exceptions. No silent deploys of untested code.
 - **Integration test suite (2026-06-20):** 28 tests in `apps/admin/test/integration/` — auth (5), users (9), companies (7), categories (5), stats (2). Caught 3 production bugs on first run.
+- **Agent rules trimmed (2026-06-20):** Dropped `clean-code.mini.md` + `domain-driven-design-distilled.mini.md` (generic book noise). Added `surrealdb-dart.md` (project-specific foot-guns). Kept `code-safety.md` + `flutter-app-development.md`. Net: 4→3 rules, all battle-tested.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
