@@ -6,7 +6,7 @@
 -- Created:    2026-05-03
 --
 -- System-level ops data: company registry, system alerts, shared assets.
--- Accessed by MercuryEngine via the static `platform` connection.
+-- Accessed by MercuryEngine via the static `registry` connection.
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------

@@ -42,7 +42,7 @@ echo "📦 Applying users.surql (includes DEFINE ACCESS bp_auth)..."
 $SURREAL_CMD --ns users --db users < "$SCHEMAS_DIR/users.surql"
 
 echo "📦 Applying platform.surql..."
-$SURREAL_CMD --ns companies --db platform < "$SCHEMAS_DIR/platform.surql"
+$SURREAL_CMD --ns companies --db registry < "$SCHEMAS_DIR/platform.surql"
 
 echo "📦 Applying discovery.surql..."
 $SURREAL_CMD --ns companies --db discovery < "$SCHEMAS_DIR/discovery.surql"
@@ -106,7 +106,7 @@ SQL
 
 echo "✅ Test database seeded successfully."
 echo "   - Namespaces: companies, users"
-echo "   - Databases: discovery, platform, users, company_testcompany"
+echo "   - Databases: discovery, registry, users, company_testcompany"
 echo "   - RECORD ACCESS: bp_auth on users/users (validates password_hash)"
 echo "   - DB service user: $BP_PORTAL_USER on company_testcompany (EDITOR)"
 echo "   - Test users: testbiz (business, password_hash), testcustomer (customer)"

@@ -19,7 +19,7 @@ companies (namespace)
 ├── discovery                ← Public aggregator (from discovery.surql)
 │   ├── category, area, establishment_listing, search_event
 │   └── Edges: categorized_as, located_in
-└── platform                 ← System ops (from platform.surql)
+└── registry                 ← System ops (from platform.surql)
     └── company, system_alert, icon_collection, audit_log
 
 users (namespace)
@@ -45,7 +45,7 @@ surreal sql --endpoint http://localhost:8000 -u root -p <pw> < schemas/init.surq
 
 # 2. Apply static database schemas
 surreal sql --endpoint http://localhost:8000 -u root -p <pw> --ns companies --db discovery < schemas/discovery.surql
-surreal sql --endpoint http://localhost:8000 -u root -p <pw> --ns companies --db platform < schemas/platform.surql
+surreal sql --endpoint http://localhost:8000 -u root -p <pw> --ns companies --db registry < schemas/platform.surql
 surreal sql --endpoint http://localhost:8000 -u root -p <pw> --ns users --db users < schemas/users.surql
 
 # 3. Provision a company (example: Sawasdee)
