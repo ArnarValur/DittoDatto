@@ -87,17 +87,18 @@ void main() {
       expect(created.role, ActorRole.customer);
     });
 
-    test('NULL→NONE coercion: optional fields as null do not crash', () async {
+    test('NULL→NONE coercion: ALL optional fields as null do not crash', () async {
       // This is the EXACT bug class from 2026-06-20.
       // SurrealDB option<string> rejects NULL but accepts NONE.
+      // ALL optional fields must be null here — no cheating with hardcoded values.
       final user = User(
         id: '',
         name: 'Null Fields User',
         email: 'nullfields@dittodatto.no',
-        phone: '11111111',
+        phone: null,          // NULL → must coerce to NONE
         role: ActorRole.customer,
-        companySlug: null,  // NULL → must coerce to NONE
-        vippsSub: null,     // NULL → must coerce to NONE
+        companySlug: null,    // NULL → must coerce to NONE
+        vippsSub: null,       // NULL → must coerce to NONE
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );

@@ -92,7 +92,7 @@ class SurrealAdminRepository implements AdminRepository {
     if (password != null && password.isNotEmpty) {
       // Create user with password_hash via argon2 — enables BP RECORD ACCESS login.
       final result = await connection.users.query(
-        r'CREATE user SET name = $name, email = $email, username = $username, phone = $phone, role = $role, company_slug = IF $company_slug = NULL OR $company_slug = "" THEN none ELSE $company_slug END, vipps_sub = IF $vipps_sub = NULL OR $vipps_sub = "" THEN none ELSE $vipps_sub END, password_hash = crypto::argon2::generate($password)',
+        r'CREATE user SET name = $name, email = $email, username = $username, phone = IF $phone = NULL OR $phone = "" THEN none ELSE $phone END, role = $role, company_slug = IF $company_slug = NULL OR $company_slug = "" THEN none ELSE $company_slug END, vipps_sub = IF $vipps_sub = NULL OR $vipps_sub = "" THEN none ELSE $vipps_sub END, password_hash = crypto::argon2::generate($password)',
         {
           'name': user.name,
           'email': user.email,
