@@ -2,6 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-20 15:31 — Admin Panel Integration Test Suite + Deploy Gate
+
+- **Session:** Built 28 integration tests for Admin Panel against real SurrealDB (users/companies/categories/stats CRUD + NS auth). First run caught 3 production bugs: (1) `updateUser` invalid MERGE+SET syntax, (2) `deleteCompany` record ID mismatch, (3) `createUser` phone missing NULL→NONE coercion. All fixed, tests green. Added `.agents/AGENTS.md` deploy gate rule — tests must pass before any deploy. Extended `test-db-seed.sh` with `testadmin` on `companies` namespace.
+- **Tracks touched:** `admin_panel_20260527`
+- **Status:** 28/28 integration tests green. Admin Panel deployed with all 3 fixes. Deploy gate rule enforced.
+- **Decisions:** None (deploy gate is an operational rule, not an ADR)
+- **Next:** Admin Panel E2E: create users → create company → verify BP login works.
+
+---
+
 ## 2026-06-20 12:26 — Saturn DB Wipe + Admin Panel NULL→NONE Fix + Deploy
 
 - **Session:** Wiped Saturn DB clean (all company DBs + user records removed). Re-applied schemas from source of truth (users, registry, discovery). Created 2 NS OWNER users (arnarvalur, gurkudrengur, pw admin123). Fixed Admin Panel CREATE user query — was sending NULL for optional fields (`company_slug`, `vipps_sub`) which SurrealDB `option<string>` rejects. Verified fix against real Saturn DB. Rebuilt + deployed Admin Panel. Removed oasai references from conductor. Quality audit scored overnight work 8.2/10.
