@@ -18,6 +18,7 @@ export 'src/theme/ditto_theme.dart';
 // Layout
 export 'src/layout/ditto_window_class.dart';
 export 'src/layout/ditto_dashboard_shell.dart';
+export 'src/layout/ditto_scrollspy_layout.dart';
 
 // Widgets
 export 'src/widgets/ditto_error_view.dart';

@@ -27,7 +27,7 @@ void main() {
       });
 
       test('levels are ordered from darkest to lightest', () {
-        final dark = DittoElevation.dark;
+        const dark = DittoElevation.dark;
         expect(
           dark.level0.computeLuminance(),
           lessThan(dark.level1.computeLuminance()),
@@ -62,7 +62,7 @@ void main() {
       });
 
       test('levels are ordered from lightest to darkest', () {
-        final light = DittoElevation.light;
+        const light = DittoElevation.light;
         expect(
           light.level0.computeLuminance(),
           greaterThan(light.level1.computeLuminance()),

@@ -42,6 +42,9 @@ class DittoDashboardShell extends StatelessWidget {
     required this.body,
     this.header,
     this.footer,
+    this.workspaceName,
+    this.userName,
+    this.onLogout,
     this.sidebarWidth = 240,
   });
 
@@ -63,6 +66,15 @@ class DittoDashboardShell extends StatelessWidget {
   /// Widget displayed at the bottom of the sidebar (e.g., user info).
   final Widget? footer;
 
+  /// Name of the current workspace/company.
+  final String? workspaceName;
+
+  /// Name of the authenticated user.
+  final String? userName;
+
+  /// Callback when the logout button is pressed.
+  final VoidCallback? onLogout;
+
   /// Width of the permanent sidebar on wide screens.
   final double sidebarWidth;
 
@@ -80,6 +92,9 @@ class DittoDashboardShell extends StatelessWidget {
             body: body,
             header: header,
             footer: footer,
+            workspaceName: workspaceName,
+            userName: userName,
+            onLogout: onLogout,
             sidebarWidth: sidebarWidth,
           );
         }
@@ -91,6 +106,9 @@ class DittoDashboardShell extends StatelessWidget {
           body: body,
           header: header,
           footer: footer,
+          workspaceName: workspaceName,
+          userName: userName,
+          onLogout: onLogout,
         );
       },
     );
@@ -109,6 +127,9 @@ class _DesktopLayout extends StatelessWidget {
     required this.body,
     this.header,
     this.footer,
+    this.workspaceName,
+    this.userName,
+    this.onLogout,
     required this.sidebarWidth,
   });
 
@@ -118,6 +139,9 @@ class _DesktopLayout extends StatelessWidget {
   final Widget body;
   final Widget? header;
   final Widget? footer;
+  final String? workspaceName;
+  final String? userName;
+  final VoidCallback? onLogout;
   final double sidebarWidth;
 
   @override
@@ -133,6 +157,9 @@ class _DesktopLayout extends StatelessWidget {
               onDestinationSelected: onDestinationSelected,
               header: header,
               footer: footer,
+              workspaceName: workspaceName,
+              userName: userName,
+              onLogout: onLogout,
             ),
           ),
           VerticalDivider(
@@ -159,6 +186,9 @@ class _MobileLayout extends StatelessWidget {
     required this.body,
     this.header,
     this.footer,
+    this.workspaceName,
+    this.userName,
+    this.onLogout,
   });
 
   final List<DittoNavItem> destinations;
@@ -167,6 +197,9 @@ class _MobileLayout extends StatelessWidget {
   final Widget body;
   final Widget? header;
   final Widget? footer;
+  final String? workspaceName;
+  final String? userName;
+  final VoidCallback? onLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -191,6 +224,9 @@ class _MobileLayout extends StatelessWidget {
             },
             header: header,
             footer: footer,
+            workspaceName: workspaceName,
+            userName: userName,
+            onLogout: onLogout,
           ),
         ),
       ),
@@ -210,6 +246,9 @@ class _SidebarContent extends StatelessWidget {
     required this.onDestinationSelected,
     this.header,
     this.footer,
+    this.workspaceName,
+    this.userName,
+    this.onLogout,
   });
 
   final List<DittoNavItem> destinations;
@@ -217,17 +256,77 @@ class _SidebarContent extends StatelessWidget {
   final ValueChanged<int> onDestinationSelected;
   final Widget? header;
   final Widget? footer;
+  final String? workspaceName;
+  final String? userName;
+  final VoidCallback? onLogout;
 
   @override
   Widget build(BuildContext context) {
+    Widget? topHeader = header;
+    if (topHeader == null && workspaceName != null) {
+      topHeader = Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          workspaceName!,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+          overflow: TextOverflow.ellipsis,
+        ),
+      );
+    }
+
+    Widget? bottomFooter = footer;
+    if (bottomFooter == null && userName != null) {
+      bottomFooter = Row(
+        children: [
+          CircleAvatar(
+            radius: 16,
+            backgroundColor: DittoColors.moodyBlue.withValues(alpha: 0.2),
+            child: const Icon(
+              Icons.person_rounded,
+              size: 18,
+              color: DittoColors.moodyBlue,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              userName!,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.white70,
+                  ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          if (onLogout != null)
+            IconButton(
+              icon: const Icon(
+                Icons.logout_rounded,
+                size: 18,
+                color: Colors.white38,
+              ),
+              tooltip: 'Logout',
+              onPressed: onLogout,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(
+                minWidth: 32,
+                minHeight: 32,
+              ),
+            ),
+        ],
+      );
+    }
+
     return Container(
       color: DittoColors.sidebarBg,
       child: Column(
         children: [
-          if (header != null)
+          if (topHeader != null)
             Padding(
               padding: const EdgeInsets.all(DittoSpacing.base),
-              child: header!,
+              child: topHeader,
             ),
           Expanded(
             child: ListView.builder(
@@ -247,7 +346,7 @@ class _SidebarContent extends StatelessWidget {
               },
             ),
           ),
-          if (footer != null) ...[
+          if (bottomFooter != null) ...[
             Divider(
               height: 1,
               thickness: 1,
@@ -255,7 +354,7 @@ class _SidebarContent extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(DittoSpacing.base),
-              child: footer!,
+              child: bottomFooter,
             ),
           ],
         ],
