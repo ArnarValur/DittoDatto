@@ -15,7 +15,7 @@ DEFINE NAMESPACE IF NOT EXISTS users;
 -- 2. Define databases in companies
 USE NS companies;
 DEFINE DATABASE IF NOT EXISTS discovery;
-DEFINE DATABASE IF NOT EXISTS platform;
+DEFINE DATABASE IF NOT EXISTS registry;
 
 -- 3. Define database in users
 USE NS users;
@@ -35,7 +35,7 @@ DEFINE USER IF NOT EXISTS mercury ON NAMESPACE PASSWORD 'CHANGE_ME_USERS' ROLES 
 --   surreal sql --ns companies --db discovery < schemas/discovery.surql
 --
 --   # Platform
---   surreal sql --ns companies --db platform < schemas/platform.surql
+--   surreal sql --ns companies --db registry < schemas/platform.surql
 --
 --   # Users
 --   surreal sql --ns users --db users < schemas/users.surql

@@ -56,7 +56,7 @@ DEFINE FIELD cover_layout_mode ON establishment TYPE string          DEFAULT 'be
   ASSERT $value IN ['showcase', 'spotlight', 'bento'];
 
 -- Schedule (embedded — always fetched with establishment)
-DEFINE FIELD opening_schedule  ON establishment TYPE object;
+DEFINE FIELD opening_schedule  ON establishment TYPE option<object> DEFAULT {};
 DEFINE FIELD opening_schedule.* ON establishment TYPE object;
 DEFINE FIELD opening_schedule.*.is_open ON establishment TYPE bool;
 DEFINE FIELD opening_schedule.*.open    ON establishment TYPE string;
