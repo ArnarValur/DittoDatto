@@ -4,12 +4,13 @@ import 'enums.dart';
 
 part 'user.g.dart';
 
-/// A user profile from the `users/profiles` namespace.
+/// A user profile from the `users/users` namespace.
 @JsonSerializable()
 class User {
   const User({
     required this.id,
     this.vippsSub,
+    this.username,
     required this.name,
     required this.email,
     this.phone,
@@ -25,6 +26,8 @@ class User {
 
   @JsonKey(name: 'vipps_sub')
   final String? vippsSub;
+
+  final String? username;
 
   final String name;
   final String email;
@@ -45,6 +48,7 @@ class User {
   User copyWith({
     String? id,
     String? vippsSub,
+    String? username,
     String? name,
     String? email,
     String? phone,
@@ -56,6 +60,7 @@ class User {
     return User(
       id: id ?? this.id,
       vippsSub: vippsSub ?? this.vippsSub,
+      username: username ?? this.username,
       name: name ?? this.name,
       email: email ?? this.email,
       phone: phone ?? this.phone,

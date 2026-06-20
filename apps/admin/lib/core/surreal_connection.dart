@@ -4,7 +4,7 @@ import 'package:surrealdb/surrealdb.dart';
 ///
 /// The admin panel needs cross-namespace access:
 /// - `companies` namespace → registry + discovery databases
-/// - `users` namespace → profiles database
+/// - `users` namespace → users database
 ///
 /// Each connection authenticates as a namespace-level system user
 /// (DEFINE USER ... ON NAMESPACE ... ROLES OWNER) which grants full

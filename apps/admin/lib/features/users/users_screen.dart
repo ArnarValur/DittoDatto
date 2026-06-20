@@ -45,15 +45,15 @@ class UsersNotifier extends AsyncNotifier<PaginatedResponse<User>> {
     await _reload();
   }
 
-  Future<void> createUser(User user) async {
+  Future<void> createUser(User user, {String? password}) async {
     final repo = ref.read(adminRepositoryProvider);
-    await repo.createUser(user);
+    await repo.createUser(user, password: password);
     await _reload();
   }
 
-  Future<void> updateUser(User user) async {
+  Future<void> updateUser(User user, {String? password}) async {
     final repo = ref.read(adminRepositoryProvider);
-    await repo.updateUser(user);
+    await repo.updateUser(user, password: password);
     await _reload();
   }
 
@@ -327,8 +327,10 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
     final nameCtrl = TextEditingController();
     final emailCtrl = TextEditingController();
     final phoneCtrl = TextEditingController();
+    final passwordCtrl = TextEditingController();
     ActorRole selectedRole = ActorRole.customer;
     bool isSubmitting = false;
+    bool obscurePassword = true;
     String? errorMessage;
 
     showDialog(
@@ -384,6 +386,19 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                     keyboardType: TextInputType.phone,
                     enabled: !isSubmitting,
                   ),
+                  const SizedBox(height: DittoSpacing.sm),
+                  TextField(
+                    controller: passwordCtrl,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility),
+                        onPressed: () => setState(() => obscurePassword = !obscurePassword),
+                      ),
+                    ),
+                    obscureText: obscurePassword,
+                    enabled: !isSubmitting,
+                  ),
                   const SizedBox(height: DittoSpacing.base),
                   DropdownButtonFormField<ActorRole>(
                     initialValue: selectedRole,
@@ -434,6 +449,12 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                         });
                         return;
                       }
+                      if (passwordCtrl.text.trim().isEmpty) {
+                        setState(() {
+                          errorMessage = 'Password is required for new users';
+                        });
+                        return;
+                      }
                       setState(() {
                         isSubmitting = true;
                         errorMessage = null;
@@ -451,7 +472,10 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                           createdAt: now,
                           updatedAt: now,
                         );
-                        await ref.read(usersProvider.notifier).createUser(newUser);
+                        await ref.read(usersProvider.notifier).createUser(
+                          newUser,
+                          password: passwordCtrl.text.trim(),
+                        );
                         if (context.mounted) {
                           Navigator.pop(context);
                         }
@@ -482,8 +506,10 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
     final nameCtrl = TextEditingController(text: user.name);
     final emailCtrl = TextEditingController(text: user.email);
     final phoneCtrl = TextEditingController(text: user.phone ?? '');
+    final passwordCtrl = TextEditingController();
     var selectedRole = user.role;
     bool isSubmitting = false;
+    bool obscurePassword = true;
     String? errorMessage;
 
     showDialog(
@@ -537,6 +563,19 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                     controller: phoneCtrl,
                     decoration: const InputDecoration(labelText: 'Phone (optional)'),
                     keyboardType: TextInputType.phone,
+                    enabled: !isSubmitting,
+                  ),
+                  const SizedBox(height: DittoSpacing.sm),
+                  TextField(
+                    controller: passwordCtrl,
+                    decoration: InputDecoration(
+                      labelText: 'New Password (leave blank to keep current)',
+                      suffixIcon: IconButton(
+                        icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility),
+                        onPressed: () => setState(() => obscurePassword = !obscurePassword),
+                      ),
+                    ),
+                    obscureText: obscurePassword,
                     enabled: !isSubmitting,
                   ),
                   const SizedBox(height: DittoSpacing.base),
@@ -602,7 +641,12 @@ class _UsersTableState extends ConsumerState<_UsersTable> {
                           companySlug: user.companySlug,
                           updatedAt: DateTime.now(),
                         );
-                        await ref.read(usersProvider.notifier).updateUser(updatedUser);
+                        await ref.read(usersProvider.notifier).updateUser(
+                          updatedUser,
+                          password: passwordCtrl.text.trim().isNotEmpty
+                              ? passwordCtrl.text.trim()
+                              : null,
+                        );
                         if (context.mounted) {
                           Navigator.pop(context);
                         }

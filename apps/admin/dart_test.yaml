@@ -1,0 +1,3 @@
+tags:
+  integration:
+    description: "Tests requiring a live SurrealDB on localhost:18000"

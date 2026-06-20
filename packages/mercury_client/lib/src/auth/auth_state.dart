@@ -21,6 +21,7 @@ final class Authenticated extends AuthState {
   const Authenticated({
     required this.accessToken,
     required this.email,
+    this.name,
   });
 
   /// JWT access token.
@@ -28,6 +29,9 @@ final class Authenticated extends AuthState {
 
   /// Email of the authenticated user.
   final String email;
+
+  /// Name of the authenticated user.
+  final String? name;
 }
 
 /// Authentication failed with an error.

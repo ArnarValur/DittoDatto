@@ -17,8 +17,8 @@ abstract class AdminRepository {
     int pageSize = 50,
   });
   Future<void> updateUserRole(String userId, ActorRole newRole);
-  Future<User> createUser(User user);
-  Future<User> updateUser(User user);
+  Future<User> createUser(User user, {String? password});
+  Future<User> updateUser(User user, {String? password});
   Future<void> deleteUser(String id);
 
   // Companies

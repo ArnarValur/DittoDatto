@@ -6,7 +6,7 @@ import 'surreal_connection.dart';
 /// Admin repository backed by real SurrealDB queries.
 ///
 /// Routes queries to the correct namespace/database:
-/// - Users → `users/profiles`
+/// - Users → `users/users`
 /// - Companies → `companies/registry`
 /// - Categories → `companies/discovery`
 class SurrealAdminRepository implements AdminRepository {
@@ -18,7 +18,7 @@ class SurrealAdminRepository implements AdminRepository {
 
   @override
   Future<AdminStats> getStats() async {
-    await connection.users.use('users', 'profiles');
+    await connection.users.use('users', 'users');
     final userResult = await connection.users.query(
       'SELECT count() FROM user GROUP ALL',
     );
@@ -51,7 +51,7 @@ class SurrealAdminRepository implements AdminRepository {
     int page = 1,
     int pageSize = 50,
   }) async {
-    await connection.users.use('users', 'profiles');
+    await connection.users.use('users', 'users');
     final start = (page - 1) * pageSize;
 
     final countResult = await connection.users.query(
@@ -75,7 +75,7 @@ class SurrealAdminRepository implements AdminRepository {
 
   @override
   Future<void> updateUserRole(String userId, ActorRole newRole) async {
-    await connection.users.use('users', 'profiles');
+    await connection.users.use('users', 'users');
     await connection.users.query(
       r'UPDATE type::record("user", $id) SET role = $role, updated_at = time::now()',
       {'id': userId, 'role': newRole.value},
@@ -83,40 +83,87 @@ class SurrealAdminRepository implements AdminRepository {
   }
 
   @override
-  Future<User> createUser(User user) async {
-    await connection.users.use('users', 'profiles');
-    final rawData = user.toJson()
-      ..remove('id')
-      ..remove('created_at')
-      ..remove('updated_at');
+  Future<User> createUser(User user, {String? password}) async {
+    await connection.users.use('users', 'users');
 
-    final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
-    final cleanedData = _removeNullsFromMap(data);
-    final result = await connection.users.create('user', cleanedData);
-    return User.fromJson(_normalizeRecord(result));
+    // Auto-derive username from email prefix.
+    final username = user.email.split('@').first;
+
+    if (password != null && password.isNotEmpty) {
+      // Create user with password_hash via argon2 — enables BP RECORD ACCESS login.
+      final result = await connection.users.query(
+        r'CREATE user SET name = $name, email = $email, username = $username, phone = $phone, role = $role, company_slug = $company_slug, vipps_sub = $vipps_sub, password_hash = crypto::argon2::generate($password)',
+        {
+          'name': user.name,
+          'email': user.email,
+          'username': username,
+          'phone': user.phone,
+          'role': user.role.value,
+          'company_slug': user.companySlug,
+          'vipps_sub': user.vippsSub,
+          'password': password,
+        },
+      );
+      final list = _parseList<User>(result, User.fromJson);
+      if (list.isEmpty) {
+        throw Exception('Failed to create user');
+      }
+      return list.first;
+    } else {
+      // Create without password (consumer users via BankID later).
+      final rawData = user.toJson()
+        ..remove('id')
+        ..remove('created_at')
+        ..remove('updated_at');
+      rawData['username'] = username;
+
+      final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
+      final cleanedData = _removeNullsFromMap(data);
+      final result = await connection.users.create('user', cleanedData);
+      return User.fromJson(_normalizeRecord(result));
+    }
   }
 
   @override
-  Future<User> updateUser(User user) async {
-    await connection.users.use('users', 'profiles');
+  Future<User> updateUser(User user, {String? password}) async {
+    await connection.users.use('users', 'users');
+
+    // Auto-derive username from email prefix.
+    final username = user.email.split('@').first;
+
     final rawData = user.toJson()
       ..remove('id')
       ..remove('created_at')
       ..remove('updated_at');
+    rawData['username'] = username;
 
     final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
     final cleanedData = _removeNullsFromMap(data);
-    
+
+    // Build the SET clause — conditionally hash password if provided.
+    final setClause = StringBuffer()
+      ..write(r'phone = IF $phone = NULL OR $phone = "" THEN none ELSE $phone END')
+      ..write(r', company_slug = IF $company_slug = NULL OR $company_slug = "" THEN none ELSE $company_slug END')
+      ..write(r', username = $username');
+
+    final params = <String, dynamic>{
+      'id': user.id,
+      'data': cleanedData,
+      'phone': user.phone,
+      'company_slug': user.companySlug,
+      'username': username,
+    };
+
+    if (password != null && password.isNotEmpty) {
+      setClause.write(r', password_hash = crypto::argon2::generate($password)');
+      params['password'] = password;
+    }
+
     final result = await connection.users.query(
-      r'UPDATE type::record("user", $id) MERGE $data SET phone = IF $phone = NULL OR $phone = "" THEN none ELSE $phone END, company_slug = IF $company_slug = NULL OR $company_slug = "" THEN none ELSE $company_slug END',
-      {
-        'id': user.id,
-        'data': cleanedData,
-        'phone': user.phone,
-        'company_slug': user.companySlug,
-      },
+      'UPDATE type::record("user", \$id) MERGE \$data SET $setClause',
+      params,
     );
-    
+
     final list = _parseList<User>(result, User.fromJson);
     if (list.isEmpty) {
       throw Exception('Failed to update user: record not found');
@@ -126,7 +173,7 @@ class SurrealAdminRepository implements AdminRepository {
 
   @override
   Future<void> deleteUser(String id) async {
-    await connection.users.use('users', 'profiles');
+    await connection.users.use('users', 'users');
     await connection.users.delete('user:$id');
   }
 
@@ -185,7 +232,7 @@ class SurrealAdminRepository implements AdminRepository {
     final allSlugs = ownerCompanies.map((c) => c.slug).join(', ');
 
     // Atomically connect the User profile with the new company slugs!
-    await connection.users.use('users', 'profiles');
+    await connection.users.use('users', 'users');
     await connection.users.query(
       r'UPDATE type::record("user", $owner_id) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "business" END, company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
       {
@@ -250,7 +297,7 @@ class SurrealAdminRepository implements AdminRepository {
       );
       final otherCompanies = _parseList<Company>(otherCompaniesResult, Company.fromJson);
 
-      await connection.users.use('users', 'profiles');
+      await connection.users.use('users', 'users');
 
       if (otherCompanies.isNotEmpty) {
         // The old owner still owns other companies. Update their primary slugs and memberships.
@@ -292,7 +339,7 @@ class SurrealAdminRepository implements AdminRepository {
       }
       final newSlugs = newOwnerCompanies.map((c) => c.slug).join(', ');
 
-      await connection.users.use('users', 'profiles');
+      await connection.users.use('users', 'users');
       await connection.users.query(
         r'UPDATE type::record("user", $owner_id) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "business" END, company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
         {
@@ -332,7 +379,7 @@ class SurrealAdminRepository implements AdminRepository {
       );
       final otherCompanies = _parseList<Company>(otherCompaniesResult, Company.fromJson);
 
-      await connection.users.use('users', 'profiles');
+      await connection.users.use('users', 'users');
 
       if (otherCompanies.isNotEmpty) {
         final otherSlugs = otherCompanies.map((c) => c.slug).join(', ');

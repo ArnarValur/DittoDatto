@@ -36,10 +36,10 @@ class FakeAdminRepository implements AdminRepository {
   Future<void> updateUserRole(String userId, ActorRole newRole) async {}
 
   @override
-  Future<User> createUser(User user) async => user;
+  Future<User> createUser(User user, {String? password}) async => user;
 
   @override
-  Future<User> updateUser(User user) async => user;
+  Future<User> updateUser(User user, {String? password}) async => user;
 
   @override
   Future<void> deleteUser(String id) async {}
