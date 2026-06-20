@@ -38,6 +38,7 @@ class SurrealAuthService implements AuthService {
   static const _usersTokenKey = 'dd_portal_users_token';
   static const _emailKey = 'dd_portal_email';
   static const _slugKey = 'dd_portal_company_slug';
+  static const _nameKey = 'dd_portal_name';
 
   /// Roles permitted to access the Business Portal.
   static const _allowedRoles = {'business', 'admin', 'super_admin'};
@@ -103,15 +104,22 @@ class SurrealAuthService implements AuthService {
 
       _connection = tenantResult.connection;
 
+      final name = profile['name'] as String?;
+
       // Persist tokens, email, and slug for session restore.
       await _writeAll({
         _companiesTokenKey: tenantResult.companiesToken,
         _usersTokenKey: tenantResult.usersToken,
         _emailKey: email,
         _slugKey: slug,
+        _nameKey: name ?? '',
       });
 
-      return Authenticated(accessToken: tenantResult.companiesToken, email: email);
+      return Authenticated(
+        accessToken: tenantResult.companiesToken,
+        email: email,
+        name: name,
+      );
     } on AuthenticationException {
       // Config error — rethrow so it surfaces.
       rethrow;
@@ -130,6 +138,7 @@ class SurrealAuthService implements AuthService {
       _usersTokenKey,
       _emailKey,
       _slugKey,
+      _nameKey,
     ]);
     return const Unauthenticated();
   }
@@ -141,6 +150,7 @@ class SurrealAuthService implements AuthService {
       final usersToken = await _read(_usersTokenKey);
       final email = await _read(_emailKey);
       final slug = await _read(_slugKey);
+      final name = await _read(_nameKey);
 
       if (companiesToken == null ||
           usersToken == null ||
@@ -157,7 +167,11 @@ class SurrealAuthService implements AuthService {
       );
 
       _connection = conn;
-      return Authenticated(accessToken: companiesToken, email: email);
+      return Authenticated(
+        accessToken: companiesToken,
+        email: email,
+        name: name?.isNotEmpty == true ? name : null,
+      );
     } catch (e) {
       // Tokens expired or storage access failed — require fresh login.
       await _deleteAll([
@@ -165,6 +179,7 @@ class SurrealAuthService implements AuthService {
         _usersTokenKey,
         _emailKey,
         _slugKey,
+        _nameKey,
       ]);
       return const Unauthenticated();
     }

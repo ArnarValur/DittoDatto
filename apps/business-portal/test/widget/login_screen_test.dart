@@ -67,7 +67,7 @@ void main() {
       await tester.pumpWidget(_buildLoginScreen());
       await tester.pumpAndSettle();
 
-      expect(find.text('Logg inn på DittoDatto'), findsOneWidget);
+      expect(find.text('DittoDatto Forretningsportal'), findsOneWidget);
     });
 
     testWidgets('shows Norwegian subtitle', (tester) async {
@@ -156,13 +156,13 @@ void main() {
 
     // ── Contact admin text ──
 
-    testWidgets('shows "Kontakt administrator for tilgang" text',
+    testWidgets('shows "Kontakt oss ved problemer med innlogging" text',
         (tester) async {
       await tester.pumpWidget(_buildLoginScreen());
       await tester.pumpAndSettle();
 
       expect(
-        find.text('Kontakt administrator for tilgang'),
+        find.text('Kontakt oss ved problemer med innlogging'),
         findsOneWidget,
       );
     });
@@ -201,6 +201,26 @@ void main() {
       expect(mock.loginCallCount, 1);
       expect(mock.lastEmail, 'arnarvalur@dittodatto.no');
       expect(mock.lastPassword, 'secret123');
+    });
+
+    testWidgets('submits login with lowercased email', (tester) async {
+      final mock = _MockAuthNotifier();
+      await tester.pumpWidget(_buildLoginScreen(mockNotifier: mock));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'E-post'),
+        'ArnarValur@dittodatto.no',
+      );
+      await tester.enterText(
+        find.widgetWithText(TextFormField, 'Passord'),
+        'secret123',
+      );
+
+      await tester.tap(find.widgetWithText(ElevatedButton, 'Logg inn →'));
+      await tester.pumpAndSettle();
+
+      expect(mock.lastEmail, 'arnarvalur@dittodatto.no');
     });
   });
 }

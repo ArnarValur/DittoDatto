@@ -33,12 +33,12 @@ abstract final class PortalRoutes {
 /// Maps shell index to route path.
 const shellRoutes = [
   PortalRoutes.dashboard,
+  PortalRoutes.inbox,
   PortalRoutes.establishments,
   PortalRoutes.appointments,
   PortalRoutes.tableReservations,
   PortalRoutes.staff,
   PortalRoutes.services,
-  PortalRoutes.inbox,
 ];
 
 /// Listenable that fires when authProvider changes.

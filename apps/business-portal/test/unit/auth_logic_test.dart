@@ -1,5 +1,5 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mercury_client/mercury_client.dart';
-import 'package:test/test.dart';
 
 /// Pure unit tests for the [AuthState] sealed class hierarchy.
 ///

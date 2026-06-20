@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'establishment_model.dart';
 import 'establishment_providers.dart';
 
-/// Tabbed edit view for a single Establishment.
+/// Scrollspy edit view for a single Establishment.
 ///
-/// Spec F5: 4 tabs — Generelt, Lokasjon, Kontakt, Innstillinger.
+/// Refactored from tabbed view to scrollspy layout (Phase 5c).
 class EstablishmentEditView extends ConsumerStatefulWidget {
   const EstablishmentEditView({
     super.key,
@@ -25,28 +25,36 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   Establishment? _establishment;
   bool _saving = false;
 
-  // ── Generelt tab controllers ──
+  final _scrollController = ScrollController();
+
+  final _genereltKey = GlobalKey();
+  final _lokasjonKey = GlobalKey();
+  final _kontaktKey = GlobalKey();
+  final _innstillingerKey = GlobalKey();
+
+  // ── Generelt section controllers ──
   final _nameController = TextEditingController();
   final _aboutController = TextEditingController();
   BusinessType _businessType = BusinessType.store;
   String? _category;
 
-  // ── Lokasjon tab controllers ──
+  // ── Lokasjon section controllers ──
   final _addressController = TextEditingController();
   final _cityController = TextEditingController();
   final _zipController = TextEditingController();
 
-  // ── Kontakt tab controllers ──
+  // ── Kontakt section controllers ──
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _websiteController = TextEditingController();
 
-  // ── Innstillinger tab state ──
+  // ── Innstillinger section state ──
   bool _isPublished = false;
   bool _resourcesEnabled = false;
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _nameController.dispose();
     _aboutController.dispose();
     _addressController.dispose();
@@ -111,7 +119,6 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   @override
   Widget build(BuildContext context) {
     final asyncEstablishments = ref.watch(establishmentsProvider);
-    final theme = Theme.of(context);
 
     return asyncEstablishments.when(
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -132,65 +139,107 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return DefaultTabController(
-          length: 4,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(_establishment?.name ?? ''),
-              bottom: const TabBar(
-                tabs: [
-                  Tab(text: 'Generelt'),
-                  Tab(text: 'Lokasjon'),
-                  Tab(text: 'Kontakt'),
-                  Tab(text: 'Innstillinger'),
-                ],
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: DittoSpacing.base),
-                  child: ElevatedButton(
-                    onPressed: _saving ? null : _save,
-                    child: _saving
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Text('Lagre'),
+        final sections = [
+          DittoScrollspySection(
+            key: _genereltKey,
+            label: 'Generelt',
+            icon: Icons.info_outline_rounded,
+            content: _GenereltSection(
+              nameController: _nameController,
+              aboutController: _aboutController,
+              businessType: _businessType,
+              category: _category,
+              onTypeChanged: (t) => setState(() => _businessType = t),
+              onCategoryChanged: (c) => setState(() => _category = c),
+            ),
+          ),
+          DittoScrollspySection(
+            key: _lokasjonKey,
+            label: 'Lokasjon',
+            icon: Icons.location_on_outlined,
+            content: _LokasjonSection(
+              addressController: _addressController,
+              cityController: _cityController,
+              zipController: _zipController,
+            ),
+          ),
+          DittoScrollspySection(
+            key: _kontaktKey,
+            label: 'Kontakt',
+            icon: Icons.contact_phone_outlined,
+            content: _KontaktSection(
+              phoneController: _phoneController,
+              emailController: _emailController,
+              websiteController: _websiteController,
+            ),
+          ),
+          DittoScrollspySection(
+            key: _innstillingerKey,
+            label: 'Innstillinger',
+            icon: Icons.settings_outlined,
+            content: _InnstillingerSection(
+              isPublished: _isPublished,
+              resourcesEnabled: _resourcesEnabled,
+              onPublishedChanged: (v) => setState(() => _isPublished = v),
+              onResourcesChanged: (v) => setState(() => _resourcesEnabled = v),
+            ),
+          ),
+        ];
+
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_rounded),
+              tooltip: 'Virksomheter',
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            title: Row(
+              children: [
+                Text(_establishment?.name ?? ''),
+                const SizedBox(width: DittoSpacing.sm),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: _isPublished
+                        ? Colors.green.withValues(alpha: 0.12)
+                        : Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: _isPublished
+                          ? Colors.green.withValues(alpha: 0.5)
+                          : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Text(
+                    _isPublished ? 'Publisert' : 'Utkast',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _isPublished ? Colors.green : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
               ],
             ),
-            body: TabBarView(
-              children: [
-                _GenereltTab(
-                  nameController: _nameController,
-                  aboutController: _aboutController,
-                  businessType: _businessType,
-                  category: _category,
-                  onTypeChanged: (t) => setState(() => _businessType = t),
-                  onCategoryChanged: (c) => setState(() => _category = c),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: DittoSpacing.base),
+                child: ElevatedButton(
+                  onPressed: _saving ? null : _save,
+                  child: _saving
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('Lagre'),
                 ),
-                _LokasjonTab(
-                  addressController: _addressController,
-                  cityController: _cityController,
-                  zipController: _zipController,
-                ),
-                _KontaktTab(
-                  phoneController: _phoneController,
-                  emailController: _emailController,
-                  websiteController: _websiteController,
-                ),
-                _InnstillingerTab(
-                  isPublished: _isPublished,
-                  resourcesEnabled: _resourcesEnabled,
-                  onPublishedChanged: (v) =>
-                      setState(() => _isPublished = v),
-                  onResourcesChanged: (v) =>
-                      setState(() => _resourcesEnabled = v),
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
+          body: DittoScrollspyLayout(
+            sections: sections,
+            scrollController: _scrollController,
           ),
         );
       },
@@ -198,10 +247,10 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   }
 }
 
-// ── Tab 1: Generelt ──
+// ── Section 1: Generelt ──
 
-class _GenereltTab extends StatelessWidget {
-  const _GenereltTab({
+class _GenereltSection extends StatelessWidget {
+  const _GenereltSection({
     required this.nameController,
     required this.aboutController,
     required this.businessType,
@@ -219,67 +268,61 @@ class _GenereltTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(DittoSpacing.lg),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-              controller: nameController,
-              decoration: const InputDecoration(labelText: 'Navn'),
-            ),
-            const SizedBox(height: DittoSpacing.base),
-
-            Text(
-              'Virksomhetstype',
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-            const SizedBox(height: DittoSpacing.sm),
-            SegmentedButton<BusinessType>(
-              segments: BusinessType.values
-                  .map((t) => ButtonSegment(
-                        value: t,
-                        label: Text(t.label),
-                        icon: Icon(t.icon),
-                      ))
-                  .toList(),
-              selected: {businessType},
-              onSelectionChanged: (s) => onTypeChanged(s.first),
-            ),
-            const SizedBox(height: DittoSpacing.base),
-
-            TextFormField(
-              initialValue: category,
-              decoration: const InputDecoration(
-                labelText: 'Kategori',
-                hintText: 'f.eks. Frisør, Pizza, Konsert',
-              ),
-              onChanged: onCategoryChanged,
-            ),
-            const SizedBox(height: DittoSpacing.base),
-
-            TextFormField(
-              controller: aboutController,
-              decoration: const InputDecoration(
-                labelText: 'Om virksomheten',
-                hintText: 'Kort beskrivelse...',
-                alignLabelWithHint: true,
-              ),
-              maxLines: 4,
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: nameController,
+          decoration: const InputDecoration(labelText: 'Navn'),
         ),
-      ),
+        const SizedBox(height: DittoSpacing.base),
+
+        Text(
+          'Virksomhetstype',
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(height: DittoSpacing.sm),
+        SegmentedButton<BusinessType>(
+          segments: BusinessType.values
+              .map((t) => ButtonSegment(
+                    value: t,
+                    label: Text(t.label),
+                    icon: Icon(t.icon),
+                  ))
+              .toList(),
+          selected: {businessType},
+          onSelectionChanged: (s) => onTypeChanged(s.first),
+        ),
+        const SizedBox(height: DittoSpacing.base),
+
+        TextFormField(
+          initialValue: category,
+          decoration: const InputDecoration(
+            labelText: 'Kategori',
+            hintText: 'f.eks. Frisør, Pizza, Konsert',
+          ),
+          onChanged: onCategoryChanged,
+        ),
+        const SizedBox(height: DittoSpacing.base),
+
+        TextFormField(
+          controller: aboutController,
+          decoration: const InputDecoration(
+            labelText: 'Om virksomheten',
+            hintText: 'Kort beskrivelse...',
+            alignLabelWithHint: true,
+          ),
+          maxLines: 4,
+        ),
+      ],
     );
   }
 }
 
-// ── Tab 2: Lokasjon ──
+// ── Section 2: Lokasjon ──
 
-class _LokasjonTab extends StatelessWidget {
-  const _LokasjonTab({
+class _LokasjonSection extends StatelessWidget {
+  const _LokasjonSection({
     required this.addressController,
     required this.cityController,
     required this.zipController,
@@ -291,89 +334,83 @@ class _LokasjonTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(DittoSpacing.lg),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: addressController,
+          decoration: const InputDecoration(
+            labelText: 'Gateadresse',
+            hintText: 'Storgata 1',
+          ),
+        ),
+        const SizedBox(height: DittoSpacing.base),
+        Row(
           children: [
-            TextFormField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                labelText: 'Gateadresse',
-                hintText: 'Storgata 1',
+            Expanded(
+              flex: 2,
+              child: TextFormField(
+                controller: cityController,
+                decoration: const InputDecoration(labelText: 'By'),
               ),
             ),
-            const SizedBox(height: DittoSpacing.base),
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: TextFormField(
-                    controller: cityController,
-                    decoration: const InputDecoration(labelText: 'By'),
-                  ),
-                ),
-                const SizedBox(width: DittoSpacing.base),
-                Expanded(
-                  child: TextFormField(
-                    controller: zipController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Postnummer'),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: DittoSpacing.lg),
-            // Map preview placeholder
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .colorScheme
-                    .surfaceContainerHighest
-                    .withValues(alpha: 0.3),
-                borderRadius: DittoBorderRadius.mediumAll,
-                border: Border.all(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .outlineVariant
-                      .withValues(alpha: 0.3),
-                ),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.map_outlined,
-                      size: 40,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                    const SizedBox(height: DittoSpacing.sm),
-                    Text(
-                      'Kartvisning kommer snart',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                    ),
-                  ],
-                ),
+            const SizedBox(width: DittoSpacing.base),
+            Expanded(
+              child: TextFormField(
+                controller: zipController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Postnummer'),
               ),
             ),
           ],
         ),
-      ),
+        const SizedBox(height: DittoSpacing.lg),
+        // Map preview placeholder
+        Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: Theme.of(context)
+                .colorScheme
+                .surfaceContainerHighest
+                .withValues(alpha: 0.3),
+            borderRadius: DittoBorderRadius.mediumAll,
+            border: Border.all(
+              color: Theme.of(context)
+                  .colorScheme
+                  .outlineVariant
+                  .withValues(alpha: 0.3),
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.map_outlined,
+                  size: 40,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(height: DittoSpacing.sm),
+                Text(
+                  'Kartvisning kommer snart',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color:
+                            Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
-// ── Tab 3: Kontakt ──
+// ── Section 3: Kontakt ──
 
-class _KontaktTab extends StatelessWidget {
-  const _KontaktTab({
+class _KontaktSection extends StatelessWidget {
+  const _KontaktSection({
     required this.phoneController,
     required this.emailController,
     required this.websiteController,
@@ -385,53 +422,47 @@ class _KontaktTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(DittoSpacing.lg),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormField(
-              controller: phoneController,
-              keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                labelText: 'Telefon',
-                hintText: '+47 XXX XX XXX',
-                prefixIcon: Icon(Icons.phone_outlined),
-              ),
-            ),
-            const SizedBox(height: DittoSpacing.base),
-            TextFormField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'E-post',
-                hintText: 'post@virksomhet.no',
-                prefixIcon: Icon(Icons.email_outlined),
-              ),
-            ),
-            const SizedBox(height: DittoSpacing.base),
-            TextFormField(
-              controller: websiteController,
-              keyboardType: TextInputType.url,
-              decoration: const InputDecoration(
-                labelText: 'Nettside',
-                hintText: 'https://virksomhet.no',
-                prefixIcon: Icon(Icons.language_outlined),
-              ),
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          controller: phoneController,
+          keyboardType: TextInputType.phone,
+          decoration: const InputDecoration(
+            labelText: 'Telefon',
+            hintText: '+47 XXX XX XXX',
+            prefixIcon: Icon(Icons.phone_outlined),
+          ),
         ),
-      ),
+        const SizedBox(height: DittoSpacing.base),
+        TextFormField(
+          controller: emailController,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(
+            labelText: 'E-post',
+            hintText: 'post@virksomhet.no',
+            prefixIcon: Icon(Icons.email_outlined),
+          ),
+        ),
+        const SizedBox(height: DittoSpacing.base),
+        TextFormField(
+          controller: websiteController,
+          keyboardType: TextInputType.url,
+          decoration: const InputDecoration(
+            labelText: 'Nettside',
+            hintText: 'https://virksomhet.no',
+            prefixIcon: Icon(Icons.language_outlined),
+          ),
+        ),
+      ],
     );
   }
 }
 
-// ── Tab 4: Innstillinger ──
+// ── Section 4: Innstillinger ──
 
-class _InnstillingerTab extends StatelessWidget {
-  const _InnstillingerTab({
+class _InnstillingerSection extends StatelessWidget {
+  const _InnstillingerSection({
     required this.isPublished,
     required this.resourcesEnabled,
     required this.onPublishedChanged,
@@ -445,39 +476,31 @@ class _InnstillingerTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(DittoSpacing.lg),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Publish toggle
-            SwitchListTile(
-              title: const Text('Publiser virksomhet'),
-              subtitle: const Text(
-                'Gjør denne virksomheten synlig for kunder',
-              ),
-              value: isPublished,
-              onChanged: onPublishedChanged,
-            ),
-
-            const Divider(height: DittoSpacing.xl),
-
-            // Resource management toggle
-            SwitchListTile(
-              title: const Text('Ressurshåndtering'),
-              subtitle: const Text(
-                'Aktiver behandling av ressurser og kapasitet',
-              ),
-              value: resourcesEnabled,
-              onChanged: onResourcesChanged,
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Publish toggle
+        SwitchListTile(
+          title: const Text('Publiser virksomhet'),
+          subtitle: const Text(
+            'Gjør denne virksomheten synlig for kunder',
+          ),
+          value: isPublished,
+          onChanged: onPublishedChanged,
         ),
-      ),
+
+        const Divider(height: DittoSpacing.xl),
+
+        // Resource management toggle
+        SwitchListTile(
+          title: const Text('Ressurshåndtering'),
+          subtitle: const Text(
+            'Aktiver behandling av ressurser og kapasitet',
+          ),
+          value: resourcesEnabled,
+          onChanged: onResourcesChanged,
+        ),
+      ],
     );
   }
 }

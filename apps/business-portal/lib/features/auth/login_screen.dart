@@ -37,7 +37,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
 
     await ref.read(authProvider.notifier).login(
-          _emailController.text.trim(),
+          _emailController.text.trim().toLowerCase(),
           _passwordController.text,
         );
     // Tell the browser the autofill context is complete so it stops
@@ -84,7 +84,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     // Heading — Norwegian
                     Text(
-                      'Logg inn på DittoDatto',
+                      'DittoDatto Forretningsportal',
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                         color: colorScheme.onSurface,
@@ -188,7 +188,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     // Contact admin text
                     Text(
-                      'Kontakt administrator for tilgang',
+                      'Kontakt oss ved problemer med innlogging',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),

@@ -25,6 +25,25 @@ class _MockAuthNotifier extends AsyncNotifier<AuthState>
   }
 }
 
+/// Mock auth notifier with user full name.
+class _MockAuthWithNameNotifier extends AsyncNotifier<AuthState>
+    implements AuthNotifier {
+  @override
+  Future<AuthState> build() async => const Authenticated(
+        accessToken: 'test-jwt',
+        email: 'arnarvalur@dittodatto.no',
+        name: 'Arnar Valur',
+      );
+
+  @override
+  Future<void> login(String email, String password) async {}
+
+  @override
+  Future<void> logout() async {
+    state = const AsyncData(Unauthenticated());
+  }
+}
+
 Widget _buildShell({int selectedIndex = 0}) {
   return ProviderScope(
     overrides: [
@@ -82,10 +101,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify the portal branding text is visible.
-      expect(find.text('Business Portal'), findsOneWidget);
+      expect(find.text('DittoDatto'), findsOneWidget);
     });
 
-    testWidgets('renders user email in footer', (tester) async {
+    testWidgets('renders user email prefix in footer when name is null', (tester) async {
       tester.view.physicalSize = const Size(1280, 800);
       tester.view.devicePixelRatio = 1.0;
       addTearDown(tester.view.resetPhysicalSize);
@@ -96,6 +115,30 @@ void main() {
 
       // Should display the username portion of the email.
       expect(find.text('arnarvalur'), findsOneWidget);
+    });
+
+    testWidgets('renders user full name in footer when name is present', (tester) async {
+      tester.view.physicalSize = const Size(1280, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(ProviderScope(
+        overrides: [
+          authProvider.overrideWith(() => _MockAuthWithNameNotifier()),
+        ],
+        child: MaterialApp(
+          theme: DittoTheme.light,
+          home: PortalShell(
+            currentIndex: 0,
+            onDestinationSelected: (_) {},
+            child: const Center(child: Text('Body Content')),
+          ),
+        ),
+      ));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Arnar Valur'), findsOneWidget);
     });
 
     testWidgets('renders logout button', (tester) async {

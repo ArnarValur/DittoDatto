@@ -9,6 +9,8 @@ import 'establishment_model.dart';
 ///
 /// Throws if called before authentication. Guard usage behind auth checks.
 final surrealConnectionProvider = Provider<SurrealConnection?>((ref) {
+  // Watch authProvider to trigger re-evaluation when authentication state changes.
+  ref.watch(authProvider);
   final authService = ref.watch(authServiceProvider);
   if (authService is SurrealAuthService) {
     return authService.connection;
@@ -29,6 +31,7 @@ final establishmentsProvider =
 class EstablishmentsNotifier extends AsyncNotifier<List<Establishment>> {
   @override
   Future<List<Establishment>> build() async {
+    ref.watch(surrealConnectionProvider);
     return _fetchAll();
   }
 

@@ -66,9 +66,9 @@ class SurrealConnection {
     );
 
     // After RECORD ACCESS signin, $auth is the authenticated user record.
-    // Query the profile for role and company_slug.
+    // Query the profile for name, role, and company_slug.
     final profileResult = await usersDb.query(
-      r'SELECT role, company_slug FROM $auth',
+      r'SELECT name, role, company_slug FROM $auth',
     );
 
     final profile = _extractFirstRow(profileResult);

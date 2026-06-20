@@ -1,0 +1,6 @@
+services:
+  surrealdb-test:
+    image: surrealdb/surrealdb:v3.1
+    command: start --user root --pass root memory
+    ports:
+      - "18000:8000"

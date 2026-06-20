@@ -1,8 +1,7 @@
 @Tags(['integration'])
 library;
 
-import 'package:surrealdb/surrealdb.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import 'package:business_portal/core/surreal_connection.dart';
 
