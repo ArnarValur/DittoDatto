@@ -28,7 +28,7 @@ Define `DEFINE ACCESS bp_auth ON DATABASE TYPE RECORD` on the `users/users` data
 DEFINE ACCESS bp_auth ON DATABASE TYPE RECORD
   SIGNIN (
     SELECT * FROM user
-    WHERE username = $username
+    WHERE email = $email
       AND crypto::argon2::compare(password_hash, $pass)
   )
   DURATION FOR TOKEN 24h, FOR SESSION 7d;
