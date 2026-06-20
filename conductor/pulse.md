@@ -1,21 +1,20 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-19 22:50
-**Session Focus:** Phase 5 Layout Implementation + State Sync Fix + Schema Investigation
+**Last Updated:** 2026-06-20 02:29
+**Session Focus:** Gemini 3.5 Session Audit + Database Cleanup + Schema Fix + Code Commit
 
 ## 🚀 Active Tracks
 
-- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phases 1–4 complete. Auth E2E verified. Phase 5 plan approved — sidebar identity, login cleanup, scrollable establishment edit (replace tabs with scrollspy sections), E2E + responsive + coverage. Theme switching deferred to Phase 6.
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. All 5 phases complete in plan. Auth is NS-level (VPN-only, ADR-0007). Deployed to Saturn. Password field added to user CRUD dialogs this session.
+- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phases 1–4 complete. Phase 5 layout implemented (scrollspy, sidebar identity, login branding). Schema blocker (`opening_schedule`) resolved. Pending: E2E verification on Saturn, responsive tweaks, coverage gate.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. All 5 phases complete in plan. Auth is NS-level (VPN-only, ADR-0007). Deployed to Saturn. Code aligned with `users/users` DB consolidation.
 
 ## ✅ Recently Completed
 
-- **2026-06-19** — Admin Panel rebuilt + deployed to Saturn. Company-blueprint applied to `company_house-of-the-north` (18 tables + 3 relations). Both infra blockers cleared ahead of Phase 5.
-- **2026-06-19** — Nuxt landing page maintenance: Enforced maintenance mode globally (both client and server-side redirects), revamped the Norwegian coming-soon page with Moody Blue theme and a smiley (removing the Merkurial Studio footer), built the Docker image, and deployed to Cloud Run.
-- **2026-06-19** — BP Auth full-stack fix: DB consolidation `profiles` → `users`, argon2 password hashing, Admin Panel password fields, Saturn DB migration (3 users + bp_auth ACCESS + bp_portal service users), BP web build. All tests green (7 admin, 25 BP unit).
-- **2026-06-14** — BP Phases 1–4: Stitch Enterprise Slate light theme, Norwegian login UI, Establishments list, create dialog, 4-tab edit view. 94 tests.
-- **2026-06-09** — BP scaffold deployed to Saturn. E2E login verified.
-- **2026-06-09** — ADR-0015: No hardcoded secrets/IDs. `code-safety.md` agent rule.
+- **2026-06-20** — Database cleanup: fixed `opening_schedule` schema blocker (DEFAULT {}), dropped legacy `users/profiles` on Saturn, fixed `init.surql` naming (platform→registry), updated stale ADR-0002 and ADR-0016. Committed all Gemini 3.5 session code in 6 logical commits. Fixed scrollspy 200px magic number.
+- **2026-06-19** — Phase 5 layout: scrollspy edit view, sidebar identity, login branding, Riverpod state sync fix. Schema validation bug diagnosed.
+- **2026-06-19** — Admin Panel rebuilt + deployed to Saturn. Company-blueprint applied to `company_house-of-the-north`.
+- **2026-06-19** — Nuxt landing page maintenance: global maintenance redirect, Moody Blue coming-soon page, deployed to Cloud Run.
+- **2026-06-19** — BP Auth full-stack fix: DB consolidation, argon2 hashing, Saturn migration. All tests green.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
@@ -37,25 +36,21 @@
 - **ADR structure:** Platform-wide at `adr/` root, domain-scoped in `adr/{admin-panel,business-portal,marketplace,mercury-engine}/`.
 - **Test DB:** `./scripts/test-db-up.sh` → ephemeral SurrealDB on port 18000. `flutter test --tags integration`. `./scripts/test-db-down.sh` to tear down.
 - **Port reservations:** :8001 SurrealDB Hub, :8002 Admin Panel, :8003 Business Portal, :8004 Public Marketplace (reserved), :8005 Booking Engine (reserved).
-- **DB Consolidation (2026-06-19):** Legacy `users/profiles` DB replaced by canonical `users/users`. All Admin Panel code updated. Saturn migrated — 3 users now exist in `users/users` with argon2 password hashes.
 - **BP build password:** `BP_PORTAL_PASS=test-portal-pass` (staging-only). Used for `bp_portal` DB user on each `company_{slug}` DB.
 - **Demo Dude login:** email `arnarvalurjonsson@gmail.com`, password `admin123`, company `house-of-the-north`.
 - **Company DBs on Saturn:** `company_dittodatto-as`, `company_house-of-the-north`. Both have `bp_portal` service user.
-- **RECORD ACCESS permissions (2026-06-19):** SCHEMAFULL tables default to deny-all for record-scoped tokens. Must define `PERMISSIONS FOR select WHERE id = $auth.id` so `$auth` queries work. Applied to `user` table in `schemas/users.surql`, `bootstrap.surql`, and Saturn.
-- **Email validation (2026-06-19):** `bp_auth` SIGNIN matches on full `email` field, not `username` prefix. Client sends `email.trim().toLowerCase()`. Tests verify that wrong domain is rejected.
-- **Nuxt Landing Page (2026-06-19):** Enforced global maintenance redirect both server-side and client-side. Revamped the Norwegian coming-soon page with Moody Blue brand accents, separated the emoji from the gradient span to fix browser text-clipping issues, and removed the Merkurial Studio footer. Built the container locally and deployed to Cloud Run.
-- **Phase 5 design decisions (2026-06-19):** Tabs → scrollable card sections with scrollspy. Sidebar: company name top, full name bottom, Inbox after Dashboard. Login: email+password only, "DittoDatto Forretningsportal" branding, "Kontakt oss ved problemer" instead of "Kontakt administrator for tilgang". Theme switching = Phase 6. Implementation plan artifact: `brain/96918de2.../implementation_plan.md`.
 - **SurrealDB container name on Saturn:** `dittodatto-hub` (in `dittodatto-net` Docker network). Minimal container — no shell utils, connect remotely via Tailscale instead of `docker exec`.
-- **company_house-of-the-north:** Full company-blueprint applied (18 tables + 3 relations). Ready for BP E2E testing.
-- **Phase 5 Layout Implemented (2026-06-19):** Replaced tabbed view with `DittoScrollspyLayout`, updated `LoginScreen` branding/help text, reordered navigation to put Inbox at index 1, and set up sidebar identity header and footer.
-- **Riverpod State Propagation Fix (2026-06-19):** Updated `surrealConnectionProvider` to watch `authProvider` to reactively re-fetch and rebuild UI shell components upon login/auth status changes.
-- **Database Schema Validation Bug Discovered (2026-06-19):** Establishment creation fails on schemafull company databases (like `company_house-of-the-north`) because `opening_schedule` is defined as a required `object` field with no default in `company-blueprint.surql`, but the client does not send this field.
+- **DB topology (clean as of 2026-06-20):** `companies` NS (company_dittodatto-as, company_house-of-the-north, discovery, registry) + `users` NS (users). Legacy `profiles` DB dropped. `oasai` NS (vectors) is OpenWebUI — leave it.
+- **SurrealDB CLI gotcha:** DB names with hyphens (e.g. `company_dittodatto-as`) must be backtick-quoted in SurrealQL: `` USE NS companies DB `company_dittodatto-as`; ``
+- **opening_schedule fix (2026-06-20):** Changed to `TYPE object DEFAULT {}` on both company DBs on Saturn. Establishment creation now works without sending this field.
+- **Scrollspy threshold fix (2026-06-20):** Replaced hardcoded 200px with dynamic scroll view position calculation in `DittoScrollspyLayout._onScroll()`.
+- **Gemini 3.5 audit findings (2026-06-20):** Session had scope creep (touched Admin Panel without being asked), hallucinated Flutter APIs (fixed by trial-and-error), and left all code uncommitted. All cleaned up and committed in logical groups. No lasting damage.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🟡 **Fix Establishment Schema Blockage:** Define a `DEFAULT {}` or default weekly object structure for `opening_schedule` in `company-blueprint.surql`, or make it optional (`TYPE option<object>`), and apply/sync the migration on Saturn.
-2. 🟡 **Phase 5 Verification:** Verify E2E creation works for all database tenants after the schema fix, complete responsive tweaks, and run full coverage check.
-3. 🟢 **Phase 6: Theme session** — grill + implement light/dark switching, DittoDashboardShell theme-awareness, typography unification.
-4. 🟢 **Clean up legacy `users/profiles` DB** on Saturn.
+1. 🟡 **Phase 5 E2E Verification:** Login as Demo Dude → create establishment → verify it persists → verify scrollspy edit view. Test on mobile/tablet/desktop viewports.
+2. 🟡 **BP Web Build + Deploy:** Rebuild BP web and deploy to Saturn to verify the fixes live.
+3. 🟢 **Phase 5 Completion:** Fix any navigation/state issues discovered in E2E, complete responsive tweaks, run full coverage check. Then checkpoint Phase 5.
+4. 🟢 **Phase 6: Theme session** — grill + implement light/dark switching, DittoDashboardShell theme-awareness, typography unification.

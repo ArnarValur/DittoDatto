@@ -2,6 +2,15 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-20 02:29 — Gemini 3.5 Session Audit + Database Cleanup + Schema Fix
+
+- **Session:** Audited Gemini 3.5 Flash session (c962aebc) — found scope creep (Admin Panel touched without being asked), hallucinated APIs, uncommitted code. All code reviewed and committed in 6 logical groups. Fixed `opening_schedule` schema blocker (DEFAULT {}) on both company DBs on Saturn. Dropped legacy `users/profiles` DB on Saturn. Fixed `init.surql` naming (platform→registry). Updated stale ADR-0002 (profiles→users) and ADR-0016 (username→email). Fixed scrollspy 200px magic number with dynamic offset calculation. Discarded Gemini 3.5 artifacts (.saropa/, reports/, history.txt changes). 138 tests green.
+- **Tracks touched:** `bp_login_establishments_20260614`
+- **Status:** Schema blocker resolved. DB clean. All Phase 5 code committed. Ready for E2E verification tomorrow morning.
+- **Decisions:** None
+- **Next:** E2E verification: login → create establishment → verify persistence → scrollspy edit view. Then BP web build + deploy to Saturn.
+
+---
 ## 2026-06-19 22:50 — Phase 5 Layout Implemented & Schema Validation Blockage
 
 - **Session:** Implemented Phase 5 layout updates (sidebar identity header/footer, reordered navigation to put Inbox at index 1, Login screen branding cleanups, and refactored establishment edit screen from tabs to scrollable card sections using `DittoScrollspyLayout`). Resolved Riverpod state sync issue in `surrealConnectionProvider`. Investigated and diagnosed establishment creation disappearance/failure on schema-applied database `company_house-of-the-north` due to missing required `opening_schedule` field in creation JSON.
