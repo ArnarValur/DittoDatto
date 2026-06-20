@@ -67,9 +67,13 @@ SQL
 # The seed script connects as root, but the RECORD ACCESS bp_auth definition
 # handles user authentication. We still need an NS user for the admin panel
 # (separate concern — admin panel uses NS-level auth, BP uses RECORD ACCESS).
-echo "👤 Creating admin NS user on users namespace (for admin panel only)..."
+echo "👤 Creating admin NS users on both namespaces (for admin panel dual-namespace auth)..."
 $SURREAL_CMD <<'SQL'
 USE NS users;
+DEFINE USER IF NOT EXISTS testadmin ON NAMESPACE PASSWORD 'testadmin-pass' ROLES OWNER;
+SQL
+$SURREAL_CMD <<'SQL'
+USE NS companies;
 DEFINE USER IF NOT EXISTS testadmin ON NAMESPACE PASSWORD 'testadmin-pass' ROLES OWNER;
 SQL
 

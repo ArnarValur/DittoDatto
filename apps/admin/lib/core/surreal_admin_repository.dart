@@ -131,27 +131,27 @@ class SurrealAdminRepository implements AdminRepository {
     // Auto-derive username from email prefix.
     final username = user.email.split('@').first;
 
-    final rawData = user.toJson()
-      ..remove('id')
-      ..remove('created_at')
-      ..remove('updated_at');
-    rawData['username'] = username;
-
-    final data = jsonDecode(jsonEncode(rawData)) as Map<String, dynamic>;
-    final cleanedData = _removeNullsFromMap(data);
-
-    // Build the SET clause — conditionally hash password if provided.
+    // Build a single SET clause with all fields + NULL→NONE coercion.
+    // SurrealQL does NOT allow MERGE + SET in the same statement.
     final setClause = StringBuffer()
-      ..write(r'phone = IF $phone = NULL OR $phone = "" THEN none ELSE $phone END')
+      ..write(r'name = $name')
+      ..write(r', email = $email')
+      ..write(r', username = $username')
+      ..write(r', role = $role')
+      ..write(r', phone = IF $phone = NULL OR $phone = "" THEN none ELSE $phone END')
       ..write(r', company_slug = IF $company_slug = NULL OR $company_slug = "" THEN none ELSE $company_slug END')
-      ..write(r', username = $username');
+      ..write(r', vipps_sub = IF $vipps_sub = NULL OR $vipps_sub = "" THEN none ELSE $vipps_sub END')
+      ..write(r', updated_at = time::now()');
 
     final params = <String, dynamic>{
       'id': user.id,
-      'data': cleanedData,
+      'name': user.name,
+      'email': user.email,
+      'username': username,
+      'role': user.role.value,
       'phone': user.phone,
       'company_slug': user.companySlug,
-      'username': username,
+      'vipps_sub': user.vippsSub,
     };
 
     if (password != null && password.isNotEmpty) {
@@ -160,7 +160,7 @@ class SurrealAdminRepository implements AdminRepository {
     }
 
     final result = await connection.users.query(
-      'UPDATE type::record("user", \$id) MERGE \$data SET $setClause',
+      'UPDATE type::record("user", \$id) SET $setClause',
       params,
     );
 
@@ -361,17 +361,19 @@ class SurrealAdminRepository implements AdminRepository {
   @override
   Future<void> deleteCompany(String id) async {
     await connection.companies.use('companies', 'registry');
+    // Use type::record() for proper record link comparison.
     final queryResult = await connection.companies.query(
-      r'SELECT * FROM company WHERE id = $id',
+      r'SELECT * FROM type::record("company", $id)',
       {'id': id},
     );
     final companies = _parseList<Company>(queryResult, Company.fromJson);
     if (companies.isNotEmpty) {
       final comp = companies.first;
       
-      // Check if they own any other companies
+      // Check if they own any other companies.
+      // Use type::record() for the exclusion comparison too.
       final otherCompaniesResult = await connection.companies.query(
-        r'SELECT * FROM company WHERE owner_id = $ownerId AND id != $company_id',
+        r'SELECT * FROM company WHERE owner_id = $ownerId AND id != type::record("company", $company_id)',
         {
           'ownerId': comp.ownerId,
           'company_id': comp.id,

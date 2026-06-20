@@ -1,101 +1,101 @@
 #V2
--- Company registry. The "phone book" of all Dattos.
--- Each company record here corresponds to a companies/company_{slug} database.
-DEFINE TABLE company SCHEMAFULL;
-DEFINE FIELD owner_id          ON company TYPE string;
-DEFINE FIELD owner_email       ON company TYPE option<string>;
-DEFINE FIELD name              ON company TYPE string;
-DEFINE FIELD slug              ON company TYPE string;
-DEFINE FIELD description       ON company TYPE option<string>;
-DEFINE FIELD website           ON company TYPE option<string>;
--- Address
-DEFINE FIELD address           ON company TYPE option<string>;
-DEFINE FIELD city              ON company TYPE option<string>;
-DEFINE FIELD zip               ON company TYPE option<string>;
-DEFINE FIELD country           ON company TYPE string                DEFAULT 'NO';
--- Contact
-DEFINE FIELD email             ON company TYPE option<string>;
-DEFINE FIELD phone             ON company TYPE option<string>;
-DEFINE FIELD logo_url          ON company TYPE option<string>;
--- Tier
-DEFINE FIELD tier              ON company TYPE string                DEFAULT 'free' ASSERT $value IN ['free', 'premium'];
--- Social
-DEFINE FIELD social_links      ON company TYPE option<object>;
-DEFINE FIELD social_links.fb   ON company TYPE option<string>;
-DEFINE FIELD social_links.ig   ON company TYPE option<string>;
-DEFINE FIELD social_links.x    ON company TYPE option<string>;
--- Onboarding (Reverse Conductor pattern)
-DEFINE FIELD onboarding_status ON company TYPE string ASSERT $value IN ['not_started', 'ai_suggested', 'verified', 'complete'];
-DEFINE FIELD ai_suggested_data ON company TYPE option<object>;
-DEFINE FIELD ai_suggested_data.name        ON company TYPE option<string>;
-DEFINE FIELD ai_suggested_data.website     ON company TYPE option<string>;
-DEFINE FIELD ai_suggested_data.description ON company TYPE option<string>;
-DEFINE FIELD ai_suggested_data.address     ON company TYPE option<string>;
-DEFINE FIELD ai_suggested_data.phone       ON company TYPE option<string>;
-DEFINE FIELD ai_suggested_data.suggested_at ON company TYPE option<datetime>;
--- Feature Flags (transitional SaaS scaffolding → Datto-mediated in v1.5)
-DEFINE FIELD enabled_features  ON company TYPE object DEFAULT { table_reservation: false, ai_assistance: false, ticket_system: false, event_system: false };
-DEFINE FIELD enabled_features.table_reservation ON company TYPE bool DEFAULT false;
-DEFINE FIELD enabled_features.ai_assistance     ON company TYPE bool DEFAULT false;
-DEFINE FIELD enabled_features.ticket_system     ON company TYPE bool DEFAULT false;
-DEFINE FIELD enabled_features.event_system      ON company TYPE bool DEFAULT false;
--- Store Policy
-DEFINE FIELD store_policy      ON company TYPE object DEFAULT { max_stores: 1, can_create_own_stores: false };
-DEFINE FIELD store_policy.max_stores          ON company TYPE int    DEFAULT 1;
-DEFINE FIELD store_policy.can_create_own_stores ON company TYPE bool DEFAULT false;
--- Media Config
-DEFINE FIELD media_config      ON company TYPE object DEFAULT { default_tags: ['logo', 'cover', 'staff', 'store', 'menu', 'misc'] };
-DEFINE FIELD media_config.default_tags ON company TYPE array<string> DEFAULT ['logo', 'cover', 'staff', 'store', 'menu', 'misc'];
--- Database reference (maps to companies/company_{slug})
-DEFINE FIELD db_slug           ON company TYPE string;
--- Manager/member references (cross-DB user IDs as strings)
-DEFINE FIELD manager_ids       ON company TYPE option<array<string>>;
-DEFINE FIELD member_ids        ON company TYPE option<array<string>>;
-DEFINE FIELD deleted_at        ON company TYPE option<datetime>;
-DEFINE FIELD created_at        ON company TYPE datetime              VALUE $value OR time::now();
-DEFINE FIELD updated_at        ON company TYPE datetime              VALUE time::now();
--- Indexes
-DEFINE INDEX idx_company_slug ON company FIELDS slug UNIQUE;
-DEFINE INDEX idx_company_owner ON company FIELDS owner_id;
--- -----------------------------------------------------------------------------
--- 2. system_alert (source: SystemAlertSchema)
--- -----------------------------------------------------------------------------
-DEFINE TABLE system_alert SCHEMAFULL;
-DEFINE FIELD title             ON system_alert TYPE string;
-DEFINE FIELD body              ON system_alert TYPE string;
-DEFINE FIELD severity          ON system_alert TYPE string ASSERT $value IN ['info', 'warning', 'critical'];
-DEFINE FIELD target_audience   ON system_alert TYPE string ASSERT $value IN ['all', 'business', 'customers', 'admin'];
-DEFINE FIELD is_active         ON system_alert TYPE bool             DEFAULT true;
-DEFINE FIELD starts_at         ON system_alert TYPE option<datetime>;
-DEFINE FIELD expires_at        ON system_alert TYPE option<datetime>;
-DEFINE FIELD action_url        ON system_alert TYPE option<string>;
-DEFINE FIELD action_label      ON system_alert TYPE option<string>;
-DEFINE FIELD created_by        ON system_alert TYPE option<string>;
-DEFINE FIELD created_at        ON system_alert TYPE datetime         VALUE $value OR time::now();
-DEFINE FIELD updated_at        ON system_alert TYPE option<datetime>;
-DEFINE INDEX idx_alert_active ON system_alert FIELDS is_active, target_audience;
--- -----------------------------------------------------------------------------
--- 3. icon_collection (source: IconCollectionSchema)
--- -----------------------------------------------------------------------------
-DEFINE TABLE icon_collection SCHEMAFULL;
-DEFINE FIELD name              ON icon_collection TYPE string;
-DEFINE FIELD description       ON icon_collection TYPE option<string>;
-DEFINE FIELD icons             ON icon_collection TYPE array<string>;
-DEFINE FIELD is_default        ON icon_collection TYPE bool          DEFAULT false;
-DEFINE FIELD created_at        ON icon_collection TYPE datetime      VALUE $value OR time::now();
-DEFINE FIELD updated_at        ON icon_collection TYPE datetime      VALUE time::now();
--- -----------------------------------------------------------------------------
--- 4. audit_log (new — GDPR compliance, soft delete tracking)
--- -----------------------------------------------------------------------------
-DEFINE TABLE audit_log SCHEMAFULL;
-DEFINE FIELD action            ON audit_log TYPE string ASSERT $value IN ['user_deleted', 'customer_purged', 'company_provisioned', 'company_deactivated'];
-DEFINE FIELD actor_id          ON audit_log TYPE string;
-DEFINE FIELD target_type       ON audit_log TYPE string;
-DEFINE FIELD target_id         ON audit_log TYPE string;
-DEFINE FIELD metadata          ON audit_log TYPE object FLEXIBLE     DEFAULT {};
-DEFINE FIELD created_at        ON audit_log TYPE datetime            VALUE $value OR time::now();
-DEFINE INDEX idx_audit_action ON audit_log FIELDS action;
-DEFINE INDEX idx_audit_target ON audit_log FIELDS target_type, target_id;
--- =============================================================================
--- END OF PLATFORM SCHEMA
--- =============================================================================
+DEFINE FIELD services          ON hold TYPE array<record<service>>;
+DEFINE FIELD staff             ON hold TYPE option<record<staff>>;
+DEFINE FIELD resource          ON hold TYPE option<record<resource>>;
+\nDEFINE FIELD date              ON hold TYPE string;
+DEFINE FIELD slot_time         ON hold TYPE string;
+DEFINE FIELD duration          ON hold TYPE int;
+\nDEFINE FIELD expires_at        ON hold TYPE datetime;
+DEFINE FIELD created_at        ON hold TYPE datetime                VALUE $value OR time::now();
+\nDEFINE FIELD payment_status    ON hold TYPE option<string>\n  ASSERT $value IN ['pending', 'initiated', 'failed'] OR $value IS NONE;
+DEFINE FIELD vipps_order_id    ON hold TYPE option<string>;
+\nDEFINE INDEX idx_hold_expires ON hold FIELDS expires_at;
+DEFINE INDEX idx_hold_establishment_date ON hold FIELDS establishment, date;
+\n-- =============================================================================\n-- 3. SCHEDULE TABLES\n-- =============================================================================\n\n-- -----------------------------------------------------------------------------\n-- 3.1 date_override (source: DateOverrideSchema, extracted from staff)\n-- -----------------------------------------------------------------------------\n-- Separate table for scalability (staff accumulate overrides over years).\n\nDEFINE TABLE date_override SCHEMAFULL;
+\nDEFINE FIELD staff             ON date_override TYPE record<staff>;
+DEFINE FIELD date              ON date_override TYPE string;
+DEFINE FIELD type              ON date_override TYPE string\n  ASSERT $value IN ['off', 'sick', 'custom'];
+DEFINE FIELD reason            ON date_override TYPE option<string>;
+DEFINE FIELD blocks            ON date_override TYPE option<array<object>>;
+DEFINE FIELD blocks.*.start    ON date_override TYPE string;
+DEFINE FIELD blocks.*.end      ON date_override TYPE string;
+\nDEFINE FIELD created_at        ON date_override TYPE datetime        VALUE $value OR time::now();
+\nDEFINE INDEX idx_override_staff_date ON date_override FIELDS staff, date UNIQUE;
+\n-- =============================================================================\n-- 4. RESOURCE TABLES\n-- =============================================================================\n\n-- -----------------------------------------------------------------------------\n-- 4.1 resource_group (source: ResourceGroupSchema)\n-- -----------------------------------------------------------------------------\n\nDEFINE TABLE resource_group SCHEMAFULL;
+\nDEFINE FIELD establishment     ON resource_group TYPE record<establishment>;
+DEFINE FIELD name              ON resource_group TYPE string;
+DEFINE FIELD description       ON resource_group TYPE option<string>;
+DEFINE FIELD sort_order        ON resource_group TYPE int            DEFAULT 0;
+DEFINE FIELD show_on_storefront ON resource_group TYPE bool          DEFAULT false;
+\nDEFINE FIELD created_at        ON resource_group TYPE datetime       VALUE $value OR time::now();
+DEFINE FIELD updated_at        ON resource_group TYPE datetime       VALUE time::now();
+\n-- -----------------------------------------------------------------------------\n-- 4.2 resource (source: ResourceSchema)\n-- -----------------------------------------------------------------------------\n\nDEFINE TABLE resource SCHEMAFULL;
+\nDEFINE FIELD establishment     ON resource TYPE record<establishment>;
+DEFINE FIELD resource_group    ON resource TYPE option<record<resource_group>>;
+\nDEFINE FIELD name              ON resource TYPE string;
+DEFINE FIELD description       ON resource TYPE option<string>;
+DEFINE FIELD type              ON resource TYPE string\n  ASSERT $value IN ['room', 'table', 'station', 'equipment', 'addon'];
+\n-- Capacity (table reservation mode)\nDEFINE FIELD min_capacity      ON resource TYPE int                  DEFAULT 1;
+DEFINE FIELD max_capacity      ON resource TYPE int                  DEFAULT 1;
+\n-- Pricing (add-on resources)\nDEFINE FIELD price             ON resource TYPE option<number>;
+DEFINE FIELD currency          ON resource TYPE string               DEFAULT 'NOK';
+\nDEFINE FIELD image_url         ON resource TYPE option<string>;
+\n-- Booking behavior\nDEFINE FIELD is_bookable       ON resource TYPE bool                 DEFAULT true;
+DEFINE FIELD allow_overlapping ON resource TYPE bool                 DEFAULT false;
+DEFINE FIELD booking_interval  ON resource TYPE option<int>;
+DEFINE FIELD priority          ON resource TYPE string               DEFAULT 'normal'\n  ASSERT $value IN ['low', 'normal', 'high'];
+DEFINE FIELD sort_order        ON resource TYPE int                  DEFAULT 0;
+\nDEFINE FIELD created_at        ON resource TYPE datetime             VALUE $value OR time::now();
+DEFINE FIELD updated_at        ON resource TYPE datetime             VALUE time::now();
+\nDEFINE INDEX idx_resource_establishment ON resource FIELDS establishment;
+\n-- =============================================================================\n-- 5. GRAPH EDGES (Session 9 Q1 — traversable, carry metadata)\n-- =============================================================================\n\n-- -----------------------------------------------------------------------------\n-- 5.1 offers — establishment → service\n-- -----------------------------------------------------------------------------\nDEFINE TABLE offers SCHEMAFULL TYPE RELATION FROM establishment TO service;
+DEFINE FIELD sort_order        ON offers TYPE int                    DEFAULT 0;
+DEFINE FIELD featured          ON offers TYPE bool                   DEFAULT false;
+DEFINE FIELD created_at        ON offers TYPE datetime               VALUE $value OR time::now();
+\n-- -----------------------------------------------------------------------------\n-- 5.2 works_at — staff → establishment\n-- -----------------------------------------------------------------------------\nDEFINE TABLE works_at SCHEMAFULL TYPE RELATION FROM staff TO establishment;
+DEFINE FIELD role              ON works_at TYPE string               DEFAULT 'employee'\n  ASSERT $value IN ['owner', 'admin', 'employee'];
+DEFINE FIELD since             ON works_at TYPE option<datetime>;
+DEFINE FIELD created_at        ON works_at TYPE datetime             VALUE $value OR time::now();
+\n-- -----------------------------------------------------------------------------\n-- 5.3 assigned_to — booking → staff\n-- -----------------------------------------------------------------------------\nDEFINE TABLE assigned_to SCHEMAFULL TYPE RELATION FROM booking TO staff;
+DEFINE FIELD confirmed         ON assigned_to TYPE bool              DEFAULT false;
+DEFINE FIELD notified_at       ON assigned_to TYPE option<datetime>;
+DEFINE FIELD created_at        ON assigned_to TYPE datetime          VALUE $value OR time::now();
+\n-- =============================================================================\n-- 6. COMMS (v1.4 — define schema now, populate later)\n-- =============================================================================\n\nDEFINE TABLE message_thread SCHEMAFULL;
+DEFINE FIELD establishment     ON message_thread TYPE record<establishment>;
+DEFINE FIELD customer          ON message_thread TYPE record<customer>;
+DEFINE FIELD subject           ON message_thread TYPE option<string>;
+DEFINE FIELD status            ON message_thread TYPE string         DEFAULT 'open'\n  ASSERT $value IN ['open', 'closed', 'archived'];
+DEFINE FIELD created_at        ON message_thread TYPE datetime       VALUE $value OR time::now();
+DEFINE FIELD updated_at        ON message_thread TYPE datetime       VALUE time::now();
+\nDEFINE TABLE message SCHEMAFULL;
+DEFINE FIELD thread            ON message TYPE record<message_thread>;
+DEFINE FIELD sender_type       ON message TYPE string\n  ASSERT $value IN ['customer', 'staff', 'datto'];
+DEFINE FIELD sender_id         ON message TYPE string;
+DEFINE FIELD body              ON message TYPE string;
+DEFINE FIELD created_at        ON message TYPE datetime              VALUE $value OR time::now();
+\n-- =============================================================================\n-- 7. AGENT MEMORY (Spectron-compatible manual graph)\n-- =============================================================================\n\nDEFINE TABLE entity SCHEMAFULL;
+DEFINE FIELD name              ON entity TYPE string;
+DEFINE FIELD entity_type       ON entity TYPE string;
+DEFINE FIELD properties        ON entity TYPE object FLEXIBLE        DEFAULT {};
+DEFINE FIELD embedding         ON entity TYPE option<array<float>>;
+DEFINE FIELD created_at        ON entity TYPE datetime               VALUE $value OR time::now();
+DEFINE FIELD updated_at        ON entity TYPE datetime               VALUE time::now();
+\nDEFINE TABLE fact SCHEMAFULL;
+DEFINE FIELD content           ON fact TYPE string;
+DEFINE FIELD source            ON fact TYPE option<string>;
+DEFINE FIELD confidence        ON fact TYPE number                   DEFAULT 1.0;
+DEFINE FIELD valid_from        ON fact TYPE option<datetime>;
+DEFINE FIELD valid_until       ON fact TYPE option<datetime>;
+DEFINE FIELD created_at        ON fact TYPE datetime                 VALUE $value OR time::now();
+\nDEFINE TABLE relates_to SCHEMAFULL TYPE RELATION FROM entity TO entity;
+DEFINE FIELD relation_type     ON relates_to TYPE string;
+DEFINE FIELD weight            ON relates_to TYPE number             DEFAULT 1.0;
+DEFINE FIELD created_at        ON relates_to TYPE datetime           VALUE $value OR time::now();
+USE NS companies DB company_testcompany;
+DEFINE USER IF NOT EXISTS bp_portal ON DATABASE PASSWORD 'test-portal-pass' ROLES EDITOR;
+USE NS users;
+DEFINE USER IF NOT EXISTS testadmin ON NAMESPACE PASSWORD 'testadmin-pass' ROLES OWNER;
+USE NS companies;
+DEFINE USER IF NOT EXISTS testadmin ON NAMESPACE PASSWORD 'testadmin-pass' ROLES OWNER;
+-- Business user: authenticates via RECORD ACCESS bp_auth.\n-- password_hash is argon2 hash of 'testbiz-pass'.\nCREATE user SET\n  name       = 'Test Business User',\n  email      = 'testbiz@dittodatto.no',\n  username   = 'testbiz',\n  password_hash = crypto::argon2::generate('testbiz-pass'),\n  role       = 'business',\n  company_slug = 'testcompany',\n  is_onboarded = true,\n  created_at = time::now(),\n  updated_at = time::now();
+\n-- Customer user: should be rejected by BP role check.\nCREATE user SET\n  name       = 'Test Customer User',\n  email      = 'testcustomer@dittodatto.no',\n  username   = 'testcustomer',\n  password_hash = crypto::argon2::generate('testcustomer-pass'),\n  role       = 'customer',\n  company_slug = NONE,\n  is_onboarded = true,\n  created_at = time::now(),\n  updated_at = time::now();
