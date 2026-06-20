@@ -2,13 +2,13 @@
 
 Timestamped entries for context continuity between sessions.
 
-## 2026-06-20 17:11 — Project Health Assessment + Agent Rules Overhaul
+## 2026-06-20 17:22 — Project Health Assessment + Agent Rules Overhaul
 
-- **Session:** Diagnosed root cause of Flutter migration pain: AI-generated Dart↔SurrealDB code passes widget tests but breaks on real DB, repeated across every session for 25 days. Trimmed agent rules from 4→3: dropped `clean-code.mini.md` and `domain-driven-design-distilled.mini.md` (generic book noise, ~100 lines of context waste per session). Added `surrealdb-dart.md` — 274-line battle-tested rule covering 9 foot-gun patterns (NULL/NONE coercion, MERGE vs SET, record IDs, query response parsing, argon2 hashing, SCHEMAFULL permissions, integration test mandate). Every future session reads this automatically.
+- **Session:** Diagnosed root cause of Flutter migration pain (AI code passes widget tests, breaks on real SurrealDB). Overhauled agent rules: dropped 2 generic book rules, added `surrealdb-dart.md` (9 foot-gun patterns) + `user-first.md` (ask-before-fumbling). Trimmed global `GEMINI.md` to essentials. Switched GH remote HTTPS→SSH, pushed branch.
 - **Tracks touched:** None (cross-cutting infrastructure)
-- **Status:** Agent rules committed (`70ed444`). Health report in session artifacts.
+- **Status:** All committed and pushed to GH. 4 project-specific agent rules, all battle-tested.
 - **Decisions:** None
-- **Next:** Admin Panel E2E (create users → create company → verify BP login). Consider building thin typed SurrealDB query helper to eliminate raw SurrealQL string bugs entirely.
+- **Next:** Admin Panel E2E (create users → create company → verify BP login). Consider SurrealDB typed query helper.
 
 ---
 
