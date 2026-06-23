@@ -1,5 +1,15 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-23 20:07 — CRITICAL FIX: Company provisioning implemented
+
+- **Session:** Fixed the critical provisioning gap. `createCompany` now auto-provisions tenant databases: creates `company_{slug}` DB, applies `company-blueprint.surql` (18 tables, 3 relations), creates `bp_portal` service user. `deleteCompany` auto-deprovisions. Discovered and fixed SurrealDB identifier quoting bug (hyphens = subtraction) and Dart WebSocket SDK multi-result limitation. Blueprint bundled as Flutter asset. Provider wired to pass it to the repository. 11 new integration tests including full E2E: create company → provision → BP authenticates → CRUD data. 50 total admin tests green.
+- **Tracks touched:** `bp_login_establishments_20260614`, `admin_panel_20260527`
+- **Status:** Provisioning blocker resolved. BP track fully unblocked. Admin test count 39 → 50.
+- **Decisions:** None (follows existing ADR-0016 BP auth model)
+- **Next:** Deploy to Saturn, delete CLI company, re-create through form. Then BP E2E: login → establishments CRUD. Secure `bp_portal` password (currently hardcoded).
+
+---
+
 ## 2026-06-23 12:35 — CRITICAL: Company DB provisioning never built
 
 - **Session:** Continued E2E verification. Added "same as owner" email checkbox to company form. User asked why BP login fails after creating company — discovered root cause: `createCompany` only writes to `companies/registry`, never provisions the actual company database (`company_{slug}`), blueprint schema, or `bp_portal` service user. This has been the missing piece causing weeks of BP login failures. Partial fix started and reverted per user request.

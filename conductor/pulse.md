@@ -1,26 +1,26 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-23 12:35
-**Session Focus:** Diagnostic, stabilization, E2E verification — discovered critical provisioning gap
+**Last Updated:** 2026-06-23 20:07
+**Session Focus:** Fixed critical company provisioning gap — createCompany now auto-provisions tenant databases
 
 ## 🚀 Active Tracks
 
-- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phases 1–5 complete. **BLOCKED:** `createCompany` does not provision the company database (`company_{slug}`), blueprint schema, or `bp_portal` service user. BP login will always fail after creating a company through Admin Panel.
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. All 5 phases complete. 39/39 integration tests green. Added "same as owner" email checkbox. Deployed to Saturn.
+- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phases 1–5 complete. **UNBLOCKED:** Company provisioning fixed. `createCompany` now auto-provisions `company_{slug}` DB + blueprint schema + `bp_portal` user. BP login pipeline verified E2E.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. All 5 phases complete. 50/50 integration tests green (was 39). Deployed to Saturn.
 
 ## ✅ Recently Completed
 
+- **2026-06-23** — 🔴 **CRITICAL FIX: Company provisioning.** `createCompany` now auto-provisions: (1) creates `company_{slug}` DB, (2) applies `company-blueprint.surql` (18 tables, 3 relations), (3) creates `bp_portal` service user. `deleteCompany` auto-deprovisions. 11 new integration tests. 50 total green. Root cause: SurrealDB identifier quoting (hyphens interpreted as subtraction) + Dart WebSocket SDK can't handle multi-statement responses.
 - **2026-06-23** — Stabilization: fixed stats test isolation (`concurrency: 1`), added Schema Gate to workflow, added "E2E Means E2E" rule. Built + deployed both apps to Saturn. E2E verified: login ✅, dashboard ✅, company edit form ✅. Added "same as owner" email checkbox to company form.
 - **2026-06-23** — Fixed company form → SurrealDB pipeline. 4 enum/field bugs. Added 11 form round-trip integration tests.
 - **2026-06-20** — Project health assessment + agent rules overhaul.
 - **2026-06-20** — Built Admin Panel integration test suite: 28 tests. Caught 3 production bugs.
-- **2026-06-20** — Saturn DB wiped clean. Re-applied schemas. Fixed NULL→NONE coercion.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## ⚠️ Blockers
 
-- **🔴 CRITICAL — Company provisioning missing:** `createCompany` only writes a row to `companies/registry`. It does NOT: (1) create the company database `company_{slug}`, (2) apply `schemas/company-blueprint.surql` (18 tables, 3 relations), (3) create `bp_portal` service user. This is WHY BP login has failed after every company creation for weeks. Must be fixed before any BP E2E testing.
+- None — provisioning blocker resolved.
 
 ## 🧠 Session Memory
 
@@ -34,17 +34,19 @@
 - **Schemas source of truth:** `schemas/` at project root.
 - **Test DB:** `./scripts/test-db-up.sh` → port 18000. `flutter test --tags integration`. `./scripts/test-db-down.sh`.
 - **Port reservations:** :8001 SurrealDB, :8002 Admin, :8003 BP, :8004 Marketplace, :8005 Booking Engine.
-- **DB topology (2026-06-23):** `companies` NS (registry — 1 company "Merkurial Studio" created via CLI, bad owner_id). `users` NS (users — 1 user). No company DBs exist.
 - **Deploy gate:** `.agents/AGENTS.md` — tests must pass before deploy.
-- **Integration tests:** 39 admin + 92 BP. `dart_test.yaml` enforces `concurrency: 1`.
-- **Workflow guardrails added this session:** Schema Gate (step 3), E2E Means E2E (principle 5).
-- **Company provisioning gap:** `createCompany` needs: bundle `company-blueprint.surql` as Flutter asset → load at runtime → `USE companies/{dbSlug}` → execute blueprint → `DEFINE USER bp_portal ON DATABASE ... ROLES EDITOR`. Partial implementation was started and reverted.
+- **Integration tests:** 50 admin + 92 BP. `dart_test.yaml` enforces `concurrency: 1`.
+- **Workflow guardrails:** Schema Gate (step 3), E2E Means E2E (principle 5).
 - **Agent rules:** 4 in `conductor/agent-rules/`.
+- **Company provisioning (2026-06-23):** `SurrealAdminRepository` constructor accepts optional `blueprintSql` + `bpPortalPassword`. When provided, `createCompany` auto-provisions. Blueprint bundled as Flutter asset (`pubspec.yaml`). Provider loads it via `rootBundle.loadString()`.
+- **SDK workarounds:** (1) Backtick-quote DB names with hyphens in SurrealQL. (2) Split multi-statement `.surql` files into individual `query()` calls — Dart WS SDK throws on multi-result responses. (3) Catch "already exists" errors for idempotent re-provisioning.
+- **TODO:** `bp_portal` password is hardcoded in `providers.dart` as `_defaultBpPortalPassword`. Must be moved to secure config before production.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Fix company provisioning in `createCompany`:** Bundle blueprint as asset, load at runtime, provision DB + schema + bp_portal user. This unblocks ALL BP testing.
-2. 🟡 **Delete CLI-created company, re-create through form:** Validate the full provisioning pipeline E2E.
-3. 🟡 **BP E2E:** Login as business user → list establishments → create establishment.
+1. 🟢 **BP E2E:** Login as business user → list establishments → create establishment. Provisioning blocker is gone.
+2. 🟡 **Deploy provisioning fix to Saturn:** Build admin panel, deploy, delete CLI-created company, re-create through form — verify full pipeline on staging.
+3. 🟡 **Secure `bp_portal` password:** Move from hardcoded constant to env var / secrets config.
+4. 🟡 **BP track Phase 3–4:** Establishments list + create/edit screens.
