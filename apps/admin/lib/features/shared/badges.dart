@@ -29,7 +29,6 @@ class TierBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (tier) {
-      CompanyTier.enterprise => (const Color(0xFF8b5cf6), 'Enterprise'),
       CompanyTier.premium => (const Color(0xFF3b82f6), 'Premium'),
       CompanyTier.free => (const Color(0xFF6b7280), 'Free'),
     };
@@ -47,8 +46,9 @@ class OnboardingBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (color, label) = switch (status) {
-      OnboardingStatus.completed => (const Color(0xFF22c55e), 'Completed'),
-      OnboardingStatus.inProgress => (const Color(0xFFf59e0b), 'In Progress'),
+      OnboardingStatus.complete => (const Color(0xFF22c55e), 'Complete'),
+      OnboardingStatus.verified => (const Color(0xFF3b82f6), 'Verified'),
+      OnboardingStatus.aiSuggested => (const Color(0xFFf59e0b), 'AI Suggested'),
       OnboardingStatus.notStarted => (const Color(0xFF6b7280), 'Not Started'),
     };
 

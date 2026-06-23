@@ -4,21 +4,21 @@ import 'enums.dart';
 
 part 'company.g.dart';
 
-/// Social media and website links for a company.
+/// Social media links for a company.
 @JsonSerializable()
 class CompanySocialLinks {
-  const CompanySocialLinks({this.website, this.fb, this.ig, this.x});
+  const CompanySocialLinks({this.fb, this.ig, this.x});
 
   factory CompanySocialLinks.fromJson(Map<String, dynamic> json) =>
       _$CompanySocialLinksFromJson(json);
 
-  final String? website;
   final String? fb;
   final String? ig;
   final String? x;
 
   Map<String, dynamic> toJson() => _$CompanySocialLinksToJson(this);
 }
+
 
 /// Store policy config for a company.
 @JsonSerializable()

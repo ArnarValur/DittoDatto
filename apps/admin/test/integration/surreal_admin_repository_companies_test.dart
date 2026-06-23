@@ -76,6 +76,8 @@ void main() {
     String email = 'info@test.no',
     String id = '',
     DateTime? createdAt,
+    CompanyTier tier = CompanyTier.free,
+    OnboardingStatus onboardingStatus = OnboardingStatus.notStarted,
   }) {
     return Company(
       id: id,
@@ -84,8 +86,8 @@ void main() {
       email: email,
       ownerId: ownerId,
       dbSlug: 'company_$slug',
-      tier: CompanyTier.free,
-      onboardingStatus: OnboardingStatus.notStarted,
+      tier: tier,
+      onboardingStatus: onboardingStatus,
       createdAt: createdAt ?? DateTime.now(),
       updatedAt: DateTime.now(),
     );
@@ -235,6 +237,46 @@ void main() {
       final ownerUser = users.items.firstWhere((u) => u.id == owner.id);
       expect(ownerUser.companySlug, contains('multi-one'));
       expect(ownerUser.companySlug, contains('multi-two'));
+    });
+  });
+
+  group('enum validation against schema', () {
+    test('all CompanyTier values accepted by SurrealDB', () async {
+      final owner = await createOwnerUser('Tier Test Owner', 'tiertest@dittodatto.no');
+
+      for (final tier in CompanyTier.values) {
+        final slug = 'tier-test-${tier.value}';
+        final created = await repo.createCompany(
+          makeCompany(
+            name: 'Tier Test ${tier.value}',
+            slug: slug,
+            ownerId: owner.id,
+            email: '${tier.value}@test.no',
+            tier: tier,
+          ),
+        );
+        createdCompanyIds.add(created.id);
+        expect(created.tier, tier);
+      }
+    });
+
+    test('all OnboardingStatus values accepted by SurrealDB', () async {
+      final owner = await createOwnerUser('Onboarding Test Owner', 'onboardtest@dittodatto.no');
+
+      for (final status in OnboardingStatus.values) {
+        final slug = 'onboard-test-${status.value}';
+        final created = await repo.createCompany(
+          makeCompany(
+            name: 'Onboard Test ${status.value}',
+            slug: slug,
+            ownerId: owner.id,
+            email: '${status.value}@test.no',
+            onboardingStatus: status,
+          ),
+        );
+        createdCompanyIds.add(created.id);
+        expect(created.onboardingStatus, status);
+      }
     });
   });
 }

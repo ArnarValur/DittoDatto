@@ -16,8 +16,7 @@ enum ActorRole {
 @JsonEnum(valueField: 'value')
 enum CompanyTier {
   free('free'),
-  premium('premium'),
-  enterprise('enterprise');
+  premium('premium');
 
   const CompanyTier(this.value);
   final String value;
@@ -27,8 +26,9 @@ enum CompanyTier {
 @JsonEnum(valueField: 'value')
 enum OnboardingStatus {
   notStarted('not_started'),
-  inProgress('in_progress'),
-  completed('completed');
+  aiSuggested('ai_suggested'),
+  verified('verified'),
+  complete('complete');
 
   const OnboardingStatus(this.value);
   final String value;
