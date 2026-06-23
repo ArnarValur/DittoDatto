@@ -1,3 +1,6 @@
 tags:
   integration:
     description: "Tests requiring a live SurrealDB on localhost:18000"
+
+# Shared DB instance — concurrent test files cause flaky assertions.
+concurrency: 1
