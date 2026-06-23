@@ -197,6 +197,7 @@ class _CompaniesTable extends ConsumerWidget {
 
     String? errorMessage;
     bool isSubmitting = false;
+    bool useOwnerEmail = false;
 
     showDialog(
       context: context,
@@ -298,6 +299,9 @@ class _CompaniesTable extends ConsumerWidget {
                                     setState(() {
                                       selectedOwnerId = val;
                                       selectedOwnerEmail = users.firstWhere((u) => u.id == val).email;
+                                      if (useOwnerEmail) {
+                                        emailCtrl.text = selectedOwnerEmail!;
+                                      }
                                     });
                                   }
                                 },
@@ -313,9 +317,39 @@ class _CompaniesTable extends ConsumerWidget {
                       controller: emailCtrl,
                       decoration: const InputDecoration(labelText: 'Email *'),
                       keyboardType: TextInputType.emailAddress,
-                      enabled: !isSubmitting,
+                      enabled: !isSubmitting && !useOwnerEmail,
                     ),
-                    const SizedBox(height: DittoSpacing.sm),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: SizedBox(
+                        height: 32,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Same as owner',
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                              ),
+                            ),
+                            Checkbox(
+                              value: useOwnerEmail,
+                              visualDensity: VisualDensity.compact,
+                              onChanged: isSubmitting
+                                  ? null
+                                  : (val) {
+                                      setState(() {
+                                        useOwnerEmail = val ?? false;
+                                        if (useOwnerEmail && selectedOwnerEmail != null) {
+                                          emailCtrl.text = selectedOwnerEmail!;
+                                        }
+                                      });
+                                    },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     TextField(
                       controller: phoneCtrl,
                       decoration: const InputDecoration(labelText: 'Phone'),
