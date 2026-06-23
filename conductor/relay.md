@@ -1,6 +1,14 @@
 # Relay — Cross-Session Handoff
 
-Timestamped entries for context continuity between sessions.
+## 2026-06-23 12:35 — CRITICAL: Company DB provisioning never built
+
+- **Session:** Continued E2E verification. Added "same as owner" email checkbox to company form. User asked why BP login fails after creating company — discovered root cause: `createCompany` only writes to `companies/registry`, never provisions the actual company database (`company_{slug}`), blueprint schema, or `bp_portal` service user. This has been the missing piece causing weeks of BP login failures. Partial fix started and reverted per user request.
+- **Tracks touched:** `admin_panel_20260527`
+- **Status:** Critical gap identified. No provisioning code exists. Must be fixed before any BP E2E is possible.
+- **Decisions:** None
+- **Next:** Implement company DB provisioning in `createCompany`. Then clean E2E: create company → verify BP login works.
+
+---
 
 ## 2026-06-23 12:25 — Stabilization: Test Isolation + Schema Gate + Deploy + E2E
 
