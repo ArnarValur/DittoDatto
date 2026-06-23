@@ -2,7 +2,16 @@
 
 Timestamped entries for context continuity between sessions.
 
-## 2026-06-20 17:22 — Project Health Assessment + Agent Rules Overhaul
+## 2026-06-23 11:51 — Company Form Schema Mismatch Fix
+
+- **Session:** Fixed 4 bugs preventing company creation from Admin Panel form: (1) OnboardingStatus enum mismatch (inProgress/completed → aiSuggested/verified/complete), (2) CompanyTier had enterprise not in schema, (3) CompanySocialLinks.website rejected by SCHEMAFULL, (4) form dbSlug missing company_ prefix. Removed "Fill Mock Data" button. Added 11 form round-trip integration tests.
+- **Tracks touched:** `admin_panel_20260527`
+- **Status:** 37/38 integration tests pass. 1 pre-existing stats test isolation failure. Committed as `b2baa9d`.
+- **Decisions:** None
+- **Next:** Project on hold per user decision.
+
+---
+
 
 - **Session:** Diagnosed root cause of Flutter migration pain (AI code passes widget tests, breaks on real SurrealDB). Overhauled agent rules: dropped 2 generic book rules, added `surrealdb-dart.md` (9 foot-gun patterns) + `user-first.md` (ask-before-fumbling). Trimmed global `GEMINI.md` to essentials. Switched GH remote HTTPS→SSH, pushed branch.
 - **Tracks touched:** None (cross-cutting infrastructure)

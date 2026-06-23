@@ -1,27 +1,27 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-20 17:22
-**Session Focus:** Project Health Assessment + Agent Rules Overhaul
+**Last Updated:** 2026-06-23 11:51
+**Session Focus:** Company form enum/schema mismatch fix
 
 ## 🚀 Active Tracks
 
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phases 1–4 complete. Phase 5 layout implemented. Pending: Admin Panel E2E (create users → create company → test BP login).
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. All 5 phases complete. Integration test suite added (28 tests). 3 production bugs caught and fixed. Deploy gate rule established.
+- **Admin Panel** (`admin_panel_20260527`) — In-progress. All 5 phases complete. Integration test suite added (28+11 tests). Deploy gate rule established.
 
 ## ✅ Recently Completed
 
+- **2026-06-23** — Fixed company form → SurrealDB pipeline. 4 bugs: (1) `OnboardingStatus` enum had `inProgress`/`completed` instead of schema's `ai_suggested`/`verified`/`complete`, (2) `CompanyTier` had `enterprise` not in schema (`free`/`premium` only), (3) `CompanySocialLinks` had `website` field that SCHEMAFULL rejects (`social_links.website` not defined — `website` is top-level), (4) form set `dbSlug` to bare slug instead of `company_${slug}`. Removed "Fill Mock Data" button. Added 11 form round-trip integration tests exercising full CRUD with all enum values against real SurrealDB. 37/38 tests pass (1 pre-existing stats test isolation issue).
 - **2026-06-20** — Project health assessment + agent rules overhaul. Diagnosed root cause of Flutter migration pain (AI-generated Dart↔SurrealDB code passing widget tests but failing on real DB). Agent rules: dropped `clean-code.mini.md` + `domain-driven-design-distilled.mini.md` (generic noise); added `surrealdb-dart.md` (9 foot-gun patterns) + `user-first.md` (concrete triggers for asking user instead of fumbling). Trimmed global `GEMINI.md` from 27→23 lines. Switched GH remote from HTTPS→SSH.
-- **2026-06-20** — Built Admin Panel integration test suite: 28 tests against real SurrealDB covering Users/Companies/Categories/Stats CRUD + NS-level auth. Caught and fixed 3 production bugs: (1) `updateUser` used invalid `MERGE+SET` SurrealQL syntax, (2) `deleteCompany` record ID mismatch prevented owner role revert, (3) `createUser` phone field missing NULL→NONE coercion. Extended `test-db-seed.sh` with `testadmin` on `companies` namespace. Added `.agents/AGENTS.md` deploy gate rule: tests must pass before any deploy.
+- **2026-06-20** — Built Admin Panel integration test suite: 28 tests against real SurrealDB covering Users/Companies/Categories/Stats CRUD + NS-level auth. Caught and fixed 3 production bugs.
 - **2026-06-20** — Saturn DB wiped clean. Re-applied init + schemas. Fixed Admin Panel CREATE user NULL→NONE coercion for `company_slug` and `vipps_sub`. Verified against real Saturn DB. Rebuilt + deployed.
 - **2026-06-20** — Quality audit of overnight Gemini 3.5 session (8.2/10). Fixed 4 stale `platform`→`registry` references.
-- **2026-06-20** — Database cleanup: fixed `opening_schedule` schema blocker, dropped legacy `users/profiles`, fixed `init.surql` naming, updated ADR-0002 and ADR-0016.
-- **2026-06-19** — Phase 5 layout: scrollspy edit view, sidebar identity, login branding, Riverpod state sync fix.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## ⚠️ Blockers
 
-- None.
+- **Recurring pattern:** Dart models built against assumed schemas instead of reading `schemas/*.surql`. Root cause of repeated enum/field mismatches across sessions.
+- **Stats test isolation:** `surreal_admin_repository_stats_test.dart` fails when run alongside other tests due to shared DB state. Pre-existing, not blocking.
 
 ## 🧠 Session Memory
 
@@ -40,13 +40,11 @@
 - **BP build password:** `BP_PORTAL_PASS=test-portal-pass` (staging-only). Used for `bp_portal` DB user on each `company_{slug}` DB.
 - **SurrealDB container name on Saturn:** `dittodatto-hub` (in `dittodatto-net` Docker network). Minimal container — no shell utils, connect remotely via Tailscale instead of `docker exec`.
 - **DB topology (clean as of 2026-06-20 12:12):** `companies` NS (discovery, registry — empty) + `users` NS (users — empty). All company DBs removed. Fresh start — create companies from Admin Panel.
-- **SurrealDB CLI gotcha:** DB names with hyphens (e.g. `company_dittodatto-as`) must be backtick-quoted in SurrealQL: `` USE NS companies DB `company_dittodatto-as`; ``
-- **NULL vs NONE (2026-06-20):** SurrealDB `option<T>` accepts `NONE` (absent) or `T`, but rejects `NULL`. Dart null maps to SurrealDB NULL. ALL optional fields in CREATE/UPDATE queries must coerce: `IF $field = NULL THEN none ELSE $field END`. Phone was missed initially — caught by integration test suite.
-- **Deploy gate rule (2026-06-20):** `.agents/AGENTS.md` mandates: test-db-up → flutter test --tags integration → all green → build → deploy. No exceptions. No silent deploys of untested code.
-- **Integration test suite (2026-06-20):** 28 tests in `apps/admin/test/integration/` — auth (5), users (9), companies (7), categories (5), stats (2). Caught 3 production bugs on first run.
-- **Agent rules overhauled (2026-06-20):** Dropped `clean-code.mini.md` + `domain-driven-design-distilled.mini.md` (generic book noise). Added `surrealdb-dart.md` (9 foot-gun patterns) + `user-first.md` (ask-before-fumbling triggers). Kept `code-safety.md` + `flutter-app-development.md`. Net: 4 rules, all battle-tested and project-specific.
-- **GEMINI.md trimmed (2026-06-20):** Global hermes config cleaned from verbose bullets to one-liner rules. 27→23 lines.
-- **GH remote (2026-06-20):** Switched origin from HTTPS to SSH (`git@github.com:ArnarValur/DittoDatto.git`). Pushed `track/bp-login-establishments` branch.
+- **NULL vs NONE (2026-06-20):** SurrealDB `option<T>` accepts `NONE` (absent) or `T`, but rejects `NULL`. Dart null maps to SurrealDB NULL. ALL optional fields in CREATE/UPDATE queries must coerce.
+- **Deploy gate rule (2026-06-20):** `.agents/AGENTS.md` mandates: test-db-up → flutter test --tags integration → all green → build → deploy. No exceptions.
+- **Integration test suite (2026-06-23):** 38 tests total — original 28 + 11 form round-trip tests. Form tests exercise full CRUD with all enum values against real SurrealDB. 1 pre-existing stats isolation failure.
+- **Enum fix (2026-06-23):** `OnboardingStatus` → `notStarted`/`aiSuggested`/`verified`/`complete`. `CompanyTier` → `free`/`premium`. `CompanySocialLinks` → `fb`/`ig`/`x` only (no `website` — that's top-level on company). Form `dbSlug` → `company_${slug}`.
+- **Agent rules:** 4 rules in `conductor/agent-rules/`: `code-safety.md`, `flutter-app-development.md`, `surrealdb-dart.md`, `user-first.md`.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
@@ -54,5 +52,5 @@
 
 1. 🟡 **Admin Panel E2E:** Log in as `arnarvalur` → create users (Arnar, Höddi) → create company → verify company DB gets blueprint applied.
 2. 🟡 **BP E2E:** Log in as business user → list establishments → create establishment → verify scrollspy edit view.
-3. 🟡 **BP Web Build + Deploy:** Rebuild BP web and deploy to Saturn after users/companies exist.
-4. 🟢 **Phase 5 Completion:** Fix navigation/state issues, responsive tweaks, coverage gate. Checkpoint Phase 5.
+3. 🟡 **Fix stats test isolation:** Run stats test in its own group or reset DB state between test files.
+4. 🟡 **Schema-first audit:** Systematically diff ALL Dart models against `schemas/*.surql` to find remaining mismatches before they bite.
