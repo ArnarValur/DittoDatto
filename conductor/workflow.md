@@ -12,8 +12,9 @@
 2. **The Tech Stack is Deliberate:** Changes to the tech stack must be documented in the **Tech Stack** section of `project-context.md` *before* implementation. Architecturally significant changes (those satisfying the three-criteria ADR test: hard to reverse, surprising without context, real trade-off) additionally warrant an ADR in `conductor/adr/` — surface as a candidate at `/grill`, `/new-track`, or `/checkpoint` time.
 3. **Test-Driven Development:** Write unit tests before implementing functionality
 4. **High Code Coverage:** Aim for >80% code coverage for all modules
-5. **User Experience First:** Every decision should prioritize user experience
-6. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution
+5. **E2E Means E2E:** When testing forms, flows, or UI features end-to-end, **always go through the actual deployed application** (browser, Chrome DevTools MCP, or manual). Never substitute CLI inserts, raw SQL, or API calls — those test the database, not the application. CLI hacks hide form bugs, serialization mismatches, and UI state issues.
+6. **User Experience First:** Every decision should prioritize user experience
+7. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution
 
 ---
 
