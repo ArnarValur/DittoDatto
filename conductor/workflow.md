@@ -19,7 +19,7 @@
 
 ## Task Workflow
 
-All tasks follow a strict 11-step lifecycle:
+All tasks follow a strict 12-step lifecycle:
 
 ### Standard Task Workflow
 
@@ -27,20 +27,29 @@ All tasks follow a strict 11-step lifecycle:
 
 2. **Mark In Progress:** Edit `tracks.md` and change the task from `[ ]` to `[~]`
 
-3. **Write Failing Tests (Red Phase):**
+3. **Schema Gate (mandatory for DB-touching work):**
+   - Read the relevant `schemas/*.surql` file(s) for the domain you're changing
+   - Verify ALL Dart model field names, types, enum values, and optionality match the schema
+   - If they don't match, fix the model BEFORE writing tests
+   - SurrealDB `option<T>` → Dart `T?` (nullable). `NULL` is rejected — use `NONE`
+   - Enum values must match the `ASSERT $value IN [...]` constraint exactly
+   - **Skip only if** the task has zero DB interaction (pure UI, docs, config)
+
+4. **Write Failing Tests (Red Phase):**
    - Create a new test file for the feature or bug fix
    - Write one or more unit tests that clearly define the expected behavior and acceptance criteria
+   - **For DB-touching features:** write integration tests (tagged `integration`) against real SurrealDB, not just widget tests with mocked repositories
    - **CRITICAL:** Run the tests and confirm that they fail as expected. This is the "Red" phase of TDD. Do not proceed until you have failing tests
 
-4. **Implement to Pass Tests (Green Phase):**
+5. **Implement to Pass Tests (Green Phase):**
    - Write the minimum amount of application code necessary to make the failing tests pass
    - Run the test suite again and confirm that all tests now pass. This is the "Green" phase
 
-5. **Refactor (Recommended):**
+6. **Refactor (Recommended):**
    - With the safety of passing tests, refactor the implementation code and the test code to improve clarity, remove duplication, and enhance performance without changing external behavior
    - Rerun tests to ensure they still pass after refactoring
 
-6. **Verify Coverage:** Run coverage reports using the project's chosen tools. For example:
+7. **Verify Coverage:** Run coverage reports using the project's chosen tools. For example:
 
    ```bash
    # Python
@@ -53,32 +62,32 @@ All tasks follow a strict 11-step lifecycle:
 
    **Gate: >80% coverage for new code.** Do not proceed if coverage is below threshold.
 
-7. **Document Deviations:** If implementation differs from tech stack:
+8. **Document Deviations:** If implementation differs from tech stack:
    - **STOP** implementation
    - Update the **Tech Stack** section of `project-context.md` with the new design
    - Add a dated note explaining the change (user-edited; no command writes to `project-context.md` post-init per S3)
    - If the change is architecturally significant (three-criteria ADR test), surface it as an ADR candidate at the next `/grill`, `/new-track`, or `/checkpoint`
    - Resume implementation
 
-8. **Commit Code Changes:**
+9. **Commit Code Changes:**
    - Stage all code changes related to the task
    - Commit with a clear, concise message following conventional commits format
    - Example: `feat(ui): Create basic HTML structure for calculator`
 
-9. **Attach Task Summary with Git Notes:**
-   - **9.1:** Get commit hash: `git log -1 --format="%H"`
-   - **9.2:** Draft note content — task name, summary of changes, list of created/modified files, and the core "why"
-   - **9.3:** Attach note:
+10. **Attach Task Summary with Git Notes:**
+    - **10.1:** Get commit hash: `git log -1 --format="%H"`
+    - **10.2:** Draft note content — task name, summary of changes, list of created/modified files, and the core "why"
+    - **10.3:** Attach note:
 
-     ```bash
-     git notes add -m "<note content>" <commit_hash>
-     ```
+      ```bash
+      git notes add -m "<note content>" <commit_hash>
+      ```
 
-10. **Record Task Completion in Plan:**
-    - **10.1:** In `tracks.md`, update the completed task from `[~]` to `[x]` and append the first 7 characters of the commit hash
-    - **10.2:** Write the updated content back to `tracks.md`
+11. **Record Task Completion in Plan:**
+    - **11.1:** In `tracks.md`, update the completed task from `[~]` to `[x]` and append the first 7 characters of the commit hash
+    - **11.2:** Write the updated content back to `tracks.md`
 
-11. **Commit Plan Update:**
+12. **Commit Plan Update:**
     - Stage the modified `tracks.md`
     - Commit: `conductor(tracks): Mark task '<task name>' as complete`
 
