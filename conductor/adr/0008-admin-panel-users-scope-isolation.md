@@ -10,6 +10,7 @@ The Admin Panel's **Users** screen is designated specifically for operators to m
 ## Decision
 
 We will isolate the administrative scope from the general back-office Users screen:
+
 1. **Query Filtering:** Restrict count and select SurrealDB queries in the `SurrealAdminRepository` to target only `customer` and `business` roles (`WHERE role IN ['customer', 'business']`).
 2. **Promotion Lock:** Limit manual user registration and role promotion options to only `Customer` and `Business` roles in both the creation dialog and table PopupMenuButton.
 

@@ -20,6 +20,7 @@ phone = $phone
 ```
 
 **Real example** (`surreal_admin_repository.dart`):
+
 ```dart
 r'CREATE user SET name = $name, email = $email, username = $username, '
 r'phone = IF $phone = NULL OR $phone = "" THEN none ELSE $phone END, '
@@ -30,6 +31,7 @@ r'password_hash = crypto::argon2::generate($password)',
 ```
 
 **Dart-side defense** — also strip nulls from maps before `.create()` or MERGE:
+
 ```dart
 Map<String, dynamic> _removeNullsFromMap(Map<String, dynamic> map) {
   final cleaned = <String, dynamic>{};
@@ -63,6 +65,7 @@ UPDATE type::record("user", $id) MERGE $data SET name = $name
 ```
 
 **When to use which:**
+
 - **MERGE** — when passing an entire cleaned Dart map (`$data`). Preserves fields not in the map.
 - **SET** — when building field-by-field with NULL→NONE coercion or conditional logic (e.g., optional password update).
 
@@ -70,7 +73,8 @@ UPDATE type::record("user", $id) MERGE $data SET name = $name
 
 ## 3. Record ID Formatting
 
-### In SurrealQL queries — use `type::record()`:
+### In SurrealQL queries — use `type::record()`
+
 ```dart
 // ✅ Parameterized — safe, portable
 r'SELECT * FROM type::record("company", $id)'
@@ -78,14 +82,16 @@ r'UPDATE type::record("user", $id) SET role = $role'
 r'DELETE type::record("establishment", $id)'
 ```
 
-### With SDK `.delete()` — use `table:$id`:
+### With SDK `.delete()` — use `table:$id`
+
 ```dart
 // ✅ SDK delete method expects this format
 await connection.users.delete('user:$id');
 await connection.companies.delete('company:$id');
 ```
 
-### Backtick quoting for hyphens:
+### Backtick quoting for hyphens
+
 ```sql
 -- ✅ DB names with hyphens MUST be backtick-quoted
 USE NS companies DB `company_dittodatto-as`;
@@ -122,12 +128,14 @@ List<T> _parseList<T>(dynamic result, T Function(Map<String, dynamic>) fromJson)
 ```
 
 **Never do this:**
+
 ```dart
 // ❌ PROHIBITED — crashes on empty results or unexpected shape
 final name = result.first['result'].first['name'];
 ```
 
-### ID normalization — SDK returns prefixed IDs:
+### ID normalization — SDK returns prefixed IDs
+
 ```dart
 /// SDK returns "user:abc123" — strip table prefix for app use.
 Map<String, dynamic> _normalizeRecord(dynamic record) {
@@ -147,7 +155,8 @@ Map<String, dynamic> _normalizeRecord(dynamic record) {
 
 ## 5. Password Hashing — argon2, Never Plaintext
 
-### In SurrealQL schemas (RECORD ACCESS SIGNIN):
+### In SurrealQL schemas (RECORD ACCESS SIGNIN)
+
 ```sql
 DEFINE ACCESS bp_auth ON DATABASE TYPE RECORD
   SIGNIN (
@@ -159,7 +168,8 @@ DEFINE ACCESS bp_auth ON DATABASE TYPE RECORD
   DURATION FOR TOKEN 24h, FOR SESSION 7d;
 ```
 
-### In Dart CREATE/UPDATE queries:
+### In Dart CREATE/UPDATE queries
+
 ```dart
 // ✅ Hash on the DB side, not in Dart
 r'password_hash = crypto::argon2::generate($password)'
@@ -214,11 +224,13 @@ WHERE string::starts_with(email, $username)
 **Every DB-facing feature needs an integration test against real SurrealDB before shipping.**
 
 Test infrastructure:
+
 - `./scripts/test-db-up.sh` → ephemeral SurrealDB on port 18000
 - `flutter test --tags integration` → runs tagged tests
 - `./scripts/test-db-down.sh` → teardown
 
 Test helper pattern (`test/integration/helpers/test_connection.dart`):
+
 ```dart
 Future<SurrealConnection> connectTestAdmin({
   String url = 'ws://localhost:18000/rpc',
@@ -244,7 +256,8 @@ Future<void> cleanTable(SurrealDB db, String table) async {
 
 ## Quick Reference — Copy-Paste Templates
 
-### CREATE with optional fields:
+### CREATE with optional fields
+
 ```dart
 await db.query(
   r'CREATE tablename SET '
@@ -254,7 +267,8 @@ await db.query(
 );
 ```
 
-### UPDATE with MERGE:
+### UPDATE with MERGE
+
 ```dart
 final cleanedData = _removeNullsFromMap(data);
 await db.query(
@@ -263,7 +277,8 @@ await db.query(
 );
 ```
 
-### UPDATE with SET (when you need NULL→NONE coercion):
+### UPDATE with SET (when you need NULL→NONE coercion)
+
 ```dart
 await db.query(
   r'UPDATE type::record("tablename", $id) SET '

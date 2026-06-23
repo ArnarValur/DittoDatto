@@ -23,6 +23,7 @@ await db.signin(user: user, pass: pass, namespace: 'users');
 ```
 
 Common violations to watch for:
+
 - `pass:` / `password:` / `secret:` with string literals
 - `Authorization: Bearer <token>` with real tokens
 - AWS (`AKIA...`), GCP (`AIza...`), or any provider key patterns
@@ -77,6 +78,7 @@ final name = rows.first['name'] as String?;
 ```
 
 Prefer typed models when available:
+
 ```dart
 final user = User.fromJson(rows.first);
 ```

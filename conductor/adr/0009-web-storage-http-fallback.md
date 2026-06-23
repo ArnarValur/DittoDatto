@@ -5,13 +5,14 @@
 
 ## Context
 
-When deploying the Admin Panel to our on-premise staging environment (Saturn) over a Tailscale mesh VPN, it is served on an unsecure HTTP origin (`http://dittodatto:8002`). Under non-secure HTTP contexts, modern browsers disable the Web Cryptography API (`window.crypto.subtle`). 
+When deploying the Admin Panel to our on-premise staging environment (Saturn) over a Tailscale mesh VPN, it is served on an unsecure HTTP origin (`http://dittodatto:8002`). Under non-secure HTTP contexts, modern browsers disable the Web Cryptography API (`window.crypto.subtle`).
 
 Using the `flutter_secure_storage` package on Web targets requires Web Crypto. Calling `write()` in non-secure contexts throws an unhandled JavaScript runtime error, which crashed the authentication flow and froze the login page.
 
 ## Decision
 
 We will implement a platform-agnostic, conditionally-imported Web Storage wrapper:
+
 1. **Conditional Import:** Define `WebStorage` using conditional compile-time imports (`dart.library.html` routing to `dart:html` on Web targets and stubbing on native targets).
 2. **Plain LocalStorage Fallback:** On Web targets, route token persistence directly to the browser's standard `window.localStorage` (unencrypted).
 3. **Native Isolation:** On native platforms (Linux desktop, Android), continue to rely on the standard encrypted secure storage of `FlutterSecureStorage`.

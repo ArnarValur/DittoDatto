@@ -2,16 +2,24 @@
 
 Timestamped entries for context continuity between sessions.
 
+## 2026-06-23 12:25 — Stabilization: Test Isolation + Schema Gate + Deploy + E2E
+
+- **Session:** Deep diagnostic confirmed recurring regression root cause: schema drift + concurrent test isolation. Fixed stats test (concurrency:1 in dart_test.yaml + delta-free assertions). Added Schema Gate as mandatory workflow step 3 — agents must read .surql before writing DB code. Added "E2E Means E2E" principle — no CLI hacks for form testing. Built + deployed both Admin Panel and Business Portal to Saturn. E2E verified: login ✅, dashboard ✅, company form ✅. CLI-created test company has bad owner_id (record link vs string) — need to delete and re-create through form.
+- **Tracks touched:** `admin_panel_20260527`, `bp_login_establishments_20260614`
+- **Status:** 39/39 admin + 92/92 BP tests green. Both apps deployed. Workflow hardened with 2 new guardrails.
+- **Decisions:** None
+- **Next:** Delete CLI company, create through form (clean E2E). Then BP E2E: login as business user → establishments CRUD.
+
+---
+
 ## 2026-06-23 11:51 — Company Form Schema Mismatch Fix
 
 - **Session:** Fixed 4 bugs preventing company creation from Admin Panel form: (1) OnboardingStatus enum mismatch (inProgress/completed → aiSuggested/verified/complete), (2) CompanyTier had enterprise not in schema, (3) CompanySocialLinks.website rejected by SCHEMAFULL, (4) form dbSlug missing company_ prefix. Removed "Fill Mock Data" button. Added 11 form round-trip integration tests.
 - **Tracks touched:** `admin_panel_20260527`
 - **Status:** 37/38 integration tests pass. 1 pre-existing stats test isolation failure. Committed as `b2baa9d`.
 - **Decisions:** None
-- **Next:** Project on hold per user decision.
 
 ---
-
 
 - **Session:** Diagnosed root cause of Flutter migration pain (AI code passes widget tests, breaks on real SurrealDB). Overhauled agent rules: dropped 2 generic book rules, added `surrealdb-dart.md` (9 foot-gun patterns) + `user-first.md` (ask-before-fumbling). Trimmed global `GEMINI.md` to essentials. Switched GH remote HTTPS→SSH, pushed branch.
 - **Tracks touched:** None (cross-cutting infrastructure)
@@ -40,6 +48,7 @@ Timestamped entries for context continuity between sessions.
 - **Next:** Log into Admin Panel as `arnarvalur` → create users → create company → BP E2E.
 
 ---
+
 ## 2026-06-20 12:05 — Quality Audit + platform→registry Fix + Saturn DB Assessment
 
 - **Session:** Quality-audited overnight Gemini 3.5 work (scored 8.2/10). Fixed 4 stale `platform`→`registry` references in README, seed script, platform.surql (commit `12511cf`). Seed script was broken — would apply schemas to wrong DB name. User inspected Saturn DB via Surrealist: `company_dittodatto-as` has only 1 table (missing blueprint), `merkurial-studio` in registry with no company DB, stale Surrealist connection. User wants DB wipe + clean re-provision before continuing E2E.
@@ -49,6 +58,7 @@ Timestamped entries for context continuity between sessions.
 - **Next:** Decide on Saturn DB wipe strategy. Write provisioning script or manual wipe + re-apply schemas. Then resume E2E.
 
 ---
+
 ## 2026-06-20 02:29 — Gemini 3.5 Session Audit + Database Cleanup + Schema Fix
 
 - **Session:** Audited Gemini 3.5 Flash session (c962aebc) — found scope creep (Admin Panel touched without being asked), hallucinated APIs, uncommitted code. All code reviewed and committed in 6 logical groups. Fixed `opening_schedule` schema blocker (DEFAULT {}) on both company DBs on Saturn. Dropped legacy `users/profiles` DB on Saturn. Fixed `init.surql` naming (platform→registry). Updated stale ADR-0002 (profiles→users) and ADR-0016 (username→email). Fixed scrollspy 200px magic number with dynamic offset calculation. Discarded Gemini 3.5 artifacts (.saropa/, reports/, history.txt changes). 138 tests green.
@@ -58,6 +68,7 @@ Timestamped entries for context continuity between sessions.
 - **Next:** E2E verification: login → create establishment → verify persistence → scrollspy edit view. Then BP web build + deploy to Saturn.
 
 ---
+
 ## 2026-06-19 22:50 — Phase 5 Layout Implemented & Schema Validation Blockage
 
 - **Session:** Implemented Phase 5 layout updates (sidebar identity header/footer, reordered navigation to put Inbox at index 1, Login screen branding cleanups, and refactored establishment edit screen from tabs to scrollable card sections using `DittoScrollspyLayout`). Resolved Riverpod state sync issue in `surrealConnectionProvider`. Investigated and diagnosed establishment creation disappearance/failure on schema-applied database `company_house-of-the-north` due to missing required `opening_schedule` field in creation JSON.
@@ -103,12 +114,6 @@ Timestamped entries for context continuity between sessions.
 - **Status:** Code-complete. Build staged on Saturn at `/tmp/bp-web-deploy/`. Needs `sudo rsync` to deploy. Admin Panel also needs rebuild+redeploy.
 - **Decisions:** None (ADR-0016 already covers this architecture)
 - **Next:** Deploy BP → E2E login as Demo Dude → verify correct company loads. Rebuild Admin Panel. Apply company-blueprint schema to `company_house-of-the-north`.
-
----
-
-- **Session:** Purged stale auth narrative from pulse and relay. The broken namespace-level auth (ADR-0013) is dead. ADR-0016 (RECORD ACCESS) is the settled decision.
-- **Status:** BP auth code was rewritten in earlier session but NOT verified (no compile, no tests). Conductor docs cleaned. Implementation audit needed.
-- **Next:** Verify BP Dart code actually implements ADR-0016 correctly. Compile. Test. Provision Saturn. Deploy. Login.
 
 ---
 
