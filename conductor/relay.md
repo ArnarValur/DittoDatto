@@ -1,5 +1,15 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-23 20:21 — Deploy gate + Saturn deployment
+
+- **Session:** Ran deploy gate (50 admin + 21 BP integration tests all green). Built both apps `--release`. Deployed Admin Panel + Business Portal to Saturn via rsync.
+- **Tracks touched:** `admin_panel_20260527`, `bp_login_establishments_20260614`
+- **Status:** Both apps live on Saturn. Admin: `http://dittodatto:8002`, BP: `http://dittodatto:8003`. No code changes — deploy only.
+- **Decisions:** None
+- **Next:** Staging E2E: delete CLI company, re-create through form. BP E2E: login → establishments. Secure `bp_portal` password.
+
+---
+
 ## 2026-06-23 20:07 — CRITICAL FIX: Company provisioning implemented
 
 - **Session:** Fixed the critical provisioning gap. `createCompany` now auto-provisions tenant databases: creates `company_{slug}` DB, applies `company-blueprint.surql` (18 tables, 3 relations), creates `bp_portal` service user. `deleteCompany` auto-deprovisions. Discovered and fixed SurrealDB identifier quoting bug (hyphens = subtraction) and Dart WebSocket SDK multi-result limitation. Blueprint bundled as Flutter asset. Provider wired to pass it to the repository. 11 new integration tests including full E2E: create company → provision → BP authenticates → CRUD data. 50 total admin tests green.

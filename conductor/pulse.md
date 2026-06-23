@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-23 20:07
-**Session Focus:** Fixed critical company provisioning gap — createCompany now auto-provisions tenant databases
+**Last Updated:** 2026-06-23 20:21
+**Session Focus:** Deploy gate + Saturn deployment (Admin Panel + Business Portal)
 
 ## 🚀 Active Tracks
 
@@ -10,6 +10,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-23 20:21** — Deploy gate passed (50 admin + 21 BP integration tests green). Built both apps `--release`. Deployed Admin Panel + Business Portal to Saturn via rsync.
 - **2026-06-23** — 🔴 **CRITICAL FIX: Company provisioning.** `createCompany` now auto-provisions: (1) creates `company_{slug}` DB, (2) applies `company-blueprint.surql` (18 tables, 3 relations), (3) creates `bp_portal` service user. `deleteCompany` auto-deprovisions. 11 new integration tests. 50 total green. Root cause: SurrealDB identifier quoting (hyphens interpreted as subtraction) + Dart WebSocket SDK can't handle multi-statement responses.
 - **2026-06-23** — Stabilization: fixed stats test isolation (`concurrency: 1`), added Schema Gate to workflow, added "E2E Means E2E" rule. Built + deployed both apps to Saturn. E2E verified: login ✅, dashboard ✅, company edit form ✅. Added "same as owner" email checkbox to company form.
 - **2026-06-23** — Fixed company form → SurrealDB pipeline. 4 enum/field bugs. Added 11 form round-trip integration tests.
@@ -46,7 +47,7 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🟢 **BP E2E:** Login as business user → list establishments → create establishment. Provisioning blocker is gone.
-2. 🟡 **Deploy provisioning fix to Saturn:** Build admin panel, deploy, delete CLI-created company, re-create through form — verify full pipeline on staging.
+1. 🟢 **Staging E2E:** Delete CLI-created company on Saturn, re-create through Admin Panel form — verify provisioning pipeline on staging.
+2. 🟢 **BP E2E:** Login as business user → list establishments → create establishment.
 3. 🟡 **Secure `bp_portal` password:** Move from hardcoded constant to env var / secrets config.
-4. 🟡 **BP track Phase 3–4:** Establishments list + create/edit screens.
+4. 🟡 **BP track Phase 5 remaining:** Fix navigation/state issues, fix layout breakages from E2E walkthrough.
