@@ -1,13 +1,13 @@
 # Relay — Cross-Session Handoff
 
-## 2026-06-24 15:05 — Grill session: 2 ADRs, Saturn DB reset, Auth Service track proposed
+## 2026-06-24 15:12 — Grill session: 2 ADRs, Saturn DB reset, Auth Service track proposed
 
-- **Session:** Grill assessment + domain refinement. Diagnosed BP login failure (user role=customer, no company_slug, no tenant DB on Saturn). Fixed stale terminology across 4 docs. Ran full grill: explored multi-tenancy (DB-per-tenant confirmed), blueprint sync (symlink approved), bp_portal password strategy (shared dart-define for staging, MercuryEngine proxy for production — informed by SurrealDB Sidekick agent consultation). User proposed dedicated Auth Service as bounded context split (motivated by "Building Event-Driven Microservices"). Saturn DB wiped clean and schemas re-applied for clean E2E. BP redeployed with `--dart-define=BP_PORTAL_PASS=test-portal-pass` and config error logging.
+- **Session:** Grill assessment + domain refinement. Diagnosed BP login failure (user role=customer, no company_slug, no tenant DB on Saturn). Fixed stale terminology across 4 docs. Ran full grill: explored multi-tenancy (DB-per-tenant confirmed), blueprint sync (symlink approved), bp_portal password strategy (shared dart-define for staging, backend proxy for production — informed by SurrealDB Sidekick agent). User proposed a NEW standalone Auth Service — auth is currently scattered (Admin does NS-level, BP does RECORD ACCESS) and should be consolidated. Auth was never in MercuryEngine and should not be. Vipps Login and BankID were *mentioned* as future possibilities only — NOT planned features (no API, no company registration). Saturn DB wiped clean and schemas re-applied. BP redeployed with `--dart-define=BP_PORTAL_PASS=test-portal-pass` and config error logging.
 - **Tracks touched:** `bp_login_establishments_20260614`, `admin_panel_20260527`
-- **Status:** Saturn DB clean (schemas only, no data). Both apps deployed. Ready for clean E2E through Admin Panel. Auth Service track not yet created.
+- **Status:** Saturn DB clean (schemas only, no data). Both apps deployed. Auth Service track not yet created — next session.
 - **Decisions:** ADR-0017 (Company DB Provisioning Architecture), ADR-0018 (Blueprint Bundling via Symlink)
-- **⚠️ CRITICAL for next session:** (1) Saturn DB is EMPTY — only schemas and NS admin user `arnarvalur`/`admin123`. All data must come through Admin Panel UI. (2) No CLI CRUD rule is now in AGENTS.md — enforce it. (3) BP built with `BP_PORTAL_PASS=test-portal-pass`. (4) Auth Service track: user wants to start today — use `/new-track`. (5) Blueprint symlink (ADR-0018) approved but not yet implemented.
-- **Next:** `/new-track` for Auth Service. Clean E2E: Admin Panel → create user → create company → verify BP login. Apply blueprint symlink.
+- **⚠️ CRITICAL for next session:** (1) Saturn DB is EMPTY — only schemas and NS admin user `arnarvalur`/`admin123`. All data must come through Admin Panel UI. (2) No CLI CRUD rule is now in AGENTS.md — enforce it. (3) BP built with `BP_PORTAL_PASS=test-portal-pass`. (4) Auth Service track: user wants `/new-track` — it's a NEW service, NOT decoupled from MercuryEngine (auth was never there). Vipps/BankID are NOT planned features. (5) Blueprint symlink (ADR-0018) approved but not yet implemented.
+- **Next:** `/new-track` for Auth Service. Clean E2E after Auth Service lands. Apply blueprint symlink.
 
 ---
 
