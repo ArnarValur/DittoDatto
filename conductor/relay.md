@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-24 16:17 — Auth Service track: spec + plan + Phase 1 research (4/5)
+
+- **Session:** Created Auth Service track (`auth_service_20260624`). Full spec interview (5 questions — scope, tech stack, client consumption, access topology, phasing). Approved spec + plan (4 phases). Ran Phase 1 research tasks 1-4 against SurrealDB 3.0.5 test DB. All verified: multi-access coexistence, SIGNUP with SCHEMAFULL, `WITH REFRESH` for token lifecycle, PASSHASH provisioning for `bp_portal`.
+- **Tracks touched:** `auth_service_20260624`
+- **Status:** Phase 1 in-progress (4/5 research tasks done, package API design remaining)
+- **Decisions:** ADR-0019 (Auth Service Architecture — SurrealDB-native with intermediary escape hatch)
+- **Next:** Complete Task 5 (package API design) → Phase 2 (build `ditto_auth` package + schema definitions)
+
 ## 2026-06-24 15:12 — Grill session: 2 ADRs, Saturn DB reset, Auth Service track proposed
 
 - **Session:** Grill assessment + domain refinement. Diagnosed BP login failure (user role=customer, no company_slug, no tenant DB on Saturn). Fixed stale terminology across 4 docs. Ran full grill: explored multi-tenancy (DB-per-tenant confirmed), blueprint sync (symlink approved), bp_portal password strategy (shared dart-define for staging, backend proxy for production — informed by SurrealDB Sidekick agent). User proposed a NEW standalone Auth Service — auth is currently scattered (Admin does NS-level, BP does RECORD ACCESS) and should be consolidated. Auth was never in MercuryEngine and should not be. Vipps Login and BankID were *mentioned* as future possibilities only — NOT planned features (no API, no company registration). Saturn DB wiped clean and schemas re-applied. BP redeployed with `--dart-define=BP_PORTAL_PASS=test-portal-pass` and config error logging.

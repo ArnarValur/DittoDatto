@@ -1,51 +1,56 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-24 15:12
-**Session Focus:** Grill assessment + ADR batch + Saturn DB reset + Auth Service track decision
+**Last Updated:** 2026-06-24 16:17
+**Session Focus:** Auth Service track creation + Phase 1 research (4/5 tasks complete)
 
 ## 🚀 Active Tracks
 
-- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. BP redeployed with `BP_PORTAL_PASS` dart-define + config error logging. Saturn DB wiped and re-provisioned (clean schemas, NS admin users). **Awaiting clean E2E through Admin Panel UI.**
+- **Auth Service** (`auth_service_20260624`) — In-progress. Track created with full spec + plan. Phase 1 research 4/5 tasks complete: multi-access patterns, SIGNUP, `WITH REFRESH` token lifecycle, PASSHASH provisioning all verified on SurrealDB 3.0.5. Task 5 (package API design) pending. Research doc at `conductor/docs/auth-service-research.md`.
+- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Awaiting clean E2E (blocked on Auth Service landing).
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. 50/50 integration tests green. Deployed on Saturn.
-- **Auth Service** — Proposed in grill session. A new standalone service that owns user identity, authentication, and session/token issuance. Auth was never in MercuryEngine — ME is booking-only. The Auth Service exists because auth is currently scattered: Admin Panel does NS-level auth, BP does RECORD ACCESS, and future apps would each re-implement their own. One service, one auth flow. Vipps Login and BankID were *mentioned* as future possibilities but are NOT planned — no Vipps API, no registered Norwegian company. **Not yet created as a track — next session.**
 
 ## ✅ Recently Completed
 
-- **2026-06-24 15:12** — Grill session: ADR-0017 (Company DB Provisioning Architecture), ADR-0018 (Blueprint Bundling via Symlink). Fixed stale terminology across 4 docs (users/profiles→users/users, ghost ADR-0014, wrong ADR-0010 ref, BP "planned" marker). Added No CLI CRUD rule to AGENTS.md. BP auth_provider now catches and logs AuthenticationException. Saturn DB wiped clean, schemas re-applied, NS admin users created. Auth Service track proposed — user wants to start in next session.
+- **2026-06-24 16:17** — Auth Service track: created `auth_service_20260624` with spec interview (5 questions), plan (4 phases), and 4/5 Phase 1 research tasks. ADR-0019 (SurrealDB-native auth architecture). Key discoveries: `WITH REFRESH` for token lifecycle, PASSHASH for `bp_portal`, `bp_auth` needs role gate fix. Blueprint symlink (ADR-0018) confirmed done.
+- **2026-06-24 15:12** — Grill session: ADR-0017 (Company DB Provisioning Architecture), ADR-0018 (Blueprint Bundling via Symlink). Fixed stale terminology across 4 docs. BP auth_provider now catches and logs AuthenticationException. Saturn DB wiped clean, schemas re-applied, NS admin users created.
 - **2026-06-24 09:31** — Fixed two deployment-only bugs: blueprint asset path + password mismatch. Both apps rebuilt + deployed.
 - **2026-06-23 20:21** — Deploy gate passed (50 admin + 21 BP tests green). Deployed both apps.
+- **2026-06-23 20:07** — Company provisioning implemented. 11 new integration tests. 50 total admin tests green.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## ⚠️ Blockers
 
-- 🔴 **Clean E2E blocked.** Admin Panel → create user → create company → verify BP login. This flow depends on the Auth Service track landing — the current auth is fragile and scattered. Saturn DB is clean and ready.
+- 🔴 **Clean E2E blocked.** Admin Panel → create user → create company → verify BP login. Depends on Auth Service track landing — current auth is fragile and scattered.
+- 🟡 **`bp_auth` has no role gate.** Any user with valid `password_hash` can authenticate through `bp_auth`. Must add `AND role IN ['business', 'admin', 'super_admin']` to SIGNIN clause. Will be fixed in Phase 2 of Auth Service track.
 - 🟡 **No post-deploy verification.** Deploy gate tests logic against local DB, not the deployed product.
 
 ## 🧠 Session Memory
 
+- **Auth Service track created:** `conductor/tracks/auth-service/auth_service_20260624/`
+- **Research doc:** `conductor/docs/auth-service-research.md` — living document with all Phase 1 findings
+- **ADR-0019:** SurrealDB-native auth architecture (no backend, intermediary escape hatch)
+- **SurrealDB version on test:** 3.0.5
+- **Key research findings:**
+  - Two RECORD ACCESS on one DB: works, each gets own JWT signing key
+  - SIGNUP clause: works with SCHEMAFULL, argon2 server-side, returns JWT immediately
+  - `WITH REFRESH`: supported! 15m access + refresh token. Game-changer for `ditto_auth`.
+  - PASSHASH: works for `bp_portal`. Generate hash with `crypto::argon2::generate()`, provision with `DEFINE USER ... PASSHASH`.
+  - `bp_auth` security gap: no role gate on SIGNIN clause. Consumer users can authenticate through `bp_auth`.
+- **Token strategy decided:** 15m access token + refresh + 24h session (consumer), 8h session (business)
+- **Blueprint symlink (ADR-0018):** Confirmed done by user.
+- **Vipps/BankID:** Out of scope. Vipps is future-planned (consumer-facing only). BankID mentioned in context of Vipps only. No API access, no Norwegian company registration.
+- **Multi-company:** Out of scope for now. Architecture supports it. `works_at` graph edge already in blueprint. `company_memberships` array already on user schema. Natural trigger for backend intermediary.
 - **Admin Panel deployed:** `http://dittodatto:8002`
 - **Business Portal:** `http://dittodatto:8003`
-- **Admin deploy:** `rsync -avz --delete apps/admin/build/web/ saturn:/srv/dittodatto/admin-panel/web/`
-- **BP deploy:** `rsync -avz --delete apps/business-portal/build/web/ saturn:/srv/dittodatto/business-portal/web/` — built with `--dart-define=BP_PORTAL_PASS=test-portal-pass`
-- **Container restart required** after deploy: `ssh saturn 'docker restart dittodatto-caddy dittodatto-portal-caddy'`
-- **SurrealDB root creds:** stored in `conductor/docs/keys/saturn-db-root.env` (gitignored)
-- **Namespace users:** `arnarvalur` (ROLES OWNER on both namespaces, password `admin123`)
-- **Saturn DB state (2026-06-24 15:05):** CLEAN. Schemas applied (init + users + platform + discovery). No companies, no user records. Only NS admin user exists.
-- **BP auth model (ADR-0016):** RECORD ACCESS `bp_auth` on `users/users` → argon2 password_hash. Service user `bp_portal` (EDITOR) on each `company_{slug}` DB.
-- **Provisioning architecture (ADR-0017):** Admin Panel auto-provisions on company creation: DEFINE DATABASE → apply blueprint → create bp_portal. DB-per-tenant.
-- **Blueprint (ADR-0018):** Source of truth at `schemas/company-blueprint.surql`. Currently copied to `apps/admin/assets/` — symlink not yet applied (ADR approved, implementation pending).
+- **Saturn DB state:** CLEAN. Schemas applied. No companies, no user records. Only NS admin user exists.
 - **Port reservations:** :8001 SurrealDB, :8002 Admin, :8003 BP, :8004 Marketplace, :8005 Booking Engine.
-- **Deploy gate:** `.agents/AGENTS.md` — tests must pass before deploy. **No CLI CRUD rule** added.
-- **Integration tests:** 50 admin + 21 BP tagged integration.
-- **Grill deferred items:** bp_portal password strategy (shared dart-define staging, backend proxy production), code deduplication (6 instances across Admin + BP).
-- **Auth Service decision:** A NEW standalone service that owns user identity, authentication, and session/token issuance. Auth was never in MercuryEngine and should not be. Currently auth is scattered: Admin does NS-level, BP does RECORD ACCESS, future apps would each re-implement. Vipps Login and BankID were *mentioned* as future possibilities but are NOT planned features — no API access, no Norwegian company registration. Inspired by "Building Event-Driven Microservices" (Adam Bellemare). User wants to start this track next session.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Launch Auth Service track** (`/new-track`). User is motivated and wants a fresh start. Auth is currently scattered across apps — consolidate into one service.
-2. 🔴 **Clean E2E through Admin Panel.** Log into `dittodatto:8002` → create user → create company (triggers provisioning) → verify BP login at `dittodatto:8003`. No CLI.
-3. 🟡 **Apply blueprint symlink** (ADR-0018). Replace `apps/admin/assets/company-blueprint.surql` copy with symlink.
-4. 🟡 **Post-deploy smoke script.**
+1. 🔴 **Complete Phase 1 Task 5: `ditto_auth` package API design.** All prerequisite research is done. Write `design.md` with public API surface, Riverpod providers, abstraction layer.
+2. 🔴 **Start Phase 2: Build `ditto_auth` package.** Define `consumer_auth` + fix `bp_auth` in schemas. Scaffold package. Implement auth flows with `WITH REFRESH`.
+3. 🟡 **Clean E2E** after Auth Service Phases 2-3 land.
+4. 🟡 **Glossary update:** Add `ditto_auth`, `consumer_auth` terms to `conductor/context.md`.
