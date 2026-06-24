@@ -1,0 +1,1 @@
+../../schemas/company-blueprint.surql
