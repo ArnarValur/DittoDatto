@@ -9,25 +9,25 @@
 
 > Spike phase — no production code. Deliverable: design document with architecture decisions.
 
-- [ ] Task: Research SurrealDB multi-access patterns
-    - [ ] Verify multiple `DEFINE ACCESS ... TYPE RECORD` on one database (`consumer_auth` + `bp_auth` on `users/users`)
-    - [ ] Test `$auth` scope isolation between access definitions
-    - [ ] Document any gotchas or limitations
+- [x] Task: Research SurrealDB multi-access patterns ✅
+    - [x] Verify multiple `DEFINE ACCESS ... TYPE RECORD` on one database — **Works. Each gets own JWT signing key.**
+    - [x] Test `$auth` scope isolation between access definitions — **Works. Table PERMISSIONS apply per-user.**
+    - [x] Document any gotchas — **`bp_auth` needs role gate. No `$auth.AC` in SurrealQL.**
 
-- [ ] Task: Research RECORD ACCESS SIGNUP clause
-    - [ ] Prototype `consumer_auth` with SIGNUP (create user record, argon2 hash, default role)
-    - [ ] Verify SIGNUP-created records respect SCHEMAFULL constraints
-    - [ ] Document the pattern for `ditto_auth` package
+- [x] Task: Research RECORD ACCESS SIGNUP clause ✅
+    - [x] Prototype `consumer_auth` with SIGNUP — **Works with SCHEMAFULL. argon2 hashing server-side.**
+    - [x] Verify SIGNUP-created records respect SCHEMAFULL constraints — **Yes. Duplicate email caught by UNIQUE index.**
+    - [x] Document the pattern for `ditto_auth` package — **See `conductor/docs/auth-service-research.md`**
 
-- [ ] Task: Research token lifecycle & session strategy
-    - [ ] Test token refresh vs re-authentication on expiry
-    - [ ] Determine appropriate TTLs (consumer vs business)
-    - [ ] Document session persistence strategy for `ditto_auth`
+- [x] Task: Research token lifecycle & session strategy ✅
+    - [x] Test token refresh vs re-authentication on expiry — **`WITH REFRESH` supported! Returns access + refresh tokens.**
+    - [x] Determine appropriate TTLs — **15m access token, 24h session (consumer), 8h session (business)**
+    - [x] Document session persistence strategy — **Store access + refresh in FlutterSecureStorage. Auto-refresh on 401.**
 
-- [ ] Task: Research `bp_portal` security upgrade
-    - [ ] Prototype PASSHASH provisioning (`DEFINE USER bp_portal ON DATABASE PASSHASH '...'`)
-    - [ ] Prototype unique password generation per tenant (argon2 hash from Dart or SurrealQL)
-    - [ ] Research secure credential delivery patterns (no secrets in Flutter web bundle)
+- [x] Task: Research `bp_portal` security upgrade ✅
+    - [x] Prototype PASSHASH provisioning — **Works. `DEFINE USER ... PASSHASH '$argon2id$...'`**
+    - [x] Prototype unique password generation per tenant — **Use `crypto::argon2::generate()` in SurrealQL**
+    - [x] Research secure credential delivery patterns — **Backend proxy for production, `--dart-define` for staging**
 
 - [ ] Task: Design `ditto_auth` package API
     - [ ] Define public API surface (signin, signup, signout, restore, switchCompany extension point)
