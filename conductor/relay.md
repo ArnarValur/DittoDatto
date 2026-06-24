@@ -1,5 +1,16 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-24 15:05 — Grill session: 2 ADRs, Saturn DB reset, Auth Service track proposed
+
+- **Session:** Grill assessment + domain refinement. Diagnosed BP login failure (user role=customer, no company_slug, no tenant DB on Saturn). Fixed stale terminology across 4 docs. Ran full grill: explored multi-tenancy (DB-per-tenant confirmed), blueprint sync (symlink approved), bp_portal password strategy (shared dart-define for staging, MercuryEngine proxy for production — informed by SurrealDB Sidekick agent consultation). User proposed dedicated Auth Service as bounded context split (motivated by "Building Event-Driven Microservices"). Saturn DB wiped clean and schemas re-applied for clean E2E. BP redeployed with `--dart-define=BP_PORTAL_PASS=test-portal-pass` and config error logging.
+- **Tracks touched:** `bp_login_establishments_20260614`, `admin_panel_20260527`
+- **Status:** Saturn DB clean (schemas only, no data). Both apps deployed. Ready for clean E2E through Admin Panel. Auth Service track not yet created.
+- **Decisions:** ADR-0017 (Company DB Provisioning Architecture), ADR-0018 (Blueprint Bundling via Symlink)
+- **⚠️ CRITICAL for next session:** (1) Saturn DB is EMPTY — only schemas and NS admin user `arnarvalur`/`admin123`. All data must come through Admin Panel UI. (2) No CLI CRUD rule is now in AGENTS.md — enforce it. (3) BP built with `BP_PORTAL_PASS=test-portal-pass`. (4) Auth Service track: user wants to start today — use `/new-track`. (5) Blueprint symlink (ADR-0018) approved but not yet implemented.
+- **Next:** `/new-track` for Auth Service. Clean E2E: Admin Panel → create user → create company → verify BP login. Apply blueprint symlink.
+
+---
+
 ## 2026-06-24 09:31 — Two deployment-only bugs fixed, trust at zero
 
 - **Session:** BP login broken AGAIN. Found two bugs invisible to integration tests: (1) blueprint asset path `../../schemas/company-blueprint.surql` escaped web root in release builds — Caddy served index.html instead of SQL, (2) password mismatch — Admin provisions bp_portal with `bp-portal-default-pass` but BP was built with `test-portal-pass`. Fixed both. Copied blueprint to `apps/admin/assets/`, updated pubspec + providers. Aligned password to `test-portal-pass`. Deploy gate passed (50+21). Deployed both apps. Fixed rsync path (needs `/web/` subdir for Docker bind mounts). Restarted Caddy containers. Verified blueprint serves HTTP 200 with SurrealQL. Full auth chain verified via API. Cleaned orphaned registry entries. Provisioned House of the North via API. Reset Demo Business password to `admin123`. **User did NOT verify BP login — trust exhausted after a month of this pattern.**
