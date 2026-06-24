@@ -3,7 +3,7 @@
 > Domain glossary and ubiquitous language for **DittoDatto**.
 > Updated by `/grill` and `/new-track` sessions.
 >
-> **Last refined:** 2026-06-08
+> **Last refined:** 2026-06-24
 
 ---
 
@@ -74,6 +74,8 @@
 | **`users` namespace**                 | SurrealDB namespace for consumer PII (`users/users`). GDPR-isolated.                                                                          | (none)                   |
 | **Tailscale**                         | Mesh VPN for team + AI agents to reach Saturn staging. No public exposure.                                                                    | (none)                   |
 | **`ditto_design`**                    | Shared Flutter design system package (`packages/ditto_design/`). Tokens, theme, layout, shell widget. See ADR-0005.                           | design system (avoid)    |
+| **`consumer_auth`**                   | SurrealDB RECORD ACCESS definition on `users/users` for consumer signup/login. Email + password (argon2), `WITH REFRESH` tokens. 15m access + 24h session. Defined by Auth Service track (ADR-0019). | (none)                   |
+| **Anonymous Browsing**                | Marketplace UX principle: unauthenticated users can browse discovery listings and EstablishmentPages. Auth required only for booking, favorites, and profile (ADR-0020). | browse-first (avoid gate) |
 | **SolarTheme**                        | Time-of-day theme switching based on solar position. Future `ditto_design` layer, not v1.                                                     | day-cycle mode           |
 | **`DittoDashboardShell`**             | Shared responsive dashboard shell in `ditto_design`. Sidebar + content panel, drawer on compact. Used by Admin Panel and Business Portal.     | dashboard layout         |
 | **`DittoWindowClass`**                | Enum in `ditto_design` for Material 3 breakpoints: compact (<600), medium (600–839), expanded (840–1199), large (≥1200).                      | breakpoint class         |
@@ -117,5 +119,5 @@
 - Operator-side UX patterns
 
 ### `/grill public-marketplace`
-- Flutter consumer app PRD
-- DittoBar interaction model
+- ~~Flutter consumer app PRD~~ → foundation grill done 2026-06-24 (ADR-0020, track pending)
+- DittoBar interaction model (deferred — not in foundation scope)
