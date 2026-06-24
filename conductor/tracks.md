@@ -17,6 +17,7 @@ All tracks organized by domain. Each track links to its dedicated folder.
 | **Public Marketplace (web)** | `apps/web/public-marketplace/` | 🟡 Active | Nuxt 4 / Vue 3 — kept as a dual surface. |
 | **Shared Dart packages** | `packages/mercury_client/` | 🔴 Critical | Consumed by all Flutter apps. |
 | **Infrastructure** | Saturn (GX10) on-prem + SurrealDB | 🟢 Active | Staging environment fully deployed and live (ADR-0003). |
+| **Auth Service** | `services/auth-service/` | 🔴 Critical | SurrealDB-native auth + shared `ditto_auth` Dart package. New domain. |
 
 ---
 
@@ -31,7 +32,10 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Type:* feature | *Domain:* business-portal | *Status:* in-progress
   - *Link:* [tracks/business-portal/bp_login_establishments_20260614/](./tracks/business-portal/bp_login_establishments_20260614/)
   - *Phases:* 5 — (1) Design System Light Theme, (2) Login Redesign, (3) Establishments List, (4) Establishment Create + Edit, (5) Integration & Polish
-
+- [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
+  - *Type:* feature | *Domain:* auth-service | *Status:* in-progress
+  - *Link:* [tracks/auth-service/auth_service_20260624/](./tracks/auth-service/auth_service_20260624/)
+  - *Phases:* 4 — (1) Research & Design, (2) ditto_auth Package + Schema Definitions, (3) BP Migration, (4) Marketplace Consumer Auth
 
 
 
