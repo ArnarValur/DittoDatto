@@ -1,0 +1,4 @@
+tags:
+  integration:
+    # Requires: ./scripts/test-db-up.sh
+    # Run with: flutter test --tags integration

@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  ditto_auth:
+    path: ../../packages/ditto_auth
   ditto_design:
     path: ../../packages/ditto_design
   mercury_client:

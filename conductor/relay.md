@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-24 19:27 — ditto_auth: Phase 1 design + Phase 2 build + Phase 3 BP migration
+
+- **Session:** Built `ditto_auth` shared auth package (Phases 1-3 of auth service track). Phase 1: designed package API (`design.md`) — `AuthBackend` interface, `TenantConnection`, `BusinessAuthResult`, sealed exception hierarchy. Phase 2: hardened `bp_auth` schema (role gate + 15m/8h durations), scaffolded package (12 files), implemented business signin, token store, session restore. `WITH REFRESH` removed — Dart surrealdb SDK can't handle the response format change. Phase 3: migrated BP to `ditto_auth` — rewired `auth_provider.dart`, `establishment_providers.dart`, `portal_shell.dart`. All tests green (11 ditto_auth + 21 BP). Track paused until Marketplace foundation lands for consumer auth.
+- **Tracks touched:** `auth_service_20260624`
+- **Status:** Phase 1 ✅, Phase 2 (business) ✅, Phase 3 (migration) ✅. Track paused. Remaining: deploy to Saturn, consumer auth (Phase 4), `bp_portal` hardening.
+- **Decisions:** None (ADR-0019 was recorded in prior session). Operational: `WITH REFRESH` deferred, AuthState stays in `mercury_client`, token durations are adjustable.
+- **Next:** (1) Deploy BP with `ditto_auth` to Saturn. (2) Public Marketplace foundation (Android/iOS, signup/login/profile). (3) Resume auth track Phase 4 when Marketplace is ready.
+
 ## 2026-06-24 16:17 — Auth Service track: spec + plan + Phase 1 research (4/5)
 
 - **Session:** Created Auth Service track (`auth_service_20260624`). Full spec interview (5 questions — scope, tech stack, client consumption, access topology, phasing). Approved spec + plan (4 phases). Ran Phase 1 research tasks 1-4 against SurrealDB 3.0.5 test DB. All verified: multi-access coexistence, SIGNUP with SCHEMAFULL, `WITH REFRESH` for token lifecycle, PASSHASH provisioning for `bp_portal`.

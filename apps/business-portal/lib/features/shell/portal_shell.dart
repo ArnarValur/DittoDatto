@@ -33,7 +33,7 @@ class PortalShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authProvider).value;
-    final connection = ref.watch(surrealConnectionProvider);
+    final connection = ref.watch(tenantConnectionProvider);
     final slug = connection?.slug;
     final establishments = ref.watch(establishmentsProvider).value;
 

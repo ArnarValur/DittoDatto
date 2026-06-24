@@ -67,18 +67,17 @@ void main() {
       );
     });
 
-    test('customer user authenticates but profile has customer role', () async {
-      final result = await SurrealConnection.authenticateUser(
-        email: 'testcustomer@dittodatto.no',
-        password: 'testcustomer-pass',
-        url: testUrl,
+    test('customer user rejected by bp_auth role gate', () async {
+      // With the role gate in bp_auth SIGNIN clause, customer-role users
+      // are rejected at the database level — the SIGNIN query returns nothing.
+      expect(
+        () => SurrealConnection.authenticateUser(
+          email: 'testcustomer@dittodatto.no',
+          password: 'testcustomer-pass',
+          url: testUrl,
+        ),
+        throwsA(anything),
       );
-
-      // Auth succeeds (valid credentials) but role is 'customer'.
-      // Role check happens in SurrealAuthService, not here.
-      expect(result.profile['role'], 'customer');
-
-      result.usersDb.close();
     });
   });
 

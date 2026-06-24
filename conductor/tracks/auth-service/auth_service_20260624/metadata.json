@@ -1,9 +1,10 @@
 {
   "track_id": "auth_service_20260624",
   "type": "feature",
-  "status": "in-progress",
+  "status": "paused",
   "domain": "auth-service",
   "created_at": "2026-06-24T15:53:00+02:00",
-  "updated_at": "2026-06-24T15:58:00+02:00",
-  "description": "Auth Service — standalone SurrealDB-native auth consolidating consumer and business user identity into shared ditto_auth Dart package"
+  "updated_at": "2026-06-24T19:27:00+02:00",
+  "description": "Auth Service — standalone SurrealDB-native auth consolidating consumer and business user identity into shared ditto_auth Dart package",
+  "pause_reason": "Phase 2 (business) + Phase 3 (BP migration) complete. Paused until Public Marketplace foundation lands — consumer auth (Phase 4) is next."
 }

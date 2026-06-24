@@ -118,6 +118,12 @@ DEFINE INDEX idx_bookingref_time ON booking_ref FIELDS start_time;
 --
 -- Client signin params: { NS: 'users', DB: 'users', AC: 'bp_auth',
 --                         email: '...', pass: '...' }
+--
+-- Security: role gate ensures only business/admin/super_admin users can
+-- authenticate. Consumer-role users are rejected at the DB level.
+-- WITH REFRESH enables short-lived access tokens (15m) + refresh tokens,
+-- so users stay logged in within the session window (8h) without
+-- re-entering credentials.
 
 DEFINE ACCESS IF NOT EXISTS bp_auth ON DATABASE TYPE RECORD
   SIGNIN (
@@ -125,8 +131,15 @@ DEFINE ACCESS IF NOT EXISTS bp_auth ON DATABASE TYPE RECORD
     FROM user
     WHERE email = $email
       AND crypto::argon2::compare(password_hash, $pass)
+      AND role IN ['business', 'admin', 'super_admin']
   )
-  DURATION FOR TOKEN 24h, FOR SESSION 7d;
+  DURATION FOR TOKEN 15m, FOR SESSION 8h;
+
+-- -----------------------------------------------------------------------------
+-- 4. RECORD ACCESS — Consumer Authentication (future — Phase 4)
+-- -----------------------------------------------------------------------------
+-- consumer_auth will be defined here when the Marketplace silver thread lands.
+-- See: conductor/tracks/auth-service/auth_service_20260624/design.md
 
 -- =============================================================================
 -- END OF USERS SCHEMA

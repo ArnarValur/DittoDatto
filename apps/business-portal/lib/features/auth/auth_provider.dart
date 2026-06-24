@@ -1,13 +1,11 @@
+import 'package:ditto_auth/ditto_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mercury_client/mercury_client.dart';
 
-import '../../core/surreal_auth_service.dart';
-import '../../core/surreal_connection.dart';
-
 /// WebSocket URL injected at build time via `--dart-define=SURREAL_URL=...`.
 ///
-/// When empty (default), [SurrealConnection] derives the URL from the page
+/// When empty (default), [SurrealAuthBackend] derives the URL from the page
 /// origin — which only works when SurrealDB is reverse-proxied on the same
 /// host (e.g. Saturn deployment behind Caddy).
 const _surrealUrl = String.fromEnvironment('SURREAL_URL');
@@ -17,16 +15,28 @@ const _surrealUrl = String.fromEnvironment('SURREAL_URL');
 const _bpPortalUser = String.fromEnvironment('BP_PORTAL_USER', defaultValue: 'bp_portal');
 const _bpPortalPass = String.fromEnvironment('BP_PORTAL_PASS');
 
-/// Provider for the auth service.
+/// Provider for the shared [DittoAuth] instance.
 ///
-/// Uses [SurrealAuthService] with RECORD ACCESS for user auth
-/// and DB-level service credentials for company DB access.
-final authServiceProvider = Provider<AuthService>((ref) {
-  return SurrealAuthService(
-    wsUrl: _surrealUrl.isNotEmpty ? _surrealUrl : null,
-    serviceUser: _bpPortalUser.isNotEmpty ? _bpPortalUser : null,
-    servicePass: _bpPortalPass.isNotEmpty ? _bpPortalPass : null,
+/// Replaces the old [SurrealAuthService] — same two-phase flow,
+/// now behind the swappable [AuthBackend] interface.
+final dittoAuthProvider = Provider<DittoAuth>((ref) {
+  return DittoAuth(
+    backend: SurrealAuthBackend(
+      wsUrl: _surrealUrl.isNotEmpty ? _surrealUrl : null,
+      serviceUser: _bpPortalUser.isNotEmpty ? _bpPortalUser : 'bp_portal',
+      servicePass: _bpPortalPass,
+    ),
   );
+});
+
+/// Provider for the active [TenantConnection] from [DittoAuth].
+///
+/// The repository layer reads this for CRUD queries.
+/// Returns null if not authenticated.
+final tenantConnectionProvider = Provider<TenantConnection?>((ref) {
+  // Watch authProvider to trigger re-evaluation on auth state changes.
+  ref.watch(authProvider);
+  return ref.read(dittoAuthProvider).activeTenant;
 });
 
 /// Provider for the current auth state.
@@ -39,24 +49,36 @@ final authProvider =
 /// Manages authentication state transitions.
 ///
 /// On app start, attempts to restore a previous session (async, properly
-/// awaited). On login, delegates to the [AuthService]. On logout, clears state.
+/// awaited). On login, delegates to [DittoAuth]. On logout, clears state.
 class AuthNotifier extends AsyncNotifier<AuthState> {
   @override
   Future<AuthState> build() async {
-    return _authService.tryRestore();
+    final result = await _dittoAuth.tryRestoreBusiness();
+    if (result == null) return const Unauthenticated();
+    return Authenticated(
+      accessToken: result.companySlug,
+      email: result.email,
+      name: result.name,
+    );
   }
 
-  AuthService get _authService => ref.read(authServiceProvider);
+  DittoAuth get _dittoAuth => ref.read(dittoAuthProvider);
 
   /// Log in with email and password.
   Future<void> login(String email, String password) async {
     state = const AsyncLoading();
     try {
-      state = AsyncData(await _authService.login(email, password));
-    } on AuthenticationException catch (e) {
-      // Config error (e.g. missing BP_PORTAL_PASS) — surface to console.
-      // This is NOT a wrong-password situation; developers need to see it.
-      debugPrint('⚠️ BP Auth config error: $e');
+      final result = await _dittoAuth.businessSignin(
+        email: email,
+        password: password,
+      );
+      state = AsyncData(Authenticated(
+        accessToken: result.companySlug,
+        email: result.email,
+        name: result.name,
+      ));
+    } on DittoAuthException catch (e) {
+      debugPrint('⚠️ BP Auth error: $e');
       state = const AsyncData(Unauthenticated());
     }
   }
@@ -64,6 +86,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   /// Log out and clear stored credentials.
   Future<void> logout() async {
     state = const AsyncLoading();
-    state = AsyncData(await _authService.logout());
+    await _dittoAuth.signOut();
+    state = const AsyncData(Unauthenticated());
   }
 }

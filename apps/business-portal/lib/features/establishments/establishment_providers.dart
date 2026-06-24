@@ -1,22 +1,8 @@
+import 'package:ditto_auth/ditto_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/surreal_auth_service.dart';
-import '../../core/surreal_connection.dart';
 import '../auth/auth_provider.dart';
 import 'establishment_model.dart';
-
-/// Provides the active [SurrealConnection] from the auth service.
-///
-/// Throws if called before authentication. Guard usage behind auth checks.
-final surrealConnectionProvider = Provider<SurrealConnection?>((ref) {
-  // Watch authProvider to trigger re-evaluation when authentication state changes.
-  ref.watch(authProvider);
-  final authService = ref.watch(authServiceProvider);
-  if (authService is SurrealAuthService) {
-    return authService.connection;
-  }
-  return null;
-});
 
 /// Fetches all Establishments from the tenant's SurrealDB.
 ///
@@ -31,27 +17,19 @@ final establishmentsProvider =
 class EstablishmentsNotifier extends AsyncNotifier<List<Establishment>> {
   @override
   Future<List<Establishment>> build() async {
-    ref.watch(surrealConnectionProvider);
+    ref.watch(tenantConnectionProvider);
     return _fetchAll();
   }
 
-  SurrealConnection? get _db => ref.read(surrealConnectionProvider);
+  TenantConnection? get _db => ref.read(tenantConnectionProvider);
 
   /// Fetch all establishments from SurrealDB.
   Future<List<Establishment>> _fetchAll() async {
     final db = _db;
     if (db == null) return [];
 
-    // Guard: the companies connection must be routed to a tenant database
-    // before we can query establishment data. If slug is null, the login
-    // flow didn't complete tenant routing (ADR-0013 step 3).
-    if (db.slug == null) {
-      throw StateError(
-        'SurrealConnection is not routed to a tenant database. '
-        'Ensure login completes tenant routing before querying establishments.',
-      );
-    }
-
+    // TenantConnection.slug is non-nullable — if we have a connection,
+    // it's already routed to a tenant database.
     final result = await db.companies.query('SELECT * FROM establishment');
 
     // SurrealDB query returns dynamic — could be List with {result: [...]}
