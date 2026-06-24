@@ -37,6 +37,12 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Link:* [tracks/auth-service/auth_service_20260624/](./tracks/auth-service/auth_service_20260624/)
   - *Phases:* 4 — (1) Research & Design ✅, (2) ditto_auth Package + Schema ✅, (3) BP Migration ✅, (4) Marketplace Consumer Auth
 
+- [ ] **Marketplace Foundation — Flutter scaffold + consumer auth (signup/login/profile)**
+  - *Type:* feature | *Domain:* marketplace | *Status:* new
+  - *Link:* [tracks/marketplace/marketplace_foundation_20260624/](./tracks/marketplace/marketplace_foundation_20260624/)
+  - *Phases:* 4 — (1) Project Scaffold + Nav Shell, (2) Consumer Auth, (3) Profile Page, (4) Integration Testing + Saturn Deploy
+  - *Depends on:* Auth Service Phase 2 (consumer_auth schema + ditto_auth consumer methods)
+
 
 
 ---
