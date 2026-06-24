@@ -1,4 +1,8 @@
 #V2
+DEFINE FIELD services          ON hold TYPE array<record<service>>;
+DEFINE FIELD staff             ON hold TYPE option<record<staff>>;
+DEFINE FIELD resource          ON hold TYPE option<record<resource>>;
+\nDEFINE FIELD date              ON hold TYPE string;
 DEFINE FIELD slot_time         ON hold TYPE string;
 DEFINE FIELD duration          ON hold TYPE int;
 \nDEFINE FIELD expires_at        ON hold TYPE datetime;
@@ -95,7 +99,3 @@ USE NS companies;
 DEFINE USER IF NOT EXISTS testadmin ON NAMESPACE PASSWORD 'testadmin-pass' ROLES OWNER;
 -- Business user: authenticates via RECORD ACCESS bp_auth.\n-- password_hash is argon2 hash of 'testbiz-pass'.\nCREATE user SET\n  name       = 'Test Business User',\n  email      = 'testbiz@dittodatto.no',\n  username   = 'testbiz',\n  password_hash = crypto::argon2::generate('testbiz-pass'),\n  role       = 'business',\n  company_slug = 'testcompany',\n  is_onboarded = true,\n  created_at = time::now(),\n  updated_at = time::now();
 \n-- Customer user: should be rejected by BP role check.\nCREATE user SET\n  name       = 'Test Customer User',\n  email      = 'testcustomer@dittodatto.no',\n  username   = 'testcustomer',\n  password_hash = crypto::argon2::generate('testcustomer-pass'),\n  role       = 'customer',\n  company_slug = NONE,\n  is_onboarded = true,\n  created_at = time::now(),\n  updated_at = time::now();
-SELECT social_links, store_policy, enabled_features, onboarding_status, tier FROM company LIMIT 5;
-CREATE company SET  name = 'Schema Test',  slug = 'schema-test',  owner_id = 'test123',  db_slug = 'schema-test',  onboarding_status = 'not_started',  tier = 'free',  social_links = { website: 'https://test.no', fb: 'fb', ig: 'ig', x: 'x' };
-SELECT social_links FROM company WHERE slug = 'schema-test';
-DELETE company WHERE slug = 'schema-test';

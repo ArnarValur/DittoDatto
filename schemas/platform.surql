@@ -77,6 +77,9 @@ DEFINE FIELD db_slug           ON company TYPE string;
 DEFINE FIELD manager_ids       ON company TYPE option<array<string>>;
 DEFINE FIELD member_ids        ON company TYPE option<array<string>>;
 
+-- Provisioning status — true once company_{slug} DB exists with blueprint applied.
+DEFINE FIELD provisioned       ON company TYPE bool                   DEFAULT false;
+
 DEFINE FIELD deleted_at        ON company TYPE option<datetime>;
 DEFINE FIELD created_at        ON company TYPE datetime              VALUE $value OR time::now();
 DEFINE FIELD updated_at        ON company TYPE datetime              VALUE time::now();

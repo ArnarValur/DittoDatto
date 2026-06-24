@@ -34,7 +34,7 @@ class SurrealAuthBackend implements AuthBackend {
     required String password,
     required String accessMethod,
   }) async {
-    final wsEndpoint = wsUrl ?? _deriveWsUrl();
+    final wsEndpoint = wsUrl ?? deriveWsUrl();
 
     final usersDb = SurrealDB(wsEndpoint);
     usersDb.connect();
@@ -57,7 +57,7 @@ class SurrealAuthBackend implements AuthBackend {
         r'SELECT name, role, company_slug FROM $auth',
       );
 
-      final profile = _extractFirstRow(profileResult);
+      final profile = extractFirstRow(profileResult);
       if (profile == null) {
         usersDb.close();
         throw const InvalidCredentials('User profile not found after signin');
@@ -81,7 +81,7 @@ class SurrealAuthBackend implements AuthBackend {
     required String usersToken,
     required String slug,
   }) async {
-    final wsEndpoint = wsUrl ?? _deriveWsUrl();
+    final wsEndpoint = wsUrl ?? deriveWsUrl();
 
     if (servicePass.isEmpty) {
       throw const TenantConnectionFailed(
@@ -118,7 +118,7 @@ class SurrealAuthBackend implements AuthBackend {
     String? tenantToken,
     String? tenantSlug,
   }) async {
-    final wsEndpoint = wsUrl ?? _deriveWsUrl();
+    final wsEndpoint = wsUrl ?? deriveWsUrl();
 
     try {
       // Restore users connection.
@@ -152,7 +152,7 @@ class SurrealAuthBackend implements AuthBackend {
   }
 
   /// Derive the WebSocket URL from the browser's page origin.
-  static String _deriveWsUrl() {
+  static String deriveWsUrl() {
     final base = Uri.base;
     final protocol = base.scheme == 'https' ? 'wss' : 'ws';
     final host = base.host;
@@ -161,7 +161,7 @@ class SurrealAuthBackend implements AuthBackend {
   }
 
   /// Extract the first row from a SurrealDB query result.
-  static Map<String, dynamic>? _extractFirstRow(dynamic result) {
+  static Map<String, dynamic>? extractFirstRow(dynamic result) {
     if (result is! List || result.isEmpty) return null;
 
     final first = result.first;

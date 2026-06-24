@@ -1,1 +1,1 @@
-../../schemas/company-blueprint.surql
+../../../schemas/company-blueprint.surql

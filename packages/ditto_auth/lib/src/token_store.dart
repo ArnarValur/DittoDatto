@@ -20,6 +20,8 @@ class TokenStore {
   static const _slugKey = 'ditto_auth_slug';
   static const _nameKey = 'ditto_auth_name';
   static const _roleKey = 'ditto_auth_role';
+  static const _sessionTypeKey = 'ditto_auth_session_type';
+  static const _userIdKey = 'ditto_auth_user_id';
 
   /// Save a business session for later restore.
   Future<void> saveBusinessSession({
@@ -32,6 +34,7 @@ class TokenStore {
     String? role,
   }) async {
     await _writeAll({
+      _sessionTypeKey: 'business',
       _usersTokenKey: usersToken,
       _tenantTokenKey: tenantToken,
       _emailKey: email,
@@ -69,6 +72,42 @@ class TokenStore {
     );
   }
 
+  /// Save a consumer session for later restore.
+  Future<void> saveConsumerSession({
+    required String usersToken,
+    required String email,
+    String? name,
+    String? userId,
+  }) async {
+    await _writeAll({
+      _sessionTypeKey: 'consumer',
+      _usersTokenKey: usersToken,
+      _emailKey: email,
+      _nameKey: ?name,
+      _userIdKey: ?userId,
+    });
+  }
+
+  /// Load a previously stored consumer session.
+  ///
+  /// Returns null if any required key is missing or session type is not consumer.
+  Future<StoredConsumerSession?> loadConsumerSession() async {
+    final sessionType = await _read(_sessionTypeKey);
+    if (sessionType != 'consumer') return null;
+
+    final usersToken = await _read(_usersTokenKey);
+    final email = await _read(_emailKey);
+
+    if (usersToken == null || email == null) return null;
+
+    return StoredConsumerSession(
+      usersToken: usersToken,
+      email: email,
+      name: await _read(_nameKey),
+      userId: await _read(_userIdKey),
+    );
+  }
+
   /// Clear all stored tokens and session data.
   Future<void> clear() async {
     await _deleteAll([
@@ -79,6 +118,8 @@ class TokenStore {
       _slugKey,
       _nameKey,
       _roleKey,
+      _sessionTypeKey,
+      _userIdKey,
     ]);
   }
 
@@ -130,3 +171,19 @@ class StoredBusinessSession {
   final String? name;
   final String? role;
 }
+
+/// Data from a previously stored consumer session.
+class StoredConsumerSession {
+  const StoredConsumerSession({
+    required this.usersToken,
+    required this.email,
+    this.name,
+    this.userId,
+  });
+
+  final String usersToken;
+  final String email;
+  final String? name;
+  final String? userId;
+}
+

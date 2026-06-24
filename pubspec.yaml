@@ -8,6 +8,8 @@ environment:
 workspace:
   - apps/admin
   - apps/business-portal
+  - apps/marketplace
+  - packages/ditto_auth
   - packages/ditto_design
   - packages/mercury_client
 

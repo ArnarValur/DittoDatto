@@ -10,9 +10,21 @@ import 'surreal_connection.dart';
 /// - Companies → `companies/registry`
 /// - Categories → `companies/discovery`
 class SurrealAdminRepository implements AdminRepository {
-  SurrealAdminRepository({required this.connection});
+  SurrealAdminRepository({
+    required this.connection,
+    this.blueprintSql,
+    this.bpPortalPassword,
+  });
 
   final SurrealConnection connection;
+
+  /// The SQL content of `company-blueprint.surql`.
+  /// When non-null, `createCompany` will auto-provision the tenant database.
+  final String? blueprintSql;
+
+  /// Password for the `bp_portal` database user.
+  /// Required when `blueprintSql` is set.
+  final String? bpPortalPassword;
 
   // ── Stats ──
 
@@ -247,6 +259,15 @@ class SurrealAdminRepository implements AdminRepository {
       },
     );
 
+    // Auto-provision the tenant database if blueprint is available.
+    if (blueprintSql != null && bpPortalPassword != null) {
+      await provisionCompanyDatabase(
+        slug: createdCompany.slug,
+        blueprintSql: blueprintSql!,
+        bpPortalPassword: bpPortalPassword!,
+      );
+    }
+
     return createdCompany;
   }
 
@@ -367,6 +388,8 @@ class SurrealAdminRepository implements AdminRepository {
       {'id': id},
     );
     final companies = _parseList<Company>(queryResult, Company.fromJson);
+    final compSlug = companies.isNotEmpty ? companies.first.slug : null;
+
     if (companies.isNotEmpty) {
       final comp = companies.first;
       
@@ -412,6 +435,101 @@ class SurrealAdminRepository implements AdminRepository {
 
     await connection.companies.use('companies', 'registry');
     await connection.companies.delete('company:$id');
+
+    // Auto-deprovision the tenant database.
+    if (compSlug != null) {
+      await deprovisionCompanyDatabase(compSlug);
+    }
+  }
+
+  // ── Company Provisioning ──
+
+  @override
+  Future<void> provisionCompanyDatabase({
+    required String slug,
+    required String blueprintSql,
+    required String bpPortalPassword,
+  }) async {
+    final dbName = 'company_$slug';
+
+    // Step 1: Create the database in the companies namespace.
+    // Use any DB in the companies NS — DEFINE DATABASE is an NS-level operation.
+    await connection.companies.use('companies', 'registry');
+    await connection.companies.query(
+      'DEFINE DATABASE IF NOT EXISTS `$dbName`;',
+    );
+
+    // Step 2: Switch to the new company database and apply the blueprint.
+    // The blueprint is 500+ lines with many DEFINE statements. The Dart
+    // WebSocket SDK chokes on multi-result responses, so we split it into
+    // individual statements and execute them one by one.
+    await connection.companies.use('companies', dbName);
+    final statements = _splitSqlStatements(blueprintSql);
+    for (final stmt in statements) {
+      try {
+        await connection.companies.query(stmt);
+      } catch (e) {
+        // DEFINE TABLE/FIELD without IF NOT EXISTS throws "already exists"
+        // on re-provisioning. This is expected and safe to ignore.
+        if (!e.toString().contains('already exists')) {
+          rethrow;
+        }
+      }
+    }
+
+    // Step 3: Create the bp_portal service user on the company database.
+    // Still scoped to company_{slug} from step 2.
+    await connection.companies.query(
+      "DEFINE USER IF NOT EXISTS bp_portal ON DATABASE PASSWORD '$bpPortalPassword' ROLES EDITOR;",
+    );
+
+    // Step 4: Mark the company as provisioned in the registry.
+    await connection.companies.use('companies', 'registry');
+    await connection.companies.query(
+      r'UPDATE company SET provisioned = true, updated_at = time::now() WHERE slug = $slug',
+      {'slug': slug},
+    );
+  }
+
+  @override
+  Future<bool> isCompanyProvisioned(String slug) async {
+    final dbName = 'company_$slug';
+    try {
+      // Try to switch to the company database and query a core table.
+      // If the database doesn't exist or the blueprint wasn't applied,
+      // the query will throw.
+      await connection.companies.use('companies', dbName);
+      final result = await connection.companies.query(
+        'SELECT count() AS total FROM establishment GROUP ALL;',
+      );
+      // If we get here without error, the database exists and the
+      // establishment table is present. That's sufficient proof.
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<void> deprovisionCompanyDatabase(String slug) async {
+    final dbName = 'company_$slug';
+    // Remove the database from the companies namespace.
+    // Use registry as the context — REMOVE DATABASE is NS-level.
+    await connection.companies.use('companies', 'registry');
+    await connection.companies.query(
+      'REMOVE DATABASE IF EXISTS `$dbName`;',
+    );
+
+    // Mark as not provisioned in the registry (if the record still exists).
+    try {
+      // Already scoped to companies/registry from above.
+      await connection.companies.query(
+        r'UPDATE company SET provisioned = false, updated_at = time::now() WHERE slug = $slug',
+        {'slug': slug},
+      );
+    } catch (_) {
+      // Registry record may already be deleted — that's fine.
+    }
   }
 
   // ── Categories ──
@@ -604,5 +722,40 @@ class SurrealAdminRepository implements AdminRepository {
       }
       return item;
     }).toList();
+  }
+
+  /// Splits a SurrealQL script into individual statements.
+  ///
+  /// The Dart SurrealDB WebSocket SDK cannot handle multi-result responses
+  /// from scripts with many DEFINE statements. This method splits the script
+  /// so each statement can be executed individually.
+  static List<String> _splitSqlStatements(String sql) {
+    final statements = <String>[];
+    final buffer = StringBuffer();
+
+    for (final line in sql.split('\n')) {
+      final trimmed = line.trim();
+      // Skip empty lines and SQL comments.
+      if (trimmed.isEmpty || trimmed.startsWith('--')) continue;
+
+      buffer.write(' $trimmed');
+
+      // If the line ends with a semicolon, flush the buffer as a statement.
+      if (trimmed.endsWith(';')) {
+        final stmt = buffer.toString().trim();
+        if (stmt.isNotEmpty && stmt != ';') {
+          statements.add(stmt);
+        }
+        buffer.clear();
+      }
+    }
+
+    // Flush any remaining content (statement without trailing semicolon).
+    final remaining = buffer.toString().trim();
+    if (remaining.isNotEmpty) {
+      statements.add(remaining);
+    }
+
+    return statements;
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:surrealdb/surrealdb.dart';
+
 import 'auth_backend.dart';
 import 'auth_result.dart';
 import 'exceptions.dart';
@@ -39,8 +41,14 @@ class DittoAuth {
   /// [businessSignin] or [tryRestoreBusiness]).
   TenantConnection? _activeTenant;
 
+  /// The active consumer DB connection (available after consumer auth).
+  SurrealDB? _consumerDb;
+
   /// The active tenant connection, if any.
   TenantConnection? get activeTenant => _activeTenant;
+
+  /// The active consumer DB connection, if any.
+  SurrealDB? get consumerDb => _consumerDb;
 
   // ── Business Portal Auth ──
 
@@ -165,36 +173,143 @@ class DittoAuth {
   Future<void> signOut() async {
     _activeTenant?.close();
     _activeTenant = null;
+    _consumerDb?.close();
+    _consumerDb = null;
     await _tokenStore.clear();
     await _backend.disconnect();
   }
 
-  // ── Consumer Auth (Phase 4 — designed, not implemented) ──
+  // ── Consumer Auth ──
 
   /// RECORD ACCESS `consumer_auth` signin on users/users.
   ///
-  /// Returns [ConsumerAuthResult] with user connection and profile.
-  /// Not implemented yet — throws [UnimplementedError].
+  /// Returns [ConsumerAuthResult] with user profile.
+  /// Throws [DittoAuthException] on failure.
   Future<ConsumerAuthResult> consumerSignin({
     required String email,
     required String password,
-  }) {
-    throw UnimplementedError(
-      'Consumer signin is not yet implemented — Phase 4',
+  }) async {
+    final userAuth = await _backend.authenticateUser(
+      email: email.trim().toLowerCase(),
+      password: password,
+      accessMethod: 'consumer_auth',
+    );
+
+    final profile = userAuth.profile;
+    final userId = _extractId(profile);
+    final name = profile['name'] as String?;
+
+    // Persist session for restore.
+    await _tokenStore.saveConsumerSession(
+      usersToken: userAuth.usersToken,
+      email: email.trim().toLowerCase(),
+      name: name,
+      userId: userId,
+    );
+
+    // Keep connection reference for profile queries.
+    _consumerDb = userAuth.usersDb;
+
+    return ConsumerAuthResult(
+      email: email.trim().toLowerCase(),
+      name: name,
+      userId: userId,
     );
   }
 
   /// RECORD ACCESS `consumer_auth` signup on users/users.
   ///
   /// Creates user record with role='customer', returns JWT immediately.
-  /// Not implemented yet — throws [UnimplementedError].
+  /// Throws [DittoAuthException] on failure.
   Future<ConsumerAuthResult> consumerSignup({
     required String name,
     required String email,
     required String password,
-  }) {
-    throw UnimplementedError(
-      'Consumer signup is not yet implemented — Phase 4',
-    );
+  }) async {
+    final wsEndpoint = switch (_backend) {
+      SurrealAuthBackend(wsUrl: final url?) => url,
+      SurrealAuthBackend() => SurrealAuthBackend.deriveWsUrl(),
+      _ => SurrealAuthBackend.deriveWsUrl(),
+    };
+
+    final usersDb = SurrealDB(wsEndpoint);
+    usersDb.connect();
+    await usersDb.wait();
+
+    try {
+      final usersToken = await usersDb.signup(
+        namespace: 'users',
+        database: 'users',
+        access: 'consumer_auth',
+        extra: {
+          'name': name.trim(),
+          'email': email.trim().toLowerCase(),
+          'pass': password,
+        },
+      );
+
+      // Query the newly created user's profile.
+      final profileResult = await usersDb.query(
+        r'SELECT id, name FROM $auth',
+      );
+
+      final profile = SurrealAuthBackend.extractFirstRow(profileResult);
+      final userId = profile != null ? _extractId(profile) : '';
+
+      // Persist session.
+      await _tokenStore.saveConsumerSession(
+        usersToken: usersToken,
+        email: email.trim().toLowerCase(),
+        name: name.trim(),
+        userId: userId,
+      );
+
+      _consumerDb = usersDb;
+
+      return ConsumerAuthResult(
+        email: email.trim().toLowerCase(),
+        name: name.trim(),
+        userId: userId,
+      );
+    } catch (e) {
+      usersDb.close();
+      if (e is DittoAuthException) rethrow;
+      throw InvalidCredentials(e.toString());
+    }
+  }
+
+  /// Attempt to restore a previous consumer session from stored tokens.
+  ///
+  /// Returns null if no stored session or tokens expired.
+  Future<ConsumerAuthResult?> tryRestoreConsumer() async {
+    final stored = await _tokenStore.loadConsumerSession();
+    if (stored == null) return null;
+
+    try {
+      final restored = await _backend.restoreSession(
+        usersToken: stored.usersToken,
+      ).timeout(const Duration(seconds: 5));
+
+      _consumerDb = restored.usersDb;
+
+      return ConsumerAuthResult(
+        email: stored.email,
+        name: stored.name,
+        userId: stored.userId ?? '',
+      );
+    } catch (e) {
+      await _tokenStore.clear();
+      return null;
+    }
+  }
+
+  /// Extract record ID from profile map.
+  static String _extractId(Map<String, dynamic> profile) {
+    final id = profile['id'];
+    if (id is String) return id;
+    if (id is Map && id.containsKey('tb') && id.containsKey('id')) {
+      return '${id['tb']}:${id['id']}';
+    }
+    return id?.toString() ?? '';
   }
 }

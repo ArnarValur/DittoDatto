@@ -82,6 +82,19 @@ class FakeAdminRepository implements AdminRepository {
 
   @override
   Future<void> deleteCategory(String id) async {}
+
+  @override
+  Future<void> provisionCompanyDatabase({
+    required String slug,
+    required String blueprintSql,
+    required String bpPortalPassword,
+  }) async {}
+
+  @override
+  Future<bool> isCompanyProvisioned(String slug) async => false;
+
+  @override
+  Future<void> deprovisionCompanyDatabase(String slug) async {}
 }
 
 void main() {
