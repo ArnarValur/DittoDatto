@@ -1,5 +1,16 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-24 09:31 — Two deployment-only bugs fixed, trust at zero
+
+- **Session:** BP login broken AGAIN. Found two bugs invisible to integration tests: (1) blueprint asset path `../../schemas/company-blueprint.surql` escaped web root in release builds — Caddy served index.html instead of SQL, (2) password mismatch — Admin provisions bp_portal with `bp-portal-default-pass` but BP was built with `test-portal-pass`. Fixed both. Copied blueprint to `apps/admin/assets/`, updated pubspec + providers. Aligned password to `test-portal-pass`. Deploy gate passed (50+21). Deployed both apps. Fixed rsync path (needs `/web/` subdir for Docker bind mounts). Restarted Caddy containers. Verified blueprint serves HTTP 200 with SurrealQL. Full auth chain verified via API. Cleaned orphaned registry entries. Provisioned House of the North via API. Reset Demo Business password to `admin123`. **User did NOT verify BP login — trust exhausted after a month of this pattern.**
+- **Tracks touched:** `bp_login_establishments_20260614`, `admin_panel_20260527`
+- **Status:** Both apps redeployed with fixes. BP login unverified by user. Systemic issue: tests test logic against local DB, never verify deployed product.
+- **Decisions:** None
+- **⚠️ CRITICAL for next session:** (1) DO NOT say "ready for E2E" until the DEPLOYED app has been verified via the post-deploy smoke script or by the user. (2) The blueprint file at `apps/admin/assets/company-blueprint.surql` is a COPY of `schemas/company-blueprint.surql` — keep in sync. (3) Deploy requires `rsync ... saturn:/srv/dittodatto/{app}/web/` (not `/srv/dittodatto/{app}/`). (4) After rsync, run `ssh saturn 'docker restart dittodatto-caddy dittodatto-portal-caddy'`. (5) A post-deploy smoke script was proposed but NOT built yet — build it FIRST next session.
+- **Next:** User-verify BP login. Write post-deploy smoke script. Test company creation through Admin Panel form (not CLI).
+
+---
+
 ## 2026-06-23 20:21 — Deploy gate + Saturn deployment
 
 - **Session:** Ran deploy gate (50 admin + 21 BP integration tests all green). Built both apps `--release`. Deployed Admin Panel + Business Portal to Saturn via rsync.

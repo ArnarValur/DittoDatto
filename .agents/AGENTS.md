@@ -13,3 +13,15 @@ Workflow — every time, no exceptions:
 5. `./scripts/test-db-down.sh`
 
 If no integration tests exist for the app being deployed, **say so explicitly** and flag it as a gap — do not silently deploy untested code.
+
+## No CLI CRUD: E2E Means E2E
+
+**NEVER insert, update, or delete application data via CLI, raw SQL, or API calls when verifying E2E flows.**
+
+All data that the application is supposed to create (users, companies, establishments, etc.) **must go through the actual deployed UI** — Admin Panel forms, Business Portal forms, etc.
+
+CLI/SQL is acceptable ONLY for:
+- **Infrastructure:** Schema application, NS-level admin users, DB wipes, migrations.
+- **Debugging:** Read-only queries to inspect state.
+
+If a form doesn't work, **fix the form**. If provisioning doesn't trigger, **fix provisioning**. CLI hacks hide the bugs that matter most.

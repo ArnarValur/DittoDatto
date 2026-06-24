@@ -12,7 +12,7 @@ Managing multiple frontend applications built in different languages or framewor
 **All platform client surfaces are built using Flutter and Dart.** 
 
 - **Admin Panel** (`apps/admin/`) — Flutter (Web/Android/Linux).
-- **Business Portal** (`apps/business-portal/` — planned) — Flutter.
+- **Business Portal** (`apps/business-portal/`) — Flutter.
 - **Public Marketplace** (`apps/marketplace/`) — Flutter (Android/iOS).
 - Shared workspace packages are used to eliminate code duplication:
   - `packages/mercury_client` — API client, auth bindings, and models.

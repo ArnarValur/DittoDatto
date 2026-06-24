@@ -18,7 +18,7 @@ companies (namespace)
 └── registry                ← Platform registry (companies, system alerts, audit logs)
 
 users (namespace)
-└── users                   ← GDPR-isolated consumer profiles (PII)
+└── users                   ← GDPR-isolated consumer accounts (PII)
 ```
 
 ## Consequences

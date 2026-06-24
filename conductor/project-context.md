@@ -55,7 +55,7 @@
 ### Core Infrastructure
 
 - **Platform Database:** SurrealDB 3.1 — unified document + graph + vector (HNSW) + BM25 full-text + geo + time-series. Storage engine: RocksDB.
-  - Namespaces: `companies/{slug}` (per-company), `companies/discovery` (public aggregator), `companies/registry` (system ops), `users/profiles` (GDPR-isolated PII). See ADR-0002.
+  - Namespaces: `companies/{slug}` (per-company), `companies/discovery` (public aggregator), `companies/registry` (system ops), `users/users` (GDPR-isolated PII). See ADR-0002.
 - **Booking Engine:** MercuryEngine — FastAPI · Python 3.11+ · Pydantic v2 · uv package manager.
   - Scope: Booking hold/booking lifecycle and Time Tetris availability calculator. Does not own admin routes or entity CRUD.
 - **Auth:** Direct-to-SurrealDB via native OIDC (Vipps integration). Admin Panel uses native credentials over WebSockets. MercuryEngine is a booking-only backend using Delegated Trust Service Account authentication (no token issuance). (ADR-0006)
@@ -182,7 +182,7 @@
 
 - **Region lock:** All Cloud Run deployments must use `europe-west1`. Never `us-central1`.
 - **GDPR / Norwegian commerce law:**
-  - Consumer PII isolated to `users/profiles` namespace.
+  - Consumer PII isolated to `users/users` namespace.
   - Fiscal immutability: booking snapshots (price, service title, user info) captured at creation and **never updated**. Legal requirement for Norwegian commerce.
   - Search Events from unauthenticated users must be anonymized — strict no-PII rule for `companies/discovery`.
 - **BankID:** Mandatory for self-service online transactions (booking through the app, online payments). NOT required for staff-created walk-in customer accounts.

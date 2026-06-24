@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mercury_client/mercury_client.dart';
 
 import '../../core/surreal_auth_service.dart';
+import '../../core/surreal_connection.dart';
 
 /// WebSocket URL injected at build time via `--dart-define=SURREAL_URL=...`.
 ///
@@ -49,7 +51,14 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   /// Log in with email and password.
   Future<void> login(String email, String password) async {
     state = const AsyncLoading();
-    state = AsyncData(await _authService.login(email, password));
+    try {
+      state = AsyncData(await _authService.login(email, password));
+    } on AuthenticationException catch (e) {
+      // Config error (e.g. missing BP_PORTAL_PASS) — surface to console.
+      // This is NOT a wrong-password situation; developers need to see it.
+      debugPrint('⚠️ BP Auth config error: $e');
+      state = const AsyncData(Unauthenticated());
+    }
   }
 
   /// Log out and clear stored credentials.
