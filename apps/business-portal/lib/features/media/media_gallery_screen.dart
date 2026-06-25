@@ -19,6 +19,7 @@ class MediaGalleryScreen extends ConsumerStatefulWidget {
 class _MediaGalleryScreenState extends ConsumerState<MediaGalleryScreen> {
   final _searchController = TextEditingController();
   String? _selectedTag;
+  MediaCategory? _selectedCategory;
 
   @override
   void dispose() {
@@ -26,9 +27,15 @@ class _MediaGalleryScreenState extends ConsumerState<MediaGalleryScreen> {
     super.dispose();
   }
 
-  /// Filtered media items based on search + tag.
+  /// Filtered media items based on search + tag + category.
   List<MediaItem> _filterItems(List<MediaItem> items) {
     var filtered = items;
+
+    // Filter by category
+    if (_selectedCategory != null) {
+      filtered =
+          filtered.where((m) => m.category == _selectedCategory).toList();
+    }
 
     // Filter by tag
     if (_selectedTag != null) {
@@ -58,6 +65,10 @@ class _MediaGalleryScreenState extends ConsumerState<MediaGalleryScreen> {
 
   /// Open file picker and upload selected files.
   Future<void> _pickAndUpload() async {
+    // Ask user to pick a category before uploading
+    final category = await _showCategoryPicker();
+    if (category == null) return; // user cancelled
+
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'jpeg', 'png', 'webp', 'svg'],
@@ -97,10 +108,62 @@ class _MediaGalleryScreenState extends ConsumerState<MediaGalleryScreen> {
             filename: f.filename,
             mimeType: f.mimeType,
             size: f.size,
+            category: category,
           );
     } else {
-      await ref.read(mediaProvider.notifier).uploadMultiple(files: files);
+      await ref.read(mediaProvider.notifier).uploadMultiple(
+            files: files,
+            category: category,
+          );
     }
+  }
+
+  /// Show a dialog for the user to pick a media category before uploading.
+  Future<MediaCategory?> _showCategoryPicker() async {
+    return showDialog<MediaCategory>(
+      context: context,
+      builder: (context) {
+        var selected = MediaCategory.general;
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              title: const Text('Velg kategori'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('Hvilken type bilde laster du opp?'),
+                  const SizedBox(height: DittoSpacing.base),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: MediaCategory.values.map((cat) {
+                      final isSelected = selected == cat;
+                      return ChoiceChip(
+                        label: Text(cat.label),
+                        selected: isSelected,
+                        onSelected: (_) {
+                          setDialogState(() => selected = cat);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Avbryt'),
+                ),
+                FilledButton(
+                  onPressed: () => Navigator.of(context).pop(selected),
+                  child: const Text('Velg filer'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   /// Confirm and delete a media item.
@@ -175,7 +238,7 @@ class _MediaGalleryScreenState extends ConsumerState<MediaGalleryScreen> {
               },
             ),
 
-          // Search + tag filters
+          // Search + category + tag filters
           asyncMedia.when(
             loading: () => const SizedBox.shrink(),
             error: (_, _) => const SizedBox.shrink(),
@@ -187,8 +250,13 @@ class _MediaGalleryScreenState extends ConsumerState<MediaGalleryScreen> {
                 searchController: _searchController,
                 tags: tags,
                 selectedTag: _selectedTag,
+                selectedCategory: _selectedCategory,
                 onTagSelected: (tag) => setState(() {
                   _selectedTag = _selectedTag == tag ? null : tag;
+                }),
+                onCategorySelected: (cat) => setState(() {
+                  _selectedCategory =
+                      _selectedCategory == cat ? null : cat;
                 }),
                 onSearchChanged: () => setState(() {}),
               );
@@ -320,14 +388,18 @@ class _FilterBar extends StatelessWidget {
     required this.searchController,
     required this.tags,
     required this.selectedTag,
+    required this.selectedCategory,
     required this.onTagSelected,
+    required this.onCategorySelected,
     required this.onSearchChanged,
   });
 
   final TextEditingController searchController;
   final List<String> tags;
   final String? selectedTag;
+  final MediaCategory? selectedCategory;
   final ValueChanged<String> onTagSelected;
+  final ValueChanged<MediaCategory> onCategorySelected;
   final VoidCallback onSearchChanged;
 
   @override
@@ -340,6 +412,7 @@ class _FilterBar extends StatelessWidget {
         DittoSpacing.sm,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Search bar
           TextField(
@@ -364,9 +437,30 @@ class _FilterBar extends StatelessWidget {
             ),
           ),
 
+          // Category filter chips
+          const SizedBox(height: DittoSpacing.sm),
+          SizedBox(
+            height: 36,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: MediaCategory.values.length,
+              separatorBuilder: (_, _) =>
+                  const SizedBox(width: DittoSpacing.xs),
+              itemBuilder: (context, index) {
+                final cat = MediaCategory.values[index];
+                final isSelected = selectedCategory == cat;
+                return FilterChip(
+                  label: Text(cat.label),
+                  selected: isSelected,
+                  onSelected: (_) => onCategorySelected(cat),
+                );
+              },
+            ),
+          ),
+
           // Tag chips
           if (tags.isNotEmpty) ...[
-            const SizedBox(height: DittoSpacing.sm),
+            const SizedBox(height: DittoSpacing.xs),
             SizedBox(
               height: 36,
               child: ListView.separated(
@@ -483,6 +577,32 @@ class _MediaGridTileState extends State<_MediaGridTile> {
               },
             ),
 
+            // Category badge (always visible)
+            if (widget.item.category != MediaCategory.general)
+              Positioned(
+                top: 8,
+                left: 8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primaryContainer
+                        .withValues(alpha: 0.92),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    widget.item.category.label,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onPrimaryContainer,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+
             // Hover overlay
             if (_hovering) ...[
               // Gradient overlay
@@ -548,10 +668,10 @@ class _MediaGridTileState extends State<_MediaGridTile> {
                 ),
               ),
 
-              // Tag chips at top-left
+              // Tag chips at top-left (shifted down if category badge present)
               if (widget.item.tags.isNotEmpty)
                 Positioned(
-                  top: 8,
+                  top: widget.item.category != MediaCategory.general ? 36 : 8,
                   left: 8,
                   child: Wrap(
                     spacing: 4,

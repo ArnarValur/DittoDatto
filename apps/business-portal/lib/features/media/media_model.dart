@@ -6,6 +6,38 @@
 /// Actual image bytes live in Firebase Storage (PoC) — the [url] field
 /// contains the download URL. The storage backend is swappable; only the
 /// provider layer knows about Firebase.
+library;
+
+/// Category for organizing media by purpose.
+///
+/// Values match the SurrealDB `category` ASSERT constraint exactly.
+enum MediaCategory {
+  general('general', 'Generelt'),
+  logo('logo', 'Logo'),
+  cover('cover', 'Omslag'),
+  gallery('gallery', 'Galleri'),
+  staff('staff', 'Ansatte'),
+  service('service', 'Tjenester'),
+  menu('menu', 'Meny');
+
+  const MediaCategory(this.value, this.label);
+
+  /// The value stored in SurrealDB (must match schema ASSERT).
+  final String value;
+
+  /// Norwegian display label for the UI.
+  final String label;
+
+  /// Parse from SurrealDB string value, defaulting to [general].
+  static MediaCategory fromValue(String? value) {
+    if (value == null) return MediaCategory.general;
+    return MediaCategory.values.firstWhere(
+      (c) => c.value == value,
+      orElse: () => MediaCategory.general,
+    );
+  }
+}
+
 class MediaItem {
   const MediaItem({
     required this.id,
@@ -15,6 +47,7 @@ class MediaItem {
     required this.filename,
     required this.mimeType,
     required this.size,
+    this.category = MediaCategory.general,
     this.establishmentId,
     this.tags = const [],
     this.name,
@@ -36,6 +69,9 @@ class MediaItem {
   /// File size in bytes.
   final int size;
 
+  /// Category for organizing media by purpose.
+  final MediaCategory category;
+
   /// Tags for categorization, e.g. `['logo', 'cover']`.
   final List<String> tags;
 
@@ -53,6 +89,7 @@ class MediaItem {
       filename: json['filename'] as String,
       mimeType: json['mime_type'] as String,
       size: json['size'] as int,
+      category: MediaCategory.fromValue(json['category'] as String?),
       tags: (json['tags'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -73,6 +110,7 @@ class MediaItem {
       'filename': filename,
       'mime_type': mimeType,
       'size': size,
+      'category': category.value,
       'tags': tags,
     };
     if (establishmentId != null) json['establishment'] = establishmentId;

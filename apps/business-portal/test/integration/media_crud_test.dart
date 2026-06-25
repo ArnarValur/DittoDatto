@@ -83,6 +83,7 @@ void main() {
               'size': 524288,
               'tags': ['gallery', 'store'],
               'name': 'Test Photo',
+              'category': 'logo',
             },
           },
         ),
@@ -99,6 +100,7 @@ void main() {
       expect(item.size, 524288);
       expect(item.tags, ['gallery', 'store']);
       expect(item.name, 'Test Photo');
+      expect(item.category, MediaCategory.logo);
       expect(item.id, startsWith('media:'));
     });
 
@@ -129,6 +131,10 @@ void main() {
 
       final items = rows.map(MediaItem.fromJson).toList();
       expect(items, hasLength(3));
+      // All should default to 'general' since we didn't specify category
+      for (final item in items) {
+        expect(item.category, MediaCategory.general);
+      }
     });
 
     test('DELETE media removes the record', () async {
@@ -173,6 +179,74 @@ void main() {
               'filename': 'bad.pdf',
               'mime_type': 'application/pdf', // Not allowed
               'size': 1024,
+            },
+          },
+        ),
+        throwsA(anything),
+      );
+    });
+
+    test('CREATE with explicit category persists correctly', () async {
+      for (final cat in MediaCategory.values) {
+        final rows = extractRows(
+          await db.query(
+            r'CREATE media CONTENT $data',
+            {
+              'data': {
+                'uploader_id': 'test@dittodatto.no',
+                'url': 'https://storage.example.com/${cat.value}.jpg',
+                'storage_path': 'companies/testco/media/${cat.value}.jpg',
+                'filename': '${cat.value}.jpg',
+                'mime_type': 'image/jpeg',
+                'size': 1024,
+                'category': cat.value,
+              },
+            },
+          ),
+        );
+
+        expect(rows, hasLength(1));
+        final item = MediaItem.fromJson(rows.first);
+        expect(item.category, cat,
+            reason: 'Category ${cat.value} should roundtrip');
+      }
+    });
+
+    test('CREATE without category defaults to general', () async {
+      final rows = extractRows(
+        await db.query(
+          r'CREATE media CONTENT $data',
+          {
+            'data': {
+              'uploader_id': 'test@dittodatto.no',
+              'url': 'https://storage.example.com/nocat.jpg',
+              'storage_path': 'companies/testco/media/nocat.jpg',
+              'filename': 'nocat.jpg',
+              'mime_type': 'image/jpeg',
+              'size': 1024,
+            },
+          },
+        ),
+      );
+
+      expect(rows, hasLength(1));
+      final item = MediaItem.fromJson(rows.first);
+      expect(item.category, MediaCategory.general);
+    });
+
+    test('rejects invalid category', () async {
+      expect(
+        () => db.query(
+          r'CREATE media CONTENT $data',
+          {
+            'data': {
+              'uploader_id': 'test@dittodatto.no',
+              'url': 'https://storage.example.com/badcat.jpg',
+              'storage_path': 'companies/testco/media/badcat.jpg',
+              'filename': 'badcat.jpg',
+              'mime_type': 'image/jpeg',
+              'size': 1024,
+              'category': 'invalid_category',
             },
           },
         ),
@@ -232,6 +306,33 @@ void main() {
         size: 5 * 1024 * 1024,
       );
       expect(large.formattedSize, '5.0 MB');
+    });
+
+    test('MediaCategory.fromValue handles all known values', () {
+      for (final cat in MediaCategory.values) {
+        expect(MediaCategory.fromValue(cat.value), cat);
+      }
+    });
+
+    test('MediaCategory.fromValue defaults to general for unknown', () {
+      expect(MediaCategory.fromValue(null), MediaCategory.general);
+      expect(MediaCategory.fromValue('unknown'), MediaCategory.general);
+      expect(MediaCategory.fromValue(''), MediaCategory.general);
+    });
+
+    test('MediaItem.toJson includes category', () {
+      const item = MediaItem(
+        id: 'media:x',
+        uploaderId: 'test@dittodatto.no',
+        url: 'https://example.com/logo.png',
+        storagePath: 'companies/testco/media/logo.png',
+        filename: 'logo.png',
+        mimeType: 'image/png',
+        size: 1024,
+        category: MediaCategory.logo,
+      );
+      final json = item.toJson();
+      expect(json['category'], 'logo');
     });
   });
 }

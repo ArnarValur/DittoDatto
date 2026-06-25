@@ -129,6 +129,8 @@ DEFINE TABLE media SCHEMAFULL;
 
 DEFINE FIELD establishment  ON media TYPE option<record<establishment>>;
 DEFINE FIELD uploader_id    ON media TYPE string;
+DEFINE FIELD category       ON media TYPE string              DEFAULT 'general'
+  ASSERT $value IN ['general', 'logo', 'cover', 'gallery', 'staff', 'service', 'menu'];
 
 -- Storage
 DEFINE FIELD url            ON media TYPE string;        -- Download URL from storage backend
@@ -148,6 +150,7 @@ DEFINE FIELD updated_at     ON media TYPE datetime       VALUE time::now();
 
 -- Indexes
 DEFINE INDEX idx_media_establishment ON media FIELDS establishment;
+DEFINE INDEX idx_media_category      ON media FIELDS category;
 
 -- -----------------------------------------------------------------------------
 -- 1.3 service (source: ServiceSchema)

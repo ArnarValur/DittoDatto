@@ -37,11 +37,11 @@ const shellRoutes = [
   PortalRoutes.dashboard,
   PortalRoutes.inbox,
   PortalRoutes.establishments,
+  PortalRoutes.media,
   PortalRoutes.appointments,
   PortalRoutes.tableReservations,
   PortalRoutes.staff,
   PortalRoutes.services,
-  PortalRoutes.media,
 ];
 
 /// Listenable that fires when authProvider changes.

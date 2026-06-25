@@ -171,6 +171,7 @@ class MediaNotifier extends AsyncNotifier<List<MediaItem>> {
     required String filename,
     required String mimeType,
     required int size,
+    MediaCategory category = MediaCategory.general,
     String? establishmentId,
     List<String> tags = const [],
   }) async {
@@ -214,6 +215,7 @@ class MediaNotifier extends AsyncNotifier<List<MediaItem>> {
         'filename': filename,
         'mime_type': mimeType,
         'size': size,
+        'category': category.value,
         'tags': tags,
       };
       if (establishmentId != null) {
@@ -246,6 +248,7 @@ class MediaNotifier extends AsyncNotifier<List<MediaItem>> {
     required List<
             ({Uint8List bytes, String filename, String mimeType, int size})>
         files,
+    MediaCategory category = MediaCategory.general,
     String? establishmentId,
     List<String> tags = const [],
   }) async {
@@ -269,6 +272,7 @@ class MediaNotifier extends AsyncNotifier<List<MediaItem>> {
         filename: file.filename,
         mimeType: file.mimeType,
         size: file.size,
+        category: category,
         establishmentId: establishmentId,
         tags: tags,
       );
