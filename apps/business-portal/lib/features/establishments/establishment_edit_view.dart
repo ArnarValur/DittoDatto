@@ -224,8 +224,10 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_rounded),
-              tooltip: 'Virksomheter',
-              onPressed: () => Navigator.of(context).pop(),
+              tooltip: _showPreview ? 'Tilbake til redigering' : 'Virksomheter',
+              onPressed: _showPreview
+                  ? () => setState(() => _showPreview = false)
+                  : () => Navigator.of(context).pop(),
             ),
             title: Row(
               children: [
