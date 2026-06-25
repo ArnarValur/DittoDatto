@@ -29,9 +29,10 @@
 
 ## Phase 2: Consumer Auth (partially complete)
 
-- [ ] Task: Define `consumer_auth` RECORD ACCESS on `users/users` schema
-    - [ ] Add `consumer_auth` definition to `schemas/users.surql`
-    - [ ] Verify argon2 hashing, role='customer', signup/signin
+- [x] Task: Define `consumer_auth` RECORD ACCESS on `users/users` schema ✅
+    - [x] Added `consumer_auth` definition to `schemas/users.surql`
+    - [x] Argon2 hashing, role='customer', signup/signin verified
+    - [x] 13 integration tests in `ditto_auth` (signup, signin, restore, signout, role isolation)
 - [x] Task: Implement `consumerSignin` / `consumerSignup` / `tryRestoreConsumer` in `ditto_auth`
     - [x] Implement consumer methods in `DittoAuth` (replaced UnimplementedError stubs)
     - [x] Implement `ConsumerAuthResult` with user profile data

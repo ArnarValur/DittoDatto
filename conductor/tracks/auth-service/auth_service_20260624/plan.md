@@ -67,8 +67,13 @@
     - [x] Dart-level `InsufficientRole` exception in `businessSignin()`
     - [x] Updated BP test to expect DB-level rejection for customer users
 
-- [ ] Task: Define `consumer_auth` RECORD ACCESS _(deferred — waiting on Marketplace)_
-- [ ] Task: Implement consumer auth flows _(deferred — waiting on Marketplace)_
+- [x] Task: Define `consumer_auth` RECORD ACCESS ✅
+    - [x] SIGNUP clause with role='customer', argon2 hashing, all SCHEMAFULL fields
+    - [x] SIGNIN clause with role gate (`AND role = 'customer'`)
+    - [x] DURATION FOR TOKEN 24h, FOR SESSION 24h (WITH REFRESH deferred)
+- [x] Task: Implement consumer auth flows ✅
+    - [x] `consumerSignin()`, `consumerSignup()`, `tryRestoreConsumer()` — all implemented
+    - [x] 13 integration tests green (signup, signin, restore, signout, role isolation)
 - [ ] Task: Update `bp_portal` provisioning for security _(deferred — production hardening)_
 
 ---
@@ -99,25 +104,13 @@
 
 > New functionality — wire consumer auth into the Public Marketplace app.
 
-- [ ] Task: Wire `consumer_auth` into Marketplace
-    - [ ] Add `ditto_auth` dependency to Marketplace `pubspec.yaml`
-    - [ ] Create auth provider using `ditto_auth`
-    - [ ] Wire router guards (authenticated vs unauthenticated routes)
+- [x] Task: Wire `consumer_auth` into Marketplace ✅ _(done in Marketplace Foundation track)_
+- [x] Task: Build signup page ✅ _(done in Marketplace Foundation track)_
+- [x] Task: Build login page ✅ _(done in Marketplace Foundation track)_
 
-- [ ] Task: Build signup page
-    - [ ] Write widget tests for signup form
-    - [ ] Implement signup screen (email + password + confirm)
-    - [ ] Wire to `DittoAuth.consumerSignup()`
-
-- [ ] Task: Build login page
-    - [ ] Write widget tests for login form
-    - [ ] Implement login screen (email + password)
-    - [ ] Wire to `DittoAuth.consumerSignin()`
-
-- [ ] Task: Integration tests for Marketplace auth
-    - [ ] Write integration tests: signup → login → session restore
-    - [ ] Verify consumer token scoping (can't access business data)
-    - [ ] Verify role isolation
+- [ ] Task: Integration tests for Marketplace app
+    - [ ] Write widget/integration tests for marketplace auth flows
+    - [x] Package-level integration tests: 13 tests in `ditto_auth` (signup, signin, restore, role isolation)
 
 - [ ] Task: Deploy & verify Marketplace
     - [ ] Deploy gate: run integration tests

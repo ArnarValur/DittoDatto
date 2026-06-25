@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-25 14:22 — Consumer Auth: schema defined + 13 integration tests + on-device deploy
+- **Session:** Defined `consumer_auth` RECORD ACCESS in `schemas/users.surql` (SIGNUP + SIGNIN + role gate + 24h tokens). Wrote 13 integration tests in `ditto_auth` — all 24 tests green (11 business + 13 consumer). Deployed marketplace to Samsung Galaxy S21 via ADB reverse proxy for E2E testing. Discovered cross-role login question: `consumer_auth` SIGNIN has `AND role = 'customer'` — business/admin/super_admin users can't log in via marketplace. Research agent dispatched.
+- **Tracks touched:** `auth_service_20260624`, `marketplace_foundation_20260624`
+- **Status:** Auth schema complete. App on-device. Cross-role auth design pending.
+- **Decisions:** Token duration 24h/24h (operational — logged in pulse)
+- **⚠️ OPEN:** Cross-role login — should business owners be able to use the marketplace as consumers? Agent investigating. May need ADR.
+- **Next:** (1) Resolve cross-role auth design. (2) E2E on-device test. (3) Deploy BP to Saturn. (4) Marketplace Saturn deploy.
+
 ## 2026-06-25 13:44 — Marketplace Foundation: scaffold + consumer auth + on-device deploy + UX fix
 - **Session:** Scaffolded `apps/marketplace/` Flutter project. Built 3-tab nav shell with GoRouter StatefulShellRoute. Login/signup/profile screens with Norwegian labels. Consumer auth in `ditto_auth`. Verified Android dev env — Samsung Galaxy S21 connected via ADB, release build deployed. Renamed app to "DittoDatto". Fixed bottom nav bar disappearing on auth screens (moved routes inside Profile branch: `/login` → `/profile/login`).
 - **Tracks touched:** `marketplace_foundation_20260624`

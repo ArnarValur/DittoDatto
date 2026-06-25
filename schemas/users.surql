@@ -136,10 +136,38 @@ DEFINE ACCESS IF NOT EXISTS bp_auth ON DATABASE TYPE RECORD
   DURATION FOR TOKEN 15m, FOR SESSION 8h;
 
 -- -----------------------------------------------------------------------------
--- 4. RECORD ACCESS — Consumer Authentication (future — Phase 4)
+-- 4. RECORD ACCESS — Consumer Authentication (ADR-0019)
 -- -----------------------------------------------------------------------------
--- consumer_auth will be defined here when the Marketplace silver thread lands.
--- See: conductor/tracks/auth-service/auth_service_20260624/design.md
+-- Authenticates marketplace consumers via email + argon2 password.
+-- SIGNUP clause creates new user records with role='customer'.
+-- Role gate ensures only customer-role users can authenticate.
+--
+-- Client signup params: { NS: 'users', DB: 'users', AC: 'consumer_auth',
+--                         name: '...', email: '...', pass: '...' }
+-- Client signin params: { NS: 'users', DB: 'users', AC: 'consumer_auth',
+--                         email: '...', pass: '...' }
+
+DEFINE ACCESS IF NOT EXISTS consumer_auth ON DATABASE TYPE RECORD
+  SIGNUP (
+    CREATE user SET
+      name = $name,
+      email = $email,
+      password_hash = crypto::argon2::generate($pass),
+      role = 'customer',
+      is_onboarded = false,
+      language = 'en',
+      company_memberships = [],
+      company_membership_ids = [],
+      bankid_verified = false
+  )
+  SIGNIN (
+    SELECT *
+    FROM user
+    WHERE email = $email
+      AND crypto::argon2::compare(password_hash, $pass)
+      AND role = 'customer'
+  )
+  DURATION FOR TOKEN 24h, FOR SESSION 24h;
 
 -- =============================================================================
 -- END OF USERS SCHEMA
