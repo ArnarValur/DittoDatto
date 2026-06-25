@@ -1,9 +1,9 @@
 {
   "track_id": "marketplace_foundation_20260624",
   "type": "feature",
-  "status": "new",
+  "status": "in-progress",
   "domain": "marketplace",
   "created_at": "2026-06-24T19:34:00+02:00",
-  "updated_at": "2026-06-24T19:34:00+02:00",
+  "updated_at": "2026-06-25T13:26:00+02:00",
   "description": "Scaffold the Public Marketplace Flutter app with consumer auth (signup/login/profile) via ditto_auth"
 }

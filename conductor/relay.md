@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-25 13:26 — Marketplace Foundation: scaffold + consumer auth + on-device deploy
+- **Session:** Scaffolded `apps/marketplace/` Flutter project. Built 3-tab nav shell (Utforsk/Bestillinger/Profil) with GoRouter StatefulShellRoute. Login/signup screens with Norwegian labels and form validation. Profile screen with "Hei, {name}" + "I dag er {date}" + sign out + dark mode toggle. Implemented consumer auth in `ditto_auth`: `consumerSignin`, `consumerSignup`, `tryRestoreConsumer`, `TokenStore` consumer session persistence. Verified Android dev environment — Samsung Galaxy S21 (SM-G998B, Android 15) connected via ADB. Released to device successfully (Impeller/Vulkan). Renamed app label from "marketplace" to "DittoDatto" across Android/iOS/web.
+- **Tracks touched:** `marketplace_foundation_20260624`, `auth_service_20260624` (consumer methods in `ditto_auth`)
+- **Status:** Phase 1 ✅, Phase 2 partial (consumer auth code done, `consumer_auth` schema needed), Phase 3 ✅. Phase 4 remaining.
+- **Decisions:** None (ADR-0020 already recorded in prior grill)
+- **Next:** (1) Define `consumer_auth` RECORD ACCESS on `users/users`. (2) Test signup/login on-device with live SurrealDB. (3) Deploy BP to Saturn. (4) Marketplace Saturn deploy at :8004. (5) Swap in logo when ready.
+
 ## 2026-06-24 19:27 — ditto_auth: Phase 1 design + Phase 2 build + Phase 3 BP migration
 
 - **Session:** Built `ditto_auth` shared auth package (Phases 1-3 of auth service track). Phase 1: designed package API (`design.md`) — `AuthBackend` interface, `TenantConnection`, `BusinessAuthResult`, sealed exception hierarchy. Phase 2: hardened `bp_auth` schema (role gate + 15m/8h durations), scaffolded package (12 files), implemented business signin, token store, session restore. `WITH REFRESH` removed — Dart surrealdb SDK can't handle the response format change. Phase 3: migrated BP to `ditto_auth` — rewired `auth_provider.dart`, `establishment_providers.dart`, `portal_shell.dart`. All tests green (11 ditto_auth + 21 BP). Track paused until Marketplace foundation lands for consumer auth.
