@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "producer": {
     "name": "saropa_lints",
-    "version": "14.1.0"
+    "version": "14.2.0"
   },
-  "generatedAt": "2026-06-24T17:48:05.764Z",
+  "generatedAt": "2026-06-25T11:03:23.541Z",
   "diagnostics": [
     {
       "id": "lints:todo:apps/admin/bin/sync_users.dart:10",
@@ -28,7 +28,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "83ada63f0ce0ff7b6b62b828969fdc0bcca9028d"
+      "commitSha": "8811e6d15f4ebdec5746e27091341f14a8c0b2a6"
     },
     {
       "id": "lints:unnecessary_import:apps/admin/test/companies_form_test.dart:1",
@@ -52,7 +52,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "83ada63f0ce0ff7b6b62b828969fdc0bcca9028d"
+      "commitSha": "8811e6d15f4ebdec5746e27091341f14a8c0b2a6"
     },
     {
       "id": "lints:todo:apps/admin/lib/core/providers.dart:18",
@@ -76,7 +76,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "83ada63f0ce0ff7b6b62b828969fdc0bcca9028d"
+      "commitSha": "8811e6d15f4ebdec5746e27091341f14a8c0b2a6"
     },
     {
       "id": "lints:unused_local_variable:apps/admin/lib/core/surreal_admin_repository.dart:502",
@@ -100,7 +100,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "83ada63f0ce0ff7b6b62b828969fdc0bcca9028d"
+      "commitSha": "8811e6d15f4ebdec5746e27091341f14a8c0b2a6"
     }
   ]
 }
