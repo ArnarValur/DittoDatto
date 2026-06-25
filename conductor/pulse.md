@@ -1,17 +1,18 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 14:00
-**Session Focus:** Consumer Auth wiring — `consumer_auth` RECORD ACCESS + integration tests
+**Last Updated:** 2026-06-25 14:42
+**Session Focus:** Consumer Auth E2E — schema, cross-role fix, on-device deploy, Tailscale connectivity identified
 
 ## 🚀 Active Tracks
 
-- **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phase 1 ✅, Phase 2 ✅ (consumer_auth schema + Dart methods + 13 integration tests), Phase 3 ✅. Remaining: marketplace-level widget tests, Saturn deploy.
-- **Auth Service** (`auth_service_20260624`) — **Paused.** Phases 1-3 ✅, Phase 2 consumer tasks ✅ (schema + tests). Phase 4 consumer wiring ✅ (done in Marketplace track). Remaining: `bp_portal` hardening, Saturn BP deploy.
+- **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phase 1 ✅, Phase 2 ✅ (consumer_auth + cross-role RBAC + 24 tests), Phase 3 ✅. Remaining: Saturn SDB connectivity via Tailscale, on-device E2E against Saturn, Saturn deploy.
+- **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 2 consumer tasks ✅. Phase 4 consumer wiring ✅. Cross-role RBAC fix applied. Remaining: apply schema to Saturn, `bp_portal` hardening.
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. BP migrated to `ditto_auth`. Awaiting clean E2E on Saturn.
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. 50/50 integration tests green. Deployed on Saturn.
 
 ## ✅ Recently Completed
 
+- **2026-06-25 14:42** — Cross-role RBAC fix: removed `AND role = 'customer'` from `consumer_auth` SIGNIN. All roles can now use the marketplace. 24/24 tests green. Deployed to S21 — user attempted login (InvalidCredentials because test DB credentials ≠ their real account). Identified friction: phone needs Tailscale connectivity to Saturn SDB for real E2E.
 - **2026-06-25 14:00** — Consumer Auth wired: `DEFINE ACCESS consumer_auth` added to `schemas/users.surql` (SIGNUP + SIGNIN + role gate + 24h tokens). 13 new integration tests in `ditto_auth` (signup, signin, session restore, signout, role isolation). All 24 `ditto_auth` integration tests green (11 business + 13 consumer).
 - **2026-06-25 13:44** — Marketplace Foundation: scaffolded Flutter project, built 3-tab nav shell, login/signup/profile screens, consumer auth in `ditto_auth`. On-device deploy to Samsung Galaxy S21. App renamed to "DittoDatto". Fixed bottom nav bar disappearing on login/signup.
 - **2026-06-24 19:27** — Auth Service track: Phases 1-3 complete. `ditto_auth` package built, BP migrated.
@@ -23,11 +24,18 @@
 
 ## ⚠️ Blockers
 
-- 🟡 **Clean E2E blocked.** BP hasn't been deployed to Saturn with `ditto_auth` yet.
+- 🔴 **Saturn SDB not reachable from phone.** Tailscale service `dittodatto` exposes tcp:8001-8005 (web apps) but NOT SurrealDB's port (8000). Phone needs Tailscale or a new service endpoint for SDB.
+- 🔴 **Saturn schema outdated.** `consumer_auth` on Saturn still has the old `AND role = 'customer'` gate. Need to apply updated definition.
 - 🟡 **No post-deploy verification.** Deploy gate tests logic against local DB, not the deployed product.
-- 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty — package-level tests cover auth logic, but widget/integration tests needed before Saturn deploy.
+- 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty — package-level tests cover auth logic.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-25 14:42 — Cross-role RBAC + Tailscale connectivity
+- **Hierarchical RBAC applied**: Removed role gate from `consumer_auth` SIGNIN. All roles (`customer`, `business`, `admin`, `super_admin`) can now sign into the marketplace. User clarified: roles are hierarchical — higher includes lower. This was always the intent, not a design reversal.
+- **On-device deploy confirmed working**: S21 connected via ADB reverse, app talks to local SDB. User attempted login with their Saturn credentials → failed correctly (local DB doesn't have those users). Proves the WebSocket path works.
+- **Tailscale connectivity identified as next friction**: Saturn is on Tailscale as `dittodatto` service (`100.121.237.101`, `saturn.tailb251cd.ts.net`). Current service exposes tcp:8001-8005 (web apps). SurrealDB port (8000) NOT exposed. Options: (1) add port 8000 to the Tailscale service, (2) create a separate Tailscale service for Saturn's DB layer, (3) phone joins Tailscale network.
+- **User wants to stay on Tailscale network for dev/staging** — no cloud hosting for BP/PM until future decision. Tailscale is the connectivity layer.
 
 ### Session 2026-06-25 14:00 — Consumer Auth schema + integration tests
 - **`consumer_auth` RECORD ACCESS defined** in `schemas/users.surql`. SIGNUP creates `user` with `role='customer'`, argon2 hashed password, all SCHEMAFULL fields. SIGNIN role-gated (`AND role = 'customer'`). Durations: 24h token / 24h session (`WITH REFRESH` deferred — Dart SDK compat).
@@ -57,8 +65,9 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🟡 **On-device test:** Deploy marketplace to Samsung Galaxy S21 with local SurrealDB — test signup → profile → signout → login end-to-end.
-2. 🔴 **Deploy BP to Saturn** with `ditto_auth`. Build + deploy + manual E2E.
-3. 🟡 **Marketplace widget/integration tests** — `apps/marketplace/test/` is empty. Needed before Saturn deploy.
-4. 🟡 **Saturn deploy** for Marketplace at `:8004` (Caddy config + rsync).
-5. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🔴 **Tailscale connectivity for phone → Saturn SDB.** Either add port 8000 to `dittodatto` service, create new DB service, or install Tailscale on phone. Then point marketplace app at `ws://dittodatto:8000/rpc`.
+2. 🔴 **Apply updated `consumer_auth` schema to Saturn.** SSH into Saturn, run `DEFINE ACCESS consumer_auth` with role-gate-removed SIGNIN.
+3. 🟡 **Real E2E on phone.** Once connectivity + schema are sorted: login with `arnarvalur@avj.info` / `admin123`, test signup, test session restore.
+4. 🟡 **Deploy BP to Saturn** with `ditto_auth`.
+5. 🟡 **Saturn deploy** for Marketplace at `:8004`.
+6. 🟢 **Logo:** User is working on a logo — swap when ready.

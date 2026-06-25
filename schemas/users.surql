@@ -161,11 +161,13 @@ DEFINE ACCESS IF NOT EXISTS consumer_auth ON DATABASE TYPE RECORD
       bankid_verified = false
   )
   SIGNIN (
+    -- No role gate — hierarchical RBAC: all roles can use the marketplace.
+    -- super_admin > admin > business > customer — higher includes lower.
+    -- SIGNUP still enforces role='customer' for new account creation.
     SELECT *
     FROM user
     WHERE email = $email
       AND crypto::argon2::compare(password_hash, $pass)
-      AND role = 'customer'
   )
   DURATION FOR TOKEN 24h, FOR SESSION 24h;
 

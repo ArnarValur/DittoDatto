@@ -1,12 +1,12 @@
 # Relay — Cross-Session Handoff
 
-## 2026-06-25 14:22 — Consumer Auth: schema defined + 13 integration tests + on-device deploy
-- **Session:** Defined `consumer_auth` RECORD ACCESS in `schemas/users.surql` (SIGNUP + SIGNIN + role gate + 24h tokens). Wrote 13 integration tests in `ditto_auth` — all 24 tests green (11 business + 13 consumer). Deployed marketplace to Samsung Galaxy S21 via ADB reverse proxy for E2E testing. Discovered cross-role login question: `consumer_auth` SIGNIN has `AND role = 'customer'` — business/admin/super_admin users can't log in via marketplace. Research agent dispatched.
+## 2026-06-25 14:42 — Consumer Auth E2E: schema + cross-role RBAC + on-device + Tailscale connectivity
+- **Session:** Defined `consumer_auth` RECORD ACCESS. Wrote 13 integration tests (24 total green). Debugged signup failure (test DB pollution). Discovered cross-role blocker (`AND role = 'customer'`) — user clarified hierarchical RBAC was always intent. Removed role gate from SIGNIN. Deployed to S21 via ADB reverse — user attempted login (failed correctly: test DB ≠ Saturn credentials). Identified Tailscale as connectivity layer for phone → Saturn SDB.
 - **Tracks touched:** `auth_service_20260624`, `marketplace_foundation_20260624`
-- **Status:** Auth schema complete. App on-device. Cross-role auth design pending.
-- **Decisions:** Token duration 24h/24h (operational — logged in pulse)
-- **⚠️ OPEN:** Cross-role login — should business owners be able to use the marketplace as consumers? Agent investigating. May need ADR.
-- **Next:** (1) Resolve cross-role auth design. (2) E2E on-device test. (3) Deploy BP to Saturn. (4) Marketplace Saturn deploy.
+- **Status:** Auth schema complete + cross-role fix. On-device WebSocket path verified. Blocked on Saturn connectivity.
+- **Decisions:** None
+- **⚠️ CRITICAL for next session:** (1) Saturn's `consumer_auth` schema is OUTDATED — still has `AND role = 'customer'` gate. Must apply updated definition before any Saturn E2E. (2) Tailscale service `dittodatto` exposes tcp:8001-8005 but NOT SurrealDB port 8000. Need to add it or create a DB service. (3) `arnarvalur@avj.info` on Saturn may be NS-level OWNER user only — verify it has a `user` table record with `password_hash` before testing consumer_auth login. (4) Hierarchical RBAC: `super_admin > admin > business > customer` — higher roles include lower capabilities. (5) `username` UNIQUE index on `option<string>` can cause NULL collisions — review in security sweep.
+- **Next:** (1) Tailscale: expose SDB port or create DB service. (2) Apply updated schema to Saturn. (3) Real E2E: phone → Saturn → signup/login. (4) Deploy BP + Marketplace to Saturn.
 
 ## 2026-06-25 13:44 — Marketplace Foundation: scaffold + consumer auth + on-device deploy + UX fix
 - **Session:** Scaffolded `apps/marketplace/` Flutter project. Built 3-tab nav shell with GoRouter StatefulShellRoute. Login/signup/profile screens with Norwegian labels. Consumer auth in `ditto_auth`. Verified Android dev env — Samsung Galaxy S21 connected via ADB, release build deployed. Renamed app to "DittoDatto". Fixed bottom nav bar disappearing on auth screens (moved routes inside Profile branch: `/login` → `/profile/login`).

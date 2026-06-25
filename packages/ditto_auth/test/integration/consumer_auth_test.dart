@@ -149,14 +149,14 @@ void main() {
       );
     });
 
-    test('business-role user → rejected by consumer_auth role gate', () async {
-      expect(
-        () => auth!.consumerSignin(
-          email: 'testbiz@dittodatto.no',
-          password: 'testbiz-pass',
-        ),
-        throwsA(isA<InvalidCredentials>()),
+    test('business-role user → accepted (hierarchical RBAC)', () async {
+      final result = await auth!.consumerSignin(
+        email: 'testbiz@dittodatto.no',
+        password: 'testbiz-pass',
       );
+
+      expect(result.email, 'testbiz@dittodatto.no');
+      expect(result.name, isNotNull);
     });
 
     test('email is case-insensitive and trimmed', () async {
@@ -224,9 +224,9 @@ void main() {
 
   // ── Role Isolation ──
 
-  group('Role isolation', () {
-    test('customer user → rejected by bp_auth', () async {
-      // Use a separate auth with service creds for business signin.
+  group('Role isolation — hierarchical RBAC', () {
+    test('customer user → rejected by bp_auth (no company access)', () async {
+      // Customer-role users can't access the business portal — no tenant.
       final bizAuth = DittoAuth(
         backend: SurrealAuthBackend(
           wsUrl: testUrl,
@@ -245,14 +245,15 @@ void main() {
       );
     });
 
-    test('business user → rejected by consumer_auth', () async {
-      expect(
-        () => auth!.consumerSignin(
-          email: 'testbiz@dittodatto.no',
-          password: 'testbiz-pass',
-        ),
-        throwsA(isA<InvalidCredentials>()),
+    test('business user → accepted by consumer_auth (higher role includes lower)',
+        () async {
+      // Business owners can use the marketplace as consumers.
+      final result = await auth!.consumerSignin(
+        email: 'testbiz@dittodatto.no',
+        password: 'testbiz-pass',
       );
+
+      expect(result.email, 'testbiz@dittodatto.no');
     });
   });
 }
