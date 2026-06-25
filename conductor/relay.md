@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-25 23:01 — BP Dark Mode: theme toggle on login + sidebar, deployed to Saturn
+- **Session:** Added dark mode to Business Portal. Reused Marketplace's `isDarkModeProvider` pattern. Toggle on login screen (top-right icon) + sidebar footer (sun/moon next to logout). `DittoDashboardShell` gained optional `onThemeToggle`/`isDarkMode` (additive, no breaking changes). Defaults to dark. Cherry-picked commit from `track/bp-media-manager` to `develop`. 40 integration tests green. Deployed to Saturn from `develop` branch.
+- **Tracks touched:** None (cross-cutting styling, no formal track)
+- **Status:** Deployed and user-verified on Saturn at `:8003`.
+- **Decisions:** None
+- **⚠️ CRITICAL for next session:** (1) Currently on `develop` branch. (2) `track/bp-media-manager` has same dark mode commit (`4f8af50`) + Firebase/media manager code — do NOT deploy that branch to Saturn without Firebase config. (3) BP builds require `--dart-define=BP_PORTAL_PASS=test-portal-pass`.
+- **Next:** (1) Grill EstablishmentPage. (2) Marketplace integration tests. (3) Media manager inline integration (on media-manager branch).
+
 ## 2026-06-25 20:36 — BP Establishment Page Preview: shared package + preview toggle + Saturn deploy
 - **Session:** Created `packages/establishment_ui/` shared package (EstablishmentData model, EstablishmentPage with CustomScrollView + slivers, 4 section widgets). Researched legacy Nuxt EstablishmentPage (9 Vue components) for reference. Added preview toggle (👁️/✏️) to BP AppBar. Context-aware back arrow. 27 + 71 + 32 = 130 tests green. Deployed to Saturn at `/srv/dittodatto/business-portal/web/`. User confirmed preview visible.
 - **Tracks touched:** `bp_establishment_preview_20260625`

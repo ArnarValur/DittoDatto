@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 20:36
-**Session Focus:** BP Establishment Page Preview — shared `establishment_ui` package + preview toggle deployed to Saturn
+**Last Updated:** 2026-06-25 23:01
+**Session Focus:** BP Dark Mode — theme toggle on login screen + sidebar footer, deployed to Saturn
 
 ## 🚀 Active Tracks
 
@@ -13,6 +13,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-25 23:01** — **BP Dark Mode:** Added `isDarkModeProvider` + `DittoTheme.dark` to Business Portal. Toggle on login screen (top-right) + sidebar footer (sun/moon icon). Reused Marketplace pattern. `DittoDashboardShell` gained optional `onThemeToggle`/`isDarkMode` params (shared package, additive only). Defaults to dark. Cherry-picked from `track/bp-media-manager` to `develop`. 40 integration tests green. Deployed to Saturn. First deploy crashed (Firebase init from media-manager branch) — fixed by building from `develop`.
 - **2026-06-25 20:36** — **BP Establishment Preview:** Created `packages/establishment_ui/` shared package (EstablishmentData model, EstablishmentPage with CustomScrollView + slivers, 4 section widgets). Preview toggle (👁️/✏️) in BP AppBar. Back arrow context-aware. 27 package tests + 71 BP widget tests + 32 integration tests green. Deployed to Saturn. Legacy Nuxt code researched for reference.
 - **2026-06-25 18:28** — **User-verified E2E on S21:** Login as `arnarvalur@avj.info` (super_admin) ✅, logout ✅, dark/light theme toggle ✅. Full consumer auth flow confirmed working against Saturn SDB over Tailscale mesh. Screenshots captured (light + dark mode profile screen).
 - **2026-06-25 15:54** — PM → Saturn E2E: Changed `TAILNET_IP` from `127.0.0.1` to `100.87.99.59` in Saturn `.env` — all services now reachable from Tailscale mesh. Applied updated `consumer_auth` schema to Saturn (role-gate removed). Rebound Admin Panel caddy + BP portal caddy to Tailscale IP. Fixed Android cleartext WebSocket restriction (`network_security_config.xml`). Fixed `initializeDateFormatting('nb_NO')` crash on profile. **User logged in on S21 as `arnarvalur@avj.info` (super_admin) via marketplace → Saturn SDB.** Hierarchical RBAC verified E2E. Network topology diagram stored in `conductor/docs/`.
@@ -36,6 +37,14 @@
 - ~~🟡 **Marketplace not deployed to Saturn web.**~~ Deprioritized — Marketplace is native-only (Android/iOS) for now. APK distribution live on `:8005`.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-25 23:01 — BP Dark Mode Toggle
+- Reused Marketplace's `isDarkModeProvider` pattern (Notifier + NotifierProvider). BP defaults to dark (`build() => true`).
+- `DittoDashboardShell` in shared `ditto_design` package: added optional `onThemeToggle` + `isDarkMode` params. Purely additive — Admin Panel unaffected.
+- Login screen: sun/moon icon in top-right via Stack + Positioned.
+- Sidebar footer: sun/moon icon between username and logout button. Norwegian tooltips ("Lyst tema" / "Mørkt tema").
+- First deploy failed — was on `track/bp-media-manager` branch (Firebase `initializeApp` crashes without Firebase config on Saturn). Fixed by cherry-picking dark mode commit to `develop` and building from there.
+- **⚠️ Branch note**: Dark mode commit exists on both `track/bp-media-manager` (`4f8af50`) and `develop` (`0311fd7`).
 
 ### Session 2026-06-25 20:36 — BP Establishment Page Preview
 - **Track created**: `bp_establishment_preview_20260625` — researched legacy Nuxt `EstablishmentPage` (9 Vue components found in `DittoDatto-old/packages/ui/components/establishment/`). User shared screenshots of the old preview page as reference.
