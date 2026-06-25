@@ -1,9 +1,9 @@
 {
   "track_id": "bp_establishment_preview_20260625",
   "type": "feature",
-  "status": "new",
+  "status": "in-progress",
   "domain": "business-portal",
   "created_at": "2026-06-25T19:22:00+02:00",
-  "updated_at": "2026-06-25T19:22:00+02:00",
+  "updated_at": "2026-06-25T20:36:00+02:00",
   "description": "Establishment Page Preview — shared EstablishmentPage widget in packages/establishment_ui/, consumed by BP (preview button) and Marketplace (customer-facing page). Single scrollable layout, no tabs."
 }

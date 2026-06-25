@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-25 20:36 — BP Establishment Page Preview: shared package + preview toggle + Saturn deploy
+- **Session:** Created `packages/establishment_ui/` shared package (EstablishmentData model, EstablishmentPage with CustomScrollView + slivers, 4 section widgets). Researched legacy Nuxt EstablishmentPage (9 Vue components) for reference. Added preview toggle (👁️/✏️) to BP AppBar. Context-aware back arrow. 27 + 71 + 32 = 130 tests green. Deployed to Saturn at `/srv/dittodatto/business-portal/web/`. User confirmed preview visible.
+- **Tracks touched:** `bp_establishment_preview_20260625`
+- **Status:** Phases 1-3 ✅. Phase 4 partial (visual verification done, integration test for preview toggle pending). User wants to `/grill` the page next session.
+- **Decisions:** None
+- **⚠️ CRITICAL for next session:** (1) BP builds require `--dart-define=BP_PORTAL_PASS=test-portal-pass`. (2) Saturn deploy target: `saturn:/srv/dittodatto/business-portal/web/`. (3) Working on `develop` branch — merge to `main` when satisfied with preview feature.
+- **Next:** (1) `/grill` the EstablishmentPage — expand sections, refine layout. (2) Marketplace integration tests. (3) BP feature buildout.
+
 ## 2026-06-25 16:12 — PM → Saturn E2E: login verified, APK distribution live, merged to main
 - **Session:** Full PM→Saturn E2E session. Fixed Tailscale connectivity (`TAILNET_IP` → `0.0.0.0`). Applied `consumer_auth` schema to Saturn. Fixed Android cleartext + locale init. **User logged in on S21 as super_admin.** Set up APK distribution on `:8005` for Höddi. Merged branch to main, pushed, pruned.
 - **Tracks touched:** `marketplace_foundation_20260624`, `auth_service_20260624`
