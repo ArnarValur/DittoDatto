@@ -45,6 +45,8 @@ class DittoDashboardShell extends StatelessWidget {
     this.workspaceName,
     this.userName,
     this.onLogout,
+    this.onThemeToggle,
+    this.isDarkMode = true,
     this.sidebarWidth = 240,
   });
 
@@ -75,6 +77,12 @@ class DittoDashboardShell extends StatelessWidget {
   /// Callback when the logout button is pressed.
   final VoidCallback? onLogout;
 
+  /// Callback when the theme toggle is pressed.
+  final VoidCallback? onThemeToggle;
+
+  /// Whether the app is currently in dark mode.
+  final bool isDarkMode;
+
   /// Width of the permanent sidebar on wide screens.
   final double sidebarWidth;
 
@@ -95,6 +103,8 @@ class DittoDashboardShell extends StatelessWidget {
             workspaceName: workspaceName,
             userName: userName,
             onLogout: onLogout,
+            onThemeToggle: onThemeToggle,
+            isDarkMode: isDarkMode,
             sidebarWidth: sidebarWidth,
           );
         }
@@ -109,6 +119,8 @@ class DittoDashboardShell extends StatelessWidget {
           workspaceName: workspaceName,
           userName: userName,
           onLogout: onLogout,
+          onThemeToggle: onThemeToggle,
+          isDarkMode: isDarkMode,
         );
       },
     );
@@ -130,6 +142,8 @@ class _DesktopLayout extends StatelessWidget {
     this.workspaceName,
     this.userName,
     this.onLogout,
+    this.onThemeToggle,
+    this.isDarkMode = true,
     required this.sidebarWidth,
   });
 
@@ -142,6 +156,8 @@ class _DesktopLayout extends StatelessWidget {
   final String? workspaceName;
   final String? userName;
   final VoidCallback? onLogout;
+  final VoidCallback? onThemeToggle;
+  final bool isDarkMode;
   final double sidebarWidth;
 
   @override
@@ -160,6 +176,8 @@ class _DesktopLayout extends StatelessWidget {
               workspaceName: workspaceName,
               userName: userName,
               onLogout: onLogout,
+              onThemeToggle: onThemeToggle,
+              isDarkMode: isDarkMode,
             ),
           ),
           VerticalDivider(
@@ -189,6 +207,8 @@ class _MobileLayout extends StatelessWidget {
     this.workspaceName,
     this.userName,
     this.onLogout,
+    this.onThemeToggle,
+    this.isDarkMode = true,
   });
 
   final List<DittoNavItem> destinations;
@@ -200,6 +220,8 @@ class _MobileLayout extends StatelessWidget {
   final String? workspaceName;
   final String? userName;
   final VoidCallback? onLogout;
+  final VoidCallback? onThemeToggle;
+  final bool isDarkMode;
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +249,8 @@ class _MobileLayout extends StatelessWidget {
             workspaceName: workspaceName,
             userName: userName,
             onLogout: onLogout,
+            onThemeToggle: onThemeToggle,
+            isDarkMode: isDarkMode,
           ),
         ),
       ),
@@ -249,6 +273,8 @@ class _SidebarContent extends StatelessWidget {
     this.workspaceName,
     this.userName,
     this.onLogout,
+    this.onThemeToggle,
+    this.isDarkMode = true,
   });
 
   final List<DittoNavItem> destinations;
@@ -259,6 +285,8 @@ class _SidebarContent extends StatelessWidget {
   final String? workspaceName;
   final String? userName;
   final VoidCallback? onLogout;
+  final VoidCallback? onThemeToggle;
+  final bool isDarkMode;
 
   @override
   Widget build(BuildContext context) {
@@ -300,6 +328,23 @@ class _SidebarContent extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
+          if (onThemeToggle != null)
+            IconButton(
+              icon: Icon(
+                isDarkMode
+                    ? Icons.light_mode_rounded
+                    : Icons.dark_mode_rounded,
+                size: 18,
+                color: Colors.white38,
+              ),
+              tooltip: isDarkMode ? 'Lyst tema' : 'Mørkt tema',
+              onPressed: onThemeToggle,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(
+                minWidth: 32,
+                minHeight: 32,
+              ),
+            ),
           if (onLogout != null)
             IconButton(
               icon: const Icon(
@@ -307,7 +352,7 @@ class _SidebarContent extends StatelessWidget {
                 size: 18,
                 color: Colors.white38,
               ),
-              tooltip: 'Logout',
+              tooltip: 'Logg ut',
               onPressed: onLogout,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(

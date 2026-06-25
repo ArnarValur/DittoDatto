@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mercury_client/mercury_client.dart';
 
+import '../../core/theme_provider.dart';
 import '../auth/auth_provider.dart';
 import '../establishments/establishment_providers.dart';
 
@@ -36,6 +37,7 @@ class PortalShell extends ConsumerWidget {
     final connection = ref.watch(tenantConnectionProvider);
     final slug = connection?.slug;
     final establishments = ref.watch(establishmentsProvider).value;
+    final isDark = ref.watch(isDarkModeProvider);
 
     final companyName = (establishments != null && establishments.isNotEmpty)
         ? establishments.first.name
@@ -54,6 +56,10 @@ class PortalShell extends ConsumerWidget {
       onLogout: () {
         ref.read(authProvider.notifier).logout();
       },
+      onThemeToggle: () {
+        ref.read(isDarkModeProvider.notifier).toggle();
+      },
+      isDarkMode: isDark,
       body: child,
     );
   }

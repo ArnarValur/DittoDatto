@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/theme_provider.dart';
 import 'auth_provider.dart';
 
 /// Redesigned login screen — Stitch Enterprise Slate light mode.
@@ -50,11 +51,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final authAsync = ref.watch(authProvider);
     final isLoading = authAsync.isLoading;
+    final isDark = ref.watch(isDarkModeProvider);
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      body: Center(
+      body: Stack(
+        children: [
+          // Theme toggle — top right
+          Positioned(
+            top: MediaQuery.of(context).padding.top + DittoSpacing.sm,
+            right: DittoSpacing.base,
+            child: IconButton(
+              icon: Icon(
+                isDark
+                    ? Icons.light_mode_rounded
+                    : Icons.dark_mode_rounded,
+                color: colorScheme.onSurfaceVariant,
+              ),
+              tooltip: isDark ? 'Lyst tema' : 'Mørkt tema',
+              onPressed: () {
+                ref.read(isDarkModeProvider.notifier).toggle();
+              },
+            ),
+          ),
+          Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(DittoSpacing.xl),
           child: ConstrainedBox(
@@ -199,6 +220,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
         ),
+          ),
+        ],
       ),
     );
   }
