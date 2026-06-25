@@ -99,9 +99,9 @@
 
 ## Phase 5: Integration & Polish
 
-- [/] Task: End-to-end login → list → create → edit flow
-    - [/] Write integration test for the full merchant journey
-    - [ ] Fix any navigation or state issues discovered
+- [x] Task: End-to-end login → list → create → edit flow
+    - [x] Write integration test for the full merchant journey (11 CRUD tests)
+    - [x] Fix navigation/state: sidebar highlight (prefix matching), business type locked in edit view, NULL→NONE serialization, error handling
 
 - [/] Task: Responsive layout verification
     - [/] Test on mobile viewport (< 600px)

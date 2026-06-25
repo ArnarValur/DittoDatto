@@ -69,6 +69,8 @@ class EstablishmentsNotifier extends AsyncNotifier<List<Establishment>> {
 
     final json = establishment.toJson();
     final id = json.remove('id');
+    // SCHEMAFULL rejects null — strip absent optional fields.
+    json.removeWhere((_, v) => v == null);
     await db.companies.query(
       r'UPDATE type::record("establishment", $id) MERGE $data',
       {'id': id, 'data': json},

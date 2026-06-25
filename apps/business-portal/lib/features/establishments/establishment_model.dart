@@ -90,24 +90,30 @@ class Establishment {
   }
 
   /// Serialize to JSON for SurrealDB CREATE/UPDATE.
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'slug': slug,
-        'store_type': businessType.name,
-        'address': address,
-        'city': city,
-        'zip': zip,
-        'country': country,
-        'category': category,
-        'phone': phone,
-        'email': email,
-        'website': website,
-        'about': about,
-        'is_published': isPublished,
-        'is_active': isActive,
-        'resources_enabled': resourcesEnabled,
-      };
+  ///
+  /// Strips null values — SurrealDB SCHEMAFULL rejects JSON `null` for
+  /// `option<T>` fields. Omitting the key sends NONE, which is accepted.
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{
+      'id': id,
+      'name': name,
+      'slug': slug,
+      'store_type': businessType.name,
+      'address': address,
+      'city': city,
+      'zip': zip,
+      'country': country,
+      'is_published': isPublished,
+      'is_active': isActive,
+      'resources_enabled': resourcesEnabled,
+    };
+    if (category != null) json['category'] = category;
+    if (phone != null) json['phone'] = phone;
+    if (email != null) json['email'] = email;
+    if (website != null) json['website'] = website;
+    if (about != null) json['about'] = about;
+    return json;
+  }
 
   /// Create a copy with overrides.
   Establishment copyWith({

@@ -149,7 +149,6 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               aboutController: _aboutController,
               businessType: _businessType,
               category: _category,
-              onTypeChanged: (t) => setState(() => _businessType = t),
               onCategoryChanged: (c) => setState(() => _category = c),
             ),
           ),
@@ -255,7 +254,6 @@ class _GenereltSection extends StatelessWidget {
     required this.aboutController,
     required this.businessType,
     this.category,
-    required this.onTypeChanged,
     required this.onCategoryChanged,
   });
 
@@ -263,7 +261,6 @@ class _GenereltSection extends StatelessWidget {
   final TextEditingController aboutController;
   final BusinessType businessType;
   final String? category;
-  final ValueChanged<BusinessType> onTypeChanged;
   final ValueChanged<String?> onCategoryChanged;
 
   @override
@@ -274,24 +271,6 @@ class _GenereltSection extends StatelessWidget {
         TextFormField(
           controller: nameController,
           decoration: const InputDecoration(labelText: 'Navn'),
-        ),
-        const SizedBox(height: DittoSpacing.base),
-
-        Text(
-          'Virksomhetstype',
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
-        const SizedBox(height: DittoSpacing.sm),
-        SegmentedButton<BusinessType>(
-          segments: BusinessType.values
-              .map((t) => ButtonSegment(
-                    value: t,
-                    label: Text(t.label),
-                    icon: Icon(t.icon),
-                  ))
-              .toList(),
-          selected: {businessType},
-          onSelectionChanged: (s) => onTypeChanged(s.first),
         ),
         const SizedBox(height: DittoSpacing.base),
 

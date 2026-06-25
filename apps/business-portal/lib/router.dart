@@ -94,7 +94,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       ShellRoute(
         builder: (context, state, child) {
           final location = state.matchedLocation;
-          final index = shellRoutes.indexOf(location);
+          // Use prefix matching so child routes (e.g. /establishments/:id)
+          // correctly highlight their parent nav item.
+          var index = shellRoutes.indexOf(location);
+          if (index < 0) {
+            index = shellRoutes.indexWhere(
+              (route) => route != '/' && location.startsWith(route),
+            );
+          }
 
           return PortalShell(
             currentIndex: index >= 0 ? index : 0,

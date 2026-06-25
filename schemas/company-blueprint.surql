@@ -101,7 +101,7 @@ DEFINE FIELD reservation_config.total_capacity         ON establishment TYPE opt
 DEFINE FIELD reservation_config.auto_confirm           ON establishment TYPE bool    DEFAULT true;
 
 -- Status & Metrics
-DEFINE FIELD is_published      ON establishment TYPE bool;
+DEFINE FIELD is_published      ON establishment TYPE bool            DEFAULT false;
 DEFINE FIELD is_active         ON establishment TYPE bool            DEFAULT true;
 DEFINE FIELD aggregate_rating  ON establishment TYPE option<object>;
 DEFINE FIELD aggregate_rating.average ON establishment TYPE number;

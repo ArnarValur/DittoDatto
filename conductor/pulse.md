@@ -1,17 +1,18 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 14:42
-**Session Focus:** Consumer Auth E2E — schema, cross-role fix, on-device deploy, Tailscale connectivity identified
+**Last Updated:** 2026-06-25 14:44
+**Session Focus:** BP Establishment Bug Fix — NULL→NONE, error handling, integration tests, UX tweaks, deploy
 
 ## 🚀 Active Tracks
 
 - **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phase 1 ✅, Phase 2 ✅ (consumer_auth + cross-role RBAC + 24 tests), Phase 3 ✅. Remaining: Saturn SDB connectivity via Tailscale, on-device E2E against Saturn, Saturn deploy.
 - **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 2 consumer tasks ✅. Phase 4 consumer wiring ✅. Cross-role RBAC fix applied. Remaining: apply schema to Saturn, `bp_portal` hardening.
-- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. BP migrated to `ditto_auth`. Awaiting clean E2E on Saturn.
+- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E task ✅: NULL→NONE fix, error handling, 11 CRUD integration tests (32 total), sidebar highlight fix, business type locked in edit view. Deployed to Saturn. Remaining: responsive layout verification, coverage gate.
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. 50/50 integration tests green. Deployed on Saturn.
 
 ## ✅ Recently Completed
 
+- **2026-06-25 14:44** — BP Establishment fix: NULL→NONE serialization (toJson strips null optional fields), try-catch error handling with Norwegian snackbar, `is_published DEFAULT false` schema fix, update path null stripping. 11 new CRUD integration tests. Sidebar highlight fixed (prefix matching for child routes). Business type removed from edit view (locked at creation). 71 widget + 32 integration = 103 tests green. Deployed to Saturn.
 - **2026-06-25 14:42** — Cross-role RBAC fix: removed `AND role = 'customer'` from `consumer_auth` SIGNIN. All roles can now use the marketplace. 24/24 tests green. Deployed to S21 — user attempted login (InvalidCredentials because test DB credentials ≠ their real account). Identified friction: phone needs Tailscale connectivity to Saturn SDB for real E2E.
 - **2026-06-25 14:00** — Consumer Auth wired: `DEFINE ACCESS consumer_auth` added to `schemas/users.surql` (SIGNUP + SIGNIN + role gate + 24h tokens). 13 new integration tests in `ditto_auth` (signup, signin, session restore, signout, role isolation). All 24 `ditto_auth` integration tests green (11 business + 13 consumer).
 - **2026-06-25 13:44** — Marketplace Foundation: scaffolded Flutter project, built 3-tab nav shell, login/signup/profile screens, consumer auth in `ditto_auth`. On-device deploy to Samsung Galaxy S21. App renamed to "DittoDatto". Fixed bottom nav bar disappearing on login/signup.
@@ -30,6 +31,14 @@
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty — package-level tests cover auth logic.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-25 14:44 — BP Establishment Bug Fix + Integration Tests
+- **3 bugs fixed in establishment creation**: (1) `toJson()` sent null for optional fields — SCHEMAFULL rejects JSON null for `option<T>`. Fixed by only including non-null keys. (2) `_handleSave` and `create()` had no try-catch — errors went uncaught to console. Added error handling with Norwegian snackbar. (3) `is_published` lacked `DEFAULT false` in schema — required explicit value on create.
+- **Update path also fixed**: `updateEstablishment` MERGE had the same null serialization issue.
+- **11 CRUD integration tests written**: CREATE (5 — store/restaurant/venue/full fields/NULL→NONE regression), READ (2 — SELECT all/fromJson round-trip), UPDATE (1 — MERGE preserves untouched fields), DELETE (1), Schema validation (2 — invalid type ASSERT, slug UNIQUE). All against real SurrealDB.
+- **Schema applied to Saturn**: `DEFINE FIELD OVERWRITE is_published ON establishment TYPE bool DEFAULT false` on both `company_dittodatto-as` and `company_merkurial-studio`.
+- **UX tweaks**: (1) Business type selector removed from edit view — type is set at creation, cannot change (each type maps to a different booking system). (2) Sidebar highlight fixed — child routes (e.g. `/establishments/:id`) now correctly highlight parent nav item via prefix matching instead of exact match.
+- **User verified data persistence**: Queried Saturn SDB — DittoDatto AS establishment has all fields correctly saved including updated_at timestamp.
 
 ### Session 2026-06-25 14:42 — Cross-role RBAC + Tailscale connectivity
 - **Hierarchical RBAC applied**: Removed role gate from `consumer_auth` SIGNIN. All roles (`customer`, `business`, `admin`, `super_admin`) can now sign into the marketplace. User clarified: roles are hierarchical — higher includes lower. This was always the intent, not a design reversal.
@@ -67,7 +76,7 @@
 
 1. 🔴 **Tailscale connectivity for phone → Saturn SDB.** Either add port 8000 to `dittodatto` service, create new DB service, or install Tailscale on phone. Then point marketplace app at `ws://dittodatto:8000/rpc`.
 2. 🔴 **Apply updated `consumer_auth` schema to Saturn.** SSH into Saturn, run `DEFINE ACCESS consumer_auth` with role-gate-removed SIGNIN.
-3. 🟡 **Real E2E on phone.** Once connectivity + schema are sorted: login with `arnarvalur@avj.info` / `admin123`, test signup, test session restore.
-4. 🟡 **Deploy BP to Saturn** with `ditto_auth`.
+3. 🟡 **BP responsive layout verification** — Phase 5 remaining task. Test on mobile/tablet/desktop viewports.
+4. 🟡 **Real E2E on phone.** Once connectivity + schema are sorted: login with `arnarvalur@avj.info`, test signup, test session restore.
 5. 🟡 **Saturn deploy** for Marketplace at `:8004`.
 6. 🟢 **Logo:** User is working on a logo — swap when ready.

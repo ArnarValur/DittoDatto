@@ -57,10 +57,21 @@ class _CreateEstablishmentDialogState
       zip: _zipController.text.trim(),
     );
 
-    await ref.read(establishmentsProvider.notifier).create(establishment);
-
-    if (mounted) {
-      Navigator.of(context).pop(true); // true = created successfully
+    try {
+      await ref.read(establishmentsProvider.notifier).create(establishment);
+      if (mounted) {
+        Navigator.of(context).pop(true); // true = created successfully
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _saving = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Kunne ikke opprette virksomhet: $e'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
     }
   }
 

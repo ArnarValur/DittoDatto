@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-25 14:44 — BP Establishment: bug fix + integration tests + UX tweaks + deploy
+- **Session:** Fixed 3 bugs in establishment creation (NULL→NONE serialization, missing error handling, `is_published` no DEFAULT). Wrote 11 CRUD integration tests (32 total BP integration). Fixed update path. Applied schema fix to Saturn (both company DBs). UX: removed business type from edit view (locked at creation), fixed sidebar highlight for child routes. User verified data persistence via SDB query. 103 total tests green. Deployed to Saturn.
+- **Tracks touched:** `bp_login_establishments_20260614`
+- **Status:** Phase 5 E2E task ✅. Remaining: responsive layout verification, coverage gate.
+- **Decisions:** None
+- **Next:** (1) BP responsive layout. (2) Marketplace session in parallel. (3) Tailscale connectivity for phone. (4) Apply consumer_auth schema to Saturn.
+
 ## 2026-06-25 14:42 — Consumer Auth E2E: schema + cross-role RBAC + on-device + Tailscale connectivity
 - **Session:** Defined `consumer_auth` RECORD ACCESS. Wrote 13 integration tests (24 total green). Debugged signup failure (test DB pollution). Discovered cross-role blocker (`AND role = 'customer'`) — user clarified hierarchical RBAC was always intent. Removed role gate from SIGNIN. Deployed to S21 via ADB reverse — user attempted login (failed correctly: test DB ≠ Saturn credentials). Identified Tailscale as connectivity layer for phone → Saturn SDB.
 - **Tracks touched:** `auth_service_20260624`, `marketplace_foundation_20260624`
