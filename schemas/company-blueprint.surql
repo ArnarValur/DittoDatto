@@ -120,7 +120,37 @@ DEFINE INDEX idx_establishment_slug ON establishment FIELDS slug UNIQUE;
 DEFINE INDEX idx_establishment_active ON establishment FIELDS is_active, is_published;
 
 -- -----------------------------------------------------------------------------
--- 1.2 service (source: ServiceSchema)
+-- 1.2 media (company media library)
+-- -----------------------------------------------------------------------------
+-- Metadata for media assets. Actual bytes stored in Firebase Storage (PoC)
+-- or a future European-sovereign object store. URL points to the storage backend.
+
+DEFINE TABLE media SCHEMAFULL;
+
+DEFINE FIELD establishment  ON media TYPE option<record<establishment>>;
+DEFINE FIELD uploader_id    ON media TYPE string;
+
+-- Storage
+DEFINE FIELD url            ON media TYPE string;        -- Download URL from storage backend
+DEFINE FIELD storage_path   ON media TYPE string;        -- Full backend path (for deletion)
+DEFINE FIELD filename       ON media TYPE string;
+DEFINE FIELD mime_type      ON media TYPE string
+  ASSERT $value IN ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+DEFINE FIELD size           ON media TYPE int;
+
+-- Categorization
+DEFINE FIELD tags           ON media TYPE array<string>  DEFAULT [];
+DEFINE FIELD name           ON media TYPE option<string>;
+
+-- Timestamps
+DEFINE FIELD created_at     ON media TYPE datetime       VALUE $value OR time::now();
+DEFINE FIELD updated_at     ON media TYPE datetime       VALUE time::now();
+
+-- Indexes
+DEFINE INDEX idx_media_establishment ON media FIELDS establishment;
+
+-- -----------------------------------------------------------------------------
+-- 1.3 service (source: ServiceSchema)
 -- -----------------------------------------------------------------------------
 
 DEFINE TABLE service SCHEMAFULL;

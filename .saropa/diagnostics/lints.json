@@ -4,7 +4,7 @@
     "name": "saropa_lints",
     "version": "14.2.0"
   },
-  "generatedAt": "2026-06-25T17:31:04.387Z",
+  "generatedAt": "2026-06-25T19:21:15.287Z",
   "diagnostics": [
     {
       "id": "lints:todo:apps/admin/bin/sync_users.dart:10",
@@ -28,7 +28,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     },
     {
       "id": "lints:unnecessary_import:apps/admin/test/companies_form_test.dart:1",
@@ -52,7 +52,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     },
     {
       "id": "lints:todo:apps/admin/lib/core/providers.dart:18",
@@ -76,7 +76,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     },
     {
       "id": "lints:unused_local_variable:apps/admin/lib/core/surreal_admin_repository.dart:502",
@@ -100,7 +100,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:77",
@@ -124,7 +124,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:104",
@@ -148,7 +148,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:126",
@@ -172,7 +172,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:148",
@@ -196,7 +196,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:181",
@@ -220,7 +220,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b2c382b80caffd48ec19e4e961219d06d35c8527"
+      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
     }
   ]
 }

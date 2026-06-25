@@ -28,6 +28,7 @@ class PortalShell extends ConsumerWidget {
     DittoNavItem(icon: Icons.table_restaurant_rounded, label: 'Table Reservations'),
     DittoNavItem(icon: Icons.people_rounded, label: 'Staff'),
     DittoNavItem(icon: Icons.design_services_rounded, label: 'Services'),
+    DittoNavItem(icon: Icons.photo_library_rounded, label: 'Media'),
   ];
 
   @override
