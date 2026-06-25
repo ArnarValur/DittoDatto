@@ -1,11 +1,12 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 20:36
-**Session Focus:** BP Establishment Page Preview — shared `establishment_ui` package + preview toggle deployed to Saturn
+**Last Updated:** 2026-06-25 21:57
+**Session Focus:** BP Media Manager PoC — Firebase Storage + SurrealDB metadata + gallery page
 
 ## 🚀 Active Tracks
 
 - **BP Establishment Preview** (`bp_establishment_preview_20260625`) — **In-progress.** Phases 1-3 ✅, Phase 4 partial. Shared `packages/establishment_ui/` built (27 tests). Preview toggle deployed to Saturn. Remaining: grill + iterate on page sections, visual polish.
+- **BP Media Manager** (`track/bp-media-manager` branch) — **PoC complete.** Firebase Storage backend (swappable), SurrealDB `media` table, gallery page with upload/delete/search/tags. 40 integration tests green. Needs: Firebase Storage rules configured ✅, establishment inline integration (follow-up).
 - **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial: Saturn SDB connectivity ✅, on-device login ✅, **user-verified E2E** (login/logout/theme) ✅. Remaining: Saturn web deploy, integration tests.
 - **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 4 consumer wiring ✅. Schema applied to Saturn ✅. Remaining: `bp_portal` hardening.
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E task ✅. Deployed to Saturn. Remaining: responsive layout verification, coverage gate.
@@ -37,26 +38,29 @@
 
 ## 🧠 Session Memory
 
-### Session 2026-06-25 20:36 — BP Establishment Page Preview
-- **Track created**: `bp_establishment_preview_20260625` — researched legacy Nuxt `EstablishmentPage` (9 Vue components found in `DittoDatto-old/packages/ui/components/establishment/`). User shared screenshots of the old preview page as reference.
-- **`packages/establishment_ui/` created**: Shared package with `EstablishmentData` model (decoupled from SurrealDB), `EstablishmentType` enum (Norwegian labels), and `EstablishmentPage` widget (CustomScrollView + slivers). 4 section widgets: `EstablishmentGalleryPlaceholder`, `EstablishmentInfoBar`, `EstablishmentAboutGrid`, `EstablishmentContactSection`.
-- **Design decisions**: Single scrollable page (no horizontal tabs), gallery placeholder (media manager coming), `AboutSection` → `AboutGrid` rename, preview reads current form state (WYSIWYG).
-- **BP integration**: Preview toggle button (👁️/✏️) added to AppBar next to "Lagre". Swaps main content between edit form and `EstablishmentPage`. Back arrow context-aware (exits preview first, then navigates away).
-- **Tests**: 27 establishment_ui tests (model + widget), 71 BP widget tests, 32 BP integration tests — all green.
-- **Deploy**: Saturn path is `/srv/dittodatto/business-portal/web/` (Caddy container `dittodatto-portal-caddy` at `:8003`). First deploy missed dart-define — rebuilt with `--dart-define=BP_PORTAL_PASS=test-portal-pass`. User confirmed preview visible.
-- **⚠️ Deploy note**: BP builds require `--dart-define=BP_PORTAL_PASS=test-portal-pass`. The correct rsync target is `saturn:/srv/dittodatto/business-portal/web/`.
-- **User wants**: Next session to `/grill` the establishment page — expand sections, refine layout, iterate on the design.
+### Session 2026-06-25 21:57 — BP Media Manager PoC
+- **Research**: Mapped legacy Nuxt media manager (`useMediaUpload.ts`, `media/index.vue`, `shared-types/media.ts`). Legacy used Firebase Storage + Firestore for metadata. User decided to reuse Firebase Storage for PoC, swap later for European sovereignty.
+- **Schema**: Added `media` table to `company-blueprint.surql` (section 1.2) with SCHEMAFULL + MIME ASSERT + tags + timestamps.
+- **Model**: `MediaItem` class with fromJson/toJson, validation (JPEG/PNG/WebP/SVG, max 10MB), Norwegian error messages.
+- **Provider**: `media_providers.dart` — `FirebaseMediaStorage` is the **only** class that knows Firebase. Swappable backend. `MediaNotifier` (AsyncNotifier) handles CRUD + upload progress. Follows same SurrealDB query pattern as `establishment_providers.dart`.
+- **Gallery UI**: `media_gallery_screen.dart` — responsive grid (2/3/4 cols), upload via `file_picker`, delete with confirm, search by filename, tag filter chips, empty state (Norwegian), loading skeleton, hover-to-reveal overlay.
+- **Firebase setup**: Installed Firebase CLI + FlutterFire CLI. Ran `flutterfire configure` for project `cs-poc-4zmxog23jmy4io0d4yx6rj0`. User configured Storage rules (open for dev). Web app registered: `business_portal`.
+- **Wiring**: `/media` route added, "Media" nav item (8th) added to shell. Firebase.initializeApp in main.dart.
+- **Tests**: 8 new media integration tests (CREATE, SELECT, DELETE, MIME validation, model validation). 40 total integration tests green. Nav tests updated (7→8). Static analysis: 0 issues.
+- **Branch**: `track/bp-media-manager` (1 commit: `c960bca`, +1761 lines).
+- **Key architecture**: Storage backend abstracted — `FirebaseMediaStorage` can be replaced with Saturn file server or European S3-compatible store. Only one class to swap.
 
-### Session 2026-06-25 15:54 — PM → Saturn E2E Login
-- **Tailscale mesh connectivity fixed**: Changed `TAILNET_IP` to `0.0.0.0`. Applied `consumer_auth` schema to Saturn. E2E login verified on S21. APK distribution live on `:8005`. Merged branch to main.
-- **Key facts**: Saturn deploy path for BP: `/srv/dittodatto/business-portal/web/`. Caddy container: `dittodatto-portal-caddy` → `:8003`.
+### Session 2026-06-25 20:36 — BP Establishment Page Preview
+- Created `packages/establishment_ui/` shared package. Preview toggle in BP AppBar. 130 tests green. Deployed to Saturn.
+- User wants to `/grill` the page next session.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-25-pre-preview.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Grill the EstablishmentPage** — `/grill` session to refine sections, add more fields (images, opening hours, social links), expand Dart model, iterate layout/design.
-2. 🔴 **Marketplace integration tests** — signup/login/logout/session restore/theme toggle/tab nav against real SDB.
-3. 🟡 **BP feature buildout** — continue building Business Portal features beyond Establishments CRUD. Path to MercuryEngine integration.
-4. 🟡 **MercuryEngine integration** — plug in booking engine once BP reaches sufficient feature maturity. Deferred until BP is ready.
-5. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🔴 **Media Manager UI integration** — Wire media picker into establishment edit view (inline gallery for logo/cover/gallery images). Follow-up to the PoC.
+2. 🔴 **Grill the EstablishmentPage** — `/grill` session to refine sections, add more fields (images via media manager, opening hours, social links).
+3. 🔴 **Marketplace integration tests** — signup/login/logout/session restore/theme toggle/tab nav against real SDB.
+4. 🟡 **BP feature buildout** — continue building Business Portal features beyond Establishments CRUD.
+5. 🟡 **European sovereignty planning** — research Norwegian/European hosting alternatives for object storage (Saturn file server, Hetzner S3-compatible).
+6. 🟢 **Logo:** User is working on a logo — swap when ready.

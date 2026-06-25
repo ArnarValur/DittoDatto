@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-25 21:57 — BP Media Manager PoC: Firebase Storage + SurrealDB metadata + gallery page
+- **Session:** Built standalone Media Gallery page for Flutter BP. Firebase Storage for image bytes (swappable backend), SurrealDB `media` table for metadata. Installed Firebase CLI + FlutterFire CLI. Generated `firebase_options.dart`. User configured Storage rules. Full feature: responsive grid, multi-file upload with progress, delete with confirm, search, tag filter, empty/loading states. Norwegian UI copy.
+- **Tracks touched:** `track/bp-media-manager` (branch, not formal conductor track)
+- **Status:** PoC complete. 40 integration tests green. 0 static analysis issues. Branch: `track/bp-media-manager` (commit `c960bca`, +1761 lines).
+- **Decisions:** None (ADR-level). Pulse: Firebase Storage as PoC engine, European sovereignty as future goal, storage backend abstracted for swap.
+- **⚠️ CRITICAL for next session:** (1) Firebase Storage rules are open for dev — tighten before production. (2) BP builds require `--dart-define=BP_PORTAL_PASS=test-portal-pass`. (3) `FirebaseMediaStorage` is the only Firebase-aware class — swap for European hosting later. (4) Branch not merged to develop yet.
+- **Next:** (1) Wire media picker into establishment edit view (inline gallery for logo/cover/gallery). (2) Grill EstablishmentPage with media integration. (3) Test gallery E2E manually.
+
 ## 2026-06-25 20:36 — BP Establishment Page Preview: shared package + preview toggle + Saturn deploy
 - **Session:** Created `packages/establishment_ui/` shared package (EstablishmentData model, EstablishmentPage with CustomScrollView + slivers, 4 section widgets). Researched legacy Nuxt EstablishmentPage (9 Vue components) for reference. Added preview toggle (👁️/✏️) to BP AppBar. Context-aware back arrow. 27 + 71 + 32 = 130 tests green. Deployed to Saturn at `/srv/dittodatto/business-portal/web/`. User confirmed preview visible.
 - **Tracks touched:** `bp_establishment_preview_20260625`
