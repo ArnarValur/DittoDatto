@@ -1,12 +1,12 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 21:57
-**Session Focus:** BP Media Manager PoC — Firebase Storage + SurrealDB metadata + gallery page
+**Last Updated:** 2026-06-26 00:09
+**Session Focus:** BP Media Manager — category organization (schema + model + UI + sidebar reorder)
 
 ## 🚀 Active Tracks
 
 - **BP Establishment Preview** (`bp_establishment_preview_20260625`) — **In-progress.** Phases 1-3 ✅, Phase 4 partial. Shared `packages/establishment_ui/` built (27 tests). Preview toggle deployed to Saturn. Remaining: grill + iterate on page sections, visual polish.
-- **BP Media Manager** (`track/bp-media-manager` branch) — **PoC complete.** Firebase Storage backend (swappable), SurrealDB `media` table, gallery page with upload/delete/search/tags. 40 integration tests green. Needs: Firebase Storage rules configured ✅, establishment inline integration (follow-up).
+- **BP Media Manager** (`track/bp-media-manager` branch) — **Category org done.** Added `category` field (7 enum values), filter bar, upload dialog category picker, sidebar moved to position 3. 46 integration + 47 widget = 93 tests green. Needs: establishment inline integration (media picker in edit view), deploy to Saturn.
 - **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial: Saturn SDB connectivity ✅, on-device login ✅, **user-verified E2E** (login/logout/theme) ✅. Remaining: Saturn web deploy, integration tests.
 - **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 4 consumer wiring ✅. Schema applied to Saturn ✅. Remaining: `bp_portal` hardening.
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E task ✅. Deployed to Saturn. Remaining: responsive layout verification, coverage gate.
@@ -38,6 +38,16 @@
 
 ## 🧠 Session Memory
 
+### Session 2026-06-26 00:09 — BP Media Manager: Category Organization
+- **Schema**: Added `category` field to SurrealDB `media` table — `DEFAULT 'general'`, ASSERT constraint with 7 values (`general/logo/cover/gallery/staff/service/menu`). Added `idx_media_category` index.
+- **Model**: New `MediaCategory` enum with Norwegian display labels (e.g. `Generelt`, `Logo`, `Omslag`, `Galleri`, `Ansatte`, `Tjenester`, `Meny`). `fromValue()` parser with safe default.
+- **Providers**: `uploadMedia()` and `uploadMultiple()` now accept `category` param, persisted via SurrealDB CREATE.
+- **Sidebar**: Media moved from position 8 (last) to position 3 (after Establishments) in both `portal_shell.dart` and `router.dart`.
+- **Gallery UI**: Category filter bar (chips for all 7 categories), category picker dialog before file upload, always-visible category badge on grid tiles (non-general only), tag chips shifted down when badge present.
+- **Tests**: 6 new tests — explicit category roundtrip, default-to-general, invalid category rejected, `fromValue` all known values, `fromValue` unknown defaults, `toJson` includes category. 46 integration + 47 widget = 93 total green.
+- **Branch**: `track/bp-media-manager` (commit `e935482`, +274 lines, 7 files).
+- **Key note**: Was on `develop` branch initially — had to stash + checkout `track/bp-media-manager` (media table only exists there).
+
 ### Session 2026-06-25 21:57 — BP Media Manager PoC
 - **Research**: Mapped legacy Nuxt media manager (`useMediaUpload.ts`, `media/index.vue`, `shared-types/media.ts`). Legacy used Firebase Storage + Firestore for metadata. User decided to reuse Firebase Storage for PoC, swap later for European sovereignty.
 - **Schema**: Added `media` table to `company-blueprint.surql` (section 1.2) with SCHEMAFULL + MIME ASSERT + tags + timestamps.
@@ -58,9 +68,9 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Media Manager UI integration** — Wire media picker into establishment edit view (inline gallery for logo/cover/gallery images). Follow-up to the PoC.
+1. 🔴 **Media Manager → Establishment integration** — Wire media picker into establishment edit view (inline gallery for logo/cover/gallery images). The categories are ready.
 2. 🔴 **Grill the EstablishmentPage** — `/grill` session to refine sections, add more fields (images via media manager, opening hours, social links).
-3. 🔴 **Marketplace integration tests** — signup/login/logout/session restore/theme toggle/tab nav against real SDB.
-4. 🟡 **BP feature buildout** — continue building Business Portal features beyond Establishments CRUD.
+3. 🔴 **Deploy Media Manager to Saturn** — Build + rsync `track/bp-media-manager` to Saturn. Needs merge to develop first.
+4. 🟡 **Marketplace integration tests** — signup/login/logout/session restore/theme toggle/tab nav against real SDB.
 5. 🟡 **European sovereignty planning** — research Norwegian/European hosting alternatives for object storage (Saturn file server, Hetzner S3-compatible).
 6. 🟢 **Logo:** User is working on a logo — swap when ready.

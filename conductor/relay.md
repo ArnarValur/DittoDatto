@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-26 00:09 — BP Media Manager: Category Organization
+- **Session:** Added `category` field to SurrealDB `media` table (7 enum values: general/logo/cover/gallery/staff/service/menu). Built `MediaCategory` Dart enum with Norwegian labels. Category picker dialog before upload, filter chips in gallery, always-visible category badge on grid tiles. Moved Media to sidebar position 3 (after Establishments). 6 new integration tests.
+- **Tracks touched:** `track/bp-media-manager` (branch)
+- **Status:** Category org complete. 46 integration + 47 widget = 93 tests green. 0 static analysis issues. Commit `e935482` (+274 lines).
+- **Decisions:** None
+- **Next:** (1) Wire media picker into establishment edit view (categories are ready). (2) Merge `track/bp-media-manager` to develop. (3) Deploy to Saturn. (4) Grill EstablishmentPage with media integration.
+
 ## 2026-06-25 21:57 — BP Media Manager PoC: Firebase Storage + SurrealDB metadata + gallery page
 - **Session:** Built standalone Media Gallery page for Flutter BP. Firebase Storage for image bytes (swappable backend), SurrealDB `media` table for metadata. Installed Firebase CLI + FlutterFire CLI. Generated `firebase_options.dart`. User configured Storage rules. Full feature: responsive grid, multi-file upload with progress, delete with confirm, search, tag filter, empty/loading states. Norwegian UI copy.
 - **Tracks touched:** `track/bp-media-manager` (branch, not formal conductor track)
