@@ -1,6 +1,6 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 15:54
+**Last Updated:** 2026-06-25 16:05
 **Session Focus:** PM → Saturn E2E — Tailscale mesh connectivity, consumer_auth schema, on-device login as super_admin
 
 ## 🚀 Active Tracks
@@ -43,6 +43,8 @@
 - **E2E login verified on S21**: `arnarvalur@avj.info` (super_admin) logged into marketplace via `consumer_auth` → Saturn SDB over Tailscale mesh. Profile loaded correctly.
 - **APK distribution researched**: Caddy static file server on `:8005` for Höddi's phone — not yet set up.
 - **Network topology diagram**: Stored at `conductor/docs/saturn-network-topology.md`.
+- **Future auth hardening noted**: (1) **Credential Manager API** — let Android save/autofill passwords + passkey support. (2) **Vipps Login (OIDC)** — "Logg inn med Vipps" for seamless BankID-verified SSO. (3) **AccountManager** — system-level DittoDatto account in phone Settings. Priority: Vipps first (already in roadmap), Credential Manager as UX polish, AccountManager deferred. Keep current `flutter_secure_storage` JWT approach until then.
+- **Dual Tailscale IP fix**: `dittodatto` hostname resolves to Tailscale Service IP `100.121.237.101`, not Saturn machine IP `100.87.99.59`. Binding to a single IP broke browser access. Fixed by changing `TAILNET_IP` to `0.0.0.0` — safe because Saturn has no public interface. Updated network topology diagram.
 
 ### Session 2026-06-25 14:44 — BP Establishment Bug Fix + Integration Tests
 - **3 bugs fixed in establishment creation**: (1) `toJson()` sent null for optional fields — SCHEMAFULL rejects JSON null for `option<T>`. Fixed by only including non-null keys. (2) `_handleSave` and `create()` had no try-catch — errors went uncaught to console. Added error handling with Norwegian snackbar. (3) `is_published` lacked `DEFAULT false` in schema — required explicit value on create.
