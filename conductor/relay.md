@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-26 00:22 — BP Media Manager: Saturn Deploy + Firebase Fix
+- **Session:** Deployed BP Media Manager to Saturn. Deploy gate passed (118 tests). Discovered `rsync -avz` silently skips same-size files with different content — fixed with `--checksum`. Firebase.initializeApp() crashed the app on Saturn (white screen) — wrapped in try-catch so app loads with media uploads gracefully disabled.
+- **Tracks touched:** `track/bp-media-manager` (branch)
+- **Status:** Deployed to Saturn at `http://dittodatto:8003`. Media in sidebar position 3. 46 integration + 72 widget = 118 tests green.
+- **Decisions:** None
+- **⚠️ CRITICAL for next session:** (1) Firebase Storage rules are open for dev — tighten before production. (2) `rsync` for Flutter web deploys **must** use `--checksum` flag (not just `-avz`). (3) Firebase init is try-catch'd — uploads will silently fail on Saturn. (4) BP builds require `--dart-define=BP_PORTAL_PASS=test-portal-pass`. (5) Branch `track/bp-media-manager` not yet merged to develop.
+- **Next:** (1) Polish media manager UI + integrate upload UX. (2) Wire media picker into establishment edit view. (3) Merge branch to develop.
+
 ## 2026-06-26 00:09 — BP Media Manager: Category Organization
 - **Session:** Added `category` field to SurrealDB `media` table (7 enum values: general/logo/cover/gallery/staff/service/menu). Built `MediaCategory` Dart enum with Norwegian labels. Category picker dialog before upload, filter chips in gallery, always-visible category badge on grid tiles. Moved Media to sidebar position 3 (after Establishments). 6 new integration tests.
 - **Tracks touched:** `track/bp-media-manager` (branch)

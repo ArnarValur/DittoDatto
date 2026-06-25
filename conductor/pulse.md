@@ -1,12 +1,12 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-26 00:09
-**Session Focus:** BP Media Manager — category organization (schema + model + UI + sidebar reorder)
+**Last Updated:** 2026-06-26 00:22
+**Session Focus:** BP Media Manager — Saturn deploy + Firebase crash fix
 
 ## 🚀 Active Tracks
 
 - **BP Establishment Preview** (`bp_establishment_preview_20260625`) — **In-progress.** Phases 1-3 ✅, Phase 4 partial. Shared `packages/establishment_ui/` built (27 tests). Preview toggle deployed to Saturn. Remaining: grill + iterate on page sections, visual polish.
-- **BP Media Manager** (`track/bp-media-manager` branch) — **Category org done.** Added `category` field (7 enum values), filter bar, upload dialog category picker, sidebar moved to position 3. 46 integration + 47 widget = 93 tests green. Needs: establishment inline integration (media picker in edit view), deploy to Saturn.
+- **BP Media Manager** (`track/bp-media-manager` branch) — **Deployed to Saturn.** Category org + gallery + sidebar position 3. Firebase init wrapped in try-catch (was crashing app on Saturn). 46 integration + 72 widget = 118 tests green. Needs: establishment inline integration (media picker in edit view), European storage swap.
 - **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial: Saturn SDB connectivity ✅, on-device login ✅, **user-verified E2E** (login/logout/theme) ✅. Remaining: Saturn web deploy, integration tests.
 - **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 4 consumer wiring ✅. Schema applied to Saturn ✅. Remaining: `bp_portal` hardening.
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E task ✅. Deployed to Saturn. Remaining: responsive layout verification, coverage gate.
@@ -38,6 +38,13 @@
 
 ## 🧠 Session Memory
 
+### Session 2026-06-26 00:22 — BP Media Manager: Saturn Deploy
+- **Deploy gate**: 46 integration + 72 widget = 118 tests green on `track/bp-media-manager` branch.
+- **rsync bug**: `rsync -avz` skipped `main.dart.js` because file size matched previous build (different content). Fixed by using `--checksum` flag. **Always use `--checksum` for Flutter web deploys.**
+- **Firebase crash**: `Firebase.initializeApp()` in `main.dart` crashed the entire app on Saturn (white screen). Wrapped in try-catch — app loads, media uploads gracefully disabled when Firebase unreachable.
+- **Deployed**: Built `--release`, rsync'd with `--checksum`, Caddy restarted. BP live at `http://dittodatto:8003` with Media in sidebar.
+- **Branch**: `track/bp-media-manager`.
+
 ### Session 2026-06-26 00:09 — BP Media Manager: Category Organization
 - **Schema**: Added `category` field to SurrealDB `media` table — `DEFAULT 'general'`, ASSERT constraint with 7 values (`general/logo/cover/gallery/staff/service/menu`). Added `idx_media_category` index.
 - **Model**: New `MediaCategory` enum with Norwegian display labels (e.g. `Generelt`, `Logo`, `Omslag`, `Galleri`, `Ansatte`, `Tjenester`, `Meny`). `fromValue()` parser with safe default.
@@ -68,9 +75,10 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Media Manager → Establishment integration** — Wire media picker into establishment edit view (inline gallery for logo/cover/gallery images). The categories are ready.
-2. 🔴 **Grill the EstablishmentPage** — `/grill` session to refine sections, add more fields (images via media manager, opening hours, social links).
-3. 🔴 **Deploy Media Manager to Saturn** — Build + rsync `track/bp-media-manager` to Saturn. Needs merge to develop first.
-4. 🟡 **Marketplace integration tests** — signup/login/logout/session restore/theme toggle/tab nav against real SDB.
-5. 🟡 **European sovereignty planning** — research Norwegian/European hosting alternatives for object storage (Saturn file server, Hetzner S3-compatible).
-6. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🔴 **Verify Media Manager on Saturn** — Open BP at `http://dittodatto:8003`, log in, click Media in sidebar. Confirm gallery renders (empty state expected — no uploads yet).
+2. 🔴 **Media Manager → Establishment integration** — Wire media picker into establishment edit view (inline gallery for logo/cover/gallery images). The categories are ready.
+3. 🔴 **Grill the EstablishmentPage** — `/grill` session to refine sections, add more fields (images via media manager, opening hours, social links).
+4. 🟡 **Merge `track/bp-media-manager` to develop** — Branch is stable, deployed, tested.
+5. 🟡 **Marketplace integration tests** — signup/login/logout/session restore/theme toggle/tab nav against real SDB.
+6. 🟡 **European sovereignty planning** — research Norwegian/European hosting alternatives for object storage (Saturn file server, Hetzner S3-compatible).
+7. 🟢 **Logo:** User is working on a logo — swap when ready.
