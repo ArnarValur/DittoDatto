@@ -11,6 +11,7 @@ workspace:
   - apps/marketplace
   - packages/ditto_auth
   - packages/ditto_design
+  - packages/establishment_ui
   - packages/mercury_client
 
 

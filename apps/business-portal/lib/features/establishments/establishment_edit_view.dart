@@ -1,4 +1,5 @@
 import 'package:ditto_design/ditto_design.dart';
+import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,6 +25,7 @@ class EstablishmentEditView extends ConsumerStatefulWidget {
 class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   Establishment? _establishment;
   bool _saving = false;
+  bool _showPreview = false;
 
   final _scrollController = ScrollController();
 
@@ -80,6 +82,39 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
     _websiteController.text = est.website ?? '';
     _isPublished = est.isPublished;
     _resourcesEnabled = est.resourcesEnabled;
+  }
+
+  /// Build an [EstablishmentData] from current form state for WYSIWYG preview.
+  EstablishmentData _buildPreviewData() {
+    return EstablishmentData(
+      name: _nameController.text.trim().isEmpty
+          ? 'Uten navn'
+          : _nameController.text.trim(),
+      businessType: EstablishmentType.fromString(_businessType.name),
+      address: _addressController.text.trim().isEmpty
+          ? 'Ingen adresse'
+          : _addressController.text.trim(),
+      city: _cityController.text.trim().isEmpty
+          ? ''
+          : _cityController.text.trim(),
+      zip: _zipController.text.trim().isEmpty
+          ? ''
+          : _zipController.text.trim(),
+      category: _category,
+      about: _aboutController.text.trim().isEmpty
+          ? null
+          : _aboutController.text.trim(),
+      phone: _phoneController.text.trim().isEmpty
+          ? null
+          : _phoneController.text.trim(),
+      email: _emailController.text.trim().isEmpty
+          ? null
+          : _emailController.text.trim(),
+      website: _websiteController.text.trim().isEmpty
+          ? null
+          : _websiteController.text.trim(),
+      isPublished: _isPublished,
+    );
   }
 
   Future<void> _save() async {
@@ -221,6 +256,18 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               ],
             ),
             actions: [
+              // Preview toggle button
+              IconButton(
+                icon: Icon(
+                  _showPreview
+                      ? Icons.edit_rounded
+                      : Icons.visibility_rounded,
+                ),
+                tooltip: _showPreview
+                    ? 'Tilbake til redigering'
+                    : 'Forhåndsvisning',
+                onPressed: () => setState(() => _showPreview = !_showPreview),
+              ),
               Padding(
                 padding: const EdgeInsets.only(right: DittoSpacing.base),
                 child: ElevatedButton(
@@ -236,10 +283,15 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               ),
             ],
           ),
-          body: DittoScrollspyLayout(
-            sections: sections,
-            scrollController: _scrollController,
-          ),
+          body: _showPreview
+              ? EstablishmentPage(
+                  data: _buildPreviewData(),
+                  isPreview: true,
+                )
+              : DittoScrollspyLayout(
+                  sections: sections,
+                  scrollController: _scrollController,
+                ),
         );
       },
     );

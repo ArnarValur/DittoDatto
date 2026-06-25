@@ -1,0 +1,20 @@
+name: establishment_ui
+description: Shared establishment page UI components for DittoDatto — consumed by Business Portal (preview) and Public Marketplace (customer-facing).
+publish_to: 'none'
+version: 0.1.0
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ditto_design:
+    path: ../ditto_design
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
