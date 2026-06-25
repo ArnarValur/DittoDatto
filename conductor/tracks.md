@@ -43,6 +43,11 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Phases:* 4 — (1) Project Scaffold + Nav Shell, (2) Consumer Auth, (3) Profile Page, (4) Integration Testing + Saturn Deploy
   - *Depends on:* Auth Service Phase 2 (consumer_auth schema + ditto_auth consumer methods)
 
+- [ ] **BP Establishment Page Preview — shared EstablishmentPage widget + preview toggle in edit screen**
+  - *Type:* feature | *Domain:* business-portal | *Status:* new
+  - *Link:* [tracks/business-portal/bp_establishment_preview_20260625/](./tracks/business-portal/bp_establishment_preview_20260625/)
+  - *Phases:* 4 — (1) Shared Package Scaffold, (2) EstablishmentPage Widget, (3) BP Integration, (4) Verification
+
 
 
 ---

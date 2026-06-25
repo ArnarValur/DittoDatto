@@ -1,17 +1,18 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 16:12
-**Session Focus:** PM → Saturn E2E — Tailscale mesh connectivity, consumer_auth schema, on-device login as super_admin
+**Last Updated:** 2026-06-25 18:28
+**Session Focus:** Marketplace E2E user verification — login, logout, theme switch confirmed on S21
 
 ## 🚀 Active Tracks
 
-- **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial: Saturn SDB connectivity ✅, on-device login ✅. Remaining: Saturn web deploy, integration tests.
+- **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial: Saturn SDB connectivity ✅, on-device login ✅, **user-verified E2E** (login/logout/theme) ✅. Remaining: Saturn web deploy, integration tests.
 - **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 4 consumer wiring ✅. Schema applied to Saturn ✅. Remaining: `bp_portal` hardening.
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E task ✅: NULL→NONE fix, error handling, 11 CRUD integration tests (32 total), sidebar highlight fix, business type locked in edit view. Deployed to Saturn. Remaining: responsive layout verification, coverage gate.
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. 50/50 integration tests green. Deployed on Saturn.
 
 ## ✅ Recently Completed
 
+- **2026-06-25 18:28** — **User-verified E2E on S21:** Login as `arnarvalur@avj.info` (super_admin) ✅, logout ✅, dark/light theme toggle ✅. Full consumer auth flow confirmed working against Saturn SDB over Tailscale mesh. Screenshots captured (light + dark mode profile screen).
 - **2026-06-25 15:54** — PM → Saturn E2E: Changed `TAILNET_IP` from `127.0.0.1` to `100.87.99.59` in Saturn `.env` — all services now reachable from Tailscale mesh. Applied updated `consumer_auth` schema to Saturn (role-gate removed). Rebound Admin Panel caddy + BP portal caddy to Tailscale IP. Fixed Android cleartext WebSocket restriction (`network_security_config.xml`). Fixed `initializeDateFormatting('nb_NO')` crash on profile. **User logged in on S21 as `arnarvalur@avj.info` (super_admin) via marketplace → Saturn SDB.** Hierarchical RBAC verified E2E. Network topology diagram stored in `conductor/docs/`.
 - **2026-06-25 14:44** — BP Establishment fix: NULL→NONE serialization (toJson strips null optional fields), try-catch error handling with Norwegian snackbar, `is_published DEFAULT false` schema fix, update path null stripping. 11 new CRUD integration tests. Sidebar highlight fixed (prefix matching for child routes). Business type removed from edit view (locked at creation). 71 widget + 32 integration = 103 tests green. Deployed to Saturn.
 - **2026-06-25 14:42** — Cross-role RBAC fix: removed `AND role = 'customer'` from `consumer_auth` SIGNIN. All roles can now use the marketplace. 24/24 tests green. Deployed to S21 — user attempted login (InvalidCredentials because test DB credentials ≠ their real account). Identified friction: phone needs Tailscale connectivity to Saturn SDB for real E2E.
@@ -30,7 +31,7 @@
 - ~~🔴 **Saturn schema outdated.**~~ ✅ Fixed — `consumer_auth` OVERWRITE applied, role gate removed.
 - 🟡 **No post-deploy verification.** Deploy gate tests logic against local DB, not the deployed product.
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty — package-level tests cover auth logic.
-- ~~🟡 **Marketplace not deployed to Saturn web.**~~ APK distribution live on `:8005`. Web deploy at `:8004` still pending.
+- ~~🟡 **Marketplace not deployed to Saturn web.**~~ Deprioritized — Marketplace is native-only (Android/iOS) for now. APK distribution live on `:8005`.
 
 ## 🧠 Session Memory
 
@@ -90,9 +91,8 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Saturn web deploy for Marketplace** at `:8004`. Configure Caddy, build web, rsync, verify.
-2. 🟡 **Marketplace integration tests** — full consumer auth flow (signup → profile → signout → signin → restore).
-3. 🟡 **APK distribution for Höddi** — Caddy on `:8005` serving APKs for PocketPickle.
-4. 🟡 **BP responsive layout verification** — Phase 5 remaining task.
-5. 🟡 **E2E auth test checklist** — created at `conductor/docs/public-marketplace/e2e-auth-checklist.md`. Implement flows.
-6. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🔴 **Marketplace integration tests** — signup/login/logout/session restore/theme toggle/tab nav against real SDB. Closes the "no marketplace-level tests" gap.
+2. 🔴 **BP feature buildout** — continue building Business Portal features beyond Establishments CRUD. Path to MercuryEngine integration.
+3. 🟡 **MercuryEngine integration** — plug in booking engine once BP reaches sufficient feature maturity. Deferred until BP is ready.
+4. 🟡 **APK distribution for Höddi** — Caddy on `:8005` serving APKs. Already live.
+5. 🟢 **Logo:** User is working on a logo — swap when ready.
