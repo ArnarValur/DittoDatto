@@ -17,16 +17,9 @@ abstract final class MarketplaceRoutes {
   static const home = '/';
   static const bookings = '/bookings';
   static const profile = '/profile';
-  static const login = '/login';
-  static const signup = '/signup';
+  static const login = '/profile/login';
+  static const signup = '/profile/signup';
 }
-
-/// Maps shell tab index to route path.
-const shellRoutes = [
-  MarketplaceRoutes.home,
-  MarketplaceRoutes.bookings,
-  MarketplaceRoutes.profile,
-];
 
 /// Listenable that fires when authProvider changes.
 ///
@@ -42,7 +35,7 @@ class _AuthChangeNotifier extends ChangeNotifier {
 /// GoRouter configuration for the Marketplace.
 ///
 /// Anonymous browsing (ADR-0020): Home and Bookings tabs are public.
-/// Profile tab redirects to login if unauthenticated.
+/// Profile tab shows login/signup when unauthenticated — bottom bar persists.
 final routerProvider = Provider<GoRouter>((ref) {
   final notifier = _AuthChangeNotifier(ref);
 
@@ -65,7 +58,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         return MarketplaceRoutes.profile;
       }
 
-      // Unauthenticated user on profile → send to login.
+      // Unauthenticated user on profile root → send to login.
       if (!isAuthenticated && location == MarketplaceRoutes.profile) {
         return MarketplaceRoutes.login;
       }
@@ -73,17 +66,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
-      // Auth routes — no shell.
-      GoRoute(
-        path: MarketplaceRoutes.login,
-        builder: (context, state) => const LoginScreen(),
-      ),
-      GoRoute(
-        path: MarketplaceRoutes.signup,
-        builder: (context, state) => const SignupScreen(),
-      ),
-
-      // Main app shell with bottom navigation.
+      // Main app shell — bottom nav always visible.
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MarketplaceShell(navigationShell: navigationShell);
@@ -110,6 +93,16 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: MarketplaceRoutes.profile,
                 builder: (context, state) => const ProfileScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'login',
+                    builder: (context, state) => const LoginScreen(),
+                  ),
+                  GoRoute(
+                    path: 'signup',
+                    builder: (context, state) => const SignupScreen(),
+                  ),
+                ],
               ),
             ],
           ),
