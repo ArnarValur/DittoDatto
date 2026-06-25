@@ -1,17 +1,18 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 14:44
-**Session Focus:** BP Establishment Bug Fix — NULL→NONE, error handling, integration tests, UX tweaks, deploy
+**Last Updated:** 2026-06-25 15:54
+**Session Focus:** PM → Saturn E2E — Tailscale mesh connectivity, consumer_auth schema, on-device login as super_admin
 
 ## 🚀 Active Tracks
 
-- **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phase 1 ✅, Phase 2 ✅ (consumer_auth + cross-role RBAC + 24 tests), Phase 3 ✅. Remaining: Saturn SDB connectivity via Tailscale, on-device E2E against Saturn, Saturn deploy.
-- **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 2 consumer tasks ✅. Phase 4 consumer wiring ✅. Cross-role RBAC fix applied. Remaining: apply schema to Saturn, `bp_portal` hardening.
+- **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial: Saturn SDB connectivity ✅, on-device login ✅. Remaining: Saturn web deploy, integration tests.
+- **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 4 consumer wiring ✅. Schema applied to Saturn ✅. Remaining: `bp_portal` hardening.
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E task ✅: NULL→NONE fix, error handling, 11 CRUD integration tests (32 total), sidebar highlight fix, business type locked in edit view. Deployed to Saturn. Remaining: responsive layout verification, coverage gate.
 - **Admin Panel** (`admin_panel_20260527`) — In-progress. 50/50 integration tests green. Deployed on Saturn.
 
 ## ✅ Recently Completed
 
+- **2026-06-25 15:54** — PM → Saturn E2E: Changed `TAILNET_IP` from `127.0.0.1` to `100.87.99.59` in Saturn `.env` — all services now reachable from Tailscale mesh. Applied updated `consumer_auth` schema to Saturn (role-gate removed). Rebound Admin Panel caddy + BP portal caddy to Tailscale IP. Fixed Android cleartext WebSocket restriction (`network_security_config.xml`). Fixed `initializeDateFormatting('nb_NO')` crash on profile. **User logged in on S21 as `arnarvalur@avj.info` (super_admin) via marketplace → Saturn SDB.** Hierarchical RBAC verified E2E. Network topology diagram stored in `conductor/docs/`.
 - **2026-06-25 14:44** — BP Establishment fix: NULL→NONE serialization (toJson strips null optional fields), try-catch error handling with Norwegian snackbar, `is_published DEFAULT false` schema fix, update path null stripping. 11 new CRUD integration tests. Sidebar highlight fixed (prefix matching for child routes). Business type removed from edit view (locked at creation). 71 widget + 32 integration = 103 tests green. Deployed to Saturn.
 - **2026-06-25 14:42** — Cross-role RBAC fix: removed `AND role = 'customer'` from `consumer_auth` SIGNIN. All roles can now use the marketplace. 24/24 tests green. Deployed to S21 — user attempted login (InvalidCredentials because test DB credentials ≠ their real account). Identified friction: phone needs Tailscale connectivity to Saturn SDB for real E2E.
 - **2026-06-25 14:00** — Consumer Auth wired: `DEFINE ACCESS consumer_auth` added to `schemas/users.surql` (SIGNUP + SIGNIN + role gate + 24h tokens). 13 new integration tests in `ditto_auth` (signup, signin, session restore, signout, role isolation). All 24 `ditto_auth` integration tests green (11 business + 13 consumer).
@@ -25,12 +26,23 @@
 
 ## ⚠️ Blockers
 
-- 🔴 **Saturn SDB not reachable from phone.** Tailscale service `dittodatto` exposes tcp:8001-8005 (web apps) but NOT SurrealDB's port (8000). Phone needs Tailscale or a new service endpoint for SDB.
-- 🔴 **Saturn schema outdated.** `consumer_auth` on Saturn still has the old `AND role = 'customer'` gate. Need to apply updated definition.
+- ~~🔴 **Saturn SDB not reachable from phone.**~~ ✅ Fixed — `TAILNET_IP=100.87.99.59`, all ports reachable from Tailscale mesh.
+- ~~🔴 **Saturn schema outdated.**~~ ✅ Fixed — `consumer_auth` OVERWRITE applied, role gate removed.
 - 🟡 **No post-deploy verification.** Deploy gate tests logic against local DB, not the deployed product.
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty — package-level tests cover auth logic.
+- 🟡 **Marketplace not deployed to Saturn web.** On-device APK works, web build + Caddy container at `:8004` still pending.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-25 15:54 — PM → Saturn E2E Login
+- **Tailscale mesh connectivity fixed**: Changed `TAILNET_IP` from `127.0.0.1` to `100.87.99.59` in `/srv/dittodatto/.env`. Recreated `dittodatto-hub` (SDB), `dittodatto-caddy` (Admin), `dittodatto-portal-caddy` (BP) containers. All now bound to Saturn's Tailscale IP — reachable from mesh peers only.
+- **`consumer_auth` schema applied to Saturn**: `DEFINE ACCESS OVERWRITE consumer_auth` on `users/users` — role gate removed, hierarchical RBAC active.
+- **User record verified**: `arnarvalur@avj.info` — `super_admin`, has `password_hash`, `company_slug=dittodatto-as`.
+- **Android cleartext fix**: Created `network_security_config.xml` scoped to Tailscale IPs (`100.87.99.59`, `localhost`, `10.0.2.2`). Added `INTERNET` permission + `networkSecurityConfig` to AndroidManifest.
+- **Locale fix**: Added `initializeDateFormatting('nb_NO')` to `main.dart` — Norwegian date rendering on profile screen.
+- **E2E login verified on S21**: `arnarvalur@avj.info` (super_admin) logged into marketplace via `consumer_auth` → Saturn SDB over Tailscale mesh. Profile loaded correctly.
+- **APK distribution researched**: Caddy static file server on `:8005` for Höddi's phone — not yet set up.
+- **Network topology diagram**: Stored at `conductor/docs/saturn-network-topology.md`.
 
 ### Session 2026-06-25 14:44 — BP Establishment Bug Fix + Integration Tests
 - **3 bugs fixed in establishment creation**: (1) `toJson()` sent null for optional fields — SCHEMAFULL rejects JSON null for `option<T>`. Fixed by only including non-null keys. (2) `_handleSave` and `create()` had no try-catch — errors went uncaught to console. Added error handling with Norwegian snackbar. (3) `is_published` lacked `DEFAULT false` in schema — required explicit value on create.
@@ -74,9 +86,9 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Tailscale connectivity for phone → Saturn SDB.** Either add port 8000 to `dittodatto` service, create new DB service, or install Tailscale on phone. Then point marketplace app at `ws://dittodatto:8000/rpc`.
-2. 🔴 **Apply updated `consumer_auth` schema to Saturn.** SSH into Saturn, run `DEFINE ACCESS consumer_auth` with role-gate-removed SIGNIN.
-3. 🟡 **BP responsive layout verification** — Phase 5 remaining task. Test on mobile/tablet/desktop viewports.
-4. 🟡 **Real E2E on phone.** Once connectivity + schema are sorted: login with `arnarvalur@avj.info`, test signup, test session restore.
-5. 🟡 **Saturn deploy** for Marketplace at `:8004`.
+1. 🔴 **Saturn web deploy for Marketplace** at `:8004`. Configure Caddy, build web, rsync, verify.
+2. 🟡 **Marketplace integration tests** — full consumer auth flow (signup → profile → signout → signin → restore).
+3. 🟡 **APK distribution for Höddi** — Caddy on `:8005` serving APKs for PocketPickle.
+4. 🟡 **BP responsive layout verification** — Phase 5 remaining task.
+5. 🟡 **E2E auth test checklist** — created at `conductor/docs/public-marketplace/e2e-auth-checklist.md`. Implement flows.
 6. 🟢 **Logo:** User is working on a logo — swap when ready.
