@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 13:26
-**Session Focus:** Marketplace Foundation — Flutter scaffold, consumer auth implementation, on-device deployment
+**Last Updated:** 2026-06-25 13:44
+**Session Focus:** Marketplace Foundation — Flutter scaffold, consumer auth, on-device deployment, UX fixes
 
 ## 🚀 Active Tracks
 
@@ -12,7 +12,7 @@
 
 ## ✅ Recently Completed
 
-- **2026-06-25 13:26** — Marketplace Foundation: scaffolded Flutter project, built 3-tab nav shell (Utforsk/Bestillinger/Profil), login/signup screens (Norwegian), profile screen ("Hei, {name}" + date), consumer auth in `ditto_auth` (consumerSignin/consumerSignup/tryRestoreConsumer + TokenStore consumer session). Deployed to Samsung Galaxy S21 via USB debugging. App name changed from "marketplace" to "DittoDatto" across platforms. Android Studio + emulator readiness verified (GPU enabled, RAM bumped on AVD).
+- **2026-06-25 13:44** — Marketplace Foundation: scaffolded Flutter project, built 3-tab nav shell, login/signup/profile screens, consumer auth in `ditto_auth`. On-device deploy to Samsung Galaxy S21. App renamed to "DittoDatto". Fixed bottom nav bar disappearing on login/signup (moved auth routes inside Profile branch of StatefulShellRoute). Android emulator readiness verified.
 - **2026-06-24 19:27** — Auth Service track: Phases 1-3 complete. `ditto_auth` package built, BP migrated.
 - **2026-06-24 16:17** — Auth Service track: created with spec + plan + Phase 1 research. ADR-0019.
 - **2026-06-24 15:12** — Grill session: ADR-0017, ADR-0018. Saturn DB wiped clean.
@@ -38,6 +38,7 @@
 - **Android environment verified:** Samsung Galaxy S21 Ultra (SM-G998B, Android 15, API 35, arm64) connected via ADB. KVM acceleration working (AMD Ryzen AI 7 350). 3 AVDs configured. Pixel 7 AVD fixed: GPU enabled, RAM bumped 1536→2048MB. `flutter doctor -v` clean.
 - **On-device deployment:** Release build to S21 successful. Impeller/Vulkan rendering. `google_fonts` errors (no internet on USB-only) — harmless fallback to system fonts.
 - **App renamed:** Android label, iOS CFBundleName, web title all changed from "marketplace" to "DittoDatto".
+- **UX fix:** Bottom nav bar was disappearing on login/signup screens. Root cause: auth routes were top-level (outside `StatefulShellRoute`). Fix: moved login/signup as sub-routes under the Profile branch (`/login` → `/profile/login`, `/signup` → `/profile/signup`). Now the `NavigationBar` persists across all screens.
 
 ### Session 2026-06-24 19:27 — ditto_auth build + BP migration
 - `ditto_auth` package created: 12 source files, swappable `AuthBackend` interface
