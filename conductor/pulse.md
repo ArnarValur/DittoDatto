@@ -1,6 +1,6 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-25 16:05
+**Last Updated:** 2026-06-25 16:12
 **Session Focus:** PM → Saturn E2E — Tailscale mesh connectivity, consumer_auth schema, on-device login as super_admin
 
 ## 🚀 Active Tracks
@@ -26,11 +26,11 @@
 
 ## ⚠️ Blockers
 
-- ~~🔴 **Saturn SDB not reachable from phone.**~~ ✅ Fixed — `TAILNET_IP=100.87.99.59`, all ports reachable from Tailscale mesh.
+- ~~🔴 **Saturn SDB not reachable from phone.**~~ ✅ Fixed — `TAILNET_IP=0.0.0.0`, all ports reachable from Tailscale mesh.
 - ~~🔴 **Saturn schema outdated.**~~ ✅ Fixed — `consumer_auth` OVERWRITE applied, role gate removed.
 - 🟡 **No post-deploy verification.** Deploy gate tests logic against local DB, not the deployed product.
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty — package-level tests cover auth logic.
-- 🟡 **Marketplace not deployed to Saturn web.** On-device APK works, web build + Caddy container at `:8004` still pending.
+- ~~🟡 **Marketplace not deployed to Saturn web.**~~ APK distribution live on `:8005`. Web deploy at `:8004` still pending.
 
 ## 🧠 Session Memory
 
@@ -45,6 +45,8 @@
 - **Network topology diagram**: Stored at `conductor/docs/saturn-network-topology.md`.
 - **Future auth hardening noted**: (1) **Credential Manager API** — let Android save/autofill passwords + passkey support. (2) **Vipps Login (OIDC)** — "Logg inn med Vipps" for seamless BankID-verified SSO. (3) **AccountManager** — system-level DittoDatto account in phone Settings. Priority: Vipps first (already in roadmap), Credential Manager as UX polish, AccountManager deferred. Keep current `flutter_secure_storage` JWT approach until then.
 - **Dual Tailscale IP fix**: `dittodatto` hostname resolves to Tailscale Service IP `100.121.237.101`, not Saturn machine IP `100.87.99.59`. Binding to a single IP broke browser access. Fixed by changing `TAILNET_IP` to `0.0.0.0` — safe because Saturn has no public interface. Updated network topology diagram.
+- **APK distribution live**: Built release APK (51.7MB), set up Caddy file server on `:8005`, pushed APK to `saturn:/srv/dittodatto/apk-downloads/marketplace.apk`. Download URL: `http://dittodatto:8005/marketplace.apk`. Install guide for Höddi stored at `conductor/docs/public-marketplace/hoddi-install-guide.md`.
+- **Git cleanup**: Merged `track/bp-login-establishments` to `main`, pushed, deleted branch (local + remote), pruned.
 
 ### Session 2026-06-25 14:44 — BP Establishment Bug Fix + Integration Tests
 - **3 bugs fixed in establishment creation**: (1) `toJson()` sent null for optional fields — SCHEMAFULL rejects JSON null for `option<T>`. Fixed by only including non-null keys. (2) `_handleSave` and `create()` had no try-catch — errors went uncaught to console. Added error handling with Norwegian snackbar. (3) `is_published` lacked `DEFAULT false` in schema — required explicit value on create.

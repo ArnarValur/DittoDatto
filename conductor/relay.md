@@ -1,11 +1,11 @@
 # Relay — Cross-Session Handoff
 
-## 2026-06-25 15:54 — PM → Saturn E2E: Tailscale connectivity + consumer login on phone
-- **Session:** Fixed Saturn Tailscale connectivity (`TAILNET_IP` 127.0.0.1→100.87.99.59). Applied `consumer_auth` OVERWRITE to Saturn (role-gate removed). Fixed Android cleartext WebSocket + locale init. **User logged in on S21 as `arnarvalur@avj.info` (super_admin) via marketplace → Saturn SDB.** E2E auth checklist created at `conductor/docs/public-marketplace/e2e-auth-checklist.md`. Network topology diagram at `conductor/docs/saturn-network-topology.md`.
+## 2026-06-25 16:12 — PM → Saturn E2E: login verified, APK distribution live, merged to main
+- **Session:** Full PM→Saturn E2E session. Fixed Tailscale connectivity (`TAILNET_IP` → `0.0.0.0`). Applied `consumer_auth` schema to Saturn. Fixed Android cleartext + locale init. **User logged in on S21 as super_admin.** Set up APK distribution on `:8005` for Höddi. Merged branch to main, pushed, pruned.
 - **Tracks touched:** `marketplace_foundation_20260624`, `auth_service_20260624`
-- **Status:** On-device E2E login ✅. Saturn web deploy + integration tests pending (Phase 4 remainder).
+- **Status:** On-device E2E login ✅. APK distribution ✅. Saturn web deploy + integration tests pending.
 - **Decisions:** None
-- **Next:** (1) Saturn web deploy at `:8004`. (2) Marketplace integration tests. (3) APK distribution for Höddi on `:8005`. (4) Implement change password + delete account on profile.
+- **Next:** (1) Saturn web deploy at `:8004`. (2) Marketplace integration tests. (3) Profile features: change password + delete account. (4) Credential Manager / Vipps (future).
 
 ## 2026-06-25 14:44 — BP Establishment: bug fix + integration tests + UX tweaks + deploy
 - **Session:** Fixed 3 bugs in establishment creation (NULL→NONE serialization, missing error handling, `is_published` no DEFAULT). Wrote 11 CRUD integration tests (32 total BP integration). Fixed update path. Applied schema fix to Saturn (both company DBs). UX: removed business type from edit view (locked at creation), fixed sidebar highlight for child routes. User verified data persistence via SDB query. 103 total tests green. Deployed to Saturn.
