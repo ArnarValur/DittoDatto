@@ -255,4 +255,89 @@ void main() {
       expect(result.storagePath, 'companies/test/media/photo.jpg');
     });
   });
+
+  group('MediaCategory.fromExtension', () {
+    test('suggests logo for SVG files', () {
+      expect(MediaCategory.fromExtension('svg'), MediaCategory.logo);
+      expect(MediaCategory.fromExtension('.svg'), MediaCategory.logo);
+      expect(MediaCategory.fromExtension('SVG'), MediaCategory.logo);
+    });
+
+    test('suggests menu for PDF files', () {
+      expect(MediaCategory.fromExtension('pdf'), MediaCategory.menu);
+      expect(MediaCategory.fromExtension('.PDF'), MediaCategory.menu);
+    });
+
+    test('defaults to general for common image extensions', () {
+      expect(MediaCategory.fromExtension('jpg'), MediaCategory.general);
+      expect(MediaCategory.fromExtension('png'), MediaCategory.general);
+      expect(MediaCategory.fromExtension('webp'), MediaCategory.general);
+    });
+
+    test('defaults to general for null', () {
+      expect(MediaCategory.fromExtension(null), MediaCategory.general);
+    });
+
+    test('allExtensions includes all accepted types', () {
+      expect(MediaCategory.allExtensions,
+          containsAll(['jpg', 'jpeg', 'png', 'webp', 'svg', 'pdf']));
+    });
+
+    test('every category has typicalExtensions', () {
+      for (final cat in MediaCategory.values) {
+        expect(cat.typicalExtensions, isNotEmpty,
+            reason: '${cat.name} should have at least one extension');
+      }
+    });
+  });
+
+  group('MediaError', () {
+    test('fileTooLarge includes formatted sizes', () {
+      final error = MediaError.fileTooLarge(15 * 1024 * 1024, 10 * 1024 * 1024);
+      expect(error.code, MediaErrorCode.fileTooLarge);
+      expect(error.message, contains('15.0 MB'));
+      expect(error.message, contains('10.0 MB'));
+    });
+
+    test('unsupportedMimeType includes the MIME type', () {
+      final error = MediaError.unsupportedMimeType('application/zip');
+      expect(error.code, MediaErrorCode.unsupportedMimeType);
+      expect(error.message, contains('application/zip'));
+    });
+
+    test('uploadFailed preserves cause', () {
+      final cause = Exception('network timeout');
+      final error = MediaError.uploadFailed(cause);
+      expect(error.code, MediaErrorCode.uploadFailed);
+      expect(error.details, cause);
+    });
+
+    test('deleteFailed has correct code', () {
+      final error = MediaError.deleteFailed();
+      expect(error.code, MediaErrorCode.deleteFailed);
+      expect(error.details, isNull);
+    });
+
+    test('metadataFailed includes operation name', () {
+      final error = MediaError.metadataFailed('CREATE');
+      expect(error.code, MediaErrorCode.metadataFailed);
+      expect(error.message, contains('CREATE'));
+    });
+
+    test('storageUnavailable has correct code', () {
+      final error = MediaError.storageUnavailable();
+      expect(error.code, MediaErrorCode.storageUnavailable);
+    });
+
+    test('toString includes code and message', () {
+      final error = MediaError.uploadFailed();
+      expect(error.toString(), contains('uploadFailed'));
+      expect(error.toString(), contains('Opplastingen feilet'));
+    });
+
+    test('implements Exception', () {
+      final error = MediaError.uploadFailed();
+      expect(error, isA<Exception>());
+    });
+  });
 }

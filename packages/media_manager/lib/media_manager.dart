@@ -13,6 +13,7 @@ library;
 // Models
 export 'src/models/media_item.dart';
 export 'src/models/media_category.dart';
+export 'src/models/media_error.dart';
 
 // Storage
 export 'src/storage/media_storage_backend.dart';

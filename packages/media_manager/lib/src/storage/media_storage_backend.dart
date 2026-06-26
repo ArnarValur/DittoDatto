@@ -26,4 +26,25 @@ abstract class MediaStorageBackend {
 
   /// Delete a file from storage by its path.
   Future<void> delete(String storagePath);
+
+  /// Get a thumbnail URL for a stored media item.
+  ///
+  /// Backends that support server-side thumbnailing (e.g. Firebase
+  /// Extensions, Cloudinary) return a resized URL. Backends without
+  /// this capability return the original URL.
+  ///
+  /// [storagePath] is the path returned by [upload].
+  /// [maxDimension] is the desired max width/height in pixels.
+  String getThumbnailUrl(String storagePath, {int maxDimension = 300}) =>
+      storagePath; // Default: return original path.
+
+  /// Clear any local thumbnail or image caches.
+  ///
+  /// Gives the app explicit control over cache lifecycle — important
+  /// for memory management on mobile and for cache invalidation
+  /// after bulk uploads/deletes.
+  ///
+  /// Default implementation is a no-op (web backends typically
+  /// rely on browser cache).
+  Future<void> clearCache() async {}
 }
