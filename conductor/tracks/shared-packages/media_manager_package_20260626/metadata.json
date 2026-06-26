@@ -1,0 +1,9 @@
+{
+  "track_id": "media_manager_package_20260626",
+  "type": "feature",
+  "status": "new",
+  "domain": "shared-packages",
+  "created_at": "2026-06-26T14:24:00+02:00",
+  "updated_at": "2026-06-26T14:24:00+02:00",
+  "description": "Extract media manager from BP into packages/media_manager/ shared package with abstract storage backend, gallery page, inline picker widget, and modal gallery picker."
+}
