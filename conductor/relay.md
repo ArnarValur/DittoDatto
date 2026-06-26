@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-26 15:06 — Media Manager: Grill + Package Extraction (Phases 1-3)
+- **Session:** Grilled media manager design. Created ADR-0021. Scaffolded `packages/media_manager/` with full data layer, gallery page, inline picker, and modal picker. 37 package tests green. Investigated SwanFlutter `media_manager` for architecture patterns — three patterns queued for incorporation (error taxonomy, fromExtension, cache management).
+- **Tracks touched:** `media_manager_package_20260626`
+- **Status:** Phases 1-3 complete. Phase 4 (BP wiring) remaining. 37 tests, 0 analysis issues.
+- **Decisions:** ADR-0021 (Media Manager as Shared Package with Abstract Storage Backend)
+- **Next:** (1) Incorporate 3 SwanFlutter patterns. (2) Wire BP to import from package. (3) Run full 118 BP + 37 package test suite.
+
 ## 2026-06-26 00:22 — BP Media Manager: Saturn Deploy + Firebase Fix
 - **Session:** Deployed BP Media Manager to Saturn. Deploy gate passed (118 tests). Discovered `rsync -avz` silently skips same-size files with different content — fixed with `--checksum`. Firebase.initializeApp() crashed the app on Saturn (white screen) — wrapped in try-catch so app loads with media uploads gracefully disabled.
 - **Tracks touched:** `track/bp-media-manager` (branch)
