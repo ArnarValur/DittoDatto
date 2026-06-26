@@ -45,6 +45,7 @@ The Business Portal's media management code (~1,288 lines across 3 files) is tig
 - `file_picker` with `withData: true` loads entire files into memory — max 10MB validation must happen before upload.
 - SurrealDB returns `NONE` not `NULL` for optional fields — repository must handle this.
 - Category badge and Norwegian labels must render correctly across all consuming apps (labels live in `MediaCategory` enum, not in BP).
+- **Firebase Storage path isolation:** The same bucket (`cs-poc-4zmxog23jmy4io0d4yx6rj0.firebasestorage.app`) is shared with the live Nuxt media manager. Our Flutter path is `companies/{slug}/media/{file}`. **Never write outside the `/media/` subfolder.** Never list, modify, or delete files in sibling folders. The Nuxt app's existing data is untouchable.
 
 ## Dependencies
 
