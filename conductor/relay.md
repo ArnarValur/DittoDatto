@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 17:10 — Chapter 1 Graduations + CRM Research
+- **Session:** Graduated Admin Panel Chapter 1 + Business Portal Chapter 1 (merged 2 tracks). Dispatched 3 research agents for CRM domain (Noona analysis + Flutter architecture + communication infrastructure). User stepping away for dinner.
+- **Tracks touched:** admin_panel_20260527 (completed), bp_login_establishments_20260614 (completed), bp_establishment_preview_20260625 (completed)
+- **Status:** 3 Chapter 1 tracks graduated this session + Media Manager (prior). Only Marketplace Foundation + Auth Service remain active. 2/3 research docs written, 1 in-flight.
+- **Decisions:** None
+- **⚠️ REMIND USER:** Auth Service Phase 4 — user suspects it may already be done. Review tonight.
+- **Next:** (1) Review Auth Service Phase 4 status. (2) Read CRM + Comms research docs. (3) EstablishmentPage UI polish grill. (4) Marketplace tests.
+
 ## 2026-06-27 16:39 — Business Portal Chapter 1 Graduation
 - **Session:** Merged and graduated `bp_login_establishments_20260614` + `bp_establishment_preview_20260625` as BP Chapter 1. User confirmed login, establishments CRUD, preview toggle, media all working on Saturn. UI polish deferred to Chapter 2 re-grill.
 - **Tracks touched:** bp_login_establishments_20260614 (completed), bp_establishment_preview_20260625 (completed)
