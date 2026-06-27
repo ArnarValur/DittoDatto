@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-27 14:17
-**Session Focus:** Preview media wiring + deploy script dart-define fix
+**Last Updated:** 2026-06-27 16:23
+**Session Focus:** Preview media wiring + deploy dart-define fix + E2E checklist + user verification
 
 ## 🚀 Active Tracks
 
@@ -13,6 +13,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-27 16:23** — **Media E2E checklist + user verification.** Created 45-scenario E2E testing checklist at `conductor/docs/media-manager-e2e-checklist.md`. User confirmed media upload, selection, removal, and preview rendering all work on Saturn. Layout is crude but functional — polish deferred to EstablishmentPage grill session.
 - **2026-06-27 14:17** — **Preview media wiring.** Added `CoverLayoutMode` enum + 4 media fields (`logoUrl`, `coverUrl`, `galleryUrls`, `coverLayoutMode`) to `EstablishmentData`. New `EstablishmentGallerySection` renders cover + gallery thumbnails. Logo avatar in `EstablishmentInfoBar`. BP `_buildPreviewData()` passes media from edit form. 22 model + 22 widget = 44 tests green.
 - **2026-06-27 14:17** — **Deploy script dart-define fix.** Root cause: `deploy-to-saturn.sh` ran `flutter build web --release` without `--dart-define` flags. Added `DART_DEFINES` associative array to the script. `BP_PORTAL_PASS=test-portal-pass` now encoded for portal builds. AGENTS.md updated with "No Ad-Hoc Commands, No Questions" deployment rules. Redeployed — hash match ✅, smoke test ✅.
 - **2026-06-27 13:42** — **MediaPickerWidget wired into establishment edit.** New "Bilder" scrollspy section with cover layout mode selector, cover/gallery/logo pickers. 172 tests green. Deployed to Saturn.
@@ -29,6 +30,12 @@
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-27 16:23 — E2E Checklist + User Verification
+- Created `conductor/docs/media-manager-e2e-checklist.md` — 45 scenarios across 8 areas (upload, gallery, detail modal, picker, establishment edit, preview, delete, edge cases)
+- User tested on Saturn: upload ✅, selection ✅, removal ✅, preview rendering ✅
+- User confirmed: "media works, layout is crude but shows images" — polish deferred to EstablishmentPage grill
+- Deploy dart-define fix committed and deployed — AGENTS.md permanently updated with deployment rules
 
 ### Session 2026-06-27 14:17 — Preview Media Wiring + Deploy Dart-Define Fix
 - **Preview media wiring (Task 5 from prior session):**
@@ -67,7 +74,8 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🟡 **EstablishmentPage grill** — re-grill to implement bento/showcase/spotlight distinct layouts with real media. Currently all three render the same simple cover + gallery row.
-2. 🟡 **Marketplace tests** — `apps/marketplace/test/` is empty.
-3. 🟡 **BP Establishment Preview Phase 4** — integration test for preview toggle.
-4. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🔴 **EstablishmentPage UI polish grill** — re-grill to implement bento/showcase/spotlight distinct layouts. User explicitly wants this as next session focus.
+2. 🟡 **E2E checklist** — user is working through 45 scenarios gradually. May surface bugs.
+3. 🟡 **Marketplace tests** — `apps/marketplace/test/` is empty.
+4. 🟡 **BP Establishment Preview Phase 4** — integration test for preview toggle.
+5. 🟢 **Logo:** User is working on a logo — swap when ready.

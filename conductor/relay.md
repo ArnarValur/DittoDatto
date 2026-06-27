@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 16:23 — E2E Checklist + User Verification
+- **Session:** Created 45-scenario E2E checklist (`conductor/docs/media-manager-e2e-checklist.md`). User tested on Saturn — upload, selection, removal, preview rendering all confirmed working. Layout crude but functional. Deploy dart-define fix shipped (AGENTS.md permanently updated).
+- **Tracks touched:** bp_establishment_preview_20260625
+- **Status:** Media pipeline fully functional E2E. User will work through checklist gradually. EstablishmentPage UI polish explicitly deferred to next session grill.
+- **Decisions:** None
+- **Next:** (1) Re-grill EstablishmentPage for UI polish + distinct layout modes (user's explicit next). (2) Continue E2E checklist. (3) Marketplace tests.
+
 ## 2026-06-27 14:17 — Preview Media Wiring + Deploy Dart-Define Fix
 - **Session:** Wired media fields (logoUrl, coverUrl, galleryUrls, coverLayoutMode) through EstablishmentData into shared EstablishmentPage preview. New EstablishmentGallerySection + logo avatar in EstablishmentInfoBar. Fixed deploy script missing `--dart-define` flags — added `DART_DEFINES` map. AGENTS.md updated with permanent deployment rules ("No Ad-Hoc Commands, No Questions"). Redeployed to Saturn.
 - **Tracks touched:** bp_establishment_preview_20260625
