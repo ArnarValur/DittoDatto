@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 16:33 — Admin Panel Chapter 1 Graduation
+- **Session:** User confirmed Admin Panel login/logout, Users, Companies, Categories all working on Saturn. Track `admin_panel_20260527` graduated as Chapter 1 complete. Inbox + advanced features deferred to future re-grill as independent track.
+- **Tracks touched:** admin_panel_20260527 (completed)
+- **Status:** Admin Panel Chapter 1 closed. 50 integration tests, deployed at `:8002`.
+- **Decisions:** None
+- **Next:** (1) EstablishmentPage UI polish grill. (2) E2E checklist. (3) Marketplace tests. (4) Admin Panel Chapter 2 re-grill (Inbox + advanced features) when ready.
+
 ## 2026-06-27 16:23 — E2E Checklist + User Verification
 - **Session:** Created 45-scenario E2E checklist (`conductor/docs/media-manager-e2e-checklist.md`). User tested on Saturn — upload, selection, removal, preview rendering all confirmed working. Layout crude but functional. Deploy dart-define fix shipped (AGENTS.md permanently updated).
 - **Tracks touched:** bp_establishment_preview_20260625

@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-27 16:23
-**Session Focus:** Preview media wiring + deploy dart-define fix + E2E checklist + user verification
+**Last Updated:** 2026-06-27 16:33
+**Session Focus:** Admin Panel Chapter 1 graduation
 
 ## 🚀 Active Tracks
 
@@ -9,10 +9,11 @@
 - **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial. Saturn SDB connectivity ✅, user-verified E2E ✅.
 - **Auth Service** (`auth_service_20260624`) — **Paused.** Phases 1-3 ✅, Phase 4 consumer wiring waiting on Marketplace.
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E ✅. Deployed.
-- **Admin Panel** (`admin_panel_20260527`) — In-progress. 50/50 integration tests green. Deployed.
+
 
 ## ✅ Recently Completed
 
+- **2026-06-27 16:33** — **Admin Panel Chapter 1 graduated.** User confirmed login/logout, Users CRUD, Companies CRUD, and Categories all working on Saturn. 50 integration tests green. Track closed — Inbox + advanced features deferred to a future re-grill as a new track.
 - **2026-06-27 16:23** — **Media E2E checklist + user verification.** Created 45-scenario E2E testing checklist at `conductor/docs/media-manager-e2e-checklist.md`. User confirmed media upload, selection, removal, and preview rendering all work on Saturn. Layout is crude but functional — polish deferred to EstablishmentPage grill session.
 - **2026-06-27 14:17** — **Preview media wiring.** Added `CoverLayoutMode` enum + 4 media fields (`logoUrl`, `coverUrl`, `galleryUrls`, `coverLayoutMode`) to `EstablishmentData`. New `EstablishmentGallerySection` renders cover + gallery thumbnails. Logo avatar in `EstablishmentInfoBar`. BP `_buildPreviewData()` passes media from edit form. 22 model + 22 widget = 44 tests green.
 - **2026-06-27 14:17** — **Deploy script dart-define fix.** Root cause: `deploy-to-saturn.sh` ran `flutter build web --release` without `--dart-define` flags. Added `DART_DEFINES` associative array to the script. `BP_PORTAL_PASS=test-portal-pass` now encoded for portal builds. AGENTS.md updated with "No Ad-Hoc Commands, No Questions" deployment rules. Redeployed — hash match ✅, smoke test ✅.
@@ -30,6 +31,12 @@
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-27 16:33 — Admin Panel Chapter 1 Graduation
+- User confirmed: login/logout ✅, Users CRUD ✅, Companies CRUD ✅, Categories ✅
+- 50 integration tests green, deployed to Saturn at `:8002`
+- Track `admin_panel_20260527` marked complete — moved to Completed Tracks
+- Inbox + advanced features explicitly deferred to a future re-grill as independent track
 
 ### Session 2026-06-27 16:23 — E2E Checklist + User Verification
 - Created `conductor/docs/media-manager-e2e-checklist.md` — 45 scenarios across 8 areas (upload, gallery, detail modal, picker, establishment edit, preview, delete, edge cases)

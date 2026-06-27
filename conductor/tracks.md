@@ -23,10 +23,7 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 ## Active Tracks
 
-- [ ] **Admin Panel — Flutter platform administration interface**
-  - *Type:* feature | *Domain:* admin-panel | *Status:* in-progress (needs grill/alignment)
-  - *Link:* [tracks/admin-panel/admin_panel_20260527/](./tracks/admin-panel/admin_panel_20260527/)
-  - *Phases:* 5 — (1) Monorepo + ditto_design + Shell, (2) Auth + Login, (3) Dashboard, (4) Users + Companies + Categories, (5) Inbox + Polish [checkpoint: pending user approval]
+
 
 - [ ] **Business Portal — Login redesign + Establishments CRUD**
   - *Type:* feature | *Domain:* business-portal | *Status:* in-progress
@@ -57,6 +54,12 @@ All tracks organized by domain. Each track links to its dedicated folder.
 ---
 
 ## Completed Tracks
+
+- [x] **Admin Panel Chapter 1 — Flutter platform administration interface** [checkpoint: graduation]
+  - *Type:* feature | *Domain:* admin-panel | *Status:* completed
+  - *Link:* [tracks/admin-panel/admin_panel_20260527/](./tracks/admin-panel/admin_panel_20260527/)
+  - *Phases:* 5 — (1) Monorepo + ditto_design + Shell ✅, (2) Auth + Login ✅, (3) Dashboard ✅, (4) Users + Companies + Categories ✅, (5) Inbox + Polish (deferred to Chapter 2)
+  - *Notes:* User-confirmed 2026-06-27. Login, Users, Companies, Categories all working. 50 integration tests. Inbox + advanced features → future re-grill.
 
 - [x] **Business Portal — Scaffold project and router shell** [checkpoint: `eadc310`]
   - *Type:* feature | *Domain:* business-portal | *Status:* completed
