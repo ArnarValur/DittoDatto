@@ -95,6 +95,41 @@ class MediaRepository {
     }
   }
 
+  /// Update the display name of a media item.
+  ///
+  /// Pass `null` to clear the name (sends NONE to SurrealDB).
+  Future<bool> updateName(String id, String? name) async {
+    try {
+      if (name != null) {
+        await _connection.companies.query(
+          r'UPDATE $id SET name = $name',
+          {'id': id, 'name': name},
+        );
+      } else {
+        await _connection.companies.query(
+          r'UPDATE $id SET name = NONE',
+          {'id': id},
+        );
+      }
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Update the tags of a media item.
+  Future<bool> updateTags(String id, List<String> tags) async {
+    try {
+      await _connection.companies.query(
+        r'UPDATE $id SET tags = $tags',
+        {'id': id, 'tags': tags},
+      );
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   /// Parse SurrealDB query result into [MediaItem] list.
   List<MediaItem> _parseRows(dynamic result) {
     List<dynamic> rows;
