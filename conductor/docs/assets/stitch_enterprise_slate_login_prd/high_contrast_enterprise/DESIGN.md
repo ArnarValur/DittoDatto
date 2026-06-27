@@ -1,3 +1,5 @@
+# Design
+
 ---
 name: High-Contrast Enterprise
 colors:

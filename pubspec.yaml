@@ -12,6 +12,7 @@ workspace:
   - packages/ditto_auth
   - packages/ditto_design
   - packages/establishment_ui
+  - packages/media_manager
   - packages/mercury_client
 
 

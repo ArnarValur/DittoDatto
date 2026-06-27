@@ -45,7 +45,6 @@ graph TD
 ### 1. Environment Variables (`/srv/dittodatto/.env`)
 Add the following variables to Saturn's staging environment configuration:
 ```bash
-# NotebookLM Enterprise Integration
 NOTEBOOK_PROJECT_NUMBER="your-gcp-project-number"
 NOTEBOOK_LOCATION="global"
 NOTEBOOK_ENDPOINT_LOCATION="us"  # us, eu, or global

@@ -12,6 +12,7 @@ import 'package:business_portal/features/table_reservations/table_reservations_s
 import 'package:business_portal/features/staff/staff_screen.dart';
 import 'package:business_portal/features/services/services_screen.dart';
 import 'package:business_portal/features/inbox/inbox_screen.dart';
+import 'package:business_portal/features/media/media_gallery_screen.dart';
 import 'package:business_portal/router.dart';
 
 /// Mock auth notifier that is always authenticated.
@@ -152,6 +153,21 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(InboxScreen), findsOneWidget);
+    });
+
+    testWidgets('tapping Media nav shows MediaGalleryScreen', (tester) async {
+      tester.view.physicalSize = const Size(1280, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(_buildApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Media'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MediaGalleryScreen), findsOneWidget);
     });
   });
 }

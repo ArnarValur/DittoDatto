@@ -25,6 +25,7 @@ class PortalShell extends ConsumerWidget {
     DittoNavItem(icon: Icons.dashboard_rounded, label: 'Dashboard'),
     DittoNavItem(icon: Icons.inbox_rounded, label: 'Inbox'),
     DittoNavItem(icon: Icons.store_rounded, label: 'Establishments'),
+    DittoNavItem(icon: Icons.photo_library_rounded, label: 'Media'),
     DittoNavItem(icon: Icons.calendar_month_rounded, label: 'Appointments'),
     DittoNavItem(icon: Icons.table_restaurant_rounded, label: 'Table Reservations'),
     DittoNavItem(icon: Icons.people_rounded, label: 'Staff'),

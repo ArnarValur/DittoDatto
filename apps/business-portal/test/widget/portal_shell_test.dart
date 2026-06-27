@@ -72,7 +72,7 @@ void main() {
       expect(find.byType(DittoDashboardShell), findsOneWidget);
     });
 
-    testWidgets('renders all 7 navigation labels', (tester) async {
+    testWidgets('renders all 8 navigation labels', (tester) async {
       // Use a wide enough viewport for the sidebar to show.
       tester.view.physicalSize = const Size(1280, 800);
       tester.view.devicePixelRatio = 1.0;
@@ -89,6 +89,7 @@ void main() {
       expect(find.text('Staff'), findsOneWidget);
       expect(find.text('Services'), findsOneWidget);
       expect(find.text('Inbox'), findsOneWidget);
+      expect(find.text('Media'), findsOneWidget);
     });
 
     testWidgets('renders portal header branding', (tester) async {

@@ -14,9 +14,9 @@
 - [ ] **1.2** Tap "Opprett konto" (Create account)
 - [ ] **1.3** Fill in: Name, Email, Password (≥8 chars), Confirm Password
 - [ ] **1.4** Tap "Opprett konto" button
-- [ ] **1.5** Verify: redirected to Profile screen with "Hei, {firstName} 👋"
+- [x] **1.5** Verify: redirected to Profile screen with "Hei, {firstName} 👋"
 - [ ] **1.6** Verify: Norwegian date displayed ("I dag er {day} {date}")
-- [ ] **1.7** Verify: email displayed under avatar
+- [x] **1.7** Verify: email displayed under avatar
 - [ ] **1.8** Verify: user record exists in Saturn SDB (`SELECT * FROM user WHERE email = '...'`)
 - [ ] **1.9** Verify: `role = 'customer'`, `is_onboarded = false`, `password_hash` is argon2
 
@@ -32,8 +32,8 @@
 
 ## 2. Login — Existing User
 
-- [ ] **2.1** Log out first (if authenticated)
-- [ ] **2.2** Navigate to Profile tab → Login screen
+- [x] **2.1** Log out first (if authenticated)
+- [x] **2.2** Navigate to Profile tab → Login screen
 - [ ] **2.3** Enter registered email + correct password
 - [ ] **2.4** Tap "Logg inn" button
 - [ ] **2.5** Verify: redirected to Profile screen with correct name and email

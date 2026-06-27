@@ -16,6 +16,7 @@ import 'features/table_reservations/table_reservations_screen.dart';
 import 'features/staff/staff_screen.dart';
 import 'features/services/services_screen.dart';
 import 'features/inbox/inbox_screen.dart';
+import 'features/media/media_gallery_screen.dart';
 
 /// Route paths for the Business Portal.
 abstract final class PortalRoutes {
@@ -28,6 +29,7 @@ abstract final class PortalRoutes {
   static const staff = '/staff';
   static const services = '/services';
   static const inbox = '/inbox';
+  static const media = '/media';
 }
 
 /// Maps shell index to route path.
@@ -35,6 +37,7 @@ const shellRoutes = [
   PortalRoutes.dashboard,
   PortalRoutes.inbox,
   PortalRoutes.establishments,
+  PortalRoutes.media,
   PortalRoutes.appointments,
   PortalRoutes.tableReservations,
   PortalRoutes.staff,
@@ -150,6 +153,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: PortalRoutes.inbox,
             builder: (context, state) => const InboxScreen(),
+          ),
+          GoRoute(
+            path: PortalRoutes.media,
+            builder: (context, state) => const MediaGalleryScreen(),
           ),
         ],
       ),

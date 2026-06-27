@@ -39,15 +39,12 @@ If any of these don't match, **stop and report** before running anything destruc
 Run as the agent's regular user (assume passwordless `sudo` is available, otherwise add `sudo` where appropriate). All checks should pass before proceeding.
 
 ```bash
-# 1.1 — Verify Tailscale is up and Saturn is reachable on tailnet
 tailscale status | head -5
 tailscale ip -4   # expect 100.87.99.59
 
-# 1.2 — Verify Docker + Docker Compose v2
 docker --version          # expect 24.x+
 docker compose version    # expect v2.x (note: subcommand, not `docker-compose`)
 
-# 1.3 — Verify the planned ports are FREE (except 8080 which belongs to OpenWebUI)
 for port in 8001 8002 8003 8004; do
   if ss -tlnp 2>/dev/null | grep -q ":$port "; then
     echo "PORT $port IS IN USE — STOP. Investigate before proceeding."
@@ -57,7 +54,6 @@ for port in 8001 8002 8003 8004; do
   fi
 done
 
-# 1.4 — Verify OpenWebUI on 8080 is still up (sanity check, must pass before AND after this runbook)
 curl -sS -o /dev/null -w "OpenWebUI health: %{http_code}\n" http://localhost:8080/ || echo "WARNING: OpenWebUI not responding"
 ```
 
@@ -70,10 +66,8 @@ If any check fails, **stop and report** the failing line.
 If `docker --version` failed in §1.2, install the official Docker CE on Ubuntu:
 
 ```bash
-# Official Docker convenience script (verify against https://get.docker.com first if paranoid)
 curl -fsSL https://get.docker.com | sudo sh
 sudo usermod -aG docker "$USER"
-# Re-login or `newgrp docker` to apply group change
 ```
 
 Verify again: `docker --version` and `docker compose version`.
@@ -118,25 +112,15 @@ Then write `.env`:
 
 ```bash
 cat > /srv/dittodatto/.env <<EOF
-# DittoDatto Hub — Saturn staging environment
-# Created: 2026-05-26 (initial /grill foundation runbook)
 
-# SurrealDB root credentials
 SURREAL_USER=dittodatto_root
 SURREAL_PASS=${SURREAL_PASS_VALUE}
 
-# Port assignments (all bound to Tailnet IP only — see Section 5)
 SURREAL_PORT=8001
 MERCURY_PORT=8002
-# Reserved for future:
-#   8003 — Ditto agent (consumer LLM)
-#   8004 — Datto agent (business LLM)
-#   8005 — Future internal admin/metrics endpoint
 
-# Tailnet binding — Saturn's stable Tailscale IPv4
 TAILNET_IP=100.87.99.59
 
-# Environment label
 DITTODATTO_ENV=staging
 LOG_LEVEL=info
 EOF
@@ -150,9 +134,6 @@ chmod 600 /srv/dittodatto/.env
 
 ```bash
 cat > /srv/dittodatto/docker-compose.yml <<'EOF'
-# DittoDatto Hub — Saturn staging stack
-# Source ADR: ADR-0003 "Saturn as Staging Environment" (conductor/adr/0003-saturn-staging-environment.md)
-# Maintained by: future /new-track infrastructure-saturn
 
 name: dittodatto-net
 
@@ -259,14 +240,10 @@ If the container restarts repeatedly, check:
 ## 7. Smoke test from Saturn itself
 
 ```bash
-# Loopback test (proves the container is alive)
 curl -sS http://127.0.0.1:8001/health
-# Expect: response from SurrealDB health endpoint (200 OK with body indicating health)
 
-# Tailnet IP test (proves the port binding worked)
 curl -sS http://100.87.99.59:8001/health
 
-# Confirm OpenWebUI is still alive (regression check)
 curl -sS -o /dev/null -w "OpenWebUI: %{http_code}\n" http://localhost:8080/
 ```
 
@@ -278,7 +255,6 @@ From Arnar's dev workstation (or any other tailnet client):
 
 ```bash
 curl -sS http://saturn:8001/health
-# Expect: same response as the loopback test above
 ```
 
 If this fails but the Saturn-side curl works, suspect:
@@ -295,11 +271,9 @@ The DittoDatto Hub schemas (`companies/{slug}`, `companies/discovery`, `companie
 When that track lands, the steps will be approximately:
 
 ```bash
-# Future — do not run today
 docker compose exec surrealdb /surreal import --conn http://localhost:8000 \
   --user ${SURREAL_USER} --pass ${SURREAL_PASS} \
   --ns companies --db registry /schemas/registry.surql
-# … and similar for discovery, {slug} blueprints, users/profiles
 ```
 
 Until then, the Hub is intentionally empty.
