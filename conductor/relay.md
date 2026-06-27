@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 03:43 — Media Manager: Phase 4 BP Wiring + Track Complete + Deploy
+- **Session:** Completed Phase 4 of Media Manager track. Wired BP to import from `packages/media_manager/`: rewrote `media_providers.dart` (Riverpod glue using `MediaRepository`), replaced `media_gallery_screen.dart` (800→50 lines), deleted `media_model.dart`. `FirebaseMediaStorage` stays as BP-specific concrete backend. 169 tests green (51 pkg + 72 widget + 46 integration). Deployed to Saturn via deploy gate. User confirmed category picker dialog renders correctly. Firebase Storage blocker identified — `Firebase.initializeApp()` fails on Saturn, uploads silently disabled.
+- **Tracks touched:** `media_manager_package_20260626` (completed)
+- **Status:** Track complete. All 4 phases done. Branch `track/bp-media-manager` deployed but not yet merged to develop.
+- **Decisions:** None
+- **⚠️ CRITICAL for next session:** (1) Firebase Storage uploads DON'T WORK on Saturn — `Firebase.initializeApp()` fails. Options: authorize Saturn's domain in Firebase Console, or build non-Firebase `MediaStorageBackend`. (2) Branch `track/bp-media-manager` needs merge to develop. (3) BP builds require `--dart-define=BP_PORTAL_PASS=test-portal-pass`. (4) `rsync` for Flutter web deploys MUST use `--checksum`. (5) After rsync: `ssh saturn 'docker restart dittodatto-portal-caddy'`.
+- **Next:** (1) Fix Firebase Storage on Saturn (or swap backend). (2) Wire `MediaPickerWidget` into establishment edit. (3) Merge branch to develop.
+
 ## 2026-06-27 03:09 — Media Manager: SwanFlutter Patterns + Session Close
 - **Session:** Incorporated 3 SwanFlutter-inspired patterns into `packages/media_manager/`: error taxonomy (MediaError + MediaErrorCode), fromExtension() on MediaCategory, clearCache()/getThumbnailUrl() on MediaStorageBackend. Package now at 51 tests green, 0 analysis errors. Pulse.md was corrupted (1400 lines of duplicated junk from a prior agent) — cleaned up.
 - **Tracks touched:** `media_manager_package_20260626`
