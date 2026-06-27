@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-27 05:32
-**Session Focus:** Post-deploy smoke test — closing deploy verification gap
+**Last Updated:** 2026-06-27 13:42
+**Session Focus:** Wire MediaPickerWidget into establishment edit + fix deploy pipeline
 
 ## 🚀 Active Tracks
 
@@ -13,20 +13,38 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-27 13:42** — **MediaPickerWidget wired into establishment edit.** New "Bilder" scrollspy section with cover layout mode selector (Bento/Showcase/Spotlight), cover image picker, gallery picker, logo picker. Establishment model extended with `logoUrl`, `coverUrl`, `galleryUrls`, `coverLayoutMode`. Save/load with URL-to-MediaItem resolution. 172 tests green (72 BP widget + 100 media_manager). Deployed to Saturn.
+- **2026-06-27 13:42** — **Deploy pipeline fixed.** Created `scripts/deploy-to-saturn.sh` with hardcoded canonical Caddy paths, served-file hash verification, and integrated smoke test. AGENTS.md updated to ban raw rsync. Stale decoy directory removed from Saturn.
 - **2026-06-27 05:32** — **Post-deploy smoke test.** Built `scripts/post-deploy-smoke.sh`. Verified live against Saturn (3/3 passed, Marketplace skipped). Wired into deploy gate as step 5. Blocker resolved.
-- **2026-06-27 05:21** — **Media Gallery V2: Category Rows Layout.** Redesigned gallery from filter-chip grid to Netflix-style category rows. 3 new widgets (`MediaCategoryRow`, `MediaDetailModal`, `MediaGalleryV2Page`). `updateName`/`updateTags` in repository. Feature-flagged V1/V2 toggle. 235 tests green. Deployed to Saturn. User verified upload/delete/open E2E. Branch merged to `develop`.
+- **2026-06-27 05:21** — **Media Gallery V2: Category Rows Layout.** Redesigned gallery from filter-chip grid to Netflix-style category rows. 235 tests green. Deployed.
 - **2026-06-27 04:53** — **Media Manager: Test Coverage + CORS + Merge.** 100 package + 63 BP integration tests. CORS fix. Merged to `develop`.
-- **2026-06-27 03:43** — **Media Manager Package: Track Complete.** Phase 4 wired BP. 169 tests green. Deployed.
-- **2026-06-27 03:09** — **Media Manager: SwanFlutter patterns incorporated.** Error taxonomy, `fromExtension()`, cache management.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## ⚠️ Blockers
 
-- ✅ ~~**No post-deploy verification.**~~ Resolved — `scripts/post-deploy-smoke.sh` added to deploy gate (step 5).
+- ✅ ~~**No post-deploy verification.**~~ Resolved.
+- ✅ ~~**Deploy path confusion.**~~ Resolved — `deploy-to-saturn.sh` with hash verification.
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-27 13:42 — MediaPicker Integration + Deploy Fix
+- **MediaPickerWidget wired into establishment edit:**
+  - New `_BilderSection` scrollspy section (between Generelt and Lokasjon)
+  - Cover layout mode selector: Bento Grid / Showcase / Spotlight (visual cards)
+  - 3 pickers: Cover (single), Gallery (multi), Logo (single)
+  - Establishment model: added `logoUrl`, `coverUrl`, `galleryUrls`, `coverLayoutMode`
+  - `_resolveMediaSelections()` maps saved URLs → MediaItem objects on load
+  - Save flow persists to `images.logo/cover/gallery` + `cover_layout_mode`
+  - Tests: 72/72 BP widget, 100/100 media_manager, 63/63 integration — all green
+  - Deployed to Saturn, user verified Bilder section visible
+- **Deploy pipeline root cause found and fixed:**
+  - Bug: raw rsync deployed to `/home/arnar/DittoDatto/apps/web/business-portal/` but Caddy serves from `/srv/dittodatto/business-portal/web/`. Different paths → stale code served indefinitely.
+  - Fix: `scripts/deploy-to-saturn.sh` encodes canonical Caddy mount paths, does hash verification (local build vs curl-served file), runs smoke test.
+  - AGENTS.md step 4 now requires the deploy script; raw rsync banned.
+  - Stale decoy dir `/home/arnar/DittoDatto/apps/web/` removed from Saturn.
+- **Polish items for next session:** Missing icon in Bilder scrollspy nav, preview media support (Task 5).
 
 ### Session 2026-06-27 05:32 — Post-Deploy Smoke Test
 - **Built:** `scripts/post-deploy-smoke.sh` — curls Admin Panel (:8002), BP (:8003), Marketplace (:8004, auto-skips), Hub health (:8001).
@@ -34,22 +52,12 @@
 - **Deploy gate updated:** AGENTS.md step 5 now runs smoke test after rsync. Step 6 is test-db-down.
 - **Blocker resolved:** "No post-deploy verification" cleared from pulse.
 
-### Session 2026-06-27 05:21 — Media Gallery V2 Redesign
-- **UI/UX feedback from user:** Filter chips + flat grid felt repetitive/convoluted. User proposed category rows layout.
-- **Design decisions:** Horizontal scroll per category (Netflix rows), empty categories show upload placeholder, detail modal for editing name/tags, adaptive tile height based on screen width, per-row upload buttons.
-- **Built 3 new widgets:** `MediaCategoryRow` (section header + horizontal scroll + empty placeholder), `MediaDetailModal` (large preview + editable name/tags + delete), `MediaGalleryV2Page` (scrollable layout with all categories).
-- **Data layer:** Added `updateName()` and `updateTags()` to `MediaRepository`. Added `updateMediaName()` and `updateMediaTags()` to BP `MediaNotifier`.
-- **Feature flag:** `_useV2Layout = true` in `media_gallery_screen.dart` — flip to revert.
-- **Tests:** 100 package + 72 widget + 63 integration = 235 all green.
-- **Deploy:** Built + deployed to Saturn at `http://dittodatto:8003`. User confirmed upload, delete, and open work E2E.
-- **Merge:** `track/media-gallery-v2` merged to `develop`.
-- **User graduation:** Media Manager feature considered complete. Future UI tweaks are iterative, not tracked.
-
 > 📦 Full history: `conductor/pulse-archive/2026-06-25-pre-preview.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🟡 **Wire `MediaPickerWidget` into establishment edit** — logo/cover/gallery fields. Category rows are ready.
-2. 🟡 **Marketplace tests** — `apps/marketplace/test/` is empty.
-3. 🟡 **BP Establishment Preview Phase 4** — integration test for preview toggle.
-4. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🟡 **Polish Bilder section** — fix missing icon in scrollspy nav, refine layout.
+2. 🟡 **Preview media support (Task 5)** — add media fields to `EstablishmentData` in `establishment_ui` package.
+3. 🟡 **Marketplace tests** — `apps/marketplace/test/` is empty.
+4. 🟡 **BP Establishment Preview Phase 4** — integration test for preview toggle.
+5. 🟢 **Logo:** User is working on a logo — swap when ready.

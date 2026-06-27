@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 13:42 — MediaPicker Integration + Deploy Fix
+- **Session:** Wired MediaPickerWidget into establishment edit view (Bilder scrollspy section with cover layout mode, cover/gallery/logo pickers). Fixed deploy pipeline — root cause was rsync to wrong Saturn path (`/home/arnar/...` vs Caddy's `/srv/dittodatto/...`). Created `deploy-to-saturn.sh` with canonical paths + hash verification.
+- **Tracks touched:** bp_login_establishments_20260614
+- **Status:** Bilder section live on Saturn. Deploy script committed. 172 tests green. Minor polish pending (missing icon).
+- **Decisions:** None (ADR-level). Deploy path canonicalized as operational fix.
+- **Next:** (1) Fix missing icon in Bilder nav. (2) Preview media support (Task 5). (3) Marketplace tests. (4) BP Preview Phase 4.
+
 ## 2026-06-27 05:32 — Post-Deploy Smoke Test
 - **Session:** Built `scripts/post-deploy-smoke.sh` — curls each Saturn surface + Hub health. Tested live (3/3 green, Marketplace skipped). Wired into deploy gate (AGENTS.md step 5). Cleared long-standing "no post-deploy verification" blocker.
 - **Tracks touched:** None (cross-cutting infra)
