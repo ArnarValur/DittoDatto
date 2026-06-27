@@ -14,6 +14,7 @@ export 'src/establishment_page.dart';
 
 // Sections
 export 'src/sections/establishment_gallery_placeholder.dart';
+export 'src/sections/establishment_gallery_section.dart';
 export 'src/sections/establishment_info_bar.dart';
 export 'src/sections/establishment_about_grid.dart';
 export 'src/sections/establishment_contact_section.dart';

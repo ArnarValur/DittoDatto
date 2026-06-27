@@ -148,6 +148,10 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
           ? null
           : _websiteController.text.trim(),
       isPublished: _isPublished,
+      logoUrl: _selectedLogo.isNotEmpty ? _selectedLogo.first.url : null,
+      coverUrl: _selectedCover.isNotEmpty ? _selectedCover.first.url : null,
+      galleryUrls: _selectedGallery.map((m) => m.url).toList(),
+      coverLayoutMode: CoverLayoutMode.fromString(_coverLayoutMode),
     );
   }
 

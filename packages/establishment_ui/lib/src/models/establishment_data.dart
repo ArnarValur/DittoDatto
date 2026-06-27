@@ -27,6 +27,26 @@ enum EstablishmentType {
       };
 }
 
+/// Cover image layout mode for the establishment storefront page.
+///
+/// Matches the layout options in the Business Portal edit view:
+/// - [bento]: Cover image (2/3) + gallery thumbnails in a 2×1 grid (1/3)
+/// - [showcase]: Cover image (3/4) + vertical gallery strip
+/// - [spotlight]: Full-width cover image only
+enum CoverLayoutMode {
+  bento,
+  showcase,
+  spotlight;
+
+  /// Parse from stored string value, defaulting to [bento].
+  static CoverLayoutMode fromString(String value) => switch (value) {
+        'bento' => CoverLayoutMode.bento,
+        'showcase' => CoverLayoutMode.showcase,
+        'spotlight' => CoverLayoutMode.spotlight,
+        _ => CoverLayoutMode.bento,
+      };
+}
+
 /// Immutable data class for rendering an [EstablishmentPage].
 ///
 /// Decoupled from SurrealDB serialization — each consuming app maps its
@@ -46,6 +66,10 @@ class EstablishmentData {
     this.email,
     this.website,
     this.isPublished = false,
+    this.logoUrl,
+    this.coverUrl,
+    this.galleryUrls = const [],
+    this.coverLayoutMode = CoverLayoutMode.bento,
   });
 
   /// Establishment display name.
@@ -84,6 +108,21 @@ class EstablishmentData {
   /// Whether the establishment is published (visible to customers).
   final bool isPublished;
 
+  /// Optional logo image URL.
+  final String? logoUrl;
+
+  /// Optional cover/hero image URL.
+  final String? coverUrl;
+
+  /// Gallery image URLs.
+  final List<String> galleryUrls;
+
+  /// Cover image layout mode.
+  final CoverLayoutMode coverLayoutMode;
+
+  /// Whether any media (cover or gallery) is available.
+  bool get hasMedia => coverUrl != null || galleryUrls.isNotEmpty;
+
   /// Formatted address line: "Skolegata 9, Drammen 3046".
   String get addressLine => '$address, $city $zip';
 
@@ -104,6 +143,10 @@ class EstablishmentData {
     String? email,
     String? website,
     bool? isPublished,
+    String? logoUrl,
+    String? coverUrl,
+    List<String>? galleryUrls,
+    CoverLayoutMode? coverLayoutMode,
   }) {
     return EstablishmentData(
       name: name ?? this.name,
@@ -118,26 +161,39 @@ class EstablishmentData {
       email: email ?? this.email,
       website: website ?? this.website,
       isPublished: isPublished ?? this.isPublished,
+      logoUrl: logoUrl ?? this.logoUrl,
+      coverUrl: coverUrl ?? this.coverUrl,
+      galleryUrls: galleryUrls ?? this.galleryUrls,
+      coverLayoutMode: coverLayoutMode ?? this.coverLayoutMode,
     );
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is EstablishmentData &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          businessType == other.businessType &&
-          address == other.address &&
-          city == other.city &&
-          zip == other.zip &&
-          country == other.country &&
-          category == other.category &&
-          about == other.about &&
-          phone == other.phone &&
-          email == other.email &&
-          website == other.website &&
-          isPublished == other.isPublished;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! EstablishmentData) return false;
+    if (runtimeType != other.runtimeType) return false;
+    // Deep-compare galleryUrls list
+    if (galleryUrls.length != other.galleryUrls.length) return false;
+    for (var i = 0; i < galleryUrls.length; i++) {
+      if (galleryUrls[i] != other.galleryUrls[i]) return false;
+    }
+    return name == other.name &&
+        businessType == other.businessType &&
+        address == other.address &&
+        city == other.city &&
+        zip == other.zip &&
+        country == other.country &&
+        category == other.category &&
+        about == other.about &&
+        phone == other.phone &&
+        email == other.email &&
+        website == other.website &&
+        isPublished == other.isPublished &&
+        logoUrl == other.logoUrl &&
+        coverUrl == other.coverUrl &&
+        coverLayoutMode == other.coverLayoutMode;
+  }
 
   @override
   int get hashCode => Object.hash(
@@ -153,5 +209,9 @@ class EstablishmentData {
         email,
         website,
         isPublished,
+        logoUrl,
+        coverUrl,
+        Object.hashAll(galleryUrls),
+        coverLayoutMode,
       );
 }

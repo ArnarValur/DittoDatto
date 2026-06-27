@@ -39,6 +39,15 @@ declare -A APP_PORT=(
   [marketplace]="8004"
 )
 
+# ── Dart-define flags per app ───────────────────────────────────────────────
+# These are compile-time constants injected via --dart-define.
+# Add new defines here when apps need them — NOT in ad-hoc build commands.
+declare -A DART_DEFINES=(
+  [portal]="--dart-define=BP_PORTAL_PASS=test-portal-pass"
+  [admin]=""
+  [marketplace]=""
+)
+
 SATURN_HOST="${SATURN_HOST:-saturn}"
 SATURN_HOSTNAME="${SATURN_HOSTNAME:-dittodatto}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -60,18 +69,23 @@ fi
 LOCAL_DIR="${APP_LOCAL_DIR[$TARGET]}"
 REMOTE_PATH="${SATURN_DEPLOY_PATH[$TARGET]}"
 PORT="${APP_PORT[$TARGET]}"
+DEFINES="${DART_DEFINES[$TARGET]}"
 
 echo ""
 echo "🚀 Deploy: $TARGET"
 echo "   Local:  $LOCAL_DIR"
 echo "   Remote: $SATURN_HOST:$REMOTE_PATH"
 echo "   Port:   $PORT"
+if [[ -n "$DEFINES" ]]; then
+  echo "   Defines: (set)"
+fi
 echo ""
 
 # ── Step 1: Build ───────────────────────────────────────────────────────────
 echo "📦 Building web release..."
 cd "$PROJECT_ROOT/$LOCAL_DIR"
-flutter build web --release
+# shellcheck disable=SC2086
+flutter build web --release $DEFINES
 cd "$PROJECT_ROOT"
 echo "✅ Build complete."
 echo ""

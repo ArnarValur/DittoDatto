@@ -155,5 +155,91 @@ void main() {
 
       expect(a, isNot(equals(b)));
     });
+
+    test('media fields default correctly', () {
+      expect(minimal.logoUrl, isNull);
+      expect(minimal.coverUrl, isNull);
+      expect(minimal.galleryUrls, isEmpty);
+      expect(minimal.coverLayoutMode, CoverLayoutMode.bento);
+    });
+
+    test('hasMedia returns false when no media set', () {
+      expect(minimal.hasMedia, false);
+    });
+
+    test('hasMedia returns true when coverUrl is set', () {
+      final withCover = minimal.copyWith(coverUrl: 'https://img/cover.jpg');
+      expect(withCover.hasMedia, true);
+    });
+
+    test('hasMedia returns true when galleryUrls is non-empty', () {
+      final withGallery = minimal.copyWith(
+        galleryUrls: ['https://img/1.jpg', 'https://img/2.jpg'],
+      );
+      expect(withGallery.hasMedia, true);
+    });
+
+    test('copyWith overrides media fields', () {
+      final updated = minimal.copyWith(
+        logoUrl: 'https://img/logo.png',
+        coverUrl: 'https://img/cover.jpg',
+        galleryUrls: ['https://img/g1.jpg'],
+        coverLayoutMode: CoverLayoutMode.spotlight,
+      );
+
+      expect(updated.logoUrl, 'https://img/logo.png');
+      expect(updated.coverUrl, 'https://img/cover.jpg');
+      expect(updated.galleryUrls, ['https://img/g1.jpg']);
+      expect(updated.coverLayoutMode, CoverLayoutMode.spotlight);
+      // Unchanged fields preserved
+      expect(updated.name, 'DittoDatto AS');
+    });
+
+    test('equality includes media fields', () {
+      final a = minimal.copyWith(
+        coverUrl: 'https://img/cover.jpg',
+        galleryUrls: ['https://img/1.jpg'],
+        coverLayoutMode: CoverLayoutMode.showcase,
+      );
+      final b = minimal.copyWith(
+        coverUrl: 'https://img/cover.jpg',
+        galleryUrls: ['https://img/1.jpg'],
+        coverLayoutMode: CoverLayoutMode.showcase,
+      );
+      expect(a, equals(b));
+      expect(a.hashCode, equals(b.hashCode));
+    });
+
+    test('equality fails when gallery contents differ', () {
+      final a = minimal.copyWith(
+        galleryUrls: ['https://img/1.jpg'],
+      );
+      final b = minimal.copyWith(
+        galleryUrls: ['https://img/2.jpg'],
+      );
+      expect(a, isNot(equals(b)));
+    });
+
+    test('equality fails when coverLayoutMode differs', () {
+      final a = minimal.copyWith(coverLayoutMode: CoverLayoutMode.bento);
+      final b = minimal.copyWith(coverLayoutMode: CoverLayoutMode.spotlight);
+      expect(a, isNot(equals(b)));
+    });
+  });
+
+  group('CoverLayoutMode', () {
+    test('fromString parses valid values', () {
+      expect(CoverLayoutMode.fromString('bento'), CoverLayoutMode.bento);
+      expect(CoverLayoutMode.fromString('showcase'), CoverLayoutMode.showcase);
+      expect(
+        CoverLayoutMode.fromString('spotlight'),
+        CoverLayoutMode.spotlight,
+      );
+    });
+
+    test('fromString defaults to bento for unknown values', () {
+      expect(CoverLayoutMode.fromString('unknown'), CoverLayoutMode.bento);
+      expect(CoverLayoutMode.fromString(''), CoverLayoutMode.bento);
+    });
   });
 }

@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 14:17 — Preview Media Wiring + Deploy Dart-Define Fix
+- **Session:** Wired media fields (logoUrl, coverUrl, galleryUrls, coverLayoutMode) through EstablishmentData into shared EstablishmentPage preview. New EstablishmentGallerySection + logo avatar in EstablishmentInfoBar. Fixed deploy script missing `--dart-define` flags — added `DART_DEFINES` map. AGENTS.md updated with permanent deployment rules ("No Ad-Hoc Commands, No Questions"). Redeployed to Saturn.
+- **Tracks touched:** bp_establishment_preview_20260625
+- **Status:** Media fields wired end-to-end. 44 tests green. Deployed + verified. Distinct bento/showcase/spotlight layouts deferred to EstablishmentPage grill.
+- **Decisions:** None
+- **Next:** (1) Re-grill EstablishmentPage for distinct layout modes. (2) Marketplace tests. (3) BP Preview Phase 4 integration test.
+
 ## 2026-06-27 13:42 — MediaPicker Integration + Deploy Fix
 - **Session:** Wired MediaPickerWidget into establishment edit view (Bilder scrollspy section with cover layout mode, cover/gallery/logo pickers). Fixed deploy pipeline — root cause was rsync to wrong Saturn path (`/home/arnar/...` vs Caddy's `/srv/dittodatto/...`). Created `deploy-to-saturn.sh` with canonical paths + hash verification.
 - **Tracks touched:** bp_login_establishments_20260614

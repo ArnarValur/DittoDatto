@@ -5,6 +5,7 @@ import 'models/establishment_data.dart';
 import 'sections/establishment_about_grid.dart';
 import 'sections/establishment_contact_section.dart';
 import 'sections/establishment_gallery_placeholder.dart';
+import 'sections/establishment_gallery_section.dart';
 import 'sections/establishment_info_bar.dart';
 
 /// The main establishment storefront page widget.
@@ -70,8 +71,11 @@ class EstablishmentPage extends StatelessWidget {
             ),
           ),
 
-        // Gallery placeholder (future: real image gallery)
-        const EstablishmentGalleryPlaceholder(),
+        // Gallery: real images when available, placeholder otherwise
+        if (data.hasMedia)
+          EstablishmentGallerySection(data: data)
+        else
+          const EstablishmentGalleryPlaceholder(),
 
         // Identity bar: name, type badge, address, category
         EstablishmentInfoBar(data: data),

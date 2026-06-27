@@ -30,10 +30,26 @@ class EstablishmentInfoBar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Name + type badge row
+            // Logo + Name + type badge row
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // Logo avatar (or type icon fallback)
+                CircleAvatar(
+                  radius: 24,
+                  backgroundColor: colorScheme.secondaryContainer,
+                  backgroundImage: data.logoUrl != null
+                      ? NetworkImage(data.logoUrl!)
+                      : null,
+                  child: data.logoUrl == null
+                      ? Icon(
+                          data.businessType.icon,
+                          size: 24,
+                          color: colorScheme.onSecondaryContainer,
+                        )
+                      : null,
+                ),
+                const SizedBox(width: DittoSpacing.sm),
                 Expanded(
                   child: Text(
                     data.name,

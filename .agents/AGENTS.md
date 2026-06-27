@@ -14,6 +14,27 @@ Workflow — every time, no exceptions:
 
 If no integration tests exist for the app being deployed, **say so explicitly** and flag it as a gap — do not silently deploy untested code.
 
+## Deployment: No Ad-Hoc Commands, No Questions
+
+**The deploy script `./scripts/deploy-to-saturn.sh` is the ONLY way to deploy. It handles everything:**
+- `flutter build web --release` with the correct `--dart-define` flags (encoded in the script's `DART_DEFINES` map)
+- `rsync --delete` to the correct Caddy-served path on Saturn
+- Hash verification (local build vs served content)
+- Post-deploy smoke test
+
+**NEVER:**
+- Run `flutter build web` manually for deployment — the script does it.
+- Run raw `rsync` to Saturn — the script encodes the canonical paths.
+- Ask the user for `BP_PORTAL_PASS` or any dart-define values — they are in the script.
+- Skip the deploy script and cobble together ad-hoc commands.
+
+**Dart-define values live in the deploy script's `DART_DEFINES` array.** If a new dart-define is needed, add it there. Do not pass them on the command line.
+
+**Saturn connectivity:** SSH alias `saturn` (host Saturn, user `arnar`). Deploy paths:
+- Portal: `/srv/dittodatto/business-portal/web` → port 8003
+- Admin: `/srv/dittodatto/admin-panel/web` → port 8002
+- Marketplace: `/srv/dittodatto/marketplace/web` → port 8004
+
 ## No CLI CRUD: E2E Means E2E
 
 **NEVER insert, update, or delete application data via CLI, raw SQL, or API calls when verifying E2E flows.**
