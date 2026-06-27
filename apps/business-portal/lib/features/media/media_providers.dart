@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:media_manager/media_manager.dart';
 
 import '../auth/auth_provider.dart';
-import '../../main.dart' show firebaseInitialized;
 
 // ── Firebase Storage Backend (BP-specific) ───────────────────────────────────
 
@@ -130,14 +129,6 @@ class MediaNotifier extends AsyncNotifier<List<MediaItem>> {
     String? establishmentId,
     List<String> tags = const [],
   }) async {
-    // Check Firebase availability
-    if (!firebaseInitialized) {
-      _uploadState.update(const MediaUploadState(
-        error: 'Filopplasting er ikke tilgjengelig — Firebase er ikke initialisert på denne serveren.',
-      ));
-      return null;
-    }
-
     // Validate
     final validationError = MediaItem.validateFile(mimeType, size);
     if (validationError != null) {
