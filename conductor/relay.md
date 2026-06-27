@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 04:03 — Firebase Storage Fix on Saturn + Deploy Finalization
+- **Session:** Fixed Firebase Storage on Saturn. Root cause: stale `.dart_tool` web plugin registrant was missing `FirebaseCoreWeb` and `FirebaseStorageWeb` registration. `flutter clean` regenerated it. Also added Firebase JS SDK compat scripts to `web/index.html`. Removed try-catch from `Firebase.initializeApp()`. User confirmed login works on Saturn.
+- **Tracks touched:** `media_manager_package_20260626` (completed — post-deploy fix)
+- **Status:** Firebase inits properly on Saturn. Media Manager fully deployed and functional.
+- **Decisions:** None
+- **⚠️ CRITICAL for next session:** (1) After adding Firebase deps to a monorepo workspace, `flutter clean` is REQUIRED to regenerate web plugin registrant. (2) `web/index.html` needs Firebase JS SDK compat scripts. (3) BP builds require `--dart-define=BP_PORTAL_PASS=test-portal-pass`. (4) `rsync` must use `--checksum`. (5) Branch `track/bp-media-manager` not yet merged to develop.
+- **Next:** (1) Media Manager unit + integration + E2E tests with polish. (2) Test actual upload E2E on Saturn. (3) Wire picker into establishment edit. (4) Merge branch to develop.
+
 ## 2026-06-27 03:43 — Media Manager: Phase 4 BP Wiring + Track Complete + Deploy
 - **Session:** Completed Phase 4 of Media Manager track. Wired BP to import from `packages/media_manager/`: rewrote `media_providers.dart` (Riverpod glue using `MediaRepository`), replaced `media_gallery_screen.dart` (800→50 lines), deleted `media_model.dart`. `FirebaseMediaStorage` stays as BP-specific concrete backend. 169 tests green (51 pkg + 72 widget + 46 integration). Deployed to Saturn via deploy gate. User confirmed category picker dialog renders correctly. Firebase Storage blocker identified — `Firebase.initializeApp()` fails on Saturn, uploads silently disabled.
 - **Tracks touched:** `media_manager_package_20260626` (completed)
