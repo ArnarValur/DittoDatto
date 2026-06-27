@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 23:17 — Marketplace Foundation Phase 4 Closure
+- **Session:** Wrote 32 tests (7 integration + 25 widget) for marketplace auth. Fixed Row→Wrap overflow in login/signup screens. Backfilled track docs (spec.md, plan.md). Closed track — moved to Completed in tracks.md, updated pulse.md.
+- **Tracks touched:** marketplace_foundation_20260624 (completed)
+- **Status:** Marketplace Foundation fully closed. Auth Service Phase 4 unblocked. Only Auth Service remains active.
+- **Decisions:** None
+- **Next:** (1) Review Auth Service Phase 4 — consumer auth live, may be ready to graduate. (2) Read CRM + Comms research docs. (3) EstablishmentPage UI polish. (4) Marketplace Discovery track.
+
 ## 2026-06-27 17:10 — Chapter 1 Graduations + CRM Research
 - **Session:** Graduated Admin Panel Chapter 1 + Business Portal Chapter 1 (merged 2 tracks). Dispatched 3 research agents for CRM domain (Noona analysis + Flutter architecture + communication infrastructure). User stepping away for dinner.
 - **Tracks touched:** admin_panel_20260527 (completed), bp_login_establishments_20260614 (completed), bp_establishment_preview_20260625 (completed)

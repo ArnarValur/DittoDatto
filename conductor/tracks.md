@@ -26,15 +26,9 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 
 - [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
-  - *Type:* feature | *Domain:* auth-service | *Status:* **paused** (Phase 1-3 complete, waiting on Marketplace for Phase 4)
+  - *Type:* feature | *Domain:* auth-service | *Status:* **ready for Phase 4** (Marketplace consumer auth now live)
   - *Link:* [tracks/auth-service/auth_service_20260624/](./tracks/auth-service/auth_service_20260624/)
-  - *Phases:* 4 — (1) Research & Design ✅, (2) ditto_auth Package + Schema ✅, (3) BP Migration ✅, (4) Marketplace Consumer Auth
-
-- [ ] **Marketplace Foundation — Flutter scaffold + consumer auth (signup/login/profile)**
-  - *Type:* feature | *Domain:* marketplace | *Status:* in-progress
-  - *Link:* [tracks/marketplace/marketplace_foundation_20260624/](./tracks/marketplace/marketplace_foundation_20260624/)
-  - *Phases:* 4 — (1) Project Scaffold + Nav Shell, (2) Consumer Auth, (3) Profile Page, (4) Integration Testing + Saturn Deploy
-  - *Depends on:* Auth Service Phase 2 (consumer_auth schema + ditto_auth consumer methods)
+  - *Phases:* 4 — (1) Research & Design ✅, (2) ditto_auth Package + Schema ✅, (3) BP Migration ✅, (4) Marketplace Consumer Auth (unblocked)
 
 - [x] **Media Manager Package — Extract media management into `packages/media_manager/` shared package** [checkpoint: `6c465c9`]
   - *Type:* feature | *Domain:* shared-packages | *Status:* complete
@@ -45,6 +39,13 @@ All tracks organized by domain. Each track links to its dedicated folder.
 ---
 
 ## Completed Tracks
+
+- [x] **Marketplace Foundation — Flutter scaffold + consumer auth (signup/login/profile)** [checkpoint: phase-4-tests]
+  - *Type:* feature | *Domain:* marketplace | *Status:* completed
+  - *Link:* [tracks/marketplace/marketplace_foundation_20260624/](./tracks/marketplace/marketplace_foundation_20260624/)
+  - *Phases:* 4 — (1) Project Scaffold + Nav Shell ✅, (2) Consumer Auth ✅, (3) Profile Page ✅, (4) Integration Testing + Saturn Deploy ✅
+  - *What works:* Signup/login/logout ✅, Profile page ✅, Route guards ✅, 7 integration tests + 25 widget tests. Deployed to Saturn `:8004`.
+  - *Deferred to next tracks:* Discovery/home, bookings, search.
 
 - [x] **Business Portal Chapter 1 — Login + Establishments + Preview + Media** [checkpoint: graduation]
   - *Type:* feature | *Domain:* business-portal | *Status:* completed

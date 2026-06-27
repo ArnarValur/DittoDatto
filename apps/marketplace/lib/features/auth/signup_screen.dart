@@ -216,8 +216,9 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     const SizedBox(height: 16),
 
                     // Login link.
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
                         Text(
                           'Har du allerede konto? ',
