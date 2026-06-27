@@ -26,9 +26,13 @@ export 'src/repository/media_repository.dart';
 export 'src/upload/media_upload_state.dart';
 
 // Widgets
+export 'src/widgets/media_category_row.dart';
+export 'src/widgets/media_detail_modal.dart';
 export 'src/widgets/media_filter_bar.dart';
 export 'src/widgets/media_gallery_page.dart';
+export 'src/widgets/media_gallery_v2_page.dart';
 export 'src/widgets/media_grid_tile.dart';
 export 'src/widgets/media_picker_modal.dart';
 export 'src/widgets/media_picker_widget.dart';
 export 'src/widgets/media_support_widgets.dart';
+

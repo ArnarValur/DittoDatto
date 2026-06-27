@@ -252,6 +252,66 @@ class MediaNotifier extends AsyncNotifier<List<MediaItem>> {
     }
   }
 
+  /// Update the display name of a media item.
+  Future<bool> updateMediaName(String id, String? name) async {
+    final repo = _repo;
+    if (repo == null) return false;
+
+    final success = await repo.updateName(id, name);
+    if (success) {
+      final current = state.value ?? [];
+      state = AsyncData(current.map((m) {
+        if (m.id == id) {
+          return MediaItem(
+            id: m.id,
+            uploaderId: m.uploaderId,
+            url: m.url,
+            storagePath: m.storagePath,
+            filename: m.filename,
+            mimeType: m.mimeType,
+            size: m.size,
+            category: m.category,
+            establishmentId: m.establishmentId,
+            tags: m.tags,
+            name: name,
+          );
+        }
+        return m;
+      }).toList());
+    }
+    return success;
+  }
+
+  /// Update the tags of a media item.
+  Future<bool> updateMediaTags(String id, List<String> tags) async {
+    final repo = _repo;
+    if (repo == null) return false;
+
+    final success = await repo.updateTags(id, tags);
+    if (success) {
+      final current = state.value ?? [];
+      state = AsyncData(current.map((m) {
+        if (m.id == id) {
+          return MediaItem(
+            id: m.id,
+            uploaderId: m.uploaderId,
+            url: m.url,
+            storagePath: m.storagePath,
+            filename: m.filename,
+            mimeType: m.mimeType,
+            size: m.size,
+            category: m.category,
+            establishmentId: m.establishmentId,
+            tags: tags,
+            name: m.name,
+          );
+        }
+        return m;
+      }).toList());
+    }
+    return success;
+  }
+
   /// Refresh the media list from the database.
   Future<void> refresh() async {
     state = const AsyncLoading();
