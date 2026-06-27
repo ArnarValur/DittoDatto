@@ -7,11 +7,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-  } catch (e) {
-    debugPrint('⚠️ Firebase init failed (media uploads disabled): $e');
-  }
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform);
   runApp(const ProviderScope(child: PortalApp()));
 }
