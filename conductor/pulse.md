@@ -23,7 +23,7 @@
 
 ## ⚠️ Blockers
 
-- 🟡 **No post-deploy verification.** Deploy gate tests against local DB, not deployed product.
+- ✅ ~~**No post-deploy verification.**~~ Resolved — `scripts/post-deploy-smoke.sh` added to deploy gate (step 5).
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty.
 
 ## 🧠 Session Memory
