@@ -3,6 +3,7 @@ library;
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:surrealdb/surrealdb.dart';
+import 'package:ditto_auth/ditto_auth.dart';
 
 import 'package:media_manager/media_manager.dart';
 
@@ -335,4 +336,204 @@ void main() {
       expect(json['category'], 'logo');
     });
   });
+
+  // ── MediaRepository integration tests ────────────────────────────────────
+
+  group('MediaRepository (via TenantConnection)', () {
+    late SurrealDB companiesDb;
+    late TenantConnection connection;
+    late MediaRepository repo;
+
+    setUpAll(() async {
+      companiesDb = SurrealDB(testUrl);
+      companiesDb.connect();
+      await companiesDb.wait();
+      await companiesDb.signin(
+        user: serviceUser,
+        pass: servicePass,
+        namespace: 'companies',
+        database: 'company_testcompany',
+      );
+
+      // users DB not needed for media tests — reuse same connection
+      connection = TenantConnection(
+        companies: companiesDb,
+        users: companiesDb,
+        slug: 'testcompany',
+      );
+      repo = MediaRepository(connection);
+    });
+
+    setUp(() async {
+      await companiesDb.query('DELETE media');
+    });
+
+    tearDownAll(() async {
+      await companiesDb.query('DELETE media');
+      companiesDb.close();
+    });
+
+    test('slug returns tenant slug', () {
+      expect(repo.slug, 'testcompany');
+    });
+
+    test('fetchAll returns empty list when no media', () async {
+      final items = await repo.fetchAll();
+      expect(items, isEmpty);
+    });
+
+    test('create returns a MediaItem with all fields', () async {
+      final item = await repo.create(
+        uploaderId: 'test@dittodatto.no',
+        url: 'https://cdn.example.com/repo-test.jpg',
+        storagePath: 'companies/testcompany/media/repo-test.jpg',
+        filename: 'repo-test.jpg',
+        mimeType: 'image/jpeg',
+        size: 4096,
+        category: MediaCategory.logo,
+        tags: ['brand', 'header'],
+      );
+
+      expect(item, isNotNull);
+      expect(item!.id, startsWith('media:'));
+      expect(item.uploaderId, 'test@dittodatto.no');
+      expect(item.url, 'https://cdn.example.com/repo-test.jpg');
+      expect(item.filename, 'repo-test.jpg');
+      expect(item.category, MediaCategory.logo);
+      expect(item.tags, ['brand', 'header']);
+      expect(item.size, 4096);
+    });
+
+    test('create with establishment stores establishmentId', () async {
+      // Schema requires record<establishment>
+      await companiesDb.query(
+        'CREATE establishment:testabc SET name = "Test ABC", slug = "testabc", address = "Test St 1", city = "Oslo", zip = "0001"',
+      );
+
+      final item = await repo.create(
+        uploaderId: 'test@dittodatto.no',
+        url: 'https://cdn.example.com/est.jpg',
+        storagePath: 'companies/testcompany/media/est.jpg',
+        filename: 'est.jpg',
+        mimeType: 'image/jpeg',
+        size: 1024,
+        establishmentId: 'establishment:testabc',
+      );
+
+      expect(item, isNotNull);
+      expect(item!.establishmentId, 'establishment:testabc');
+
+      await companiesDb.query('DELETE establishment:testabc');
+    });
+
+    test('fetchAll returns created items newest-first', () async {
+      // Create 3 items with a small delay so created_at differs
+      for (var i = 1; i <= 3; i++) {
+        await repo.create(
+          uploaderId: 'test@dittodatto.no',
+          url: 'https://cdn.example.com/$i.jpg',
+          storagePath: 'companies/testcompany/media/$i.jpg',
+          filename: '$i.jpg',
+          mimeType: 'image/jpeg',
+          size: 1000 * i,
+        );
+      }
+
+      final items = await repo.fetchAll();
+      expect(items, hasLength(3));
+      // Should be ordered newest-first by created_at
+      // (SurrealDB auto-generates created_at)
+    });
+
+    test('fetchByCategory filters correctly', () async {
+      await repo.create(
+        uploaderId: 'u',
+        url: 'u1',
+        storagePath: 'p1',
+        filename: 'logo.jpg',
+        mimeType: 'image/jpeg',
+        size: 100,
+        category: MediaCategory.logo,
+      );
+      await repo.create(
+        uploaderId: 'u',
+        url: 'u2',
+        storagePath: 'p2',
+        filename: 'gallery.jpg',
+        mimeType: 'image/jpeg',
+        size: 100,
+        category: MediaCategory.gallery,
+      );
+
+      final logos = await repo.fetchByCategory(MediaCategory.logo);
+      expect(logos, hasLength(1));
+      expect(logos.first.filename, 'logo.jpg');
+
+      final galleries = await repo.fetchByCategory(MediaCategory.gallery);
+      expect(galleries, hasLength(1));
+      expect(galleries.first.filename, 'gallery.jpg');
+    });
+
+    test('fetchByEstablishment filters correctly', () async {
+      // Create establishment records (schema requires record<establishment>)
+      await companiesDb.query(
+        'CREATE establishment:est1 SET name = "Est 1", slug = "est1", address = "A", city = "Oslo", zip = "0001"',
+      );
+      await companiesDb.query(
+        'CREATE establishment:est2 SET name = "Est 2", slug = "est2", address = "B", city = "Oslo", zip = "0002"',
+      );
+
+      await repo.create(
+        uploaderId: 'u',
+        url: 'u1',
+        storagePath: 'p1',
+        filename: 'est1.jpg',
+        mimeType: 'image/jpeg',
+        size: 100,
+        establishmentId: 'establishment:est1',
+      );
+      await repo.create(
+        uploaderId: 'u',
+        url: 'u2',
+        storagePath: 'p2',
+        filename: 'est2.jpg',
+        mimeType: 'image/jpeg',
+        size: 100,
+        establishmentId: 'establishment:est2',
+      );
+
+      final items = await repo.fetchByEstablishment('establishment:est1');
+      expect(items, hasLength(1));
+      expect(items.first.filename, 'est1.jpg');
+
+      // Cleanup establishment records
+      await companiesDb.query('DELETE establishment:est1');
+      await companiesDb.query('DELETE establishment:est2');
+    });
+
+    test('delete removes a record and returns true', () async {
+      final item = await repo.create(
+        uploaderId: 'u',
+        url: 'u',
+        storagePath: 'p',
+        filename: 'del.jpg',
+        mimeType: 'image/jpeg',
+        size: 100,
+      );
+      expect(item, isNotNull);
+
+      final deleted = await repo.delete(item!.id);
+      expect(deleted, isTrue);
+
+      final remaining = await repo.fetchAll();
+      expect(remaining, isEmpty);
+    });
+
+    test('delete returns true for nonexistent id (no-op)', () async {
+      // SurrealDB DELETE on missing ID doesn't throw
+      final result = await repo.delete('media:nonexistent');
+      expect(result, isTrue);
+    });
+  });
 }
+

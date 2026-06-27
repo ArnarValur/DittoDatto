@@ -1,0 +1,12 @@
+[
+  {
+    "origin": [
+      "http://dittodatto:8883",
+      "http://localhost:8883",
+      "http://localhost:3000"
+    ],
+    "method": ["GET", "HEAD"],
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type"]
+  }
+]
