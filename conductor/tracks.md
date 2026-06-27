@@ -17,13 +17,18 @@ All tracks organized by domain. Each track links to its dedicated folder.
 | **Public Marketplace (web)** | `apps/web/public-marketplace/` | 🟡 Active | Nuxt 4 / Vue 3 — kept as a dual surface. |
 | **Shared Dart packages** | `packages/mercury_client/` | 🔴 Critical | Consumed by all Flutter apps. |
 | **Infrastructure** | Saturn (GX10) on-prem + SurrealDB | 🟢 Active | Staging environment fully deployed and live (ADR-0003). |
+| **Design System** | `packages/ditto_design/` | 🟡 Active | Shared theme, tokens, layout, solar engine. Consumed by all Flutter apps. |
 | **Auth Service** | `services/auth-service/` | 🔴 Critical | SurrealDB-native auth + shared `ditto_auth` Dart package. New domain. |
 
 ---
 
 ## Active Tracks
 
-
+- [ ] **SolarTheme — Time-of-day atmospheric theming (solar engine, star field, gradient sky)**
+  - *Type:* feature | *Domain:* design-system | *Status:* **Phase 1 complete** (engine ported, demo running on device)
+  - *Link:* [tracks/design-system/solar_theme_20260628/](./tracks/design-system/solar_theme_20260628/)
+  - *Phases:* 5 — (1) Solar Engine + Foundation ✅, (2) Theme Integration, (3) Twilight Transitions & Polish, (4) Shared EstablishmentPage, (5) Hue Palette (deferred — marinating)
+  - *Grilled decisions:* Outfit+Inter typography ✅, Marketplace+BP preview surfaces ✅, gradient+stars atmosphere ✅, hue palette marinating
 
 - [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
   - *Type:* feature | *Domain:* auth-service | *Status:* **ready for Phase 4** (Marketplace consumer auth now live)

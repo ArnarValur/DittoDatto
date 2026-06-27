@@ -24,3 +24,10 @@ export 'src/layout/ditto_scrollspy_layout.dart';
 export 'src/widgets/ditto_error_view.dart';
 export 'src/widgets/ditto_empty_view.dart';
 export 'src/widgets/ditto_confirm_dialog.dart';
+
+// Solar
+export 'src/solar/sun_calc.dart';
+export 'src/solar/solar_state.dart';
+export 'src/solar/solar_engine.dart';
+export 'src/solar/star_catalog.dart';
+export 'src/solar/star_map.dart';

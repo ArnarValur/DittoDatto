@@ -6,6 +6,7 @@ import 'package:mercury_client/mercury_client.dart';
 
 import 'auth_provider.dart';
 import '../features/auth/login_screen.dart';
+import '../features/solar_demo/solar_demo_screen.dart';
 import '../features/auth/signup_screen.dart';
 import '../features/home/home_screen.dart';
 import '../features/bookings/bookings_screen.dart';
@@ -19,6 +20,7 @@ abstract final class MarketplaceRoutes {
   static const profile = '/profile';
   static const login = '/profile/login';
   static const signup = '/profile/signup';
+  static const solarDemo = '/solar';
 }
 
 /// Listenable that fires when authProvider changes.
@@ -66,6 +68,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
+      // SolarTheme demo — full-screen, outside the shell.
+      GoRoute(
+        path: MarketplaceRoutes.solarDemo,
+        builder: (context, state) => const SolarDemoScreen(),
+      ),
       // Main app shell — bottom nav always visible.
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {

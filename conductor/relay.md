@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 00:39 — SolarTheme Exploration (Saturday Night Side-Quest)
+- **Session:** Ported Nuxt SolarTheme to Flutter. Mini grill on DD theme foundation (typography, surfaces, atmosphere scope). Solar engine + star field in `ditto_design`, demo screen in marketplace running on device. Track created.
+- **Tracks touched:** solar_theme_20260628 (Phase 1 complete)
+- **Status:** Engine works — Norwegian summer midnight shows correct civil twilight (bright blue, no stars). Typography unified (Outfit+Inter). Hue palette decision marinating.
+- **Decisions:** None (grilled preferences captured in track spec, not ADR-level)
+- **Next:** (1) User brainstorming twilight transitions. (2) Phase 2: wire solar into real Marketplace shell. (3) Auth Service Phase 4 review. (4) CRM track.
+
 ## 2026-06-27 23:34 — Research Review + Firebase Decision
 - **Session:** User reviewed all 4 research docs (Noona CRM, CRM Architecture, Communication Architecture, SDB Message Bus). Decided Firebase for SMS/email (already registered). SDB deep dive + experiment script delivered.
 - **Tracks touched:** None (research/planning session)

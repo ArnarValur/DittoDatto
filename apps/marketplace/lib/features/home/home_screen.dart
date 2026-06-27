@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../core/router.dart';
 
 /// Placeholder Home screen — DittoBar and discovery will live here.
 class HomeScreen extends StatelessWidget {
@@ -34,9 +37,17 @@ class HomeScreen extends StatelessWidget {
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
+            const SizedBox(height: 32),
+            // Temporary — Solar Theme experiment
+            FilledButton.icon(
+              onPressed: () => context.push(MarketplaceRoutes.solarDemo),
+              icon: const Icon(Icons.wb_sunny_outlined),
+              label: const Text('Solar Demo ☀️'),
+            ),
           ],
         ),
       ),
     );
   }
 }
+

@@ -22,8 +22,18 @@ abstract final class DittoTheme {
       surfaceContainerHigh: DittoColors.surfaceContainerHigh,
     );
 
-    final textTheme = GoogleFonts.interTextTheme(
-      ThemeData(brightness: Brightness.dark).textTheme,
+    final baseDark = ThemeData(brightness: Brightness.dark).textTheme;
+    final headlineTheme = GoogleFonts.outfitTextTheme(baseDark);
+    final bodyTheme = GoogleFonts.interTextTheme(baseDark);
+
+    // Outfit for display/headline/title, Inter for body/label.
+    final textTheme = headlineTheme.copyWith(
+      bodyLarge: bodyTheme.bodyLarge,
+      bodyMedium: bodyTheme.bodyMedium,
+      bodySmall: bodyTheme.bodySmall,
+      labelLarge: bodyTheme.labelLarge,
+      labelMedium: bodyTheme.labelMedium,
+      labelSmall: bodyTheme.labelSmall,
     );
 
     return ThemeData(
@@ -150,9 +160,10 @@ abstract final class DittoTheme {
     );
     final baseLight = ThemeData(brightness: Brightness.light).textTheme;
     final headlineTheme = GoogleFonts.outfitTextTheme(baseLight);
-    final bodyTheme = GoogleFonts.manropeTextTheme(baseLight);
+    final bodyTheme = GoogleFonts.interTextTheme(baseLight);
 
-    // Outfit for display/headline/title, Manrope for body/label.
+    // Outfit for display/headline/title, Inter for body/label.
+    // Matches the grilled typography decision: one platform, one voice.
     final textTheme = headlineTheme.copyWith(
       bodyLarge: bodyTheme.bodyLarge,
       bodyMedium: bodyTheme.bodyMedium,
