@@ -25,10 +25,6 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 
 
-- [ ] **Business Portal — Login redesign + Establishments CRUD**
-  - *Type:* feature | *Domain:* business-portal | *Status:* in-progress
-  - *Link:* [tracks/business-portal/bp_login_establishments_20260614/](./tracks/business-portal/bp_login_establishments_20260614/)
-  - *Phases:* 5 — (1) Design System Light Theme, (2) Login Redesign, (3) Establishments List, (4) Establishment Create + Edit, (5) Integration & Polish
 - [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
   - *Type:* feature | *Domain:* auth-service | *Status:* **paused** (Phase 1-3 complete, waiting on Marketplace for Phase 4)
   - *Link:* [tracks/auth-service/auth_service_20260624/](./tracks/auth-service/auth_service_20260624/)
@@ -40,11 +36,6 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Phases:* 4 — (1) Project Scaffold + Nav Shell, (2) Consumer Auth, (3) Profile Page, (4) Integration Testing + Saturn Deploy
   - *Depends on:* Auth Service Phase 2 (consumer_auth schema + ditto_auth consumer methods)
 
-- [ ] **BP Establishment Page Preview — shared EstablishmentPage widget + preview toggle in edit screen**
-  - *Type:* feature | *Domain:* business-portal | *Status:* in-progress
-  - *Link:* [tracks/business-portal/bp_establishment_preview_20260625/](./tracks/business-portal/bp_establishment_preview_20260625/)
-  - *Phases:* 4 — (1) Shared Package Scaffold, (2) EstablishmentPage Widget, (3) BP Integration, (4) Verification
-
 - [x] **Media Manager Package — Extract media management into `packages/media_manager/` shared package** [checkpoint: `6c465c9`]
   - *Type:* feature | *Domain:* shared-packages | *Status:* complete
   - *Link:* [tracks/shared-packages/media_manager_package_20260626/](./tracks/shared-packages/media_manager_package_20260626/)
@@ -54,6 +45,14 @@ All tracks organized by domain. Each track links to its dedicated folder.
 ---
 
 ## Completed Tracks
+
+- [x] **Business Portal Chapter 1 — Login + Establishments + Preview + Media** [checkpoint: graduation]
+  - *Type:* feature | *Domain:* business-portal | *Status:* completed
+  - *Tracks merged:* `bp_login_establishments_20260614` + `bp_establishment_preview_20260625`
+  - *Links:* [login+establishments](./tracks/business-portal/bp_login_establishments_20260614/) · [preview](./tracks/business-portal/bp_establishment_preview_20260625/)
+  - *What works:* Login/logout ✅, Establishments CRUD ✅, Preview toggle ✅, Media upload/select/remove ✅, EstablishmentPage with cover+gallery+logo ✅. Deployed to Saturn `:8003`.
+  - *Deferred to Chapter 2:* EstablishmentPage UI polish (bento/showcase/spotlight layouts), responsive layout, coverage gate, preview integration test.
+  - *Notes:* User-confirmed 2026-06-27. E2E checklist at `conductor/docs/media-manager-e2e-checklist.md` — user working through gradually.
 
 - [x] **Admin Panel Chapter 1 — Flutter platform administration interface** [checkpoint: graduation]
   - *Type:* feature | *Domain:* admin-panel | *Status:* completed

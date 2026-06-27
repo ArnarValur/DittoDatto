@@ -1,18 +1,17 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-27 16:33
-**Session Focus:** Admin Panel Chapter 1 graduation
+**Last Updated:** 2026-06-27 16:39
+**Session Focus:** Admin Panel + Business Portal Chapter 1 graduations
 
 ## 🚀 Active Tracks
 
-- **BP Establishment Preview** (`bp_establishment_preview_20260625`) — **In-progress.** Phases 1-3 ✅, Phase 4 partial. Shared `packages/establishment_ui/` built (44 tests). Preview toggle deployed to Saturn. Media fields wired through.
 - **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial. Saturn SDB connectivity ✅, user-verified E2E ✅.
 - **Auth Service** (`auth_service_20260624`) — **Paused.** Phases 1-3 ✅, Phase 4 consumer wiring waiting on Marketplace.
-- **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E ✅. Deployed.
 
 
 ## ✅ Recently Completed
 
+- **2026-06-27 16:39** — **Business Portal Chapter 1 graduated.** Merged `bp_login_establishments_20260614` + `bp_establishment_preview_20260625`. User confirmed: login, establishments CRUD, preview toggle, media upload/select/remove all working on Saturn `:8003`. UI polish (layout modes, responsive) deferred to Chapter 2.
 - **2026-06-27 16:33** — **Admin Panel Chapter 1 graduated.** User confirmed login/logout, Users CRUD, Companies CRUD, and Categories all working on Saturn. 50 integration tests green. Track closed — Inbox + advanced features deferred to a future re-grill as a new track.
 - **2026-06-27 16:23** — **Media E2E checklist + user verification.** Created 45-scenario E2E testing checklist at `conductor/docs/media-manager-e2e-checklist.md`. User confirmed media upload, selection, removal, and preview rendering all work on Saturn. Layout is crude but functional — polish deferred to EstablishmentPage grill session.
 - **2026-06-27 14:17** — **Preview media wiring.** Added `CoverLayoutMode` enum + 4 media fields (`logoUrl`, `coverUrl`, `galleryUrls`, `coverLayoutMode`) to `EstablishmentData`. New `EstablishmentGallerySection` renders cover + gallery thumbnails. Logo avatar in `EstablishmentInfoBar`. BP `_buildPreviewData()` passes media from edit form. 22 model + 22 widget = 44 tests green.
@@ -31,6 +30,13 @@
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-27 16:39 — BP Chapter 1 Graduation
+- Merged tracks: `bp_login_establishments_20260614` + `bp_establishment_preview_20260625`
+- User confirmed on Saturn: login ✅, CRUD ✅, preview toggle ✅, media ✅
+- Both tracks marked complete, combined as "Business Portal Chapter 1" in Completed Tracks
+- Deferred to Chapter 2: bento/showcase/spotlight layouts, responsive layout, coverage gate
+- E2E checklist at `conductor/docs/media-manager-e2e-checklist.md` — user working through gradually, no agent action needed until edge cases surface
 
 ### Session 2026-06-27 16:33 — Admin Panel Chapter 1 Graduation
 - User confirmed: login/logout ✅, Users CRUD ✅, Companies CRUD ✅, Categories ✅

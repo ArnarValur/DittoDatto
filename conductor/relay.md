@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 16:39 — Business Portal Chapter 1 Graduation
+- **Session:** Merged and graduated `bp_login_establishments_20260614` + `bp_establishment_preview_20260625` as BP Chapter 1. User confirmed login, establishments CRUD, preview toggle, media all working on Saturn. UI polish deferred to Chapter 2 re-grill.
+- **Tracks touched:** bp_login_establishments_20260614 (completed), bp_establishment_preview_20260625 (completed)
+- **Status:** BP Chapter 1 closed. Admin Panel Chapter 1 also closed earlier this session. Active tracks: Marketplace Foundation + Auth Service only.
+- **Decisions:** None
+- **Next:** (1) EstablishmentPage UI polish grill (BP Chapter 2). (2) Marketplace tests. (3) E2E checklist (user-driven). (4) Admin Panel Chapter 2 when ready.
+
 ## 2026-06-27 16:33 — Admin Panel Chapter 1 Graduation
 - **Session:** User confirmed Admin Panel login/logout, Users, Companies, Categories all working on Saturn. Track `admin_panel_20260527` graduated as Chapter 1 complete. Inbox + advanced features deferred to future re-grill as independent track.
 - **Tracks touched:** admin_panel_20260527 (completed)
