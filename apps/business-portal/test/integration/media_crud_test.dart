@@ -4,7 +4,7 @@ library;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:surrealdb/surrealdb.dart';
 
-import 'package:business_portal/features/media/media_model.dart';
+import 'package:media_manager/media_manager.dart';
 
 /// Integration tests for the `media` table CRUD against a real SurrealDB.
 ///
