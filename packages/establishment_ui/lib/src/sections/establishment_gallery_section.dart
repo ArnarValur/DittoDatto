@@ -3,85 +3,139 @@ import 'package:flutter/material.dart';
 
 import '../models/establishment_data.dart';
 
-/// Renders the establishment's cover image and gallery photos.
+/// Full-width cover image gallery for the establishment page.
 ///
-/// Shows a cover image at the top, followed by a horizontal scrollable
-/// row of gallery thumbnails. Falls back to [_EmptyGallery] when no
+/// Mobile-first layout: single cover image filling the width with a
+/// "Se bilder" pill button overlaid bottom-right (when gallery has
+/// additional photos). Falls back to an inline placeholder when no
 /// media is available.
 ///
-/// Layout modes (bento/showcase/spotlight) are stored on
-/// [EstablishmentData.coverLayoutMode] but not yet rendered differently —
-/// all three currently show a simple cover + gallery row. Distinct layout
-/// rendering will be added when the EstablishmentPage is re-grilled.
+/// TODO: Implement responsive bento/showcase layouts for tablet/desktop
+/// breakpoints based on [EstablishmentData.coverLayoutMode].
 class EstablishmentGallerySection extends StatelessWidget {
-  const EstablishmentGallerySection({required this.data, super.key});
+  const EstablishmentGallerySection({
+    required this.data,
+    this.onViewPhotos,
+    super.key,
+  });
 
   final EstablishmentData data;
 
+  /// Called when the "Se bilder" button is tapped.
+  /// TODO: Wire to full-screen gallery viewer.
+  final VoidCallback? onViewPhotos;
+
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-    return SliverToBoxAdapter(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Cover image
-          if (data.coverUrl != null)
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(DittoSpacing.base),
-                bottomRight: Radius.circular(DittoSpacing.base),
-              ),
-              child: Image.network(
-                data.coverUrl!,
-                height: 220,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => _ImageErrorBox(
-                  height: 220,
-                  colorScheme: colorScheme,
+    // No media at all — inline placeholder.
+    if (!data.hasMedia) {
+      return SliverToBoxAdapter(
+        child: Container(
+          height: 260,
+          color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.photo_library_outlined,
+                  size: 48,
+                  color:
+                      colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                 ),
-                loadingBuilder: (_, child, progress) {
-                  if (progress == null) return child;
-                  return _ImageLoadingBox(
-                    height: 220,
-                    colorScheme: colorScheme,
-                  );
-                },
+                const SizedBox(height: DittoSpacing.sm),
+                Text(
+                  'Bilder kommer snart',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colorScheme.onSurfaceVariant
+                        .withValues(alpha: 0.7),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    // Cover image with optional "Se bilder" pill overlay.
+    return SliverToBoxAdapter(
+      child: Stack(
+        children: [
+          // Cover image — full width, 4:3-ish aspect on mobile.
+          if (data.coverUrl != null)
+            Image.network(
+              data.coverUrl!,
+              height: 300,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (_, _, _) => _ImageErrorBox(
+                height: 300,
+                colorScheme: colorScheme,
+              ),
+              loadingBuilder: (_, child, progress) {
+                if (progress == null) return child;
+                return _ImageLoadingBox(
+                  height: 300,
+                  colorScheme: colorScheme,
+                );
+              },
+            )
+          else if (data.galleryUrls.isNotEmpty)
+            // No cover but gallery exists — use first gallery image.
+            Image.network(
+              data.galleryUrls.first,
+              height: 300,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (_, _, _) => _ImageErrorBox(
+                height: 300,
+                colorScheme: colorScheme,
               ),
             ),
 
-          // Gallery thumbnails (horizontal scroll row)
-          if (data.galleryUrls.isNotEmpty) ...[
-            const SizedBox(height: DittoSpacing.sm),
-            SizedBox(
-              height: 80,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DittoSpacing.base,
-                ),
-                itemCount: data.galleryUrls.length,
-                separatorBuilder: (_, __) =>
-                    const SizedBox(width: DittoSpacing.xs),
-                itemBuilder: (context, index) => ClipRRect(
-                  borderRadius: DittoBorderRadius.smallAll,
-                  child: Image.network(
-                    data.galleryUrls[index],
-                    width: 100,
-                    height: 80,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _ImageErrorBox(
-                      height: 80,
-                      width: 100,
-                      colorScheme: colorScheme,
+          // "Se bilder" pill — bottom-right, shown when there are photos.
+          if (data.totalPhotoCount > 1)
+            Positioned(
+              bottom: DittoSpacing.md,
+              right: DittoSpacing.md,
+              child: Material(
+                color: colorScheme.surface.withValues(alpha: 0.9),
+                borderRadius: DittoBorderRadius.mediumAll,
+                elevation: 2,
+                child: InkWell(
+                  onTap: onViewPhotos,
+                  borderRadius: DittoBorderRadius.mediumAll,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: DittoSpacing.md,
+                      vertical: DittoSpacing.sm,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.grid_view_rounded,
+                          size: 16,
+                          color: colorScheme.onSurface,
+                        ),
+                        const SizedBox(width: DittoSpacing.xs),
+                        Text(
+                          'Se bilder (${data.totalPhotoCount})',
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color: colorScheme.onSurface,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-          ],
         ],
       ),
     );
@@ -93,18 +147,16 @@ class _ImageErrorBox extends StatelessWidget {
   const _ImageErrorBox({
     required this.height,
     required this.colorScheme,
-    this.width,
   });
 
   final double height;
-  final double? width;
   final ColorScheme colorScheme;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      width: width ?? double.infinity,
+      width: double.infinity,
       color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
       child: Center(
         child: Icon(

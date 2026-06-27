@@ -44,6 +44,14 @@ class HomeScreen extends StatelessWidget {
               icon: const Icon(Icons.wb_sunny_outlined),
               label: const Text('Solar Demo ☀️'),
             ),
+            const SizedBox(height: 12),
+            // Temporary — EstablishmentPage rebuild preview
+            OutlinedButton.icon(
+              onPressed: () =>
+                  context.push(MarketplaceRoutes.establishmentTest),
+              icon: const Icon(Icons.storefront_outlined),
+              label: const Text('Establishment Test 🏪'),
+            ),
           ],
         ),
       ),

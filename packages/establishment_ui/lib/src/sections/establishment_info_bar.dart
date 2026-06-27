@@ -3,11 +3,21 @@ import 'package:flutter/material.dart';
 
 import '../models/establishment_data.dart';
 
-/// Identity bar showing establishment name, type badge, address, and category.
+/// Identity bar showing the establishment's logo, name, address,
+/// and opening status in a centered vertical stack.
 ///
-/// Renders as a [SliverToBoxAdapter] for use inside a [CustomScrollView].
-/// Matches the legacy Nuxt `EstablishmentInfoBar` layout: name prominently
-/// displayed with a business type chip and address line beneath.
+/// Mobile layout (matching the Nuxt mobile screenshot):
+/// ```
+///      ┌──────┐
+///      │ Logo │  (circular, centered)
+///      └──────┘
+///   House of the North
+///  Skolegata 9, Drammen
+///    🔴 Stengt i dag
+/// ```
+///
+/// TODO: Implement responsive horizontal layout for tablet/desktop
+/// breakpoints (logo left, name/address inline, buttons right).
 class EstablishmentInfoBar extends StatelessWidget {
   const EstablishmentInfoBar({
     required this.data,
@@ -28,123 +38,62 @@ class EstablishmentInfoBar extends StatelessWidget {
           vertical: DittoSpacing.md,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Logo + Name + type badge row
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Logo avatar (or type icon fallback)
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: colorScheme.secondaryContainer,
-                  backgroundImage: data.logoUrl != null
-                      ? NetworkImage(data.logoUrl!)
-                      : null,
-                  child: data.logoUrl == null
-                      ? Icon(
-                          data.businessType.icon,
-                          size: 24,
-                          color: colorScheme.onSecondaryContainer,
-                        )
-                      : null,
-                ),
-                const SizedBox(width: DittoSpacing.sm),
-                Expanded(
-                  child: Text(
-                    data.name,
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: DittoSpacing.sm),
-                _BusinessTypeBadge(type: data.businessType),
-              ],
+            // Logo avatar (or type icon fallback) — centered.
+            CircleAvatar(
+              radius: 36,
+              backgroundColor: colorScheme.secondaryContainer,
+              backgroundImage: data.logoUrl != null
+                  ? NetworkImage(data.logoUrl!)
+                  : null,
+              child: data.logoUrl == null
+                  ? Icon(
+                      data.businessType.icon,
+                      size: 32,
+                      color: colorScheme.onSecondaryContainer,
+                    )
+                  : null,
+            ),
+            const SizedBox(height: DittoSpacing.md),
+
+            // Establishment name — centered, bold.
+            Text(
+              data.name,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: DittoSpacing.xs),
 
-            // Address line
-            Row(
-              children: [
-                Icon(
-                  Icons.location_on_outlined,
-                  size: 16,
-                  color: colorScheme.onSurfaceVariant,
-                ),
-                const SizedBox(width: DittoSpacing.xs),
-                Text(
-                  data.addressLine,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
+            // Address line — centered, subdued.
+            Text(
+              data.addressLine,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
             ),
 
-            // Category (optional)
-            if (data.category != null) ...[
+            // Opening status — centered, color-coded.
+            // TODO: Derive from opening_schedule when schedule parsing
+            // is implemented. Currently uses the placeholder string
+            // from EstablishmentData.openingStatus.
+            if (data.openingStatus != null) ...[
               const SizedBox(height: DittoSpacing.xs),
-              Row(
-                children: [
-                  Icon(
-                    Icons.category_outlined,
-                    size: 16,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(width: DittoSpacing.xs),
-                  Text(
-                    data.category!,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
+              Text(
+                data.openingStatus!,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: data.isOpen == true
+                      ? colorScheme.primary
+                      : colorScheme.error,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
               ),
             ],
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// Chip badge showing the business type with icon and Norwegian label.
-class _BusinessTypeBadge extends StatelessWidget {
-  const _BusinessTypeBadge({required this.type});
-
-  final EstablishmentType type;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: DittoSpacing.sm,
-        vertical: DittoSpacing.xs,
-      ),
-      decoration: BoxDecoration(
-        color: colorScheme.secondaryContainer,
-        borderRadius: DittoBorderRadius.mediumAll,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            type.icon,
-            size: 16,
-            color: colorScheme.onSecondaryContainer,
-          ),
-          const SizedBox(width: DittoSpacing.xs),
-          Text(
-            type.label,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: colorScheme.onSecondaryContainer,
-                  fontWeight: FontWeight.w600,
-                ),
-          ),
-        ],
       ),
     );
   }

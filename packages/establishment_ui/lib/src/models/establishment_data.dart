@@ -70,6 +70,11 @@ class EstablishmentData {
     this.coverUrl,
     this.galleryUrls = const [],
     this.coverLayoutMode = CoverLayoutMode.bento,
+    this.showServices = true,
+    this.showEvents = false,
+    this.showStaff = false,
+    this.openingStatus,
+    this.isOpen,
   });
 
   /// Establishment display name.
@@ -120,8 +125,25 @@ class EstablishmentData {
   /// Cover image layout mode.
   final CoverLayoutMode coverLayoutMode;
 
+  /// Section visibility flags — controlled from BP edit view.
+  /// Determines which sections appear on the page and in shortcuts.
+  final bool showServices;
+  final bool showEvents;
+  final bool showStaff;
+
+  /// Opening status display text (e.g. 'Stengt i dag', 'Åpent til 18:00').
+  /// TODO: Derive from opening_schedule when schedule parsing is implemented.
+  final String? openingStatus;
+
+  /// Whether the establishment is currently open.
+  /// TODO: Derive from opening_schedule when schedule parsing is implemented.
+  final bool? isOpen;
+
   /// Whether any media (cover or gallery) is available.
   bool get hasMedia => coverUrl != null || galleryUrls.isNotEmpty;
+
+  /// Total number of gallery images (cover + gallery).
+  int get totalPhotoCount => (coverUrl != null ? 1 : 0) + galleryUrls.length;
 
   /// Formatted address line: "Skolegata 9, Drammen 3046".
   String get addressLine => '$address, $city $zip';
@@ -147,6 +169,11 @@ class EstablishmentData {
     String? coverUrl,
     List<String>? galleryUrls,
     CoverLayoutMode? coverLayoutMode,
+    bool? showServices,
+    bool? showEvents,
+    bool? showStaff,
+    String? openingStatus,
+    bool? isOpen,
   }) {
     return EstablishmentData(
       name: name ?? this.name,
@@ -165,6 +192,11 @@ class EstablishmentData {
       coverUrl: coverUrl ?? this.coverUrl,
       galleryUrls: galleryUrls ?? this.galleryUrls,
       coverLayoutMode: coverLayoutMode ?? this.coverLayoutMode,
+      showServices: showServices ?? this.showServices,
+      showEvents: showEvents ?? this.showEvents,
+      showStaff: showStaff ?? this.showStaff,
+      openingStatus: openingStatus ?? this.openingStatus,
+      isOpen: isOpen ?? this.isOpen,
     );
   }
 
@@ -192,7 +224,12 @@ class EstablishmentData {
         isPublished == other.isPublished &&
         logoUrl == other.logoUrl &&
         coverUrl == other.coverUrl &&
-        coverLayoutMode == other.coverLayoutMode;
+        coverLayoutMode == other.coverLayoutMode &&
+        showServices == other.showServices &&
+        showEvents == other.showEvents &&
+        showStaff == other.showStaff &&
+        openingStatus == other.openingStatus &&
+        isOpen == other.isOpen;
   }
 
   @override
@@ -213,5 +250,10 @@ class EstablishmentData {
         coverUrl,
         Object.hashAll(galleryUrls),
         coverLayoutMode,
+        showServices,
+        showEvents,
+        showStaff,
+        // Object.hash supports up to 20 positional args; nest remaining.
+        Object.hash(openingStatus, isOpen),
       );
 }

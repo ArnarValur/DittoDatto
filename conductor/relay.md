@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 01:56 — EstablishmentPage Mobile-First Rebuild
+- **Session:** Analyzed 4 Nuxt screenshots, rebuilt `establishment_ui` shared package (11 files). Single-scroll page: cover gallery + centered info bar + action buttons + anchor shortcut chips + conditional sections (services/events). Wired to marketplace `/establishment-test` route with mock data. Running on Galaxy S21 — user confirmed "Good base!"
+- **Tracks touched:** No formal track (extends graduated `bp_establishment_preview_20260625`)
+- **Status:** Foundation complete. Needs bottom margin polish, BP preview adaptation, test updates.
+- **Decisions:** None
+- **Next:** (1) Bottom margin + polish. (2) BP `_buildPreviewData()` update. (3) Services section design grill (type-dependent). (4) Test updates.
+
 ## 2026-06-28 00:39 — SolarTheme Exploration (Saturday Night Side-Quest)
 - **Session:** Ported Nuxt SolarTheme to Flutter. Mini grill on DD theme foundation (typography, surfaces, atmosphere scope). Solar engine + star field in `ditto_design`, demo screen in marketplace running on device. Track created.
 - **Tracks touched:** solar_theme_20260628 (Phase 1 complete)

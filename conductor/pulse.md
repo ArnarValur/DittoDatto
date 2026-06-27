@@ -1,15 +1,17 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-28 00:39
-**Session Focus:** SolarTheme exploration — engine port, theme architecture grill, typography normalization
+**Last Updated:** 2026-06-28 01:56
+**Session Focus:** EstablishmentPage mobile-first rebuild — shared widget foundation + marketplace test route
 
 ## 🚀 Active Tracks
 
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
 - **SolarTheme** (`solar_theme_20260628`) — **Phase 1 complete.** Solar engine ported, star field + demo running on device. Phases 2-5 open.
+- **EstablishmentPage rebuild** (no formal track yet) — **Foundation built.** Mobile-first single-scroll page running on Galaxy S21 via `/establishment-test` route in marketplace.
 
 ## ✅ Recently Completed
 
+- **2026-06-28 01:50** — **EstablishmentPage mobile foundation.** Rebuilt `establishment_ui` package: gallery section (full-width cover + "Se bilder" pill), centered info bar, action buttons, section shortcuts, conditional placeholder sections. Wired to marketplace test route. Running on device.
 - **2026-06-28 00:30** — **SolarTheme Phase 1 complete.** Solar engine ported to pure Dart, star field CustomPainter, demo screen on device, typography unified (Outfit+Inter).
 - **2026-06-27 23:34** — **All 4 research docs delivered.** Noona CRM, CRM architecture, Communication architecture, SDB message bus deep dive + experiment script.
 - **2026-06-27 19:52** — **Marketplace Foundation graduated.** Phase 4 complete: 32 tests green. Track closed.
@@ -26,6 +28,26 @@
 - ✅ ~~**No marketplace-level tests.**~~ Resolved — 32 tests (7 integration + 25 widget).
 
 ## 🧠 Session Memory
+
+### Session 2026-06-28 01:56 — EstablishmentPage Mobile-First Rebuild
+
+- **Design analysis:** User shared 4 screenshots of legacy Nuxt EstablishmentPage at different breakpoints (mobile 412px, tablet ~768px, desktop narrow, desktop wide bento). Extracted responsive gallery modes, info bar layout shifts, tab structure.
+- **Key design decisions:**
+  - **No tabs, no swipes** — single-scroll page with anchor shortcut chips
+  - **Conditional sections** — services, events, staff can be toggled from BP
+  - **Back-to-top FAB** — appears after 300px scroll
+  - **Services section naming** — marinating. Using "Tilbud" as placeholder.
+  - **Services are type-dependent** — restaurants have reservations/dining, not "services". Will play with it from BP perspective later.
+  - **Events mostly for venues** with ticketing system.
+- **Shared widget rebuilt** (`packages/establishment_ui/`): 11 files modified/created
+  - `EstablishmentData` model: added `showServices`, `showEvents`, `showStaff`, `openingStatus`, `isOpen`, `totalPhotoCount`
+  - `EstablishmentPage`: StatefulWidget with ScrollController, GlobalKeys, back-to-top FAB
+  - Gallery section: full-width cover + "Se bilder (N)" pill overlay (mobile spotlight mode)
+  - Info bar: centered vertical stack (logo → name → address → opening status)
+  - New: action buttons (Bestill time + Lagre), section shortcuts (anchor chips), services placeholder, events placeholder
+- **Marketplace wiring:** Added `establishment_ui` dep, `/establishment-test` route with mock House of the North data, nav button on home screen
+- **On-device verification:** Running on Galaxy S21 Ultra. User confirmed "Good base!" — needs bottom margin and polishing.
+- **Remaining:** Bottom margin, polish, BP preview adaptation, test updates
 
 ### Session 2026-06-28 00:39 — SolarTheme Exploration (Saturday Night Side-Quest)
 
@@ -51,11 +73,11 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Review Auth Service Phase 4** — consumer auth live in marketplace. Review and potentially graduate.
-2. 🔴 **CRM `/grill` or `/new-track`** — 4 research docs digested. User ready to define the next domain track.
-3. 🟡 **SolarTheme Phase 2** — wire solar engine into real Marketplace shell (atmospheric gradient behind tabs, solar-driven theme mode).
-4. 🟡 **Shared EstablishmentPage** — BP preview + Marketplace must use same widget source (`establishment_ui`). Phase 4 of SolarTheme track.
-5. 🟡 **SDB message bus experiment** — run `sdb-message-bus-experiment.surql` against local SDB to validate patterns.
-6. 🟡 **Marketplace Discovery + Home** — next feature track (ADR-0020 anonymous browsing).
+1. 🔴 **EstablishmentPage polish** — bottom margin, spacing refinements, visual details. User confirmed foundation is good.
+2. 🔴 **BP preview adaptation** — update `_buildPreviewData()` to include new fields. Verify preview toggle still works.
+3. 🟡 **Services section design** — name, type-dependent rendering (restaurant vs venue vs store). Needs grill.
+4. 🟡 **Review Auth Service Phase 4** — consumer auth live in marketplace.
+5. 🟡 **SolarTheme Phase 2** — wire solar engine into real Marketplace shell.
+6. 🟡 **CRM `/grill` or `/new-track`** — 4 research docs digested.
 7. 🟢 **E2E checklist** — user working through 45 scenarios gradually.
 8. 🟢 **Logo:** User is working on a logo — swap when ready.
