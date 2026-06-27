@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 04:53 — Media Manager Test Coverage + CORS Fix + Merge
+- **Session:** Wrote 100 package tests (storage backend, filter bar, grid tile, gallery page filtering, picker modal selection) + 9 new MediaRepository integration tests + 7 MediaUploadStateNotifier unit tests. Fixed Firebase Storage CORS for Saturn (port was 8883→8003). Merged `track/bp-media-manager` to `develop`. Installed `gcloud` SDK on Saturn.
+- **Tracks touched:** `media_manager_package_20260626` (completed — test + polish pass)
+- **Status:** All tests green. Branch merged. CORS applied. User has uploaded visuals ready to verify.
+- **Decisions:** None
+- **⚠️ CRITICAL for next session:** (1) BP on Saturn is port **8003** (not 8883). Admin Panel is **8002**. Caddy configs at `/srv/saturn-docker/portal-caddy/Caddyfile` and `/srv/dittodatto/caddy/Caddyfile`. (2) `gcloud` SDK installed at `~/google-cloud-sdk/` on Saturn, authenticated as `arnarvalur@avj.info`, project `cs-poc-4zmxog23jmy4io0d4yx6rj0`. (3) Firebase Storage bucket: `cs-poc-4zmxog23jmy4io0d4yx6rj0.firebasestorage.app`.
+- **Next:** (1) Verify media upload + thumbnail display E2E on Saturn. (2) Wire picker into establishment edit. (3) User has visuals to work with.
+
 ## 2026-06-27 04:03 — Firebase Storage Fix on Saturn + Deploy Finalization
 - **Session:** Fixed Firebase Storage on Saturn. Root cause: stale `.dart_tool` web plugin registrant was missing `FirebaseCoreWeb` and `FirebaseStorageWeb` registration. `flutter clean` regenerated it. Also added Firebase JS SDK compat scripts to `web/index.html`. Removed try-catch from `Firebase.initializeApp()`. User confirmed login works on Saturn.
 - **Tracks touched:** `media_manager_package_20260626` (completed — post-deploy fix)

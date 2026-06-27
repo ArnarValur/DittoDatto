@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-27 04:03
-**Session Focus:** Firebase Storage fix on Saturn + Media Manager deploy finalization
+**Last Updated:** 2026-06-27 04:53
+**Session Focus:** Media Manager test coverage pass + CORS fix + merge to develop
 
 ## 🚀 Active Tracks
 
@@ -13,11 +13,11 @@
 
 ## ✅ Recently Completed
 
-- **2026-06-27 04:03** — **Firebase Storage fixed on Saturn.** Root cause: stale web plugin registrant missing `FirebaseCoreWeb`/`FirebaseStorageWeb`. `flutter clean` regenerated it. Also added Firebase JS SDK compat scripts to `web/index.html`. User confirmed login works on Saturn.
+- **2026-06-27 04:53** — **Media Manager: Test Coverage + CORS + Merge.** 100 package tests (storage backend, filter bar, grid tile, gallery page filtering, picker modal selection). 63 BP integration tests (MediaRepository via TenantConnection, MediaUploadStateNotifier). Firebase Storage CORS config applied for Saturn origin `http://dittodatto:8003`. `track/bp-media-manager` merged to `develop`.
+- **2026-06-27 04:03** — **Firebase Storage fixed on Saturn.** Root cause: stale web plugin registrant missing `FirebaseCoreWeb`/`FirebaseStorageWeb`. `flutter clean` regenerated it.
 - **2026-06-27 03:43** — **Media Manager Package: Track Complete.** Phase 4 wired BP to `packages/media_manager/`. 169 tests green. Deployed to Saturn.
 - **2026-06-27 03:09** — **Media Manager: SwanFlutter patterns incorporated.** Error taxonomy, `fromExtension()`, cache management. 14 new tests.
 - **2026-06-26 15:06** — **Media Manager Package (Phases 1-3):** Grilled design, ADR-0021, scaffolded package. 37 tests.
-- **2026-06-26 00:22** — **BP Media Manager Saturn Deploy:** 118 tests, rsync `--checksum`, Firebase try-catch.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
@@ -28,28 +28,27 @@
 
 ## 🧠 Session Memory
 
-### Session 2026-06-27 04:03 — Firebase Storage Fix on Saturn
-- **Continued from 2026-06-27 03:43 checkpoint.**
-- User confirmed category picker dialog renders on Saturn (shared package UI works).
-- **Firebase investigation:**
-  1. Removed try-catch → white screen (Uncaught Error in minified JS).
-  2. Re-added try-catch with `firebaseInitialized` flag → app loads but uploads show Norwegian error.
-  3. Console error: `PlatformException(channel-error, Unable to establish connection on channel: "...FirebaseCoreHostApi.initializeCore")`.
-  4. Added Firebase JS SDK compat scripts to `web/index.html` → still same error.
-  5. **Root cause found:** Stale `.dart_tool` web plugin registrant — `FirebaseCoreWeb` and `FirebaseStorageWeb` were NOT registered. Only `FlutterSecureStorageWeb` was present.
-  6. `flutter clean && flutter pub get && flutter build web --release` → regenerated registrant with all 4 web plugins.
-- **Final state:** Firebase inits properly on Saturn. User confirmed login works. Try-catch removed, `firebaseInitialized` guard removed.
-- **Key learning:** After adding Firebase dependencies to a monorepo workspace, `flutter clean` is required to regenerate the web plugin registrant. Stale registrants persist across incremental builds.
+### Session 2026-06-27 04:53 — Media Manager Test Coverage + CORS + Merge
+- **Test coverage pass (4 phases):**
+  - Phase 1: `storage_backend_test.dart` — 16 tests (defaults, overrides, `_parseRows` parsing)
+  - Phase 2: `filter_bar_test.dart` (8), `grid_tile_test.dart` (8), extended `widgets_test.dart` (+26) — gallery filtering, picker selection/search/confirm
+  - Phase 3: `media_notifier_test.dart` (7) — Riverpod state machine. `media_crud_test.dart` (+9) — MediaRepository via TenantConnection against real SurrealDB
+  - Phase 4: `dart analyze` clean, `dart fix --apply`
+- **Final counts:** 100 package tests + 63 BP integration tests, all green
+- **CORS fix:** Created `infra/firebase-storage-cors.json`. Installed `gcloud` SDK on Saturn. Applied CORS config. **Bug found:** original config used port 8883 (wrong), BP is on port 8003. Fixed and re-applied.
+- **Merge:** `track/bp-media-manager` merged to `develop` (no-ff). Conflicts in `conductor/pulse.md` and `conductor/relay.md` resolved (kept track version).
+- **Key learning:** BP on Saturn is port **8003** (Caddy Caddyfile at `/srv/saturn-docker/portal-caddy/Caddyfile`). Admin Panel is port **8002**.
+- **User has uploaded visuals** — ready to work on next steps.
 
-### Session 2026-06-27 03:43 — Media Manager: Phase 4 BP Wiring + Deploy
-- Completed Phase 4. Rewrote `media_providers.dart`, replaced `media_gallery_screen.dart` (800→50 lines), deleted `media_model.dart`. 169 tests green. Deployed to Saturn.
+### Session 2026-06-27 04:03 — Firebase Storage Fix on Saturn
+- Root cause: stale `.dart_tool` web plugin registrant. `flutter clean` regenerated it.
+- Key learning: After adding Firebase deps to monorepo, `flutter clean` required to regenerate web plugin registrant.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-25-pre-preview.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Media Manager: unit + integration + E2E tests with polish** — User's stated next session goal.
-2. 🟡 **Test actual media upload E2E on Saturn** — Firebase inits now; verify upload → Storage → SurrealDB metadata round-trip.
-3. 🟡 **Wire picker into establishment edit** — Use `MediaPickerWidget` for logo/cover/gallery fields.
-4. 🟡 **Merge `track/bp-media-manager` to develop** — Branch is stable, deployed, track complete.
-5. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🔴 **Verify media upload + thumbnail display E2E on Saturn** — CORS is now fixed, user has uploaded visuals to verify.
+2. 🟡 **Wire picker into establishment edit** — Use `MediaPickerWidget` for logo/cover/gallery fields.
+3. 🟡 **Marketplace tests** — `apps/marketplace/test/` is empty.
+4. 🟢 **Logo:** User is working on a logo — swap when ready.
