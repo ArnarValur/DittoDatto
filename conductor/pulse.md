@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-27 05:21
-**Session Focus:** Media Gallery V2 redesign — category rows layout + detail modal + deploy
+**Last Updated:** 2026-06-27 05:32
+**Session Focus:** Post-deploy smoke test — closing deploy verification gap
 
 ## 🚀 Active Tracks
 
@@ -13,11 +13,11 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-27 05:32** — **Post-deploy smoke test.** Built `scripts/post-deploy-smoke.sh`. Verified live against Saturn (3/3 passed, Marketplace skipped). Wired into deploy gate as step 5. Blocker resolved.
 - **2026-06-27 05:21** — **Media Gallery V2: Category Rows Layout.** Redesigned gallery from filter-chip grid to Netflix-style category rows. 3 new widgets (`MediaCategoryRow`, `MediaDetailModal`, `MediaGalleryV2Page`). `updateName`/`updateTags` in repository. Feature-flagged V1/V2 toggle. 235 tests green. Deployed to Saturn. User verified upload/delete/open E2E. Branch merged to `develop`.
 - **2026-06-27 04:53** — **Media Manager: Test Coverage + CORS + Merge.** 100 package + 63 BP integration tests. CORS fix. Merged to `develop`.
 - **2026-06-27 03:43** — **Media Manager Package: Track Complete.** Phase 4 wired BP. 169 tests green. Deployed.
 - **2026-06-27 03:09** — **Media Manager: SwanFlutter patterns incorporated.** Error taxonomy, `fromExtension()`, cache management.
-- **2026-06-26 15:06** — **Media Manager Package (Phases 1-3):** Grilled design, ADR-0021, scaffolded package.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
@@ -27,6 +27,12 @@
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-27 05:32 — Post-Deploy Smoke Test
+- **Built:** `scripts/post-deploy-smoke.sh` — curls Admin Panel (:8002), BP (:8003), Marketplace (:8004, auto-skips), Hub health (:8001).
+- **Tested live:** 3/3 passed against Saturn. Marketplace correctly skipped (not deployed).
+- **Deploy gate updated:** AGENTS.md step 5 now runs smoke test after rsync. Step 6 is test-db-down.
+- **Blocker resolved:** "No post-deploy verification" cleared from pulse.
 
 ### Session 2026-06-27 05:21 — Media Gallery V2 Redesign
 - **UI/UX feedback from user:** Filter chips + flat grid felt repetitive/convoluted. User proposed category rows layout.
@@ -38,11 +44,6 @@
 - **Deploy:** Built + deployed to Saturn at `http://dittodatto:8003`. User confirmed upload, delete, and open work E2E.
 - **Merge:** `track/media-gallery-v2` merged to `develop`.
 - **User graduation:** Media Manager feature considered complete. Future UI tweaks are iterative, not tracked.
-
-### Session 2026-06-27 04:53 — Media Manager Test Coverage + CORS + Merge
-- **Test coverage pass (4 phases):** 100 package + 63 BP integration tests.
-- **CORS fix:** Firebase Storage for Saturn origin. Port 8003 (not 8883).
-- **Merge:** `track/bp-media-manager` merged to `develop`.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-25-pre-preview.md`
 

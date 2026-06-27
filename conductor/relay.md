@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 05:32 — Post-Deploy Smoke Test
+- **Session:** Built `scripts/post-deploy-smoke.sh` — curls each Saturn surface + Hub health. Tested live (3/3 green, Marketplace skipped). Wired into deploy gate (AGENTS.md step 5). Cleared long-standing "no post-deploy verification" blocker.
+- **Tracks touched:** None (cross-cutting infra)
+- **Status:** Deploy gate now has 6 steps: test-db-up → tests → build+rsync → smoke → test-db-down. Smoke script committed (`e159889`).
+- **Decisions:** None
+- **Next:** (1) Wire `MediaPickerWidget` into establishment edit. (2) Marketplace tests. (3) BP Establishment Preview Phase 4.
+
 ## 2026-06-27 05:21 — Media Gallery V2 Redesign + Graduation
 - **Session:** Redesigned gallery from filter-chip grid to Netflix-style category rows. Built `MediaCategoryRow`, `MediaDetailModal`, `MediaGalleryV2Page`. Added `updateName`/`updateTags` to repository + notifier. Feature-flagged V1/V2 toggle. 235 tests green. Deployed to Saturn. User verified E2E and graduated Media Manager.
 - **Tracks touched:** `media_manager_package_20260626` (graduated — V2 polish pass)
