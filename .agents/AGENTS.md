@@ -9,9 +9,8 @@ Workflow — every time, no exceptions:
 1. `./scripts/test-db-up.sh`
 2. `cd apps/<app> && flutter test --tags integration`
 3. All tests must pass. If any fail → fix first, re-run, do NOT deploy.
-4. Only after green: `flutter build web --release` → `rsync` to Saturn.
-5. `./scripts/post-deploy-smoke.sh` — verify the deployed app actually responds on Saturn.
-6. `./scripts/test-db-down.sh`
+4. `./scripts/deploy-to-saturn.sh <portal|admin|marketplace>` — builds, rsyncs to the **correct Caddy-served path**, verifies the served hash matches the build, and runs the smoke test. **NEVER use raw `rsync` to Saturn.** The deploy script encodes the canonical paths.
+5. `./scripts/test-db-down.sh`
 
 If no integration tests exist for the app being deployed, **say so explicitly** and flag it as a gap — do not silently deploy untested code.
 
