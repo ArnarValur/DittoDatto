@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 23:34 — Research Review + Firebase Decision
+- **Session:** User reviewed all 4 research docs (Noona CRM, CRM Architecture, Communication Architecture, SDB Message Bus). Decided Firebase for SMS/email (already registered). SDB deep dive + experiment script delivered.
+- **Tracks touched:** None (research/planning session)
+- **Status:** Only Auth Service remains active. User digesting research, planning next domain tracks (CRM, messaging, marketplace discovery — "strings knotting together").
+- **Decisions:** Firebase for SMS/email (replaces Sveve + MailerSend recommendation). Pulse-level, not ADR.
+- **Next:** (1) Review Auth Service Phase 4. (2) `/grill` or `/new-track` for CRM domain. (3) SDB message bus experiment. (4) EstablishmentPage UI polish.
+
 ## 2026-06-27 23:17 — Marketplace Foundation Phase 4 Closure
 - **Session:** Wrote 32 tests (7 integration + 25 widget) for marketplace auth. Fixed Row→Wrap overflow in login/signup screens. Backfilled track docs (spec.md, plan.md). Closed track — moved to Completed in tracks.md, updated pulse.md.
 - **Tracks touched:** marketplace_foundation_20260624 (completed)

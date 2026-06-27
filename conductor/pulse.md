@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-27 19:52
-**Session Focus:** Marketplace Foundation Phase 4 — testing + track closure
+**Last Updated:** 2026-06-27 23:34
+**Session Focus:** Research review + SDB message bus deep dive delivery
 
 ## 🚀 Active Tracks
 
@@ -9,11 +9,11 @@
 
 ## ✅ Recently Completed
 
-- **2026-06-27 19:52** — **Marketplace Foundation graduated.** Phase 4 complete: 7 integration tests + 25 widget tests all green. Row→Wrap overflow fix in login/signup screens. Track closed, moved to Completed.
-- **2026-06-27 17:10** — **CRM + Communication research dispatched.** 3 research agents: Noona CRM domain analysis, Flutter CRM architecture, Communication/notification infrastructure. Output at `conductor/docs/Business-Portal/`.
-- **2026-06-27 16:39** — **Business Portal Chapter 1 graduated.** Merged `bp_login_establishments_20260614` + `bp_establishment_preview_20260625`. User confirmed: login, establishments CRUD, preview toggle, media upload/select/remove all working on Saturn `:8003`.
-- **2026-06-27 16:33** — **Admin Panel Chapter 1 graduated.** User confirmed login/logout, Users CRUD, Companies CRUD, and Categories all working on Saturn. 50 integration tests green.
-- **2026-06-27 16:23** — **Media E2E checklist + user verification.** 45-scenario checklist created. User confirmed media works on Saturn.
+- **2026-06-27 23:34** — **All 4 research docs delivered.** Noona CRM, CRM architecture, Communication architecture, SDB message bus deep dive + experiment script. User reviewed all reports.
+- **2026-06-27 19:52** — **Marketplace Foundation graduated.** Phase 4 complete: 32 tests green. Track closed.
+- **2026-06-27 17:10** — **CRM + Communication research dispatched.** 3 research agents + SDB deep dive.
+- **2026-06-27 16:39** — **Business Portal Chapter 1 graduated.** 2 tracks merged. Confirmed on Saturn.
+- **2026-06-27 16:33** — **Admin Panel Chapter 1 graduated.** 50 integration tests green. Confirmed on Saturn.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
@@ -26,19 +26,24 @@
 
 ## 🧠 Session Memory
 
-### Session 2026-06-27 19:52 — Marketplace Foundation Phase 4 Closure
-- **Tests created:** `auth_notifier_test.dart` (7 integration), `login_screen_test.dart` (8), `signup_screen_test.dart` (6), `profile_screen_test.dart` (6), `router_redirect_test.dart` (5)
-- **Production fix:** `Row` → `Wrap` in login/signup screens (overflow at ConstrainedBox 400px width)
-- **Track docs backfilled:** `spec.md` + `plan.md` in track folder
-- **Auth Service Phase 4 unblocked** — consumer auth is live in marketplace
+### Session 2026-06-27 23:34 — Research Review + Firebase Decision
+- **User read all 4 research docs:** Noona CRM, CRM Architecture, Communication Architecture, SDB Message Bus Deep Dive
+- **Decision: Firebase for SMS/email** — user already has Firebase project registered. Replaces Sveve + MailerSend recommendation from comms research.
+- **SDB message bus deep dive delivered** — LIVE SELECT, DEFINE EVENT, Changefeeds, cross-namespace patterns, permissions. Plus runnable experiment script with Norwegian test data.
+- **User digesting everything** — "finding a ground where to continue from" — multiple threads knotting together (CRM, messaging, Ditto/Datto, marketplace discovery)
+
+### Session 2026-06-27 19:52 — Marketplace Foundation Phase 4 Closure (other conversation)
+- 32 tests created (7 integration + 25 widget). Row→Wrap overflow fix. Track closed.
+- Auth Service Phase 4 unblocked — consumer auth is live in marketplace
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-27-pre-graduations.md`
 
 ## 📋 Next Session Suggestions
 
 1. 🔴 **Review Auth Service Phase 4** — consumer auth live in marketplace. Review and potentially graduate.
-2. 🔴 **Read CRM + Comms research docs** — 3 reports at `conductor/docs/Business-Portal/`. Ready for `/grill` or `/new-track`.
-3. 🟡 **EstablishmentPage UI polish grill** — bento/showcase/spotlight distinct layouts.
-4. 🟡 **Marketplace Discovery + Home** — next feature track for marketplace (ADR-0020 anonymous browsing).
-5. 🟢 **E2E checklist** — user working through 45 scenarios gradually.
-6. 🟢 **Logo:** User is working on a logo — swap when ready.
+2. 🔴 **CRM `/grill` or `/new-track`** — 4 research docs digested. User ready to define the next domain track.
+3. 🟡 **SDB message bus experiment** — run `sdb-message-bus-experiment.surql` against local SDB to validate patterns.
+4. 🟡 **EstablishmentPage UI polish grill** — bento/showcase/spotlight distinct layouts.
+5. 🟡 **Marketplace Discovery + Home** — next feature track (ADR-0020 anonymous browsing).
+6. 🟢 **E2E checklist** — user working through 45 scenarios gradually.
+7. 🟢 **Logo:** User is working on a logo — swap when ready.
