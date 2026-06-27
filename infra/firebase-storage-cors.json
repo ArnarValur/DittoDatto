@@ -1,8 +1,8 @@
 [
   {
     "origin": [
-      "http://dittodatto:8883",
-      "http://localhost:8883",
+      "http://dittodatto:8003",
+      "http://localhost:8003",
       "http://localhost:3000"
     ],
     "method": ["GET", "HEAD"],
