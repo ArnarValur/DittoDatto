@@ -48,10 +48,10 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Link:* [tracks/business-portal/bp_establishment_preview_20260625/](./tracks/business-portal/bp_establishment_preview_20260625/)
   - *Phases:* 4 — (1) Shared Package Scaffold, (2) EstablishmentPage Widget, (3) BP Integration, (4) Verification
 
-- [ ] **Media Manager Package — Extract media management into `packages/media_manager/` shared package**
-  - *Type:* feature | *Domain:* shared-packages | *Status:* new
+- [x] **Media Manager Package — Extract media management into `packages/media_manager/` shared package** [checkpoint: `6c465c9`]
+  - *Type:* feature | *Domain:* shared-packages | *Status:* complete
   - *Link:* [tracks/shared-packages/media_manager_package_20260626/](./tracks/shared-packages/media_manager_package_20260626/)
-  - *Phases:* 4 — (1) Package Scaffold + Data Layer, (2) Gallery Page Widget, (3) Inline Picker + Modal, (4) BP Integration + Verification
+  - *Phases:* 4 — (1) Package Scaffold + Data Layer ✅, (2) Gallery Page Widget ✅, (3) Inline Picker + Modal ✅, (4) BP Integration + Verification ✅
   - *Depends on:* ADR-0021 (Media Manager as Shared Package)
 
 ---
