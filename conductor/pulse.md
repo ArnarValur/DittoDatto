@@ -1,13 +1,13 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-26 15:06
-**Session Focus:** Media Manager — Grill refinement + shared package extraction (Phases 1-3)
+**Last Updated:** 2026-06-27 03:09
+**Session Focus:** Media Manager — SwanFlutter pattern incorporation + session close
 
 ## 🚀 Active Tracks
 
-- **Media Manager Package** (`media_manager_package_20260626`) — **In-progress.** Phases 1-3 ✅ (37 tests green). Package scaffolded at `packages/media_manager/` with model, repository, storage abstraction, gallery page, inline picker, modal picker. Phase 4 remaining: wire BP to import from package.
+- **Media Manager Package** (`media_manager_package_20260626`) — **In-progress.** Phases 1-3 ✅ (51 tests green). Package at `packages/media_manager/` with models, repository, storage abstraction, gallery page, inline picker, modal picker, error taxonomy. Phase 4 remaining: wire BP to import from package.
 - **BP Establishment Preview** (`bp_establishment_preview_20260625`) — **In-progress.** Phases 1-3 ✅, Phase 4 partial. Shared `packages/establishment_ui/` built (27 tests). Preview toggle deployed to Saturn.
-- **BP Media Manager** (`track/bp-media-manager` branch) — **Deployed to Saturn.** 118 tests green. Being extracted into `packages/media_manager/` (this session's track).
+- **BP Media Manager** (`track/bp-media-manager` branch) — **Deployed to Saturn.** 118 tests green. Being extracted into `packages/media_manager/`.
 - **Marketplace Foundation** (`marketplace_foundation_20260624`) — **In-progress.** Phases 1-3 ✅. Phase 4 partial. Saturn SDB connectivity ✅, user-verified E2E ✅.
 - **Auth Service** (`auth_service_20260624`) — **In-progress.** Phases 1-3 ✅, Phase 4 consumer wiring ✅.
 - **BP Login + Establishments** (`bp_login_establishments_20260614`) — In-progress. Phase 5 E2E ✅. Deployed.
@@ -15,44 +15,42 @@
 
 ## ✅ Recently Completed
 
-- **2026-06-26 15:06** — **Media Manager Package (Phases 1-3):** Grilled media manager design, created ADR-0021 (shared package with abstract storage). Scaffolded `packages/media_manager/` — `MediaItem`, `MediaCategory`, `MediaStorageBackend` interface, `MediaRepository` (TenantConnection), `MediaUploadState`, `MediaGalleryPage` (refactored from 802-line monolith), `MediaFilterBar`, `MediaGridTile`, `MediaGrid`, `MediaPickerWidget` (inline), `MediaPickerModal` (dialog). Firebase Storage path isolation constraint documented. 37 package tests green, 0 analysis issues.
-- **2026-06-26 00:22** — **BP Media Manager Saturn Deploy:** Deploy gate 118 tests. rsync `--checksum` fix. Firebase try-catch fix. Deployed to Saturn.
-- **2026-06-25 20:36** — **BP Establishment Preview:** Created `packages/establishment_ui/`. 130 tests green. Deployed to Saturn.
-- **2026-06-25 18:28** — **User-verified E2E on S21:** Login/logout/theme confirmed on Samsung Galaxy S21.
-- **2026-06-25 15:54** — PM → Saturn E2E: Tailscale mesh, consumer_auth schema, Android cleartext fix.
+- **2026-06-27 03:09** — **Media Manager: SwanFlutter patterns incorporated.** Error taxonomy (`MediaError` + `MediaErrorCode`), `fromExtension()` on `MediaCategory`, `clearCache()` + `getThumbnailUrl()` on `MediaStorageBackend`. 14 new tests. Package now 51 tests, 0 analysis errors.
+- **2026-06-26 15:06** — **Media Manager Package (Phases 1-3):** Grilled design, ADR-0021, scaffolded package. 37 tests.
+- **2026-06-26 00:22** — **BP Media Manager Saturn Deploy:** 118 tests, rsync `--checksum`, Firebase try-catch.
+- **2026-06-25 20:36** — **BP Establishment Preview:** `packages/establishment_ui/`. 130 tests. Deployed.
+- **2026-06-25 18:28** — **User-verified E2E on S21:** Login/logout/theme on Galaxy S21.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## ⚠️ Blockers
 
-- 🟡 **No post-deploy verification.** Deploy gate tests logic against local DB, not the deployed product.
+- 🟡 **No post-deploy verification.** Deploy gate tests against local DB, not deployed product.
 - 🟡 **No marketplace-level tests.** `apps/marketplace/test/` is empty.
 
 ## 🧠 Session Memory
 
-### Session 2026-06-26 15:06 — Media Manager: Grill + Package Extraction
-- **Grill session:** Refined media manager design via open-ended interview. Decisions: dual-purpose model (standalone gallery + inline picker), shared package at `packages/media_manager/`, two main widgets (MediaPickerWidget with configurable `maxSelection`, MediaGalleryPage), category-filtered modal picker, repository pattern with TenantConnection, abstract `MediaStorageBackend`. Deferred drag-and-drop and cropping.
-- **ADR-0021:** Media Manager as Shared Package with Abstract Storage Backend.
-- **Track created:** `media_manager_package_20260626` in `shared-packages` domain. Spec + plan approved.
-- **Package research:** Investigated pub.dev ecosystem — no all-in-one exists for web. `file_picker` + custom `GridView.builder` is the standard approach. Researched `media_manager` (SwanFlutter) for architecture patterns — isolate usage, error taxonomy, enhanced enum file typing.
-- **Implementation (Phases 1-3):**
-  - Phase 1: Scaffolded `packages/media_manager/` (pubspec, barrel exports, workspace registration). Created `MediaItem`, `MediaCategory`, `StorageUploadResult`, `MediaStorageBackend` (abstract), `MediaRepository`, `MediaUploadState`. 20 unit tests green.
-  - Phase 2: Extracted gallery into composable widgets — `MediaFilterBar`, `MediaGridTile`, `MediaGrid`, `MediaGalleryPage`, `MediaUploadProgressBar`, `MediaErrorBanner`, `MediaEmptyState`, `MediaLoadingSkeleton`.
-  - Phase 3: Built NEW `MediaPickerWidget` (inline form picker with thumbnails, remove button, maxSelection, defaultCategory) + `MediaPickerModal` (dialog with category filter, search, upload-from-within, selection indicators). 17 widget tests green.
-- **Firebase path isolation:** Same bucket shared with live Nuxt app. Flutter writes to `companies/{slug}/media/` — never touch sibling folders.
-- **Key findings from SwanFlutter recon:** (1) error taxonomy with named codes, (2) enhanced enum `fromExtension()` for auto-categorization, (3) explicit cache management. Three patterns queued for incorporation.
-- **Remaining:** Phase 4 (BP integration), incorporate 3 SwanFlutter patterns.
+### Session 2026-06-27 03:09 — Media Manager: SwanFlutter Patterns + Close
+- **Continued from 2026-06-26 15:06 checkpoint.**
+- Investigated `media_manager` (SwanFlutter) on pub.dev — completely different thing (device file browser, Android/iOS/macOS only, no web). Zero overlap with our cloud-hosted media library.
+- Dispatched research agent to analyze SwanFlutter architecture. Key learnings: error taxonomy with named codes, enhanced enum `fromExtension()`, explicit cache management.
+- **Incorporated 3 patterns:**
+  1. `MediaError` class + `MediaErrorCode` enum — structured error types with Norwegian messages and factory constructors.
+  2. `MediaCategory.fromExtension()` — auto-suggest category from file extension (SVG→logo, PDF→menu, else→general). Added `typicalExtensions` list and `allExtensions` constant to enum.
+  3. `MediaStorageBackend.clearCache()` + `getThumbnailUrl()` — explicit cache lifecycle management with default no-op implementations.
+- **Tests:** Package now at 51 tests green (14 new for the 3 patterns). 0 analysis errors.
+- **Android tablet brainstorm:** `file_picker` already works on Android. For native feel, add `image_picker` alongside it. Storage backend abstraction means upload path is platform-agnostic. Deferred patterns (isolates, platform interface, permission service) documented for future track.
 
-### Session 2026-06-26 00:22 — BP Media Manager: Saturn Deploy
-- Deploy gate 118 tests. rsync `--checksum` fix. Firebase try-catch fix. Deployed to Saturn.
+### Session 2026-06-26 15:06 — Media Manager: Grill + Package Extraction
+- Grilled media manager design. ADR-0021. Created track `media_manager_package_20260626`.
+- Phases 1-3 implemented: models, repository, storage abstraction, gallery page, inline picker, modal picker. 37 tests.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-25-pre-preview.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Finish Phase 4** — Wire BP to import from `packages/media_manager/`. Replace BP's `features/media/` with thin wrappers. Run full test suite (118 BP + 37 package).
-2. 🔴 **Incorporate SwanFlutter patterns** — Error taxonomy (`MediaError` enum), `fromExtension()` on `MediaCategory`, explicit cache management on `MediaStorageBackend`.
-3. 🟡 **Wire picker into establishment edit** — Use `MediaPickerWidget` for logo/cover/gallery fields. Separate task/track.
-4. 🟡 **Merge `track/bp-media-manager` to develop** — Branch is stable, deployed, tested.
-5. 🟡 **European sovereignty planning** — research Norwegian/European hosting for object storage.
-6. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🔴 **Finish Phase 4** — Wire BP to import from `packages/media_manager/`. Replace BP's `features/media/` with thin wrappers. Run full test suite (118 BP + 51 package).
+2. 🟡 **Wire picker into establishment edit** — Use `MediaPickerWidget` for logo/cover/gallery fields.
+3. 🟡 **Merge `track/bp-media-manager` to develop** — Branch is stable, deployed, tested.
+4. 🟡 **European sovereignty planning** — research Norwegian/European hosting for object storage.
+5. 🟢 **Logo:** User is working on a logo — swap when ready.

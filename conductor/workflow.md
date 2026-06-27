@@ -1,5 +1,6 @@
+# Workflow
+
 <!-- Template: TheOracle | Mode: strict -->
-# Project Workflow — Strict (TDD)
 
 > Full test-driven development workflow with coverage gates.
 > Red → Green → Refactor on every task. No exceptions.
@@ -230,22 +231,16 @@ A task is complete when:
 ### Setup
 
 ```bash
-# Install dependencies and configure environment
-# e.g., npm install / go mod tidy / pip install -r requirements.txt
 ```
 
 ### Daily Development
 
 ```bash
-# Start dev server, run tests, lint, format
-# e.g., npm run dev / go run main.go / npm test
 ```
 
 ### Before Committing
 
 ```bash
-# Run all pre-commit checks: format, lint, type check, tests
-# e.g., npm run check / make check
 ```
 
 ---

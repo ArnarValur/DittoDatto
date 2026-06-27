@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 03:09 — Media Manager: SwanFlutter Patterns + Session Close
+- **Session:** Incorporated 3 SwanFlutter-inspired patterns into `packages/media_manager/`: error taxonomy (MediaError + MediaErrorCode), fromExtension() on MediaCategory, clearCache()/getThumbnailUrl() on MediaStorageBackend. Package now at 51 tests green, 0 analysis errors. Pulse.md was corrupted (1400 lines of duplicated junk from a prior agent) — cleaned up.
+- **Tracks touched:** `media_manager_package_20260626`
+- **Status:** Phases 1-3 complete + patterns incorporated. Phase 4 (BP wiring) deferred to next session.
+- **Decisions:** None
+- **Next:** (1) Wire BP to import from `packages/media_manager/`. (2) Wire `MediaPickerWidget` into establishment edit. (3) Merge branch to develop.
+
 ## 2026-06-26 15:06 — Media Manager: Grill + Package Extraction (Phases 1-3)
 - **Session:** Grilled media manager design. Created ADR-0021. Scaffolded `packages/media_manager/` with full data layer, gallery page, inline picker, and modal picker. 37 package tests green. Investigated SwanFlutter `media_manager` for architecture patterns — three patterns queued for incorporation (error taxonomy, fromExtension, cache management).
 - **Tracks touched:** `media_manager_package_20260626`

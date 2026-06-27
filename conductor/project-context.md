@@ -1,5 +1,6 @@
+# Project Context
+
 <!-- Template: TheOracle -->
-# Project Context — DittoDatto
 
 > Single identity + operational document for this project.
 >
