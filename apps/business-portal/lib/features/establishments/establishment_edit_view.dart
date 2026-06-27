@@ -1,10 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:ditto_design/ditto_design.dart';
 import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:media_manager/media_manager.dart';
 
 import 'establishment_model.dart';
 import 'establishment_providers.dart';
+import '../media/media_providers.dart';
 
 /// Scrollspy edit view for a single Establishment.
 ///
@@ -30,6 +34,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   final _scrollController = ScrollController();
 
   final _genereltKey = GlobalKey();
+  final _bilderKey = GlobalKey();
   final _lokasjonKey = GlobalKey();
   final _kontaktKey = GlobalKey();
   final _innstillingerKey = GlobalKey();
@@ -53,6 +58,12 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   // ── Innstillinger section state ──
   bool _isPublished = false;
   bool _resourcesEnabled = false;
+
+  // ── Bilder section state ──
+  String _coverLayoutMode = 'bento';
+  List<MediaItem> _selectedLogo = [];
+  List<MediaItem> _selectedCover = [];
+  List<MediaItem> _selectedGallery = [];
 
   @override
   void dispose() {
@@ -82,6 +93,29 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
     _websiteController.text = est.website ?? '';
     _isPublished = est.isPublished;
     _resourcesEnabled = est.resourcesEnabled;
+    _coverLayoutMode = est.coverLayoutMode;
+    // Media selections will be resolved after mediaProvider loads
+    // by matching URLs to MediaItem objects.
+    _selectedLogo = [];
+    _selectedCover = [];
+    _selectedGallery = [];
+  }
+
+  /// Match saved establishment media URLs to [MediaItem] objects.
+  void _resolveMediaSelections(List<MediaItem> allMedia, Establishment est) {
+    if (est.logoUrl != null) {
+      final match = allMedia.where((m) => m.url == est.logoUrl);
+      if (match.isNotEmpty) _selectedLogo = [match.first];
+    }
+    if (est.coverUrl != null) {
+      final match = allMedia.where((m) => m.url == est.coverUrl);
+      if (match.isNotEmpty) _selectedCover = [match.first];
+    }
+    if (est.galleryUrls.isNotEmpty) {
+      _selectedGallery = allMedia
+          .where((m) => est.galleryUrls.contains(m.url))
+          .toList();
+    }
   }
 
   /// Build an [EstablishmentData] from current form state for WYSIWYG preview.
@@ -140,6 +174,10 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
           : _websiteController.text.trim(),
       isPublished: _isPublished,
       resourcesEnabled: _resourcesEnabled,
+      logoUrl: () => _selectedLogo.firstOrNull?.url,
+      coverUrl: () => _selectedCover.firstOrNull?.url,
+      galleryUrls: _selectedGallery.map((m) => m.url).toList(),
+      coverLayoutMode: _coverLayoutMode,
     );
 
     await ref.read(establishmentsProvider.notifier).updateEstablishment(updated);
@@ -154,7 +192,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   @override
   Widget build(BuildContext context) {
     final asyncEstablishments = ref.watch(establishmentsProvider);
-
+    final asyncMedia = ref.watch(mediaProvider);
+    final mediaItems = asyncMedia.value ?? [];
     return asyncEstablishments.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(child: Text('Feil: $e')),
@@ -168,10 +207,28 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
         if (_establishment?.id != est.first.id) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
-              setState(() => _loadEstablishment(est.first));
+              setState(() {
+                _loadEstablishment(est.first);
+                // Resolve saved media URLs to MediaItem objects
+                _resolveMediaSelections(mediaItems, est.first);
+              });
             }
           });
           return const Center(child: CircularProgressIndicator());
+        }
+
+        // Re-resolve media selections when media items load/change
+        // (e.g. after initial load or after an upload).
+        if (_selectedLogo.isEmpty &&
+            _selectedCover.isEmpty &&
+            _selectedGallery.isEmpty &&
+            mediaItems.isNotEmpty &&
+            _establishment != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() => _resolveMediaSelections(mediaItems, _establishment!));
+            }
+          });
         }
 
         final sections = [
@@ -185,6 +242,26 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               businessType: _businessType,
               category: _category,
               onCategoryChanged: (c) => setState(() => _category = c),
+            ),
+          ),
+          DittoScrollspySection(
+            key: _bilderKey,
+            label: 'Bilder',
+            icon: Icons.image_outlined,
+            content: _BilderSection(
+              ref: ref,
+              coverLayoutMode: _coverLayoutMode,
+              onCoverLayoutModeChanged: (mode) =>
+                  setState(() => _coverLayoutMode = mode),
+              selectedLogo: _selectedLogo,
+              onLogoChanged: (items) =>
+                  setState(() => _selectedLogo = items),
+              selectedCover: _selectedCover,
+              onCoverChanged: (items) =>
+                  setState(() => _selectedCover = items),
+              selectedGallery: _selectedGallery,
+              onGalleryChanged: (items) =>
+                  setState(() => _selectedGallery = items),
             ),
           ),
           DittoScrollspySection(
@@ -534,6 +611,235 @@ class _InnstillingerSection extends StatelessWidget {
           onChanged: onResourcesChanged,
         ),
       ],
+    );
+  }
+}
+
+// ── Section 5: Bilder ──
+
+class _BilderSection extends StatelessWidget {
+  const _BilderSection({
+    required this.ref,
+    required this.coverLayoutMode,
+    required this.onCoverLayoutModeChanged,
+    required this.selectedLogo,
+    required this.onLogoChanged,
+    required this.selectedCover,
+    required this.onCoverChanged,
+    required this.selectedGallery,
+    required this.onGalleryChanged,
+  });
+
+  final WidgetRef ref;
+  final String coverLayoutMode;
+  final ValueChanged<String> onCoverLayoutModeChanged;
+  final List<MediaItem> selectedLogo;
+  final ValueChanged<List<MediaItem>> onLogoChanged;
+  final List<MediaItem> selectedCover;
+  final ValueChanged<List<MediaItem>> onCoverChanged;
+  final List<MediaItem> selectedGallery;
+  final ValueChanged<List<MediaItem>> onGalleryChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final asyncMedia = ref.watch(mediaProvider);
+    final uploadState = ref.watch(mediaUploadStateProvider);
+    final mediaItems = asyncMedia.value ?? [];
+    final isLoading = asyncMedia.isLoading;
+
+    Future<void> handleUpload({
+      required MediaCategory category,
+      required List<({Uint8List bytes, String filename, String mimeType, int size})> files,
+    }) async {
+      await ref.read(mediaProvider.notifier).uploadMultiple(
+            files: files,
+            category: category,
+          );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // ── Cover Layout Mode ──
+        Text(
+          'Omslagsvisning',
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(height: DittoSpacing.xs),
+        Text(
+          'Velg hvordan omslagsbilder vises på forhåndsvisningssiden',
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const SizedBox(height: DittoSpacing.base),
+
+        Row(
+          children: [
+            _CoverLayoutCard(
+              label: 'Bento Grid',
+              description: '2/4 omslag + 2×2\ngallerigrid',
+              icon: Icons.grid_view_rounded,
+              value: 'bento',
+              selected: coverLayoutMode == 'bento',
+              onTap: () => onCoverLayoutModeChanged('bento'),
+            ),
+            const SizedBox(width: DittoSpacing.sm),
+            _CoverLayoutCard(
+              label: 'Showcase',
+              description: '3/4 omslag +\nvertikal rullegaleri',
+              icon: Icons.view_carousel_rounded,
+              value: 'showcase',
+              selected: coverLayoutMode == 'showcase',
+              onTap: () => onCoverLayoutModeChanged('showcase'),
+            ),
+            const SizedBox(width: DittoSpacing.sm),
+            _CoverLayoutCard(
+              label: 'Spotlight',
+              description: 'Fullbredde\nomslagsbilde',
+              icon: Icons.panorama_wide_angle_rounded,
+              value: 'spotlight',
+              selected: coverLayoutMode == 'spotlight',
+              onTap: () => onCoverLayoutModeChanged('spotlight'),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: DittoSpacing.xl),
+        const Divider(),
+        const SizedBox(height: DittoSpacing.lg),
+
+        // ── Cover Image ──
+        MediaPickerWidget(
+          items: mediaItems,
+          isLoading: isLoading,
+          uploadState: uploadState,
+          onUpload: handleUpload,
+          maxSelection: 1,
+          defaultCategory: MediaCategory.cover,
+          selectedItems: selectedCover,
+          onChanged: onCoverChanged,
+          label: 'Omslagsbilde',
+          hint: 'Hovedbilde for virksomheten',
+        ),
+
+        const SizedBox(height: DittoSpacing.xl),
+
+        // ── Gallery Images ──
+        MediaPickerWidget(
+          items: mediaItems,
+          isLoading: isLoading,
+          uploadState: uploadState,
+          onUpload: handleUpload,
+          defaultCategory: MediaCategory.gallery,
+          selectedItems: selectedGallery,
+          onChanged: onGalleryChanged,
+          label: 'Galleribilder',
+          hint: 'Tilleggsbilder vist ved omslagsbildet',
+        ),
+
+        const SizedBox(height: DittoSpacing.xl),
+
+        // ── Logo ──
+        MediaPickerWidget(
+          items: mediaItems,
+          isLoading: isLoading,
+          uploadState: uploadState,
+          onUpload: handleUpload,
+          maxSelection: 1,
+          defaultCategory: MediaCategory.logo,
+          selectedItems: selectedLogo,
+          onChanged: onLogoChanged,
+          label: 'Logo',
+          hint: 'Lite logo vist på infolinjen',
+        ),
+      ],
+    );
+  }
+}
+
+// ── Cover Layout Mode Card ──
+
+class _CoverLayoutCard extends StatelessWidget {
+  const _CoverLayoutCard({
+    required this.label,
+    required this.description,
+    required this.icon,
+    required this.value,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final String description;
+  final IconData icon;
+  final String value;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final moodyBlue = theme.colorScheme.primary;
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.all(DittoSpacing.base),
+          decoration: BoxDecoration(
+            color: selected
+                ? moodyBlue.withValues(alpha: 0.08)
+                : theme.colorScheme.surfaceContainerHighest
+                    .withValues(alpha: 0.3),
+            borderRadius: DittoBorderRadius.mediumAll,
+            border: Border.all(
+              color: selected
+                  ? moodyBlue
+                  : theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
+              width: selected ? 2 : 1,
+            ),
+          ),
+          child: Column(
+            children: [
+              Icon(
+                icon,
+                size: 28,
+                color: selected
+                    ? moodyBlue
+                    : theme.colorScheme.onSurfaceVariant,
+              ),
+              const SizedBox(height: DittoSpacing.xs),
+              Text(
+                label,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: selected
+                      ? moodyBlue
+                      : theme.colorScheme.onSurface,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                description,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  height: 1.3,
+                ),
+              ),
+              if (selected) ...[
+                const SizedBox(height: DittoSpacing.xs),
+                Icon(Icons.check_circle_rounded, size: 18, color: moodyBlue),
+              ],
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

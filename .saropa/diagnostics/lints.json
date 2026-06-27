@@ -2,106 +2,10 @@
   "schemaVersion": 1,
   "producer": {
     "name": "saropa_lints",
-    "version": "14.2.0"
+    "version": "14.2.4"
   },
-  "generatedAt": "2026-06-25T19:21:15.287Z",
+  "generatedAt": "2026-06-27T03:52:05.286Z",
   "diagnostics": [
-    {
-      "id": "lints:todo:apps/admin/bin/sync_users.dart:10",
-      "source": "lints",
-      "severity": "info",
-      "category": "other",
-      "title": "TODO(ADR-0015): Wrap per-user updates in BEGIN TRANSACTION ... COMMIT",
-      "ruleId": "todo",
-      "location": {
-        "file": "apps/admin/bin/sync_users.dart",
-        "line": 10
-      },
-      "fix": {
-        "kind": "command",
-        "title": "Explain this rule",
-        "command": "saropaLints.explainRule",
-        "args": [
-          {
-            "ruleId": "todo"
-          }
-        ]
-      },
-      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
-    },
-    {
-      "id": "lints:unnecessary_import:apps/admin/test/companies_form_test.dart:1",
-      "source": "lints",
-      "severity": "info",
-      "category": "other",
-      "title": "The import of 'dart:async' is unnecessary because all of the used elements are also provided by the import of 'package:flutter_test/flutter_test.dart'.\nTry removing the import directive.",
-      "ruleId": "unnecessary_import",
-      "location": {
-        "file": "apps/admin/test/companies_form_test.dart",
-        "line": 1
-      },
-      "fix": {
-        "kind": "command",
-        "title": "Explain this rule",
-        "command": "saropaLints.explainRule",
-        "args": [
-          {
-            "ruleId": "unnecessary_import"
-          }
-        ]
-      },
-      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
-    },
-    {
-      "id": "lints:todo:apps/admin/lib/core/providers.dart:18",
-      "source": "lints",
-      "severity": "info",
-      "category": "other",
-      "title": "TODO(arnar): Move to secure configuration / environment variable.",
-      "ruleId": "todo",
-      "location": {
-        "file": "apps/admin/lib/core/providers.dart",
-        "line": 18
-      },
-      "fix": {
-        "kind": "command",
-        "title": "Explain this rule",
-        "command": "saropaLints.explainRule",
-        "args": [
-          {
-            "ruleId": "todo"
-          }
-        ]
-      },
-      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
-    },
-    {
-      "id": "lints:unused_local_variable:apps/admin/lib/core/surreal_admin_repository.dart:502",
-      "source": "lints",
-      "severity": "warning",
-      "category": "other",
-      "title": "The value of the local variable 'result' isn't used.\nTry removing the variable or using it.",
-      "ruleId": "unused_local_variable",
-      "location": {
-        "file": "apps/admin/lib/core/surreal_admin_repository.dart",
-        "line": 502
-      },
-      "fix": {
-        "kind": "command",
-        "title": "Explain this rule",
-        "command": "saropaLints.explainRule",
-        "args": [
-          {
-            "ruleId": "unused_local_variable"
-          }
-        ]
-      },
-      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
-    },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:77",
       "source": "lints",
@@ -124,7 +28,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:104",
@@ -148,7 +52,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:126",
@@ -172,7 +76,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:148",
@@ -196,7 +100,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:181",
@@ -220,7 +124,103 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "d4d19554b6f8546402d396a94c139e90372414df"
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+    },
+    {
+      "id": "lints:todo:apps/admin/bin/sync_users.dart:10",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "TODO(ADR-0015): Wrap per-user updates in BEGIN TRANSACTION ... COMMIT",
+      "ruleId": "todo",
+      "location": {
+        "file": "apps/admin/bin/sync_users.dart",
+        "line": 10
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "todo"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+    },
+    {
+      "id": "lints:unnecessary_import:apps/admin/test/companies_form_test.dart:1",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "The import of 'dart:async' is unnecessary because all of the used elements are also provided by the import of 'package:flutter_test/flutter_test.dart'.\nTry removing the import directive.",
+      "ruleId": "unnecessary_import",
+      "location": {
+        "file": "apps/admin/test/companies_form_test.dart",
+        "line": 1
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "unnecessary_import"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+    },
+    {
+      "id": "lints:todo:apps/admin/lib/core/providers.dart:18",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "TODO(arnar): Move to secure configuration / environment variable.",
+      "ruleId": "todo",
+      "location": {
+        "file": "apps/admin/lib/core/providers.dart",
+        "line": 18
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "todo"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+    },
+    {
+      "id": "lints:unused_local_variable:apps/admin/lib/core/surreal_admin_repository.dart:502",
+      "source": "lints",
+      "severity": "warning",
+      "category": "other",
+      "title": "The value of the local variable 'result' isn't used.\nTry removing the variable or using it.",
+      "ruleId": "unused_local_variable",
+      "location": {
+        "file": "apps/admin/lib/core/surreal_admin_repository.dart",
+        "line": 502
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "unused_local_variable"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
     }
   ]
 }

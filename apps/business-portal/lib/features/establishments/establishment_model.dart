@@ -48,6 +48,10 @@ class Establishment {
     this.isPublished = false,
     this.isActive = true,
     this.resourcesEnabled = false,
+    this.logoUrl,
+    this.coverUrl,
+    this.galleryUrls = const [],
+    this.coverLayoutMode = 'bento',
   });
 
   final String id;
@@ -66,6 +70,12 @@ class Establishment {
   final bool isPublished;
   final bool isActive;
   final bool resourcesEnabled;
+
+  // ── Media fields (maps to schema images.* + cover_layout_mode) ──
+  final String? logoUrl;
+  final String? coverUrl;
+  final List<String> galleryUrls;
+  final String coverLayoutMode;
 
   /// Parse from SurrealDB JSON response.
   factory Establishment.fromJson(Map<String, dynamic> json) {
@@ -86,6 +96,12 @@ class Establishment {
       isPublished: json['is_published'] as bool? ?? false,
       isActive: json['is_active'] as bool? ?? true,
       resourcesEnabled: json['resources_enabled'] as bool? ?? false,
+      logoUrl: (json['images'] as Map<String, dynamic>?)?['logo'] as String?,
+      coverUrl: (json['images'] as Map<String, dynamic>?)?['cover'] as String?,
+      galleryUrls: ((json['images'] as Map<String, dynamic>?)?['gallery'] as List<dynamic>?)
+              ?.cast<String>() ??
+          const [],
+      coverLayoutMode: json['cover_layout_mode'] as String? ?? 'bento',
     );
   }
 
@@ -112,6 +128,15 @@ class Establishment {
     if (email != null) json['email'] = email;
     if (website != null) json['website'] = website;
     if (about != null) json['about'] = about;
+
+    // Media — nested images object + cover_layout_mode
+    json['images'] = <String, dynamic>{
+      if (logoUrl != null) 'logo': logoUrl,
+      if (coverUrl != null) 'cover': coverUrl,
+      'gallery': galleryUrls,
+    };
+    json['cover_layout_mode'] = coverLayoutMode;
+
     return json;
   }
 
@@ -130,6 +155,10 @@ class Establishment {
     String? about,
     bool? isPublished,
     bool? resourcesEnabled,
+    String? Function()? logoUrl,
+    String? Function()? coverUrl,
+    List<String>? galleryUrls,
+    String? coverLayoutMode,
   }) {
     return Establishment(
       id: id,
@@ -148,6 +177,10 @@ class Establishment {
       isPublished: isPublished ?? this.isPublished,
       isActive: isActive,
       resourcesEnabled: resourcesEnabled ?? this.resourcesEnabled,
+      logoUrl: logoUrl != null ? logoUrl() : this.logoUrl,
+      coverUrl: coverUrl != null ? coverUrl() : this.coverUrl,
+      galleryUrls: galleryUrls ?? this.galleryUrls,
+      coverLayoutMode: coverLayoutMode ?? this.coverLayoutMode,
     );
   }
 }
