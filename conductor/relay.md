@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-27 05:21 — Media Gallery V2 Redesign + Graduation
+- **Session:** Redesigned gallery from filter-chip grid to Netflix-style category rows. Built `MediaCategoryRow`, `MediaDetailModal`, `MediaGalleryV2Page`. Added `updateName`/`updateTags` to repository + notifier. Feature-flagged V1/V2 toggle. 235 tests green. Deployed to Saturn. User verified E2E and graduated Media Manager.
+- **Tracks touched:** `media_manager_package_20260626` (graduated — V2 polish pass)
+- **Status:** Media Manager complete and graduated. V2 layout live on Saturn. Branch merged to `develop`.
+- **Decisions:** None
+- **Next:** (1) Wire `MediaPickerWidget` into establishment edit. (2) Marketplace tests. (3) BP Establishment Preview Phase 4.
+
 ## 2026-06-27 04:53 — Media Manager Test Coverage + CORS Fix + Merge
 - **Session:** Wrote 100 package tests (storage backend, filter bar, grid tile, gallery page filtering, picker modal selection) + 9 new MediaRepository integration tests + 7 MediaUploadStateNotifier unit tests. Fixed Firebase Storage CORS for Saturn (port was 8883→8003). Merged `track/bp-media-manager` to `develop`. Installed `gcloud` SDK on Saturn.
 - **Tracks touched:** `media_manager_package_20260626` (completed — test + polish pass)
