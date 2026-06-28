@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 
 /// Horizontal shortcut bar for quick-scrolling to page sections.
 ///
-/// Renders as a [SliverToBoxAdapter] with a scrollable row of [ActionChip]
-/// widgets. Each chip corresponds to a visible section on the page.
-/// Hidden when [sections] is empty.
+/// Renders a scrollable row of [ActionChip] widgets. Each chip corresponds
+/// to a visible section on the page. Returns [SizedBox.shrink] when
+/// [sections] is empty.
+///
+/// Note: This is a regular (non-sliver) widget. The parent
+/// [EstablishmentPage] wraps it in a [SliverToBoxAdapter].
 class EstablishmentSectionShortcuts extends StatelessWidget {
   const EstablishmentSectionShortcuts({
     required this.sections,
@@ -22,36 +25,34 @@ class EstablishmentSectionShortcuts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (sections.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
+      return const SizedBox.shrink();
     }
 
     final colorScheme = Theme.of(context).colorScheme;
 
-    return SliverToBoxAdapter(
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: colorScheme.outlineVariant,
-              width: 0.5,
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: colorScheme.outlineVariant,
+            width: 0.5,
           ),
         ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: DittoSpacing.base),
-          child: Row(
-            children: [
-              for (final section in sections) ...[
-                if (section != sections.first)
-                  const SizedBox(width: DittoSpacing.sm),
-                ActionChip(
-                  label: Text(section.label),
-                  onPressed: () => onTap(section.key),
-                ),
-              ],
+      ),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: DittoSpacing.base),
+        child: Row(
+          children: [
+            for (final section in sections) ...[
+              if (section != sections.first)
+                const SizedBox(width: DittoSpacing.sm),
+              ActionChip(
+                label: Text(section.label),
+                onPressed: () => onTap(section.key),
+              ),
             ],
-          ),
+          ],
         ),
       ),
     );

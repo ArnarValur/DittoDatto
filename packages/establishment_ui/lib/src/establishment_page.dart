@@ -16,6 +16,11 @@ import 'sections/establishment_services_section.dart';
 /// Renders a single vertically scrollable page with all establishment
 /// sections stacked top-to-bottom. No horizontal tab transitions.
 ///
+/// Responsive layout via [DittoWindowClass]:
+/// - **compact** (< 600px): Mobile — single column, full-bleed
+/// - **medium+** (≥ 600px): Tablet/Desktop — max-width 1100px, centered,
+///   bento gallery, horizontal info bar, two-column contact
+///
 /// Consumed by:
 /// - **Business Portal** — preview mode (set [isPreview] to `true`)
 /// - **Public Marketplace** — customer-facing page
@@ -55,6 +60,9 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
 
   EstablishmentData get data => widget.data;
   bool get isPreview => widget.isPreview;
+
+  /// Maximum content width for tablet/desktop viewports.
+  static const _maxContentWidth = 1100.0;
 
   @override
   void initState() {
@@ -109,9 +117,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Scaffold(
       floatingActionButton: _showBackToTop
           ? FloatingActionButton.small(
@@ -119,99 +124,231 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               child: const Icon(Icons.keyboard_arrow_up),
             )
           : null,
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          // ── Draft banner ──────────────────────────────────────────
-          if (isPreview && !data.isPublished)
-            SliverToBoxAdapter(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DittoSpacing.base,
-                  vertical: DittoSpacing.sm,
-                ),
-                color: colorScheme.tertiaryContainer,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.visibility_off_outlined,
-                      size: 16,
-                      color: colorScheme.onTertiaryContainer,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final windowClass = DittoWindowClass.of(constraints.maxWidth);
+          final isWide = windowClass != DittoWindowClass.compact;
+
+          return CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              // ── Draft banner ────────────────────────────────────────
+              _buildDraftBanner(context),
+
+              // ── Gallery ─────────────────────────────────────────────
+              EstablishmentGallerySection(data: data, isWide: isWide),
+
+              // ── Constrained content area for wide viewports ─────────
+              // Everything below the gallery gets a max-width constraint.
+              SliverToBoxAdapter(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: isWide
+                        ? const BoxConstraints(maxWidth: _maxContentWidth)
+                        : const BoxConstraints(),
+                    child: Column(
+                      children: [
+                        // ── Info bar ──────────────────────────────────
+                        EstablishmentInfoBar(
+                          data: data,
+                          isWide: isWide,
+                          isPreview: isPreview,
+                        ),
+
+                        // ── Action buttons (mobile only) ─────────────
+                        // On wide viewports, buttons are inside the info bar.
+                        if (!isWide)
+                          EstablishmentActionButtons(
+                            data: data,
+                            isPreview: isPreview,
+                          ),
+                      ],
                     ),
-                    const SizedBox(width: DittoSpacing.xs),
-                    Text(
-                      'Utkast — ikke synlig for kunder',
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        color: colorScheme.onTertiaryContainer,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
 
-          // ── Gallery ───────────────────────────────────────────────
-          EstablishmentGallerySection(data: data),
+              // ── Section shortcuts ───────────────────────────────────
+              _buildConstrained(
+                isWide: isWide,
+                child: EstablishmentSectionShortcuts(
+                  sections: _buildVisibleSections(),
+                  onTap: _scrollToSection,
+                ),
+              ),
 
-          // ── Info bar ──────────────────────────────────────────────
-          EstablishmentInfoBar(data: data),
+              // ── Services section ────────────────────────────────────
+              if (data.showServices)
+                SliverToBoxAdapter(
+                  key: _servicesKey,
+                  child: const _SectionAnchor(),
+                ),
+              if (data.showServices)
+                _buildConstrainedSliver(
+                  isWide: isWide,
+                  sliver: const EstablishmentServicesSection(),
+                ),
 
-          // ── Action buttons (hidden in preview) ────────────────────
-          EstablishmentActionButtons(data: data, isPreview: isPreview),
+              // ── Events section ──────────────────────────────────────
+              if (data.showEvents)
+                SliverToBoxAdapter(
+                  key: _eventsKey,
+                  child: const _SectionAnchor(),
+                ),
+              if (data.showEvents)
+                _buildConstrainedSliver(
+                  isWide: isWide,
+                  sliver: const EstablishmentEventsSection(),
+                ),
 
-          // ── Section shortcuts ─────────────────────────────────────
-          EstablishmentSectionShortcuts(
-            sections: _buildVisibleSections(),
-            onTap: _scrollToSection,
-          ),
+              // ── About section ───────────────────────────────────────
+              SliverToBoxAdapter(
+                key: _aboutKey,
+                child: const _SectionAnchor(),
+              ),
+              _buildConstrainedSliver(
+                isWide: isWide,
+                sliver: EstablishmentAboutGrid(data: data),
+              ),
 
-          // ── Services section ──────────────────────────────────────
-          if (data.showServices)
-            SliverToBoxAdapter(
-              key: _servicesKey,
-              child: const _SectionAnchor(),
-            ),
-          if (data.showServices)
-            const EstablishmentServicesSection(),
+              // Spacing between cards
+              if (data.about != null && data.about!.trim().isNotEmpty)
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: DittoSpacing.sm),
+                ),
 
-          // ── Events section ────────────────────────────────────────
-          if (data.showEvents)
-            SliverToBoxAdapter(
-              key: _eventsKey,
-              child: const _SectionAnchor(),
-            ),
-          if (data.showEvents)
-            const EstablishmentEventsSection(),
+              // ── Contact section ─────────────────────────────────────
+              SliverToBoxAdapter(
+                key: _contactKey,
+                child: const _SectionAnchor(),
+              ),
+              _buildConstrainedSliver(
+                isWide: isWide,
+                sliver: EstablishmentContactSection(
+                  data: data,
+                  isWide: isWide,
+                ),
+              ),
 
-          // ── About section ─────────────────────────────────────────
-          SliverToBoxAdapter(
-            key: _aboutKey,
-            child: const _SectionAnchor(),
-          ),
-          EstablishmentAboutGrid(data: data),
-
-          // Spacing between cards
-          if (data.about != null && data.about!.trim().isNotEmpty)
-            const SliverToBoxAdapter(
-              child: SizedBox(height: DittoSpacing.sm),
-            ),
-
-          // ── Contact section ───────────────────────────────────────
-          SliverToBoxAdapter(
-            key: _contactKey,
-            child: const _SectionAnchor(),
-          ),
-          EstablishmentContactSection(data: data),
-
-          // ── Bottom padding ────────────────────────────────────────
-          const SliverToBoxAdapter(
-            child: SizedBox(height: DittoSpacing.xl),
-          ),
-        ],
+              // ── Bottom padding ──────────────────────────────────────
+              const SliverToBoxAdapter(
+                child: SizedBox(height: DittoSpacing.xl),
+              ),
+            ],
+          );
+        },
       ),
+    );
+  }
+
+  /// Builds the draft banner (shown only in preview mode for unpublished).
+  Widget _buildDraftBanner(BuildContext context) {
+    if (!isPreview || data.isPublished) {
+      return const SliverToBoxAdapter(child: SizedBox.shrink());
+    }
+
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return SliverToBoxAdapter(
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          horizontal: DittoSpacing.base,
+          vertical: DittoSpacing.sm,
+        ),
+        color: colorScheme.tertiaryContainer,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.visibility_off_outlined,
+              size: 16,
+              color: colorScheme.onTertiaryContainer,
+            ),
+            const SizedBox(width: DittoSpacing.xs),
+            Flexible(
+              child: Text(
+                'Utkast — ikke synlig for kunder',
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: colorScheme.onTertiaryContainer,
+                  fontWeight: FontWeight.w600,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Wraps a non-sliver [child] in a max-width constraint for wide viewports.
+  SliverToBoxAdapter _buildConstrained({
+    required bool isWide,
+    required Widget child,
+  }) {
+    if (!isWide) {
+      return SliverToBoxAdapter(child: child);
+    }
+    return SliverToBoxAdapter(
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: _maxContentWidth),
+          child: child,
+        ),
+      ),
+    );
+  }
+
+  /// Wraps a [SliverToBoxAdapter] sliver's child in a max-width constraint.
+  /// For slivers that are already SliverToBoxAdapter (about, contact, etc.),
+  /// this re-wraps them with centering/constraint logic.
+  Widget _buildConstrainedSliver({
+    required bool isWide,
+    required Widget sliver,
+  }) {
+    if (!isWide) return sliver;
+
+    // Wrap the sliver content in a center + constrained box.
+    // We achieve this by wrapping in SliverConstrainedCrossAxis when
+    // available, or using a SliverToBoxAdapter wrapper pattern.
+    return _ConstrainedSliverWrapper(
+      maxWidth: _maxContentWidth,
+      child: sliver,
+    );
+  }
+}
+
+/// Wraps a child sliver to constrain its cross-axis width and center it.
+///
+/// Uses [SliverCrossAxisGroup] is not ideal here — instead we wrap the
+/// sliver's output by embedding it in a center-constrained layout.
+class _ConstrainedSliverWrapper extends StatelessWidget {
+  const _ConstrainedSliverWrapper({
+    required this.maxWidth,
+    required this.child,
+  });
+
+  final double maxWidth;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    // SliverCrossAxisExpanded/Group is complex; simpler approach:
+    // use SliverLayoutBuilder to detect available width and apply padding.
+    return SliverLayoutBuilder(
+      builder: (context, constraints) {
+        final crossAxisExtent = constraints.crossAxisExtent;
+        if (crossAxisExtent <= maxWidth) return child;
+
+        final padding = (crossAxisExtent - maxWidth) / 2;
+        return SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: padding),
+          sliver: child,
+        );
+      },
     );
   }
 }

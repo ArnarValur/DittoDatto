@@ -1,88 +1,58 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-28 02:11
-**Session Focus:** EstablishmentPage mobile-first rebuild — shared widget foundation + marketplace test route + data wiring discovery
+**Last Updated:** 2026-06-28 02:41
+**Session Focus:** EstablishmentPage responsive tablet/desktop layout + "Ship Before You Speak" deployment workflow rule
 
 ## 🚀 Active Tracks
 
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
 - **SolarTheme** (`solar_theme_20260628`) — **Phase 1 complete.** Solar engine ported, star field + demo running on device. Phases 2-5 open.
-- **EstablishmentPage rebuild** (no formal track yet) — **Foundation built.** Mobile-first single-scroll page running on Galaxy S21 via `/establishment-test` route in marketplace.
+- **EstablishmentPage rebuild** (no formal track yet) — **Responsive layout complete.** Mobile + tablet/desktop layouts implemented. Deployed to Saturn :8003.
 
 ## ✅ Recently Completed
 
-- **2026-06-28 01:50** — **EstablishmentPage mobile foundation.** Rebuilt `establishment_ui` package: gallery section (full-width cover + "Se bilder" pill), centered info bar, action buttons, section shortcuts, conditional placeholder sections. Wired to marketplace test route. Running on device.
+- **2026-06-28 02:41** — **EstablishmentPage responsive layout.** Added tablet/desktop layout to `establishment_ui` package: bento gallery (hero 2/3 + 2 thumbs), horizontal info bar with inline action buttons, two-column contact with map placeholder. 42 package tests + 63 BP integration tests green. Deployed to Saturn :8003. "Ship Before You Speak" rule added to AGENTS.md.
+- **2026-06-28 01:50** — **EstablishmentPage mobile foundation.** Rebuilt `establishment_ui` package: gallery section, centered info bar, action buttons, section shortcuts, conditional placeholder sections. Wired to marketplace test route. Running on device.
 - **2026-06-28 00:30** — **SolarTheme Phase 1 complete.** Solar engine ported to pure Dart, star field CustomPainter, demo screen on device, typography unified (Outfit+Inter).
-- **2026-06-27 23:34** — **All 4 research docs delivered.** Noona CRM, CRM architecture, Communication architecture, SDB message bus deep dive + experiment script.
 - **2026-06-27 19:52** — **Marketplace Foundation graduated.** Phase 4 complete: 32 tests green. Track closed.
 - **2026-06-27 16:39** — **Business Portal Chapter 1 graduated.** 2 tracks merged. Confirmed on Saturn.
-- **2026-06-27 16:33** — **Admin Panel Chapter 1 graduated.** 50 integration tests green. Confirmed on Saturn.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
 ## ⚠️ Blockers
 
-- ✅ ~~**No post-deploy verification.**~~ Resolved.
-- ✅ ~~**Deploy path confusion.**~~ Resolved — `deploy-to-saturn.sh` with hash verification.
-- ✅ ~~**Deploy missing dart-defines.**~~ Resolved — `DART_DEFINES` map in deploy script + AGENTS.md rules.
-- ✅ ~~**No marketplace-level tests.**~~ Resolved — 32 tests (7 integration + 25 widget).
+- None active.
 
 ## 🧠 Session Memory
 
+### Session 2026-06-28 02:41 — EstablishmentPage Responsive Layout + Workflow Fix
+
+- **Responsive layout implemented** in `packages/establishment_ui/`:
+  - `EstablishmentPage` — `LayoutBuilder` → `DittoWindowClass` → `isWide` boolean. Content constrained to max 1100px on desktop.
+  - `EstablishmentGallerySection` — bento grid (hero flex 2 + 2 stacked thumbs flex 1, 4px gap, 380px height) on wide. Mobile unchanged.
+  - `EstablishmentInfoBar` — horizontal row (logo + name/address/status left, Book + Favorite buttons right) on wide. Accepts `isPreview` to hide buttons.
+  - `EstablishmentActionButtons` — converted to non-sliver, hidden on wide (buttons in info bar).
+  - `EstablishmentSectionShortcuts` — converted to non-sliver.
+  - `EstablishmentContactSection` — two-column (contact card left + map placeholder right) on wide.
+  - Draft banner — `Flexible` fix for narrow viewport overflow.
+- **Tests:** 42 package tests passing (mobile + wide viewport coverage), 63 BP integration tests passing. `dart analyze` clean.
+- **Deployment workflow fix:** User frustrated by recurring pattern: agent says "you can see it" but code only exists locally. Added **"Ship Before You Speak"** rule to AGENTS.md: Code → Test → Ask to deploy → Deploy → THEN report. Never claim visibility without deployment. This has been a recurring issue across 5+ sessions.
+- **Deployed** BP to Saturn :8003 — hash verified, smoke test passed. User can now see the responsive layout.
+
 ### Session 2026-06-28 01:56 — EstablishmentPage Mobile-First Rebuild
 
-- **Design analysis:** User shared 4 screenshots of legacy Nuxt EstablishmentPage at different breakpoints (mobile 412px, tablet ~768px, desktop narrow, desktop wide bento). Extracted responsive gallery modes, info bar layout shifts, tab structure.
-- **Key design decisions:**
-  - **No tabs, no swipes** — single-scroll page with anchor shortcut chips
-  - **Conditional sections** — services, events, staff can be toggled from BP
-  - **Back-to-top FAB** — appears after 300px scroll
-  - **Services section naming** — marinating. Using "Tilbud" as placeholder.
-  - **Services are type-dependent** — restaurants have reservations/dining, not "services". Will play with it from BP perspective later.
-  - **Events mostly for venues** with ticketing system.
-- **Shared widget rebuilt** (`packages/establishment_ui/`): 11 files modified/created
-  - `EstablishmentData` model: added `showServices`, `showEvents`, `showStaff`, `openingStatus`, `isOpen`, `totalPhotoCount`
-  - `EstablishmentPage`: StatefulWidget with ScrollController, GlobalKeys, back-to-top FAB
-  - Gallery section: full-width cover + "Se bilder (N)" pill overlay (mobile spotlight mode)
-  - Info bar: centered vertical stack (logo → name → address → opening status)
-  - New: action buttons (Bestill time + Lagre), section shortcuts (anchor chips), services placeholder, events placeholder
-- **Marketplace wiring:** Added `establishment_ui` dep, `/establishment-test` route with mock House of the North data, nav button on home screen
-- **On-device verification:** Running on Galaxy S21 Ultra. User confirmed "Good base!" — needs bottom margin and polishing.
-- **Data wiring attempt:** Tried wiring marketplace to SurrealDB for real data (images, logo). Discovery:
-  - Marketplace can't use `bp_portal` — that's BP's service user, not a public access method.
-  - `companies/discovery` DB with `establishment_listing` exists in schema but has no data (MercuryEngine syncToDiscovery not built).
-  - **Pivot decision:** Polish the EstablishmentPage via **BP preview** instead. Same shared widget — BP already has the data connection. Marketplace data layer deferred to discovery service track.
-- **Provider reverted** — removed `establishment_provider.dart`, restored simple mock test screen.
-- **Remaining:** Bottom margin polish (via BP preview), BP `_buildPreviewData()` update, services section design, discovery service (future track)
+- **Design analysis:** User shared 4 screenshots of legacy Nuxt EstablishmentPage at different breakpoints. Extracted responsive gallery modes, info bar layout shifts, tab structure.
+- **Key design decisions:** No tabs/swipes (single-scroll), conditional sections, back-to-top FAB, services naming marinating.
+- **Shared widget rebuilt** (`packages/establishment_ui/`): 11 files modified/created. Wired to marketplace test route.
+- **Data wiring pivot:** Marketplace can't use `bp_portal`. Discovery DB has no data. Polish via BP preview instead.
 
-### Session 2026-06-28 00:39 — SolarTheme Exploration (Saturday Night Side-Quest)
-
-- **Mini grill on DD theme foundation:**
-  - Typography: **Outfit headlines + Inter body** — unified across both dark and light themes. Manrope eliminated.
-  - SolarTheme surfaces: **Marketplace + BP establishment preview**. Admin stays dark-only.
-  - Atmospheric rendering: **Gradient sky + stars**. Aurora deferred.
-  - Hue palette: **Marinating** — user brainstorming Moody Blue orbit vs presets. Using existing dark/light as poles for now.
-- **Solar engine ported to pure Dart** — `SunCalc.getPosition()`, `SolarEngine.compute()`, `SolarState` model, `SolarPhase` enum. Zero external dependencies. Lives in `ditto_design/lib/src/solar/`.
-- **Star system ported** — 30 real stars + 2 planets, sidereal time projection, `StarMap.project()`. `StarFieldPainter` CustomPainter with glow blur.
-- **Demo screen** — `/solar` route in marketplace. Full-screen atmospheric gradient + star field + glassmorphic debug card + time slider. Running on Galaxy S21 Ultra.
-- **Norwegian summer validation** — at midnight June 28 in Drammen (59.74°N), engine correctly shows civil twilight / golden hour. Bright blue sky, barely any stars. Math checks out.
-- **Track created** — `solar_theme_20260628` under new `design-system` domain.
-- **User brainstorming** twilight transition gradients and how to make phase shifts feel more natural. Letting it marinate.
-
-### Session 2026-06-27 23:34 — Research Review + Firebase Decision
-- **User read all 4 research docs:** Noona CRM, CRM Architecture, Communication Architecture, SDB Message Bus Deep Dive
-- **Decision: Firebase for SMS/email** — user already has Firebase project registered. Replaces Sveve + MailerSend recommendation from comms research.
-- **Shared EstablishmentPage requirement** — BP preview and Marketplace public page must be identical (same source widget in `establishment_ui`). WYSIWYG for businesses.
-- **DD theme regrill needed** — cohesive design system across Admin Panel, BP, and Marketplace. Currently ad-hoc per app.
-
-> 📦 Full history: `conductor/pulse-archive/2026-06-27-pre-graduations.md`
+> 📦 Full history for earlier sessions: `conductor/pulse-archive/2026-06-27-pre-graduations.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **EstablishmentPage polish via BP preview** — bottom margin, spacing, visual details. BP already has real data (images, logo). Same shared widget applies to marketplace.
-2. 🔴 **BP `_buildPreviewData()` update** — include new model fields (section flags, openingStatus) so preview reflects full page.
-3. 🟡 **Services section design** — name, type-dependent rendering (restaurant vs venue vs store). Needs grill.
-4. 🟡 **Discovery service track** — `companies/discovery` needs sync from company DBs. Required before marketplace can show real data. `/new-track` candidate.
-5. 🟡 **Review Auth Service Phase 4** — consumer auth live in marketplace.
-6. 🟡 **SolarTheme Phase 2** — wire solar engine into real Marketplace shell.
-7. 🟢 **E2E checklist** — user working through 45 scenarios gradually.
-8. 🟢 **Logo:** User is working on a logo — swap when ready.
+1. 🔴 **Visual verification** — User should refresh BP on Saturn :8003 and verify the responsive layout looks right.
+2. 🟡 **Services section design** — name, type-dependent rendering (restaurant vs venue vs store). Needs grill.
+3. 🟡 **Discovery service track** — `companies/discovery` needs sync from company DBs. Required before marketplace can show real data. `/new-track` candidate.
+4. 🟡 **Review Auth Service Phase 4** — consumer auth live in marketplace.
+5. 🟡 **SolarTheme Phase 2** — wire solar engine into real Marketplace shell.
+6. 🟢 **E2E checklist** — user working through 45 scenarios gradually.

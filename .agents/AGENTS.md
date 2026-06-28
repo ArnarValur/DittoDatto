@@ -46,3 +46,19 @@ CLI/SQL is acceptable ONLY for:
 - **Debugging:** Read-only queries to inspect state.
 
 If a form doesn't work, **fix the form**. If provisioning doesn't trigger, **fix provisioning**. CLI hacks hide the bugs that matter most.
+
+## Ship Before You Speak
+
+**NEVER tell the user "you can see X" or "try it now" unless the code is ALREADY deployed and verified on Saturn.**
+
+During active development sessions on any Flutter app (BP, Admin, Marketplace):
+
+1. **Code → Test → Ask to deploy → Deploy → THEN report.** Not code → report → awkward deployment discussion.
+2. After code changes compile and tests pass, **ask the user if they want to deploy.** Don't auto-deploy silently, but don't skip the question either.
+3. Wait for the deploy script's hash verification and smoke test to confirm.
+4. **Only then** tell the user what changed and where to see it (include the port URL).
+5. If deploy fails, fix it. Don't report success.
+
+**The user browses Saturn in their browser. That is the dev surface. Local-only code changes are invisible to them.**
+
+This applies to shared package changes too — if `packages/establishment_ui/` changes, the consuming app(s) must be redeployed for the user to see anything.

@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 02:41 — EstablishmentPage Responsive Layout + Workflow Fix
+- **Session:** Implemented tablet/desktop responsive layout for all `establishment_ui` section widgets (bento gallery, horizontal info bar, two-column contact). Converted 3 widgets from sliver to non-sliver. Fixed draft banner overflow. Updated 42 package tests + 63 BP integration tests. Deployed to Saturn :8003 (hash verified). Added "Ship Before You Speak" rule to AGENTS.md after recurring deployment discussion pattern.
+- **Tracks touched:** No formal track (extends graduated `bp_establishment_preview_20260625`)
+- **Status:** Responsive layout deployed and live. User prompted to visually verify.
+- **Decisions:** None (Ship Before You Speak is operational workflow, not ADR)
+- **Next:** (1) User visual verification on Saturn. (2) Services section design grill. (3) Discovery service `/new-track`. (4) Auth Service Phase 4.
+
 ## 2026-06-28 02:12 — EstablishmentPage Mobile-First Rebuild
 - **Session:** Analyzed 4 Nuxt screenshots, rebuilt `establishment_ui` shared package (11 files). Single-scroll page: cover gallery + centered info bar + action buttons + anchor shortcut chips + conditional sections (services/events). Wired to marketplace `/establishment-test` route with mock data. Running on Galaxy S21 — user confirmed "Good base!" Attempted marketplace data wiring — discovered marketplace needs discovery layer (public DB), not bp_portal. Reverted provider, pivoted to BP preview path for polish.
 - **Tracks touched:** No formal track (extends graduated `bp_establishment_preview_20260625`)
