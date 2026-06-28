@@ -1,17 +1,17 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-28 02:41
-**Session Focus:** EstablishmentPage responsive tablet/desktop layout + "Ship Before You Speak" deployment workflow rule
+**Last Updated:** 2026-06-28 02:51
+**Session Focus:** EstablishmentPage responsive layout + full-screen preview route + "Ship Before You Speak" workflow rule
 
 ## 🚀 Active Tracks
 
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
 - **SolarTheme** (`solar_theme_20260628`) — **Phase 1 complete.** Solar engine ported, star field + demo running on device. Phases 2-5 open.
-- **EstablishmentPage rebuild** (no formal track yet) — **Responsive layout complete.** Mobile + tablet/desktop layouts implemented. Deployed to Saturn :8003.
+- **EstablishmentPage rebuild** (no formal track yet) — **Responsive layout + full-screen preview complete.** Mobile + tablet/desktop layouts implemented. Full-screen preview route with top bar. Deployed to Saturn :8003.
 
 ## ✅ Recently Completed
 
-- **2026-06-28 02:41** — **EstablishmentPage responsive layout.** Added tablet/desktop layout to `establishment_ui` package: bento gallery (hero 2/3 + 2 thumbs), horizontal info bar with inline action buttons, two-column contact with map placeholder. 42 package tests + 63 BP integration tests green. Deployed to Saturn :8003. "Ship Before You Speak" rule added to AGENTS.md.
+- **2026-06-28 02:51** — **EstablishmentPage responsive layout + full-screen preview.** Tablet/desktop layout (bento gallery, horizontal info bar, two-column contact). Full-screen preview route outside shell with Nuxt-style top bar (back button + search placeholder). 42 package + 63 BP integration tests green. Deployed to Saturn :8003. "Ship Before You Speak" rule added to AGENTS.md.
 - **2026-06-28 01:50** — **EstablishmentPage mobile foundation.** Rebuilt `establishment_ui` package: gallery section, centered info bar, action buttons, section shortcuts, conditional placeholder sections. Wired to marketplace test route. Running on device.
 - **2026-06-28 00:30** — **SolarTheme Phase 1 complete.** Solar engine ported to pure Dart, star field CustomPainter, demo screen on device, typography unified (Outfit+Inter).
 - **2026-06-27 19:52** — **Marketplace Foundation graduated.** Phase 4 complete: 32 tests green. Track closed.
@@ -38,6 +38,13 @@
 - **Tests:** 42 package tests passing (mobile + wide viewport coverage), 63 BP integration tests passing. `dart analyze` clean.
 - **Deployment workflow fix:** User frustrated by recurring pattern: agent says "you can see it" but code only exists locally. Added **"Ship Before You Speak"** rule to AGENTS.md: Code → Test → Ask to deploy → Deploy → THEN report. Never claim visibility without deployment. This has been a recurring issue across 5+ sessions.
 - **Deployed** BP to Saturn :8003 — hash verified, smoke test passed. User can now see the responsive layout.
+- **Full-screen preview route** added post-checkpoint:
+  - User observed preview was constrained by sidebar — suggested full-screen rendering as an independent screen.
+  - Created `EstablishmentPreviewScreen` — renders `EstablishmentPage` edge-to-edge outside the dashboard shell.
+  - Top bar with "← Tilbake" back button + "Spør Datto om hva som helst..." search placeholder (future feature slot).
+  - Route: `/establishments/preview` (outside `ShellRoute`, same level as login). Data passed via `GoRouter.extra`.
+  - Preview toggle 👁️ in edit view now navigates to this route instead of swapping the body inline.
+  - Redeployed to Saturn :8003 — hash `020a8b96a143d39b7b02622a215bffee`, smoke passed.
 
 ### Session 2026-06-28 01:56 — EstablishmentPage Mobile-First Rebuild
 

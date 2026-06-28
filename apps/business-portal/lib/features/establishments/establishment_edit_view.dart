@@ -4,6 +4,7 @@ import 'package:ditto_design/ditto_design.dart';
 import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:media_manager/media_manager.dart';
 
 import 'establishment_model.dart';
@@ -29,7 +30,6 @@ class EstablishmentEditView extends ConsumerStatefulWidget {
 class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   Establishment? _establishment;
   bool _saving = false;
-  bool _showPreview = false;
 
   final _scrollController = ScrollController();
 
@@ -305,10 +305,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
           appBar: AppBar(
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_rounded),
-              tooltip: _showPreview ? 'Tilbake til redigering' : 'Virksomheter',
-              onPressed: _showPreview
-                  ? () => setState(() => _showPreview = false)
-                  : () => Navigator.of(context).pop(),
+              tooltip: 'Virksomheter',
+              onPressed: () => Navigator.of(context).pop(),
             ),
             title: Row(
               children: [
@@ -339,17 +337,16 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               ],
             ),
             actions: [
-              // Preview toggle button
+              // Preview toggle button — navigates to full-screen preview
               IconButton(
-                icon: Icon(
-                  _showPreview
-                      ? Icons.edit_rounded
-                      : Icons.visibility_rounded,
-                ),
-                tooltip: _showPreview
-                    ? 'Tilbake til redigering'
-                    : 'Forhåndsvisning',
-                onPressed: () => setState(() => _showPreview = !_showPreview),
+                icon: const Icon(Icons.visibility_rounded),
+                tooltip: 'Forhåndsvisning',
+                onPressed: () {
+                  context.push(
+                    '/establishments/preview',
+                    extra: _buildPreviewData(),
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(right: DittoSpacing.base),
@@ -366,12 +363,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               ),
             ],
           ),
-          body: _showPreview
-              ? EstablishmentPage(
-                  data: _buildPreviewData(),
-                  isPreview: true,
-                )
-              : DittoScrollspyLayout(
+          body: DittoScrollspyLayout(
                   sections: sections,
                   scrollController: _scrollController,
                 ),

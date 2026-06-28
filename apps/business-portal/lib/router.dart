@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:establishment_ui/establishment_ui.dart';
 
 import 'package:mercury_client/mercury_client.dart';
 
@@ -11,6 +12,7 @@ import 'features/shell/portal_shell.dart';
 import 'features/dashboard/dashboard_screen.dart';
 import 'features/establishments/establishments_screen.dart';
 import 'features/establishments/establishment_edit_view.dart';
+import 'features/establishments/establishment_preview_screen.dart';
 import 'features/appointments/appointments_screen.dart';
 import 'features/table_reservations/table_reservations_screen.dart';
 import 'features/staff/staff_screen.dart';
@@ -30,6 +32,7 @@ abstract final class PortalRoutes {
   static const services = '/services';
   static const inbox = '/inbox';
   static const media = '/media';
+  static const establishmentPreview = '/establishments/preview';
 }
 
 /// Maps shell index to route path.
@@ -91,6 +94,15 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: PortalRoutes.login,
         builder: (context, state) => const LoginScreen(),
+      ),
+
+      // Full-screen establishment preview — no shell
+      GoRoute(
+        path: PortalRoutes.establishmentPreview,
+        builder: (context, state) {
+          final data = state.extra! as EstablishmentData;
+          return EstablishmentPreviewScreen(data: data);
+        },
       ),
 
       // Authenticated shell
