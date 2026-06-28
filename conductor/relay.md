@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 13:28 — Desktop Layout Polish
+- **Session:** Gallery redesign (hero 50% + 2×2 thumbnails, rounded corners, margins). Removed section shortcut chips. Added viewport toggle (desktop/tablet/mobile) + theme toggle to preview top bar. Info bar spacing improvements. 72 BP + 41 package tests green. Deployed 4× to Saturn :8003.
+- **Tracks touched:** None (extends graduated BP Chapter 1)
+- **Status:** Live on Saturn :8003. User moving to Marketplace front app work next, then returns to BP layout.
+- **Decisions:** None
+- **Next:** (1) Marketplace front app. (2) Continue EstablishmentPage polish (mobile viewport focus). (3) Services section design grill.
+
 ## 2026-06-28 13:11 — BP Preview Viewport + Theme Toggle
 - **Session:** Added 3-mode viewport toggle (desktop 100%/tablet 1024px/mobile 412px) and dark/light theme toggle to BP preview top bar. MediaQuery override makes EstablishmentPage see the constrained width. Confirmed EstablishmentPage is purely width-based — no platform checks. 72+63+42 tests green. Deployed twice to Saturn :8003.
 - **Tracks touched:** None (extends graduated BP Chapter 1)

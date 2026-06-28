@@ -19,7 +19,7 @@ export 'src/sections/establishment_info_bar.dart';
 export 'src/sections/establishment_about_grid.dart';
 export 'src/sections/establishment_contact_section.dart';
 export 'src/sections/establishment_action_buttons.dart';
-export 'src/sections/establishment_section_shortcuts.dart';
+
 export 'src/sections/establishment_services_section.dart';
 export 'src/sections/establishment_events_section.dart';
 export 'src/sections/establishment_map_section.dart';

@@ -107,13 +107,13 @@ class EstablishmentInfoBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: DittoSpacing.base,
-        vertical: DittoSpacing.md,
+        vertical: 20,
       ),
       child: Row(
         children: [
           // Logo avatar.
-          _buildAvatar(colorScheme, radius: 28),
-          const SizedBox(width: DittoSpacing.md),
+          _buildAvatar(colorScheme, radius: 32),
+          const SizedBox(width: DittoSpacing.base),
 
           // Name + address + status column.
           Expanded(

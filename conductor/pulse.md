@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-28 13:11
-**Session Focus:** BP preview viewport toggle (desktop/tablet/mobile) + theme toggle
+**Last Updated:** 2026-06-28 13:28
+**Session Focus:** EstablishmentPage desktop layout polish — gallery redesign, shortcuts removal, viewport/theme toggles
 
 ## 🚀 Active Tracks
 
@@ -11,11 +11,11 @@
 
 ## ✅ Recently Completed
 
-- **2026-06-28 13:11** — **BP preview viewport + theme toggle.** Added 3-mode viewport toggle (desktop/tablet/mobile) and dark/light theme toggle to preview top bar. MediaQuery override constrains EstablishmentPage to target width. 72 widget + 63 integration + 42 package tests green. Deployed to Saturn :8003.
-- **2026-06-28 12:00** — **Map & Geocoding integration.** New `geo-integration` domain. Kartverket address autocomplete + Nominatim geocoding + flutter_map in shared `establishment_ui` package. Admin Panel company dialog + BP establishment edit form. GeoJSON `geometry<point>` round-trip to SurrealDB. 50 admin + 63 BP tests green. Both deployed to Saturn. Track created.
-- **2026-06-28 03:13** — **EstablishmentPage desktop polish.** Max-width 1100→1200px, 24px inner padding on wide, gallery-to-content spacing, Book+Lagre buttons visible in preview. 42 + 72 tests green. Deployed to Saturn :8003.
-- **2026-06-28 02:51** — **EstablishmentPage responsive layout + full-screen preview.** Tablet/desktop layout (bento gallery, horizontal info bar, two-column contact). Full-screen preview route outside shell. 42 + 63 tests green. Deployed to Saturn :8003.
-- **2026-06-28 01:50** — **EstablishmentPage mobile foundation.** Rebuilt `establishment_ui` package: gallery section, centered info bar, action buttons, section shortcuts, conditional placeholder sections.
+- **2026-06-28 13:28** — **EstablishmentPage desktop layout polish.** Gallery redesign: hero 50% + 2×2 thumbnails, 12px rounded corners, 8px gaps, max-width constrained (not full-bleed). Removed section shortcut chips (users scroll naturally). Viewport toggle (desktop/tablet/mobile) + theme toggle in preview top bar. Info bar spacing improvements. 72 widget + 41 package tests green. Deployed to Saturn :8003.
+- **2026-06-28 12:00** — **Map & Geocoding integration.** Kartverket autocomplete + Nominatim geocoding + flutter_map in shared `establishment_ui`. Admin + BP. 50 admin + 63 BP tests green. Both deployed.
+- **2026-06-28 03:13** — **EstablishmentPage desktop polish.** Max-width, padding, buttons visible. 42 + 72 tests green.
+- **2026-06-28 02:51** — **EstablishmentPage responsive layout + full-screen preview.** Bento gallery, horizontal info bar, two-column contact. 42 + 63 tests green.
+- **2026-06-28 01:50** — **EstablishmentPage mobile foundation.** Gallery section, centered info bar, action buttons, section shortcuts, placeholder sections.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
@@ -25,42 +25,27 @@
 
 ## 🧠 Session Memory
 
-### Session 2026-06-28 13:11 — BP Preview Viewport + Theme Toggle
+### Session 2026-06-28 13:28 — Desktop Layout Polish
 
-- **Viewport toggle:** 3 buttons in preview top bar — Desktop (full width), Tablet (1024px), Mobile (412px). `MediaQuery` override so `EstablishmentPage` sees the constrained width.
-- **Theme toggle:** Dark/light mode icon button using existing `isDarkModeProvider`. Norwegian tooltips.
-- **Confirmed:** `EstablishmentPage` is purely width-based — no `kIsWeb` or platform checks. Native and browser-mobile render identically at same width. 3 viewports sufficient (no separate "native" mode needed).
-- **Converted** `EstablishmentPreviewScreen` from `StatelessWidget` → `ConsumerStatefulWidget` for Riverpod access.
-- **Tests:** 72 BP widget + 63 integration + 42 establishment_ui — all green. Deployed twice to Saturn :8003.
+- **Gallery redesign:** Hero 50% + 2×2 thumbnail grid (was hero 66% + 2 stacked). 12px rounded corners on outer edges. 8px gaps (was 4px). Gallery now max-width constrained with side margins (was full-bleed). Height 400px (was 380px).
+- **Section shortcuts removed:** "Tilbud / Om oss / Kontakt / Kart" anchor chips deleted — users scroll naturally. Removed all anchor scroll infrastructure (GlobalKeys, scroll methods, `_SectionAnchor` class). Deleted `establishment_section_shortcuts.dart` entirely.
+- **Viewport toggle:** 3 buttons in preview top bar — Desktop (full width), Tablet (1024px), Mobile (412px). `MediaQuery` override.
+- **Theme toggle:** Dark/light mode icon button using existing `isDarkModeProvider`.
+- **Spacing:** Gallery-to-content gap 32px (was 24px), info bar vertical padding 20px (was 12px), logo radius 32 (was 28).
+- **Confirmed:** `EstablishmentPage` is purely width-based — no platform checks. 3 viewports sufficient.
+- **Tests:** 72 BP widget + 41 establishment_ui — all green. Deployed 4× to Saturn :8003.
 
 ### Session 2026-06-28 12:00 — Map & Geocoding Integration
 
-- **New domain:** `geo-integration` — cross-cutting concern across Admin, BP, Marketplace.
-- **New track:** `map_and_geocoding_20260628` — 8 phases, 6 complete.
-- **Shared services** in `packages/establishment_ui/lib/src/services/`:
-  - `KartverketService` — Norwegian address autocomplete via `ws.geonorge.no` (free, no auth, 300ms debounce).
-  - `NominatimService` — OSM forward geocoding (fallback when Kartverket lacks coords).
-  - `NorwegianAddress` model — street, city, postal code + optional lat/lng.
-- **Map widget:** `EstablishmentMapSection` — read-only flutter_map sliver for `EstablishmentPage`. "Kart" shortcut chip appears when location exists.
-- **BP integration:** Replaced "Kartvisning kommer snart" placeholder in `_LokasjonSection` with live autocomplete + map. Added `latitude`/`longitude` to BP `Establishment` model with GeoJSON parse/serialize.
-- **Admin integration:** Created `_KartverketAddressField` widget in `companies_screen.dart`. Company dialog now has Kartverket autocomplete on the Address field.
-- **Deploy script fix:** `apps/admin-panel` → `apps/admin` in `deploy-to-saturn.sh`.
-- **Tests:** 50 admin + 63 BP — all green. Both deployed to Saturn, hash verified, smoke passed.
-- **User confirmed:** Kartverket autocomplete + save round-trip works flawlessly on Saturn.
-- **Future:** Marketplace multi-pin discovery map (Phase 7), Sweden/Lantmäteriet support (Phase 8).
-
-### Session 2026-06-28 03:13 — EstablishmentPage Desktop Polish
-
-- Desktop width/spacing fixes, buttons visible in preview. Deployed to Saturn :8003.
+- Kartverket autocomplete + Nominatim geocoding + flutter_map. Admin + BP integration. GeoJSON round-trip. New `geo-integration` domain + track.
 
 > 📦 Full history for earlier sessions: `conductor/pulse-archive/2026-06-28-pre-polish.md`
 
-## 📋 Next Session Suggestions
-
-1. 🔴 **EstablishmentPage layout adjustments** — user has "big layout requests" queued. Desktop margins, then mobile viewport focus.
-2. 🟡 **Services section design** — name, type-dependent rendering (restaurant vs venue vs store). Needs grill.
-3. 🟡 **Marketplace discovery map** — Phase 7 of geo-integration track. Multi-pin `MarkerLayer` on landing page.
-4. 🟡 **Discovery service track** — `companies/discovery` needs sync from company DBs. `/new-track` candidate.
-5. 🟡 **Review Auth Service Phase 4** — consumer auth live in marketplace.
-6. 🟡 **SolarTheme Phase 2** — wire solar engine into real Marketplace shell.
-7. 🟢 **E2E checklist** — user working through 45 scenarios gradually.
+1. 🔴 **Marketplace front app work** — user's next session focus. Then return to BP layout.
+2. 🟡 **EstablishmentPage continued polish** — more layout adjustments, mobile viewport focus.
+3. 🟡 **Services section design** — name, type-dependent rendering. Needs grill.
+4. 🟡 **Marketplace discovery map** — Phase 7 of geo-integration track.
+5. 🟡 **Discovery service track** — `companies/discovery` sync. `/new-track` candidate.
+6. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
+7. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
+8. 🟢 **E2E checklist** — user working through 45 scenarios gradually.

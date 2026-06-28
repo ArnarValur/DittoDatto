@@ -9,7 +9,7 @@ import 'sections/establishment_events_section.dart';
 import 'sections/establishment_gallery_section.dart';
 import 'sections/establishment_info_bar.dart';
 import 'sections/establishment_map_section.dart';
-import 'sections/establishment_section_shortcuts.dart';
+
 import 'sections/establishment_services_section.dart';
 
 /// The main establishment storefront page widget.
@@ -51,14 +51,6 @@ class EstablishmentPage extends StatefulWidget {
 
 class _EstablishmentPageState extends State<EstablishmentPage> {
   final _scrollController = ScrollController();
-  bool _showBackToTop = false;
-
-  // Section keys for anchor scrolling.
-  final _servicesKey = GlobalKey();
-  final _eventsKey = GlobalKey();
-  final _aboutKey = GlobalKey();
-  final _contactKey = GlobalKey();
-  final _mapKey = GlobalKey();
 
   EstablishmentData get data => widget.data;
   bool get isPreview => widget.isPreview;
@@ -83,6 +75,8 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
     super.dispose();
   }
 
+  bool _showBackToTop = false;
+
   void _onScroll() {
     final shouldShow = _scrollController.offset > 300;
     if (shouldShow != _showBackToTop) {
@@ -90,28 +84,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
     }
   }
 
-  /// Builds the list of visible section entries for the shortcut chips.
-  List<({String label, GlobalKey key})> _buildVisibleSections() {
-    return [
-      if (data.showServices) (label: 'Tilbud', key: _servicesKey),
-      if (data.showEvents) (label: 'Arrangementer', key: _eventsKey),
-      // Staff section — future, not wired yet.
-      (label: 'Om oss', key: _aboutKey),
-      (label: 'Kontakt', key: _contactKey),
-      if (data.hasLocation) (label: 'Kart', key: _mapKey),
-    ];
-  }
-
-  /// Smoothly scrolls so that [key]'s widget is visible.
-  void _scrollToSection(GlobalKey key) {
-    final ctx = key.currentContext;
-    if (ctx == null) return;
-    Scrollable.ensureVisible(
-      ctx,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-    );
-  }
 
   void _scrollToTop() {
     _scrollController.animateTo(
@@ -147,7 +119,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               // ── Spacing between gallery and content on wide ──────────
               if (isWide)
                 const SliverToBoxAdapter(
-                  child: SizedBox(height: DittoSpacing.lg),
+                  child: SizedBox(height: DittoSpacing.xl),
                 ),
 
               // ── Constrained content area for wide viewports ─────────
@@ -186,21 +158,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
                 ),
               ),
 
-              // ── Section shortcuts ───────────────────────────────────
-              _buildConstrained(
-                isWide: isWide,
-                child: EstablishmentSectionShortcuts(
-                  sections: _buildVisibleSections(),
-                  onTap: _scrollToSection,
-                ),
-              ),
-
               // ── Services section ────────────────────────────────────
-              if (data.showServices)
-                SliverToBoxAdapter(
-                  key: _servicesKey,
-                  child: const _SectionAnchor(),
-                ),
               if (data.showServices)
                 _buildConstrainedSliver(
                   isWide: isWide,
@@ -209,21 +167,12 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
 
               // ── Events section ──────────────────────────────────────
               if (data.showEvents)
-                SliverToBoxAdapter(
-                  key: _eventsKey,
-                  child: const _SectionAnchor(),
-                ),
-              if (data.showEvents)
                 _buildConstrainedSliver(
                   isWide: isWide,
                   sliver: const EstablishmentEventsSection(),
                 ),
 
               // ── About section ───────────────────────────────────────
-              SliverToBoxAdapter(
-                key: _aboutKey,
-                child: const _SectionAnchor(),
-              ),
               _buildConstrainedSliver(
                 isWide: isWide,
                 sliver: EstablishmentAboutGrid(data: data),
@@ -235,10 +184,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               ),
 
               // ── Contact section ─────────────────────────────────────
-              SliverToBoxAdapter(
-                key: _contactKey,
-                child: const _SectionAnchor(),
-              ),
               _buildConstrainedSliver(
                 isWide: isWide,
                 sliver: EstablishmentContactSection(
@@ -248,11 +193,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               ),
 
               // ── Map section ──────────────────────────────────────────
-              if (data.hasLocation)
-                SliverToBoxAdapter(
-                  key: _mapKey,
-                  child: const _SectionAnchor(),
-                ),
               if (data.hasLocation)
                 _buildConstrainedSliver(
                   isWide: isWide,
@@ -316,26 +256,6 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
     );
   }
 
-  /// Wraps a non-sliver [child] in a max-width constraint for wide viewports.
-  SliverToBoxAdapter _buildConstrained({
-    required bool isWide,
-    required Widget child,
-  }) {
-    if (!isWide) {
-      return SliverToBoxAdapter(child: child);
-    }
-    return SliverToBoxAdapter(
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: _maxContentWidth),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: _widePaddingH),
-            child: child,
-          ),
-        ),
-      ),
-    );
-  }
 
   /// Wraps a [SliverToBoxAdapter] sliver's child in a max-width constraint.
   /// For slivers that are already SliverToBoxAdapter (about, contact, etc.),
@@ -397,12 +317,4 @@ class _ConstrainedSliverWrapper extends StatelessWidget {
       },
     );
   }
-}
-
-/// Zero-height anchor widget used as a scroll target for section shortcuts.
-class _SectionAnchor extends StatelessWidget {
-  const _SectionAnchor();
-
-  @override
-  Widget build(BuildContext context) => const SizedBox.shrink();
 }

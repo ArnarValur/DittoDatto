@@ -116,11 +116,7 @@ void main() {
       expect(find.text('Lagre'), findsOneWidget);
     });
 
-    testWidgets('shows section shortcuts', (tester) async {
-      await tester.pumpWidget(_wrapPage(_fullText));
-      expect(find.text('Om oss'), findsAtLeast(1));
-      expect(find.text('Kontakt'), findsAtLeast(1));
-    });
+
   });
 
   group('EstablishmentPage — Wide (tablet/desktop)', () {

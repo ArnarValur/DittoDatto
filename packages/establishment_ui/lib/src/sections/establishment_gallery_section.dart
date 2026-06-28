@@ -8,8 +8,9 @@ import '../models/establishment_data.dart';
 /// Responsive layout:
 /// - **Mobile** (compact): Single cover image filling the width with a
 ///   "Se bilder" pill button overlaid bottom-right.
-/// - **Tablet/Desktop** (medium+): Bento grid — hero cover (2/3 width)
-///   + 2 stacked gallery thumbnails (1/3 width) with gap.
+/// - **Tablet/Desktop** (medium+): Bento grid — hero cover (1/2 width)
+///   + 2×2 gallery thumbnails (1/2 width) with rounded corners and gaps.
+///   Respects the page's max-width constraint (not full-bleed).
 ///
 /// Falls back to an inline placeholder when no media is available.
 class EstablishmentGallerySection extends StatelessWidget {
@@ -29,6 +30,18 @@ class EstablishmentGallerySection extends StatelessWidget {
   /// TODO: Wire to full-screen gallery viewer.
   final VoidCallback? onViewPhotos;
 
+  /// Maximum content width — matches EstablishmentPage._maxContentWidth.
+  static const _maxContentWidth = 1200.0;
+
+  /// Horizontal padding inside the constrained area on wide viewports.
+  static const _widePaddingH = DittoSpacing.lg;
+
+  /// Border radius for gallery images on desktop.
+  static const _imageRadius = Radius.circular(12);
+
+  /// Gap between gallery grid images.
+  static const _gridGap = 8.0;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -37,42 +50,69 @@ class EstablishmentGallerySection extends StatelessWidget {
     // No media at all — inline placeholder.
     if (!data.hasMedia) {
       return SliverToBoxAdapter(
-        child: Container(
-          height: isWide ? 350 : 260,
-          color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.photo_library_outlined,
-                  size: 48,
-                  color:
-                      colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
-                ),
-                const SizedBox(height: DittoSpacing.sm),
-                Text(
-                  'Bilder kommer snart',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colorScheme.onSurfaceVariant
-                        .withValues(alpha: 0.7),
+        child: _buildConstrainedWrapper(
+          child: Container(
+            height: isWide ? 350 : 260,
+            decoration: BoxDecoration(
+              color:
+                  colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              borderRadius:
+                  isWide ? const BorderRadius.all(_imageRadius) : null,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.photo_library_outlined,
+                    size: 48,
+                    color:
+                        colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                   ),
-                ),
-              ],
+                  const SizedBox(height: DittoSpacing.sm),
+                  Text(
+                    'Bilder kommer snart',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: colorScheme.onSurfaceVariant
+                          .withValues(alpha: 0.7),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       );
     }
 
-    // Wide layout — bento grid.
+    // Wide layout — bento grid with margins and rounded corners.
     if (isWide) {
-      return SliverToBoxAdapter(child: _buildBentoGrid(theme, colorScheme));
+      return SliverToBoxAdapter(
+        child: _buildConstrainedWrapper(
+          child: _buildBentoGrid(theme, colorScheme),
+        ),
+      );
     }
 
-    // Mobile layout — single cover with pill overlay.
+    // Mobile layout — single cover with pill overlay (full-bleed).
     return SliverToBoxAdapter(
       child: _buildMobileCover(theme, colorScheme),
+    );
+  }
+
+  /// Wraps content in a centered, max-width constrained container
+  /// with horizontal padding — matching the page content area.
+  Widget _buildConstrainedWrapper({required Widget child}) {
+    if (!isWide) return child;
+
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: _maxContentWidth),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: _widePaddingH),
+          child: child,
+        ),
+      ),
     );
   }
 
@@ -98,65 +138,120 @@ class EstablishmentGallerySection extends StatelessWidget {
     );
   }
 
-  /// Builds the bento grid: hero (flex 2) + 2 stacked thumbnails (flex 1).
+  /// Builds the bento grid: hero (1/2) + 2×2 thumbnails (1/2).
+  ///
+  /// Matches the Nuxt reference layout with rounded corners and gaps.
   Widget _buildBentoGrid(ThemeData theme, ColorScheme colorScheme) {
-    const gridHeight = 380.0;
-    const gap = 4.0;
+    const gridHeight = 400.0;
+    const thumbnailHeight = (gridHeight - _gridGap) / 2;
+
+    final gallery = data.galleryUrls;
 
     return SizedBox(
       height: gridHeight,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Hero cover — takes 2/3 of width.
+          // Hero cover — takes 1/2 of width.
           Expanded(
-            flex: 2,
-            child: _buildCoverImage(gridHeight, colorScheme),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: _imageRadius,
+                bottomLeft: _imageRadius,
+              ),
+              child: _buildCoverImage(gridHeight, colorScheme),
+            ),
           ),
 
-          const SizedBox(width: gap),
+          const SizedBox(width: _gridGap),
 
-          // Thumbnail column — takes 1/3 of width.
+          // 2×2 thumbnail grid — takes 1/2 of width.
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Thumbnail 1
-                Expanded(
-                  child: data.galleryUrls.isNotEmpty
-                      ? _buildThumbnailImage(
-                          data.galleryUrls[0],
-                          colorScheme,
-                        )
-                      : _buildThumbnailPlaceholder(colorScheme),
+                // Top row — 2 thumbnails side by side.
+                SizedBox(
+                  height: thumbnailHeight,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.zero,
+                          ),
+                          child: gallery.isNotEmpty
+                              ? _buildThumbnailImage(
+                                  gallery[0], colorScheme)
+                              : _buildThumbnailPlaceholder(colorScheme),
+                        ),
+                      ),
+                      const SizedBox(width: _gridGap),
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topRight: _imageRadius,
+                          ),
+                          child: gallery.length > 1
+                              ? _buildThumbnailImage(
+                                  gallery[1], colorScheme)
+                              : _buildThumbnailPlaceholder(colorScheme),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
-                const SizedBox(height: gap),
+                const SizedBox(height: _gridGap),
 
-                // Thumbnail 2 — with "Se bilder" overlay if more photos.
-                Expanded(
-                  child: Stack(
-                    fit: StackFit.expand,
+                // Bottom row — 2 thumbnails, last one has "Se bilder".
+                SizedBox(
+                  height: thumbnailHeight,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      data.galleryUrls.length > 1
-                          ? _buildThumbnailImage(
-                              data.galleryUrls[1],
-                              colorScheme,
-                            )
-                          : _buildThumbnailPlaceholder(colorScheme),
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.zero,
+                          ),
+                          child: gallery.length > 2
+                              ? _buildThumbnailImage(
+                                  gallery[2], colorScheme)
+                              : _buildThumbnailPlaceholder(colorScheme),
+                        ),
+                      ),
+                      const SizedBox(width: _gridGap),
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            bottomRight: _imageRadius,
+                          ),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              gallery.length > 3
+                                  ? _buildThumbnailImage(
+                                      gallery[3], colorScheme)
+                                  : _buildThumbnailPlaceholder(colorScheme),
 
-                      // "Se bilder" overlay on last thumbnail.
-                      if (data.totalPhotoCount > 3)
-                        Positioned(
-                          bottom: DittoSpacing.sm,
-                          right: DittoSpacing.sm,
-                          child: _ViewPhotosPill(
-                            count: data.totalPhotoCount,
-                            onTap: onViewPhotos,
-                            colorScheme: colorScheme,
-                            textStyle: theme.textTheme.labelMedium,
+                              // "Se bilder" pill on last thumbnail.
+                              if (data.totalPhotoCount > 4)
+                                Positioned(
+                                  bottom: DittoSpacing.sm,
+                                  right: DittoSpacing.sm,
+                                  child: _ViewPhotosPill(
+                                    count: data.totalPhotoCount,
+                                    onTap: onViewPhotos,
+                                    colorScheme: colorScheme,
+                                    textStyle: theme.textTheme.labelMedium,
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
+                      ),
                     ],
                   ),
                 ),
@@ -170,7 +265,8 @@ class EstablishmentGallerySection extends StatelessWidget {
 
   /// Builds the primary cover image (used in both mobile and bento layouts).
   Widget _buildCoverImage(double height, ColorScheme colorScheme) {
-    final url = data.coverUrl ?? (data.galleryUrls.isNotEmpty ? data.galleryUrls.first : null);
+    final url = data.coverUrl ??
+        (data.galleryUrls.isNotEmpty ? data.galleryUrls.first : null);
     if (url == null) {
       return _ImageErrorBox(height: height, colorScheme: colorScheme);
     }
@@ -194,7 +290,7 @@ class EstablishmentGallerySection extends StatelessWidget {
     );
   }
 
-  /// Builds a gallery thumbnail image with clipped corners.
+  /// Builds a gallery thumbnail image.
   Widget _buildThumbnailImage(String url, ColorScheme colorScheme) {
     return Image.network(
       url,
