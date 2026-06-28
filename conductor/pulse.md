@@ -1,13 +1,14 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-28 17:03
-**Session Focus:** Gallery layout modes + viewer + Marketplace bottom nav fix
+**Last Updated:** 2026-06-28 17:38
+**Session Focus:** Recon audit (MercuryEngine + Nuxt legacy + Noona API) → Services domain grill → Services section track creation
 
 ## 🚀 Active Tracks
 
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
 - **SolarTheme** (`solar_theme_20260628`) — **Phase 1 complete.** Solar engine ported, star field + demo running on device. Phases 2-5 open.
 - **Map & Geocoding** (`map_and_geocoding_20260628`) — **Phases 1-6 complete.** Kartverket autocomplete + flutter_map live in Admin + BP on Saturn. Future: Marketplace discovery map, Sweden support.
+- **Services Section** (`services_section_20260628`) — **New.** Track created. 4 phases: Data Layer → BP CRUD → Marketplace Display → Verify+Deploy. No code yet.
 
 ## ✅ Recently Completed
 
@@ -25,6 +26,17 @@
 - None active.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-28 17:38 — Recon Audit + Services Grill + Track Creation
+
+- **Three recon agents dispatched** in parallel: MercuryEngine auditor, Legacy Nuxt services researcher, Noona API researcher.
+- **MercuryEngine audit:** 50 tests, 91% coverage, 30 days idle. **Critical schema drift found:** `rescheduled_from`/`rescheduled_to` fields missing from `company-blueprint.surql` — silent data loss on SCHEMAFULL tables. 3 unsynced relay entries.
+- **Nuxt legacy inventory:** Full service CRUD (596-line ServiceFormSlideover), ServiceGrid with composite multi-select group cards, complete booking flow (hold→confirm). 10 design patterns catalogued.
+- **Noona API research:** Two-tier API, 4-level service hierarchy vs DittoDatto's cleaner 2-level. CRM as "loyalty engine" (win-back, vouchers, favorites). DittoDatto has stronger multi-tenancy.
+- **Recon report artifact:** `recon_report.md` — full convergence analysis with dependency graphs and recommended sequencing.
+- **Services grill (`/grill services`):** Marketplace-first, grouped by ServiceGroup (collapsible), 3 booking-mode card variants, multi-select checkboxes + summary bar, models in `establishment_ui`, `kr 450` / `30 min` formatting. 3 glossary terms added (ServiceCard, ServiceSection, MultiSelectGroup). No ADRs — all natural extensions.
+- **Track created (`/new-track`):** `services_section_20260628` in new "services" domain (🟡 Careful). 4 phases. Includes basic BP services CRUD as Phase 2 (no seeding hack — real forms).
+- **Note:** Concurrent ticketing grill in another session produced ADR-0022 + ADR-0023 — got swept into our git commit. User flagged to be more careful with concurrent sessions.
 
 ### Session 2026-06-28 17:30 — Ticketing & Events Domain Grill
 
@@ -58,10 +70,12 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🟡 **Ticketing & Events track** — `/new-track` candidate. ADR-0022 + ADR-0023 landed. Schema design, BP event creation UX, Marketplace event display, MercuryEngine capacity slots.
-2. 🟡 **Services section design** — name, type-dependent rendering (restaurant vs venue vs store). Needs grill. Gateway to ticketing UI.
-3. 🟡 **Marketplace discovery map** — Phase 7 of geo-integration track.
-4. 🟡 **Discovery service track** — `companies/discovery` sync. `/new-track` candidate.
-5. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
-6. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
-7. 🟢 **E2E checklist** — user working through 45 scenarios gradually.
+1. 🔴 **Schema hotfix** — Add `rescheduled_from`/`rescheduled_to` to `company-blueprint.surql`. Five-minute fix, prevents compliance data loss.
+2. 🟡 **Services section Phase 1** — Dart models (Service, ServiceGroup) + DB queries + format helpers. Track: `services_section_20260628`.
+3. 🟡 **Finish ticketing grill** — Concurrent session still open. Complete it, then `/new-track` for ticketing.
+4. 🟡 **Services section Phase 2** — BP CRUD ("Tjenester" sidebar page + create/edit dialog).
+5. 🟡 **MercuryEngine relay sync** — 3 ADR candidates + 4 glossary updates sitting unprocessed in its conductor.
+6. 🟡 **Discovery service track** — `companies/discovery` sync. `/new-track` candidate.
+7. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
+8. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
+9. 🟢 **CRM grill** — When services + discovery are wired. Noona "loyalty engine" framing.

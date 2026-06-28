@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 17:38 — Recon Audit + Services Grill + Track Creation
+- **Session:** Dispatched 3 recon agents (MercuryEngine audit, Nuxt legacy inventory, Noona API). Compiled convergence report. Ran `/grill services` (domain language + exploration). Created track `services_section_20260628` via `/new-track` in new "services" domain.
+- **Tracks touched:** `services_section_20260628` (created)
+- **Status:** Track spec + plan written. No implementation yet. Concurrent ticketing grill in another session still open.
+- **Decisions:** None (no ADRs — all natural extensions of existing patterns). 3 glossary terms added (ServiceCard, ServiceSection, MultiSelectGroup).
+- **Key findings:** Schema drift on `rescheduled_from`/`rescheduled_to` (critical). 10 legacy Nuxt patterns catalogued. Noona CRM = "loyalty engine" framing.
+- **Next:** (1) Schema hotfix. (2) Services Phase 1 (Dart models). (3) Finish ticketing grill. (4) Services Phase 2 (BP CRUD).
+
 ## 2026-06-28 17:03 — Gallery Layouts + Bottom Nav Fix
 - **Session:** Gallery layout modes (Bento/Showcase/Spotlight) + auto-scroll Showcase + full-screen gallery viewer. Fixed Marketplace bottom nav disappearing on establishment page (route was outside StatefulShellRoute). Deployed to Saturn :8003 + phone.
 - **Tracks touched:** None (extends graduated BP Chapter 1 + marketplace)
