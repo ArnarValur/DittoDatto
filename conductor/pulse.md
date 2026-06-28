@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-28 16:55
-**Session Focus:** Gallery layout modes (Bento/Showcase/Spotlight) + auto-scroll strip + full-screen gallery viewer
+**Last Updated:** 2026-06-28 17:03
+**Session Focus:** Gallery layout modes + viewer + Marketplace bottom nav fix
 
 ## 🚀 Active Tracks
 
@@ -11,6 +11,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-28 17:03** — **Marketplace bottom nav fix.** Moved establishment route from top-level (outside shell = no bottom nav) into `StatefulShellRoute` home branch as child route. Fixed route path (`/` not `/home`). Gallery viewer + layouts confirmed working on phone with bottom nav visible.
 - **2026-06-28 16:55** — **Gallery layout modes + viewer.** Implemented 3 `CoverLayoutMode` variants (Bento Grid, Showcase, Spotlight) in shared `EstablishmentGallerySection`. Showcase auto-scrolls thumbnails vertically in a continuous loop (pauses on hover). Wired "Se bilder" pill to a full-screen `_GalleryViewerDialog` with swipeable `PageView`, arrow/keyboard nav, pinch-to-zoom, and image counter. 50 package + 72 BP widget tests green. Deployed 3× to Saturn :8003 + 1× to phone.
 - **2026-06-28 16:08** — **Marketplace debug data pipe.** Created `EstablishmentDebugService` + `FutureProvider.autoDispose` to fetch real establishment data from Hub (`company_dittodatto-as`). Replaced mock data in `EstablishmentTestScreen`. Updated AGENTS.md deployment rules (native vs web distinction). Deployed to phone via `flutter run -d R5CR61FGVPN`. House of the North page loads with live SurrealDB data.
 - **2026-06-28 13:28** — **EstablishmentPage desktop layout polish.** Gallery redesign: hero 50% + 2×2 thumbnails, 12px rounded corners, 8px gaps, max-width constrained (not full-bleed). Removed section shortcut chips (users scroll naturally). Viewport toggle (desktop/tablet/mobile) + theme toggle in preview top bar. Info bar spacing improvements. 72 widget + 41 package tests green. Deployed to Saturn :8003.
@@ -36,6 +37,7 @@
 - **Tests:** 9 new layout mode tests + updated Showcase test for auto-scroll behavior. 50/50 package, 72/72 BP widget tests.
 - **Deploys:** 3× Saturn :8003 (iterating on auto-scroll + viewer), 1× phone `flutter run --release -d R5CR61FGVPN`.
 - **User confirmed** gallery works on device ✅.
+- **Bottom nav fix:** Establishment route was a top-level `GoRoute` (outside `StatefulShellRoute`) → moved inside home branch as child route. Home path is `/`, so sub-route resolves to `/establishment-test`. Redeployed to phone.
 
 ### Session 2026-06-28 16:08 — Marketplace Debug Data Pipe
 

@@ -75,11 +75,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: MarketplaceRoutes.solarDemo,
         builder: (context, state) => const SolarDemoScreen(),
       ),
-      // EstablishmentPage test — temporary, full-screen.
-      GoRoute(
-        path: MarketplaceRoutes.establishmentTest,
-        builder: (context, state) => const EstablishmentTestScreen(),
-      ),
       // Main app shell — bottom nav always visible.
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
@@ -91,6 +86,14 @@ final routerProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: MarketplaceRoutes.home,
                 builder: (context, state) => const HomeScreen(),
+                routes: [
+                  // Establishment page — inside the shell so bottom nav stays.
+                  GoRoute(
+                    path: 'establishment-test',
+                    builder: (context, state) =>
+                        const EstablishmentTestScreen(),
+                  ),
+                ],
               ),
             ],
           ),

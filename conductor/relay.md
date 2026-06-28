@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 17:03 — Gallery Layouts + Bottom Nav Fix
+- **Session:** Gallery layout modes (Bento/Showcase/Spotlight) + auto-scroll Showcase + full-screen gallery viewer. Fixed Marketplace bottom nav disappearing on establishment page (route was outside StatefulShellRoute). Deployed to Saturn :8003 + phone.
+- **Tracks touched:** None (extends graduated BP Chapter 1 + marketplace)
+- **Status:** Live on Saturn :8003 and phone. Bottom nav visible. Gallery viewer functional.
+- **Decisions:** None
+- **Next:** (1) Services section design grill. (2) Marketplace discovery map. (3) Discovery service track.
+
 ## 2026-06-28 16:55 — Gallery Layout Modes + Viewer
 - **Session:** Implemented 3 `CoverLayoutMode` variants (Bento/Showcase/Spotlight) in shared `EstablishmentGallerySection`. Showcase auto-scrolls thumbnails in continuous loop. Built full-screen `_GalleryViewerDialog` (swipeable PageView, pinch-to-zoom, keyboard nav). Removed dead `onViewPhotos` callback. 50 package + 72 BP widget tests green. Deployed 3× to Saturn :8003 + 1× to phone.
 - **Tracks touched:** None (extends graduated BP Chapter 1 + marketplace)
