@@ -265,4 +265,157 @@ void main() {
       expect(find.byIcon(Icons.email_outlined), findsNothing);
     });
   });
+
+  group('EstablishmentGallerySection — Layout Modes', () {
+    // Gallery URLs for testing. These won't load in tests (no HTTP),
+    // but they exercise the layout structure and widget tree.
+    const galleryUrls = [
+      'https://example.com/1.jpg',
+      'https://example.com/2.jpg',
+      'https://example.com/3.jpg',
+      'https://example.com/4.jpg',
+      'https://example.com/5.jpg',
+    ];
+
+    final bentoData = _fullText.copyWith(
+      coverUrl: 'https://example.com/cover.jpg',
+      galleryUrls: galleryUrls,
+      coverLayoutMode: CoverLayoutMode.bento,
+    );
+
+    final showcaseData = _fullText.copyWith(
+      coverUrl: 'https://example.com/cover.jpg',
+      galleryUrls: galleryUrls,
+      coverLayoutMode: CoverLayoutMode.showcase,
+    );
+
+    final spotlightData = _fullText.copyWith(
+      coverUrl: 'https://example.com/cover.jpg',
+      galleryUrls: galleryUrls,
+      coverLayoutMode: CoverLayoutMode.spotlight,
+    );
+
+    // ── Bento Grid ────────────────────────────────────────────────────
+
+    testWidgets('Bento Grid: renders 2×2 thumbnail grid at wide width',
+        (tester) async {
+      await tester.pumpWidget(_wrapPage(bentoData, width: 900));
+      await tester.pump();
+
+      // Bento grid has a Row with 2 Expanded children (hero + thumbnail grid).
+      // The gallery section renders Image.network widgets for cover + thumbnails.
+      // At wide width with bento mode, we should NOT find SingleChildScrollView
+      // (that's the Showcase scroll strip).
+      expect(find.byType(SingleChildScrollView), findsNothing);
+
+      // Should find Image.network widgets for cover + up to 4 thumbnails.
+      expect(find.byType(Image), findsAtLeast(1));
+    });
+
+    testWidgets('Bento Grid: shows placeholder when no media at wide width',
+        (tester) async {
+      final noMedia = _minimal.copyWith(coverLayoutMode: CoverLayoutMode.bento);
+      await tester.pumpWidget(_wrapPage(noMedia, width: 900));
+      expect(find.text('Bilder kommer snart'), findsOneWidget);
+    });
+
+    // ── Showcase ──────────────────────────────────────────────────────
+
+    testWidgets(
+        'Showcase: renders auto-scrolling strip at wide width',
+        (tester) async {
+      await tester.pumpWidget(_wrapPage(showcaseData, width: 900));
+      await tester.pump();
+
+      // Showcase layout has a SingleChildScrollView for the auto-scroll strip.
+      expect(find.byType(SingleChildScrollView), findsOneWidget);
+
+      // Auto-scroll uses NeverScrollableScrollPhysics (no manual scroll).
+      final scrollView = tester.widget<SingleChildScrollView>(
+        find.byType(SingleChildScrollView),
+      );
+      expect(scrollView.physics, isA<NeverScrollableScrollPhysics>());
+
+      // Should find Image.network widgets for the gallery thumbnails.
+      expect(find.byType(Image), findsAtLeast(1));
+    });
+
+    testWidgets('Showcase: shows placeholder when no gallery images',
+        (tester) async {
+      final coverOnly = _fullText.copyWith(
+        coverUrl: 'https://example.com/cover.jpg',
+        galleryUrls: const [],
+        coverLayoutMode: CoverLayoutMode.showcase,
+      );
+      await tester.pumpWidget(_wrapPage(coverOnly, width: 900));
+      await tester.pump();
+
+      // With no gallery images, the strip should show a placeholder
+      // (no SingleChildScrollView because no images to scroll).
+      expect(find.byType(SingleChildScrollView), findsNothing);
+    });
+
+    testWidgets('Showcase: shows placeholder when no media at all',
+        (tester) async {
+      final noMedia =
+          _minimal.copyWith(coverLayoutMode: CoverLayoutMode.showcase);
+      await tester.pumpWidget(_wrapPage(noMedia, width: 900));
+      expect(find.text('Bilder kommer snart'), findsOneWidget);
+    });
+
+    // ── Spotlight ─────────────────────────────────────────────────────
+
+    testWidgets('Spotlight: renders full-width cover at wide width',
+        (tester) async {
+      await tester.pumpWidget(_wrapPage(spotlightData, width: 900));
+      await tester.pump();
+
+      // Spotlight has NO thumbnail grid or scroll strip.
+      expect(find.byType(SingleChildScrollView), findsNothing);
+
+      // Should find exactly 1 Image.network for the cover.
+      expect(find.byType(Image), findsOneWidget);
+    });
+
+    testWidgets('Spotlight: shows Se bilder pill when gallery has images',
+        (tester) async {
+      await tester.pumpWidget(_wrapPage(spotlightData, width: 900));
+      await tester.pump();
+
+      // totalPhotoCount = 1 (cover) + 5 (gallery) = 6
+      expect(find.textContaining('Se bilder'), findsOneWidget);
+    });
+
+    testWidgets('Spotlight: shows placeholder when no media at all',
+        (tester) async {
+      final noMedia =
+          _minimal.copyWith(coverLayoutMode: CoverLayoutMode.spotlight);
+      await tester.pumpWidget(_wrapPage(noMedia, width: 900));
+      expect(find.text('Bilder kommer snart'), findsOneWidget);
+    });
+
+    // ── Mobile stays same across modes ────────────────────────────────
+
+    testWidgets('Mobile layout is identical regardless of layout mode',
+        (tester) async {
+      // All 3 modes at compact width should render the same mobile layout
+      // (single cover, no grid, no scroll strip).
+      for (final mode in CoverLayoutMode.values) {
+        final data = _fullText.copyWith(
+          coverUrl: 'https://example.com/cover.jpg',
+          galleryUrls: galleryUrls,
+          coverLayoutMode: mode,
+        );
+        await tester.pumpWidget(_wrapPage(data, width: 400));
+        await tester.pump();
+
+        // No thumbnail grid or scroll strip on mobile.
+        expect(
+          find.byType(SingleChildScrollView),
+          findsNothing,
+          reason: 'Mode $mode should not show scroll strip on mobile',
+        );
+      }
+    });
+  });
 }

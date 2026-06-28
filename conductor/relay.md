@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 16:55 — Gallery Layout Modes + Viewer
+- **Session:** Implemented 3 `CoverLayoutMode` variants (Bento/Showcase/Spotlight) in shared `EstablishmentGallerySection`. Showcase auto-scrolls thumbnails in continuous loop. Built full-screen `_GalleryViewerDialog` (swipeable PageView, pinch-to-zoom, keyboard nav). Removed dead `onViewPhotos` callback. 50 package + 72 BP widget tests green. Deployed 3× to Saturn :8003 + 1× to phone.
+- **Tracks touched:** None (extends graduated BP Chapter 1 + marketplace)
+- **Status:** Live on Saturn :8003 and phone. Gallery viewer functional. User confirmed on device ✅.
+- **Decisions:** None
+- **Next:** (1) Services section design grill. (2) Marketplace discovery map. (3) Discovery service track.
+
 ## 2026-06-28 16:08 — Marketplace Debug Data Pipe
 - **Session:** Created `EstablishmentDebugService` + Riverpod provider to fetch real establishment data from Hub (`company_dittodatto-as`). Replaced mock data in `EstablishmentTestScreen`. Fixed company slug bug (house-of-the-north is an establishment, not a company). Updated AGENTS.md with native vs web deployment distinction. 25 widget + 7 integration tests green. Deployed to phone.
 - **Tracks touched:** None (extends marketplace foundation, pre-discovery debug pipe)
