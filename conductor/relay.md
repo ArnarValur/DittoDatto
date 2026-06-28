@@ -1,5 +1,19 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 13:11 — BP Preview Viewport + Theme Toggle
+- **Session:** Added 3-mode viewport toggle (desktop 100%/tablet 1024px/mobile 412px) and dark/light theme toggle to BP preview top bar. MediaQuery override makes EstablishmentPage see the constrained width. Confirmed EstablishmentPage is purely width-based — no platform checks. 72+63+42 tests green. Deployed twice to Saturn :8003.
+- **Tracks touched:** None (extends graduated BP Chapter 1)
+- **Status:** Live on Saturn :8003. User has "big layout requests" queued next.
+- **Decisions:** None
+- **Next:** (1) EstablishmentPage layout adjustments (desktop margins + mobile focus). (2) Services section design grill. (3) Discovery service `/new-track`.
+
+## 2026-06-28 12:00 — Map & Geocoding Integration
+- **Session:** Integrated Kartverket address autocomplete + Nominatim geocoding + flutter_map (OSM tiles) into shared `establishment_ui` package. Wired into Admin Panel (company dialog) and BP (establishment edit form). GeoJSON `geometry<point>` round-trip verified. New `geo-integration` domain + track created. Deploy script path fix (admin-panel → admin). 50 admin + 63 BP tests green. Both apps deployed to Saturn. User confirmed flawless UX.
+- **Tracks touched:** map_and_geocoding_20260628 (new — Phases 1-6 complete)
+- **Status:** Live on Saturn (:8002 admin, :8003 BP). Track paused — future phases: Marketplace discovery map, Sweden support.
+- **Decisions:** None
+- **Next:** (1) Marketplace discovery map (multi-pin landing page). (2) Services section design grill. (3) Discovery service `/new-track`. (4) Auth Service Phase 4.
+
 ## 2026-06-28 03:13 — EstablishmentPage Desktop Polish
 - **Session:** Polished desktop layout: max-width 1100→1200px, 24px inner padding on wide, gallery-to-content spacing. Made Book+Lagre buttons visible in preview. 42 package + 72 BP widget tests green. Deployed to Saturn :8003.
 - **Tracks touched:** No formal track (extends graduated `bp_establishment_preview_20260625`)
