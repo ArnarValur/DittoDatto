@@ -3,7 +3,7 @@
 > Domain glossary and ubiquitous language for **DittoDatto**.
 > Updated by `/grill` and `/new-track` sessions.
 >
-> **Last refined:** 2026-06-24
+> **Last refined:** 2026-06-28
 
 ---
 
@@ -16,6 +16,9 @@
 | **Company**               | The owning business entity on the platform; one Company owns many Establishments. Registered in `companies/registry`.                                                  | tenant, merchant, business owner      |
 | **Service**               | An offered booking unit at an Establishment (e.g., "Haircut 30 min"). Booking mode lives here (`standard` / `tableReservation` / `ticketSystem`).                      | offering, treatment                   |
 | **ServiceGroup**          | A grouping of Services on an Establishment (e.g., "Hair", "Beard").                                                                                                    | category (internal), service category |
+| **ServiceCard**           | Consumer-facing display widget for a single Service. Three visual variants driven by `bookingMode`: standard (title + price + duration), tableReservation (title + price, no duration), ticketSystem (title + price + ticket styling). | service tile                          |
+| **ServiceSection**        | Collapsible grouped display of Services on an EstablishmentPage, organized by ServiceGroup with `sortOrder`. No section header — self-evident. | services list                         |
+| **MultiSelectGroup**      | A ServiceGroup with `multiSelect=true`. Lets consumers pick multiple Services for a combined booking. Renders with checkboxes + summary bar (total duration + total price). | combo booking, multi-pick             |
 | **StaffMember**           | A person who performs Services at an Establishment.                                                                                                                    | staff, company staff                  |
 | **StaffCapability**        | A granular permission token (e.g., `can_manage_services`) defining a specific action a staff member is allowed to perform at a given establishment.                   | permission token, privilege           |
 | **Customer**              | A person who books at an Establishment. Can be Establishment-scoped                                                                                                    | guest, walk-in                        |
