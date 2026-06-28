@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 16:08 — Marketplace Debug Data Pipe
+- **Session:** Created `EstablishmentDebugService` + Riverpod provider to fetch real establishment data from Hub (`company_dittodatto-as`). Replaced mock data in `EstablishmentTestScreen`. Fixed company slug bug (house-of-the-north is an establishment, not a company). Updated AGENTS.md with native vs web deployment distinction. 25 widget + 7 integration tests green. Deployed to phone.
+- **Tracks touched:** None (extends marketplace foundation, pre-discovery debug pipe)
+- **Status:** House of the North loads with live data on the phone. Debug refresh button available. Marketplace Caddy on Saturn :8004 also set up (web builds).
+- **Decisions:** None
+- **Next:** (1) Continue EstablishmentPage polish with real data on phone. (2) Services section design grill. (3) Discovery service track.
+
 ## 2026-06-28 13:28 — Desktop Layout Polish
 - **Session:** Gallery redesign (hero 50% + 2×2 thumbnails, rounded corners, margins). Removed section shortcut chips. Added viewport toggle (desktop/tablet/mobile) + theme toggle to preview top bar. Info bar spacing improvements. 72 BP + 41 package tests green. Deployed 4× to Saturn :8003.
 - **Tracks touched:** None (extends graduated BP Chapter 1)

@@ -1,51 +1,85 @@
 import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Test screen for previewing the rebuilt EstablishmentPage.
+import 'establishment_providers.dart';
+
+/// Test screen wired to **real DB data** from House of the North.
 ///
-/// Uses mock data representing House of the North (venue in Drammen).
-/// This screen is temporary — will be replaced by a real data-driven
-/// route once the marketplace discovery layer is built.
-class EstablishmentTestScreen extends StatelessWidget {
+/// Fetches live data via [establishmentDebugProvider]. The provider is
+/// `autoDispose` — navigating away closes the WebSocket, navigating back
+/// triggers a fresh fetch. So BP edits show up immediately.
+///
+/// Temporary — will be replaced by a proper discovery-driven route.
+class EstablishmentTestScreen extends ConsumerWidget {
   const EstablishmentTestScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const EstablishmentPage(
-      data: _mockEstablishment,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncData = ref.watch(establishmentDebugProvider);
+
+    return asyncData.when(
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stack) => Scaffold(
+        appBar: AppBar(title: const Text('Establishment Test')),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.cloud_off_rounded,
+                  size: 48,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Kunne ikke laste etablering',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  error.toString(),
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 24),
+                FilledButton.icon(
+                  onPressed: () =>
+                      ref.invalidate(establishmentDebugProvider),
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Prøv igjen'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      data: (data) => Stack(
+        children: [
+          EstablishmentPage(data: data),
+          // Debug refresh button — tap to re-fetch after BP edits.
+          Positioned(
+            right: 16,
+            top: MediaQuery.of(context).padding.top + 8,
+            child: IconButton.filled(
+              onPressed: () =>
+                  ref.invalidate(establishmentDebugProvider),
+              icon: const Icon(Icons.refresh, size: 20),
+              tooltip: 'Oppdater fra databasen',
+              style: IconButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).colorScheme.secondaryContainer,
+                foregroundColor:
+                    Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
-
-/// Mock establishment data for visual development and testing.
-const _mockEstablishment = EstablishmentData(
-  name: 'House of the North',
-  businessType: EstablishmentType.venue,
-  address: 'Skolegata 9',
-  city: 'Drammen',
-  zip: '3044',
-  category: 'Spillested',
-  about:
-      'House of the North er Drammens nyeste og mest spennende konsert- og '
-      'eventarena. Med plass til over 2000 gjester og state-of-the-art lyd '
-      'og lys, tilbyr vi unike opplevelser for alle musikksjangre. '
-      'Fra intime klubbkvelder til store festivaler — alt skjer under '
-      'samme tak.',
-  phone: '+47 32 00 00 00',
-  email: 'post@houseofthenorth.no',
-  website: 'https://houseofthenorth.no',
-  isPublished: true,
-  // TODO: Replace with real Firebase Storage URLs once media is wired.
-  coverUrl:
-      'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3'
-      '?w=800&h=600&fit=crop',
-  galleryUrls: [
-    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&h=300&fit=crop',
-  ],
-  openingStatus: 'Stengt i dag',
-  isOpen: false,
-  showServices: true,
-  showEvents: true,
-);

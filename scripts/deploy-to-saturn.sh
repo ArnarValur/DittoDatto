@@ -45,7 +45,7 @@ declare -A APP_PORT=(
 declare -A DART_DEFINES=(
   [portal]="--dart-define=BP_PORTAL_PASS=test-portal-pass"
   [admin]=""
-  [marketplace]=""
+  [marketplace]="--dart-define=SURREAL_URL=ws://dittodatto:8001/rpc --dart-define=DEBUG_DB_PASS=test-portal-pass"
 )
 
 SATURN_HOST="${SATURN_HOST:-saturn}"
