@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 03:13 — EstablishmentPage Desktop Polish
+- **Session:** Polished desktop layout: max-width 1100→1200px, 24px inner padding on wide, gallery-to-content spacing. Made Book+Lagre buttons visible in preview. 42 package + 72 BP widget tests green. Deployed to Saturn :8003.
+- **Tracks touched:** No formal track (extends graduated `bp_establishment_preview_20260625`)
+- **Status:** Desktop polish deployed and live. User ending session.
+- **Decisions:** None
+- **Next:** (1) Visual verification of spacing. (2) Services section design grill. (3) Discovery service `/new-track`. (4) Auth Service Phase 4.
+
 ## 2026-06-28 02:51 — EstablishmentPage Responsive Layout + Full-Screen Preview
 - **Session:** Implemented tablet/desktop responsive layout for `establishment_ui` (bento gallery, horizontal info bar, two-column contact). Added full-screen preview route (`/establishments/preview`) outside dashboard shell with Nuxt-style top bar. Added "Ship Before You Speak" deployment workflow rule to AGENTS.md. 42 package + 63 BP integration tests green. Deployed twice to Saturn :8003.
 - **Tracks touched:** No formal track (extends graduated `bp_establishment_preview_20260625`)

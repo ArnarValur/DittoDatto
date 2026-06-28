@@ -23,9 +23,8 @@ class EstablishmentActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isPreview) {
-      return const SizedBox.shrink();
-    }
+    // Note: buttons are shown even in preview so the business owner
+    // can see the full customer-facing layout.
 
     final colorScheme = Theme.of(context).colorScheme;
 

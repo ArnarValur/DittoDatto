@@ -110,10 +110,10 @@ void main() {
       expect(find.text('Lagre'), findsOneWidget);
     });
 
-    testWidgets('hides action buttons in preview mode', (tester) async {
+    testWidgets('shows action buttons in preview mode too', (tester) async {
       await tester.pumpWidget(_wrapPage(_fullText, isPreview: true));
-      expect(find.text('Bestill time'), findsNothing);
-      expect(find.text('Lagre'), findsNothing);
+      expect(find.text('Bestill time'), findsOneWidget);
+      expect(find.text('Lagre'), findsOneWidget);
     });
 
     testWidgets('shows section shortcuts', (tester) async {
@@ -134,13 +134,13 @@ void main() {
       expect(find.text('Lagre'), findsOneWidget);
     });
 
-    testWidgets('hides action buttons in preview mode at wide width',
+    testWidgets('shows action buttons in preview mode at wide width',
         (tester) async {
       await tester.pumpWidget(
         _wrapPage(_fullText, isPreview: true, width: 900),
       );
-      expect(find.text('Bestill time'), findsNothing);
-      expect(find.text('Lagre'), findsNothing);
+      expect(find.text('Bestill time'), findsOneWidget);
+      expect(find.text('Lagre'), findsOneWidget);
     });
 
     testWidgets('shows map placeholder in contact section at wide width',

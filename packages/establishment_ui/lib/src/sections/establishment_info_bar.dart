@@ -167,23 +167,21 @@ class EstablishmentInfoBar extends StatelessWidget {
             ),
           ),
 
-          // Action buttons — right side (hidden in preview).
-          if (!isPreview) ...[
-            const SizedBox(width: DittoSpacing.md),
-            FilledButton.icon(
-              // TODO: Wire to booking flow
-              onPressed: null,
-              icon: const Icon(Icons.calendar_month_outlined),
-              label: const Text('Bestill time'),
-            ),
-            const SizedBox(width: DittoSpacing.sm),
-            OutlinedButton.icon(
-              // TODO: Wire to favorites flow
-              onPressed: null,
-              icon: const Icon(Icons.favorite_border_rounded),
-              label: const Text('Lagre'),
-            ),
-          ],
+          // Action buttons — right side.
+          const SizedBox(width: DittoSpacing.md),
+          FilledButton.icon(
+            // TODO: Wire to booking flow
+            onPressed: null,
+            icon: const Icon(Icons.calendar_month_outlined),
+            label: const Text('Bestill time'),
+          ),
+          const SizedBox(width: DittoSpacing.sm),
+          OutlinedButton.icon(
+            // TODO: Wire to favorites flow
+            onPressed: null,
+            icon: const Icon(Icons.favorite_border_rounded),
+            label: const Text('Lagre'),
+          ),
         ],
       ),
     );

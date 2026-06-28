@@ -62,7 +62,10 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
   bool get isPreview => widget.isPreview;
 
   /// Maximum content width for tablet/desktop viewports.
-  static const _maxContentWidth = 1100.0;
+  static const _maxContentWidth = 1200.0;
+
+  /// Horizontal padding inside constrained area on wide viewports.
+  static const _widePaddingH = DittoSpacing.lg;
 
   @override
   void initState() {
@@ -138,6 +141,12 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               // ── Gallery ─────────────────────────────────────────────
               EstablishmentGallerySection(data: data, isWide: isWide),
 
+              // ── Spacing between gallery and content on wide ──────────
+              if (isWide)
+                const SliverToBoxAdapter(
+                  child: SizedBox(height: DittoSpacing.lg),
+                ),
+
               // ── Constrained content area for wide viewports ─────────
               // Everything below the gallery gets a max-width constraint.
               SliverToBoxAdapter(
@@ -146,23 +155,29 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
                     constraints: isWide
                         ? const BoxConstraints(maxWidth: _maxContentWidth)
                         : const BoxConstraints(),
-                    child: Column(
-                      children: [
-                        // ── Info bar ──────────────────────────────────
-                        EstablishmentInfoBar(
-                          data: data,
-                          isWide: isWide,
-                          isPreview: isPreview,
-                        ),
-
-                        // ── Action buttons (mobile only) ─────────────
-                        // On wide viewports, buttons are inside the info bar.
-                        if (!isWide)
-                          EstablishmentActionButtons(
+                    child: Padding(
+                      padding: isWide
+                          ? const EdgeInsets.symmetric(
+                              horizontal: _widePaddingH)
+                          : EdgeInsets.zero,
+                      child: Column(
+                        children: [
+                          // ── Info bar ──────────────────────────────────
+                          EstablishmentInfoBar(
                             data: data,
+                            isWide: isWide,
                             isPreview: isPreview,
                           ),
-                      ],
+
+                          // ── Action buttons (mobile only) ─────────────
+                          // On wide viewports, buttons are inside the info bar.
+                          if (!isWide)
+                            EstablishmentActionButtons(
+                              data: data,
+                              isPreview: isPreview,
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -211,11 +226,10 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
                 sliver: EstablishmentAboutGrid(data: data),
               ),
 
-              // Spacing between cards
-              if (data.about != null && data.about!.trim().isNotEmpty)
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: DittoSpacing.sm),
-                ),
+              // Spacing between sections
+              const SliverToBoxAdapter(
+                child: SizedBox(height: DittoSpacing.md),
+              ),
 
               // ── Contact section ─────────────────────────────────────
               SliverToBoxAdapter(
@@ -296,7 +310,10 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: _maxContentWidth),
-          child: child,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: _widePaddingH),
+            child: child,
+          ),
         ),
       ),
     );
@@ -316,6 +333,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
     // available, or using a SliverToBoxAdapter wrapper pattern.
     return _ConstrainedSliverWrapper(
       maxWidth: _maxContentWidth,
+      innerPadding: _widePaddingH,
       child: sliver,
     );
   }
@@ -329,10 +347,14 @@ class _ConstrainedSliverWrapper extends StatelessWidget {
   const _ConstrainedSliverWrapper({
     required this.maxWidth,
     required this.child,
+    this.innerPadding = 0,
   });
 
   final double maxWidth;
   final Widget child;
+
+  /// Extra horizontal padding applied inside the max-width constraint.
+  final double innerPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -341,11 +363,17 @@ class _ConstrainedSliverWrapper extends StatelessWidget {
     return SliverLayoutBuilder(
       builder: (context, constraints) {
         final crossAxisExtent = constraints.crossAxisExtent;
-        if (crossAxisExtent <= maxWidth) return child;
+        if (crossAxisExtent <= maxWidth) {
+          // Still apply inner padding even when not centering.
+          return SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: innerPadding),
+            sliver: child,
+          );
+        }
 
-        final padding = (crossAxisExtent - maxWidth) / 2;
+        final outerPadding = (crossAxisExtent - maxWidth) / 2;
         return SliverPadding(
-          padding: EdgeInsets.symmetric(horizontal: padding),
+          padding: EdgeInsets.symmetric(horizontal: outerPadding + innerPadding),
           sliver: child,
         );
       },
