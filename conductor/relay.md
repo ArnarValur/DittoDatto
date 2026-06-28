@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-28 17:41 — Ticketing & Events Domain Grill + Track Creation
+- **Session:** Deep-dive research into all ticketing/event code, schemas, docs (Ticketmaster + Noona competitive research). Brainstormed domain model with user. Landed on ServiceGroup = Event container, Services = Ticket tiers. Two independent feature flags (event_system / ticket_system). Recurring events via RFC 5545 rrule. Created track `ticketing_events_20260628` in new "ticketing" domain.
+- **Tracks touched:** `ticketing_events_20260628` (created)
+- **Status:** Track spec + plan written (5 phases). No implementation yet. Depends on `services_section_20260628` Phase 1–2.
+- **Decisions:** ADR-0022 (ServiceGroup as Event Container), ADR-0023 (Independent Feature Flags). Both written during grill session.
+- **Key findings:** Ticketing is well-scaffolded (enums, feature flags, attendee_count) but zero functional implementation anywhere. BOOKING_ENGINE.md safety manual is a dead link in project-context.md (lives in DittoDatto-old). Legacy Nuxt had TicketBookingFlow.vue + DDEventGrid.vue (deleted).
+- **Next:** (1) Schema hotfix (rescheduled fields). (2) Services Phase 1. (3) Ticketing Phase 1 (blocked on services). (4) Services Phase 2 (BP CRUD).
+
 ## 2026-06-28 17:38 — Recon Audit + Services Grill + Track Creation
 - **Session:** Dispatched 3 recon agents (MercuryEngine audit, Nuxt legacy inventory, Noona API). Compiled convergence report. Ran `/grill services` (domain language + exploration). Created track `services_section_20260628` via `/new-track` in new "services" domain.
 - **Tracks touched:** `services_section_20260628` (created)
