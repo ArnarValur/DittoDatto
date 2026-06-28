@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-28 17:38
-**Session Focus:** Recon audit (MercuryEngine + Nuxt legacy + Noona API) → Services domain grill → Services section track creation
+**Last Updated:** 2026-06-28 17:41
+**Session Focus:** Ticketing & Events domain grill + track creation
 
 ## 🚀 Active Tracks
 
@@ -9,6 +9,7 @@
 - **SolarTheme** (`solar_theme_20260628`) — **Phase 1 complete.** Solar engine ported, star field + demo running on device. Phases 2-5 open.
 - **Map & Geocoding** (`map_and_geocoding_20260628`) — **Phases 1-6 complete.** Kartverket autocomplete + flutter_map live in Admin + BP on Saturn. Future: Marketplace discovery map, Sweden support.
 - **Services Section** (`services_section_20260628`) — **New.** Track created. 4 phases: Data Layer → BP CRUD → Marketplace Display → Verify+Deploy. No code yet.
+- **Ticketing & Events** (`ticketing_events_20260628`) — **New.** Track created. 5 phases: Schema+Data → BP Event CRUD → Marketplace Display → Recurring Events MVP → Verify+Deploy. Depends on services track Phase 1–2. ADR-0022 + ADR-0023 landed.
 
 ## ✅ Recently Completed
 
@@ -72,7 +73,7 @@
 
 1. 🔴 **Schema hotfix** — Add `rescheduled_from`/`rescheduled_to` to `company-blueprint.surql`. Five-minute fix, prevents compliance data loss.
 2. 🟡 **Services section Phase 1** — Dart models (Service, ServiceGroup) + DB queries + format helpers. Track: `services_section_20260628`.
-3. 🟡 **Finish ticketing grill** — Concurrent session still open. Complete it, then `/new-track` for ticketing.
+3. 🟡 **Ticketing Phase 1** — Schema extensions + data layer. Blocked on services track Phase 1–2. Track: `ticketing_events_20260628`.
 4. 🟡 **Services section Phase 2** — BP CRUD ("Tjenester" sidebar page + create/edit dialog).
 5. 🟡 **MercuryEngine relay sync** — 3 ADR candidates + 4 glossary updates sitting unprocessed in its conductor.
 6. 🟡 **Discovery service track** — `companies/discovery` sync. `/new-track` candidate.

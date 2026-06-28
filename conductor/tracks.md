@@ -21,6 +21,7 @@ All tracks organized by domain. Each track links to its dedicated folder.
 | **Auth Service** | `services/auth-service/` | 🔴 Critical | SurrealDB-native auth + shared `ditto_auth` Dart package. New domain. |
 | **Geo Integration** | `packages/establishment_ui/` (services) | 🟢 Active | Kartverket + Nominatim + flutter_map. Cross-cutting: Admin, BP, Marketplace. |
 | **Services** | `packages/establishment_ui/` + `apps/*/features/services/` | 🟡 Careful | Service display + CRUD. Cross-cutting: Marketplace, BP, future booking flow. |
+| **Ticketing** | `packages/establishment_ui/` + `apps/*/features/events/` + `schemas/` | 🟡 Careful | Events + ticketSystem booking mode. ServiceGroup = Event (ADR-0022), independent flags (ADR-0023). Depends on Services domain. |
 
 ---
 
@@ -37,6 +38,13 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Link:* [tracks/services/services_section_20260628/](./tracks/services/services_section_20260628/)
   - *Phases:* 4 — (1) Data Layer (Dart models + DB queries), (2) BP Services CRUD (minimal), (3) Marketplace Display (ServiceCard + ServiceSection + MultiSelectGroup), (4) Verification + Deploy
   - *Grilled decisions:* Grouped by ServiceGroup ✅, 3 booking-mode card variants ✅, multi-select checkboxes + summary bar ✅, models in establishment_ui ✅, kr/min formatting ✅
+
+- [ ] **Ticketing & Events — Event system + ticketSystem booking mode + recurring events**
+  - *Type:* feature | *Domain:* ticketing | *Status:* **new**
+  - *Link:* [tracks/ticketing/ticketing_events_20260628/](./tracks/ticketing/ticketing_events_20260628/)
+  - *Phases:* 5 — (1) Schema + Data Layer, (2) BP Event CRUD, (3) Marketplace Event Display, (4) Recurring Events MVP, (5) Verification + Deploy
+  - *Depends on:* ADR-0022 (ServiceGroup = Event), ADR-0023 (Independent Feature Flags), `services_section_20260628` Phase 1–2
+  - *Grilled decisions:* ServiceGroup = Event container ✅, Services = Ticket tiers ✅, independent event_system/ticket_system flags ✅, RFC 5545 rrule for recurrence ✅, auto-create + notify for recurring ✅
 
 - [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
   - *Type:* feature | *Domain:* auth-service | *Status:* **ready for Phase 4** (Marketplace consumer auth now live)
