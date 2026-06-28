@@ -26,6 +26,17 @@
 
 ## 🧠 Session Memory
 
+### Session 2026-06-28 17:30 — Ticketing & Events Domain Grill
+
+- **Deep-dive research** into all ticketing-related code, schemas, docs, and competitive research (Ticketmaster + Noona).
+- **Two systems clarified:** Events (`event_system` flag) = general event creation (public/private, visibility-only possible). Ticketing (`ticket_system` flag) = capacity-managed ticket sales via `bookingMode: ticketSystem`. `ticket_system` requires `event_system`.
+- **Core model decided:** ServiceGroup = Event container, Services = Ticket tiers (VIP, General, Standing). Simple events: 1 ServiceGroup + 1 Service. Complex events: 1 ServiceGroup + N Services. Total capacity = Σ child Service capacities. See **ADR-0022**.
+- **Feature flag independence:** ADR-0023 formalizes the two-flag model and dependency direction.
+- **Recurring events:** RFC 5545 `rrule` on ServiceGroup. Platform auto-creates next instance, notifies company user. Future: Datto automates.
+- **context.md updated:** ServiceGroup, Ticket, Event terms refined. Recurring Event added.
+- **Research artifacts:** `ticketing_deep_dive.md` (full codebase/docs audit), `ticketing_grill_brief.md` (decision summary).
+- **Finding:** `BOOKING_ENGINE.md` safety manual is a dead link in `project-context.md` — lives in `DittoDatto-old/`, not current repo.
+
 ### Session 2026-06-28 16:55 — Gallery Layout Modes + Viewer
 
 - **3 cover layout modes** wired to `CoverLayoutMode` enum dispatch in `EstablishmentGallerySection.build()`. Wide viewports switch layout; mobile stays identical across all modes.
@@ -47,9 +58,10 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🟡 **Services section design** — name, type-dependent rendering (restaurant vs venue vs store). Needs grill.
-2. 🟡 **Marketplace discovery map** — Phase 7 of geo-integration track.
-3. 🟡 **Discovery service track** — `companies/discovery` sync. `/new-track` candidate.
-4. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
-5. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
-6. 🟢 **E2E checklist** — user working through 45 scenarios gradually.
+1. 🟡 **Ticketing & Events track** — `/new-track` candidate. ADR-0022 + ADR-0023 landed. Schema design, BP event creation UX, Marketplace event display, MercuryEngine capacity slots.
+2. 🟡 **Services section design** — name, type-dependent rendering (restaurant vs venue vs store). Needs grill. Gateway to ticketing UI.
+3. 🟡 **Marketplace discovery map** — Phase 7 of geo-integration track.
+4. 🟡 **Discovery service track** — `companies/discovery` sync. `/new-track` candidate.
+5. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
+6. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
+7. 🟢 **E2E checklist** — user working through 45 scenarios gradually.

@@ -20,6 +20,7 @@ All tracks organized by domain. Each track links to its dedicated folder.
 | **Design System** | `packages/ditto_design/` | 🟡 Active | Shared theme, tokens, layout, solar engine. Consumed by all Flutter apps. |
 | **Auth Service** | `services/auth-service/` | 🔴 Critical | SurrealDB-native auth + shared `ditto_auth` Dart package. New domain. |
 | **Geo Integration** | `packages/establishment_ui/` (services) | 🟢 Active | Kartverket + Nominatim + flutter_map. Cross-cutting: Admin, BP, Marketplace. |
+| **Services** | `packages/establishment_ui/` + `apps/*/features/services/` | 🟡 Careful | Service display + CRUD. Cross-cutting: Marketplace, BP, future booking flow. |
 
 ---
 
@@ -30,6 +31,12 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Link:* [tracks/design-system/solar_theme_20260628/](./tracks/design-system/solar_theme_20260628/)
   - *Phases:* 5 — (1) Solar Engine + Foundation ✅, (2) Theme Integration, (3) Twilight Transitions & Polish, (4) Shared EstablishmentPage, (5) Hue Palette (deferred — marinating)
   - *Grilled decisions:* Outfit+Inter typography ✅, Marketplace+BP preview surfaces ✅, gradient+stars atmosphere ✅, hue palette marinating
+
+- [ ] **Services Section — EstablishmentPage display + BP CRUD for service management**
+  - *Type:* feature | *Domain:* services | *Status:* **new**
+  - *Link:* [tracks/services/services_section_20260628/](./tracks/services/services_section_20260628/)
+  - *Phases:* 4 — (1) Data Layer (Dart models + DB queries), (2) BP Services CRUD (minimal), (3) Marketplace Display (ServiceCard + ServiceSection + MultiSelectGroup), (4) Verification + Deploy
+  - *Grilled decisions:* Grouped by ServiceGroup ✅, 3 booking-mode card variants ✅, multi-select checkboxes + summary bar ✅, models in establishment_ui ✅, kr/min formatting ✅
 
 - [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
   - *Type:* feature | *Domain:* auth-service | *Status:* **ready for Phase 4** (Marketplace consumer auth now live)

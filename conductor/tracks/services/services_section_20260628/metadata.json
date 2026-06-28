@@ -1,0 +1,9 @@
+{
+  "track_id": "services_section_20260628",
+  "type": "feature",
+  "status": "new",
+  "domain": "services",
+  "created_at": "2026-06-28T17:36:00+02:00",
+  "updated_at": "2026-06-28T17:36:00+02:00",
+  "description": "Services section on EstablishmentPage — grouped ServiceCards with booking-mode variants, multi-select support, and basic BP CRUD for service management"
+}
