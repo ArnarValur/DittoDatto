@@ -23,7 +23,7 @@ set -euo pipefail
 # (marketplace TBD)      → /srv/dittodatto/marketplace/web   → port 8004
 declare -A APP_LOCAL_DIR=(
   [portal]="apps/business-portal"
-  [admin]="apps/admin-panel"
+  [admin]="apps/admin"
   [marketplace]="apps/marketplace"
 )
 

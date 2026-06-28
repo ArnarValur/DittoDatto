@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   ditto_design:
     path: ../../packages/ditto_design
+  establishment_ui:
+    path: ../../packages/establishment_ui
   mercury_client:
     path: ../../packages/mercury_client
   flutter_riverpod: ^3.3.1

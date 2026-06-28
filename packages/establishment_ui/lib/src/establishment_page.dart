@@ -8,6 +8,7 @@ import 'sections/establishment_contact_section.dart';
 import 'sections/establishment_events_section.dart';
 import 'sections/establishment_gallery_section.dart';
 import 'sections/establishment_info_bar.dart';
+import 'sections/establishment_map_section.dart';
 import 'sections/establishment_section_shortcuts.dart';
 import 'sections/establishment_services_section.dart';
 
@@ -57,6 +58,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
   final _eventsKey = GlobalKey();
   final _aboutKey = GlobalKey();
   final _contactKey = GlobalKey();
+  final _mapKey = GlobalKey();
 
   EstablishmentData get data => widget.data;
   bool get isPreview => widget.isPreview;
@@ -96,6 +98,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
       // Staff section — future, not wired yet.
       (label: 'Om oss', key: _aboutKey),
       (label: 'Kontakt', key: _contactKey),
+      if (data.hasLocation) (label: 'Kart', key: _mapKey),
     ];
   }
 
@@ -243,6 +246,21 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
                   isWide: isWide,
                 ),
               ),
+
+              // ── Map section ──────────────────────────────────────────
+              if (data.hasLocation)
+                SliverToBoxAdapter(
+                  key: _mapKey,
+                  child: const _SectionAnchor(),
+                ),
+              if (data.hasLocation)
+                _buildConstrainedSliver(
+                  isWide: isWide,
+                  sliver: EstablishmentMapSection(
+                    data: data,
+                    isWide: isWide,
+                  ),
+                ),
 
               // ── Bottom padding ──────────────────────────────────────
               const SliverToBoxAdapter(

@@ -75,6 +75,8 @@ class EstablishmentData {
     this.showStaff = false,
     this.openingStatus,
     this.isOpen,
+    this.latitude,
+    this.longitude,
   });
 
   /// Establishment display name.
@@ -139,6 +141,16 @@ class EstablishmentData {
   /// TODO: Derive from opening_schedule when schedule parsing is implemented.
   final bool? isOpen;
 
+  /// Latitude from SurrealDB `location` `geometry<point>`.
+  /// GeoJSON format: `{ type: "Point", coordinates: [lng, lat] }`.
+  final double? latitude;
+
+  /// Longitude from SurrealDB `location` `geometry<point>`.
+  final double? longitude;
+
+  /// Whether geo coordinates are available for map display.
+  bool get hasLocation => latitude != null && longitude != null;
+
   /// Whether any media (cover or gallery) is available.
   bool get hasMedia => coverUrl != null || galleryUrls.isNotEmpty;
 
@@ -174,6 +186,8 @@ class EstablishmentData {
     bool? showStaff,
     String? openingStatus,
     bool? isOpen,
+    double? latitude,
+    double? longitude,
   }) {
     return EstablishmentData(
       name: name ?? this.name,
@@ -197,6 +211,8 @@ class EstablishmentData {
       showStaff: showStaff ?? this.showStaff,
       openingStatus: openingStatus ?? this.openingStatus,
       isOpen: isOpen ?? this.isOpen,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
     );
   }
 
@@ -229,7 +245,9 @@ class EstablishmentData {
         showEvents == other.showEvents &&
         showStaff == other.showStaff &&
         openingStatus == other.openingStatus &&
-        isOpen == other.isOpen;
+        isOpen == other.isOpen &&
+        latitude == other.latitude &&
+        longitude == other.longitude;
   }
 
   @override
@@ -254,6 +272,6 @@ class EstablishmentData {
         showEvents,
         showStaff,
         // Object.hash supports up to 20 positional args; nest remaining.
-        Object.hash(openingStatus, isOpen),
+        Object.hash(openingStatus, isOpen, latitude, longitude),
       );
 }

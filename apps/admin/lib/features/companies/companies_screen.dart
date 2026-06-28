@@ -1,4 +1,5 @@
 import 'package:ditto_design/ditto_design.dart';
+import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mercury_client/mercury_client.dart';
@@ -358,12 +359,13 @@ class _CompaniesTable extends ConsumerWidget {
                     ),
                     const SizedBox(height: DittoSpacing.base),
 
-                    // Address
+                    // Address — Kartverket autocomplete
                     Text('Address', style: Theme.of(context).textTheme.titleSmall),
                     const SizedBox(height: DittoSpacing.sm),
-                    TextField(
-                      controller: addressCtrl,
-                      decoration: const InputDecoration(labelText: 'Address'),
+                    _KartverketAddressField(
+                      addressController: addressCtrl,
+                      cityController: cityCtrl,
+                      postalController: postalCtrl,
                       enabled: !isSubmitting,
                     ),
                     const SizedBox(height: DittoSpacing.sm),
@@ -520,6 +522,134 @@ class _CompaniesTable extends ConsumerWidget {
           );
         },
       ),
+    );
+  }
+}
+
+/// Address text field with Kartverket autocomplete suggestions.
+///
+/// When the user types ≥ 3 characters, queries the Norwegian Mapping
+/// Authority API and shows matching real addresses. Selecting a suggestion
+/// auto-fills the [addressController], [cityController], and [postalController].
+class _KartverketAddressField extends StatefulWidget {
+  const _KartverketAddressField({
+    required this.addressController,
+    required this.cityController,
+    required this.postalController,
+    this.enabled = true,
+  });
+
+  final TextEditingController addressController;
+  final TextEditingController cityController;
+  final TextEditingController postalController;
+  final bool enabled;
+
+  @override
+  State<_KartverketAddressField> createState() =>
+      _KartverketAddressFieldState();
+}
+
+class _KartverketAddressFieldState extends State<_KartverketAddressField> {
+  final _kartverket = KartverketService();
+  List<NorwegianAddress> _suggestions = [];
+  bool _searching = false;
+  DateTime _lastSearch = DateTime.now();
+
+  @override
+  void dispose() {
+    _kartverket.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onChanged(String query) async {
+    if (query.trim().length < KartverketService.minQueryLength) {
+      if (_suggestions.isNotEmpty) {
+        setState(() => _suggestions = []);
+      }
+      return;
+    }
+
+    // Simple debounce — skip if another keystroke arrived within 300ms.
+    final now = DateTime.now();
+    _lastSearch = now;
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    if (_lastSearch != now || !mounted) return;
+
+    setState(() => _searching = true);
+    final results = await _kartverket.search(query);
+    if (!mounted) return;
+    setState(() {
+      _suggestions = results;
+      _searching = false;
+    });
+  }
+
+  void _onSelected(NorwegianAddress addr) {
+    widget.addressController.text = addr.streetAddress;
+    widget.cityController.text = addr.city;
+    widget.postalController.text = addr.postalCode;
+    setState(() => _suggestions = []);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextField(
+          controller: widget.addressController,
+          decoration: InputDecoration(
+            labelText: 'Address',
+            hintText: 'Search address...',
+            suffixIcon: _searching
+                ? const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  )
+                : const Icon(Icons.search, size: 20),
+          ),
+          enabled: widget.enabled,
+          onChanged: _onChanged,
+        ),
+        if (_suggestions.isNotEmpty)
+          Container(
+            margin: const EdgeInsets.only(top: 2),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.15),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _suggestions.map((addr) {
+                return ListTile(
+                  dense: true,
+                  leading:
+                      const Icon(Icons.location_on_outlined, size: 18),
+                  title: Text(addr.streetAddress,
+                      style: theme.textTheme.bodyMedium),
+                  subtitle: Text(
+                    '${addr.postalCode} ${addr.city}',
+                    style: theme.textTheme.bodySmall,
+                  ),
+                  onTap: () => _onSelected(addr),
+                );
+              }).toList(),
+            ),
+          ),
+      ],
     );
   }
 }

@@ -8,6 +8,7 @@ library;
 
 // Models
 export 'src/models/establishment_data.dart';
+export 'src/models/norwegian_address.dart';
 
 // Page
 export 'src/establishment_page.dart';
@@ -21,3 +22,8 @@ export 'src/sections/establishment_action_buttons.dart';
 export 'src/sections/establishment_section_shortcuts.dart';
 export 'src/sections/establishment_services_section.dart';
 export 'src/sections/establishment_events_section.dart';
+export 'src/sections/establishment_map_section.dart';
+
+// Services
+export 'src/services/kartverket_service.dart';
+export 'src/services/nominatim_service.dart';

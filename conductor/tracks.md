@@ -19,6 +19,7 @@ All tracks organized by domain. Each track links to its dedicated folder.
 | **Infrastructure** | Saturn (GX10) on-prem + SurrealDB | 🟢 Active | Staging environment fully deployed and live (ADR-0003). |
 | **Design System** | `packages/ditto_design/` | 🟡 Active | Shared theme, tokens, layout, solar engine. Consumed by all Flutter apps. |
 | **Auth Service** | `services/auth-service/` | 🔴 Critical | SurrealDB-native auth + shared `ditto_auth` Dart package. New domain. |
+| **Geo Integration** | `packages/establishment_ui/` (services) | 🟢 Active | Kartverket + Nominatim + flutter_map. Cross-cutting: Admin, BP, Marketplace. |
 
 ---
 
@@ -40,6 +41,12 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Link:* [tracks/shared-packages/media_manager_package_20260626/](./tracks/shared-packages/media_manager_package_20260626/)
   - *Phases:* 4 — (1) Package Scaffold + Data Layer ✅, (2) Gallery Page Widget ✅, (3) Inline Picker + Modal ✅, (4) BP Integration + Verification ✅
   - *Depends on:* ADR-0021 (Media Manager as Shared Package)
+
+- [ ] **Map & Geocoding — Shared map widget + Kartverket address autocomplete + Nominatim geocoding**
+  - *Type:* feature | *Domain:* geo-integration | *Status:* **Phases 1–6 complete** (Admin + BP deployed, live on Saturn)
+  - *Link:* [tracks/geo-integration/map_and_geocoding_20260628/](./tracks/geo-integration/map_and_geocoding_20260628/)
+  - *Phases:* 8 — (1) Data Layer ✅, (2) Geocoding Services ✅, (3) Map Widget ✅, (4) BP Integration ✅, (5) Admin Integration ✅, (6) Verification ✅, (7) Marketplace Discovery Map, (8) Sweden Support
+  - *What works:* Kartverket autocomplete (Admin + BP) ✅, flutter_map with OSM tiles ✅, GeoJSON round-trip to SurrealDB ✅. Future: multi-pin marketplace map, Swedish addresses.
 
 ---
 

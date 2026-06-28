@@ -1,0 +1,9 @@
+{
+  "track_id": "map_and_geocoding_20260628",
+  "type": "feature",
+  "status": "in-progress",
+  "domain": "geo-integration",
+  "created_at": "2026-06-28T09:51:00Z",
+  "updated_at": "2026-06-28T09:57:00Z",
+  "description": "Shared map widget (flutter_map + OpenStreetMap) and Norwegian address geocoding (Kartverket autocomplete + Nominatim) across Admin Panel, Business Portal, and Marketplace"
+}

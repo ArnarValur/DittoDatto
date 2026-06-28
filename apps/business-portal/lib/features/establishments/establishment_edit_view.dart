@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'package:ditto_design/ditto_design.dart';
 import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:media_manager/media_manager.dart';
 
 import 'establishment_model.dart';
@@ -65,6 +67,10 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   List<MediaItem> _selectedCover = [];
   List<MediaItem> _selectedGallery = [];
 
+  // ── Lokasjon geo state ──
+  double? _latitude;
+  double? _longitude;
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -94,6 +100,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
     _isPublished = est.isPublished;
     _resourcesEnabled = est.resourcesEnabled;
     _coverLayoutMode = est.coverLayoutMode;
+    _latitude = est.latitude;
+    _longitude = est.longitude;
     // Media selections will be resolved after mediaProvider loads
     // by matching URLs to MediaItem objects.
     _selectedLogo = [];
@@ -152,6 +160,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
       coverUrl: _selectedCover.isNotEmpty ? _selectedCover.first.url : null,
       galleryUrls: _selectedGallery.map((m) => m.url).toList(),
       coverLayoutMode: CoverLayoutMode.fromString(_coverLayoutMode),
+      latitude: _latitude,
+      longitude: _longitude,
     );
   }
 
@@ -182,6 +192,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
       coverUrl: () => _selectedCover.firstOrNull?.url,
       galleryUrls: _selectedGallery.map((m) => m.url).toList(),
       coverLayoutMode: _coverLayoutMode,
+      latitude: () => _latitude,
+      longitude: () => _longitude,
     );
 
     await ref.read(establishmentsProvider.notifier).updateEstablishment(updated);
@@ -276,6 +288,14 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               addressController: _addressController,
               cityController: _cityController,
               zipController: _zipController,
+              latitude: _latitude,
+              longitude: _longitude,
+              onLocationChanged: (lat, lng) {
+                setState(() {
+                  _latitude = lat;
+                  _longitude = lng;
+                });
+              },
             ),
           ),
           DittoScrollspySection(
@@ -425,89 +445,300 @@ class _GenereltSection extends StatelessWidget {
   }
 }
 
-// ── Section 2: Lokasjon ──
-
-class _LokasjonSection extends StatelessWidget {
+class _LokasjonSection extends StatefulWidget {
   const _LokasjonSection({
     required this.addressController,
     required this.cityController,
     required this.zipController,
+    this.latitude,
+    this.longitude,
+    this.onLocationChanged,
   });
 
   final TextEditingController addressController;
   final TextEditingController cityController;
   final TextEditingController zipController;
+  final double? latitude;
+  final double? longitude;
+  final void Function(double lat, double lng)? onLocationChanged;
+
+  @override
+  State<_LokasjonSection> createState() => _LokasjonSectionState();
+}
+
+class _LokasjonSectionState extends State<_LokasjonSection> {
+  final _kartverket = KartverketService();
+  final _nominatim = NominatimService();
+  List<NorwegianAddress> _suggestions = [];
+  bool _searching = false;
+  bool _geocoding = false;
+  double? _lat;
+  double? _lng;
+
+  // Debounce timer for address search.
+  DateTime _lastSearch = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _lat = widget.latitude;
+    _lng = widget.longitude;
+  }
+
+  @override
+  void didUpdateWidget(covariant _LokasjonSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Sync lat/lng if parent pushes new values (e.g. on load).
+    if (widget.latitude != oldWidget.latitude ||
+        widget.longitude != oldWidget.longitude) {
+      _lat = widget.latitude;
+      _lng = widget.longitude;
+    }
+  }
+
+  @override
+  void dispose() {
+    _kartverket.dispose();
+    _nominatim.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onAddressChanged(String query) async {
+    if (query.trim().length < KartverketService.minQueryLength) {
+      if (_suggestions.isNotEmpty) {
+        setState(() => _suggestions = []);
+      }
+      return;
+    }
+
+    // Simple debounce — skip if another search happened within 300ms.
+    final now = DateTime.now();
+    _lastSearch = now;
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    if (_lastSearch != now || !mounted) return;
+
+    setState(() => _searching = true);
+    final results = await _kartverket.search(query);
+    if (!mounted) return;
+    setState(() {
+      _suggestions = results;
+      _searching = false;
+    });
+  }
+
+  void _onSuggestionSelected(NorwegianAddress address) {
+    widget.addressController.text = address.streetAddress;
+    widget.cityController.text = address.city;
+    widget.zipController.text = address.postalCode;
+    setState(() => _suggestions = []);
+
+    // Kartverket often provides coordinates directly.
+    if (address.latitude != null && address.longitude != null) {
+      _updateLocation(address.latitude!, address.longitude!);
+    } else {
+      // Fallback: geocode via Nominatim.
+      _geocodeCurrentAddress();
+    }
+  }
+
+  Future<void> _geocodeCurrentAddress() async {
+    final address = widget.addressController.text.trim();
+    final city = widget.cityController.text.trim();
+    final zip = widget.zipController.text.trim();
+    if (address.isEmpty) return;
+
+    final fullAddress = '$address, $zip $city';
+    setState(() => _geocoding = true);
+    final result = await _nominatim.geocode(fullAddress);
+    if (!mounted) return;
+    setState(() => _geocoding = false);
+
+    if (result != null) {
+      _updateLocation(result.latitude, result.longitude);
+    }
+  }
+
+  void _updateLocation(double lat, double lng) {
+    setState(() {
+      _lat = lat;
+      _lng = lng;
+    });
+    widget.onLocationChanged?.call(lat, lng);
+  }
+
+  bool get _hasLocation => _lat != null && _lng != null;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // ── Address field with Kartverket autocomplete ──
         TextFormField(
-          controller: addressController,
-          decoration: const InputDecoration(
+          controller: widget.addressController,
+          decoration: InputDecoration(
             labelText: 'Gateadresse',
-            hintText: 'Storgata 1',
+            hintText: 'Søk adresse...',
+            suffixIcon: _searching
+                ? const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  )
+                : const Icon(Icons.search),
           ),
+          onChanged: _onAddressChanged,
         ),
+
+        // ── Autocomplete suggestions dropdown ──
+        if (_suggestions.isNotEmpty)
+          Container(
+            margin: const EdgeInsets.only(top: 2),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest,
+              borderRadius: DittoBorderRadius.mediumAll,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _suggestions.map((addr) {
+                return ListTile(
+                  dense: true,
+                  leading: const Icon(Icons.location_on_outlined, size: 20),
+                  title: Text(addr.streetAddress),
+                  subtitle: Text(
+                    '${addr.postalCode} ${addr.city}',
+                    style: theme.textTheme.bodySmall,
+                  ),
+                  onTap: () => _onSuggestionSelected(addr),
+                );
+              }).toList(),
+            ),
+          ),
+
         const SizedBox(height: DittoSpacing.base),
+
+        // ── City / Zip row ──
         Row(
           children: [
             Expanded(
               flex: 2,
               child: TextFormField(
-                controller: cityController,
+                controller: widget.cityController,
                 decoration: const InputDecoration(labelText: 'By'),
               ),
             ),
             const SizedBox(width: DittoSpacing.base),
             Expanded(
               child: TextFormField(
-                controller: zipController,
+                controller: widget.zipController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(labelText: 'Postnummer'),
               ),
             ),
           ],
         ),
-        const SizedBox(height: DittoSpacing.lg),
-        // Map preview placeholder
-        Container(
-          height: 200,
-          decoration: BoxDecoration(
-            color: Theme.of(context)
-                .colorScheme
-                .surfaceContainerHighest
-                .withValues(alpha: 0.3),
+
+        const SizedBox(height: DittoSpacing.base),
+
+        // ── Geocode button ──
+        if (!_hasLocation)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              onPressed: _geocoding ? null : _geocodeCurrentAddress,
+              icon: _geocoding
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.my_location, size: 18),
+              label: const Text('Finn på kart'),
+            ),
+          ),
+
+        const SizedBox(height: DittoSpacing.sm),
+
+        // ── Map ──
+        if (_hasLocation)
+          ClipRRect(
             borderRadius: DittoBorderRadius.mediumAll,
-            border: Border.all(
-              color: Theme.of(context)
-                  .colorScheme
-                  .outlineVariant
-                  .withValues(alpha: 0.3),
-            ),
-          ),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.map_outlined,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+            child: SizedBox(
+              height: 220,
+              child: FlutterMap(
+                options: MapOptions(
+                  initialCenter: LatLng(_lat!, _lng!),
+                  initialZoom: 15.0,
                 ),
-                const SizedBox(height: DittoSpacing.sm),
-                Text(
-                  'Kartvisning kommer snart',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color:
-                            Theme.of(context).colorScheme.onSurfaceVariant,
+                children: [
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName: 'no.dittodatto.portal',
+                  ),
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: LatLng(_lat!, _lng!),
+                        width: 40,
+                        height: 40,
+                        child: Icon(
+                          Icons.location_on,
+                          color: theme.colorScheme.primary,
+                          size: 40,
+                        ),
                       ),
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          // Placeholder when no coordinates
+          Container(
+            height: 200,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerHighest
+                  .withValues(alpha: 0.3),
+              borderRadius: DittoBorderRadius.mediumAll,
+              border: Border.all(
+                color: theme.colorScheme.outlineVariant
+                    .withValues(alpha: 0.3),
+              ),
+            ),
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.map_outlined,
+                    size: 40,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(height: DittoSpacing.sm),
+                  Text(
+                    'Skriv en adresse for å vise kartet',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
       ],
     );
   }

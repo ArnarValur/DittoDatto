@@ -52,6 +52,8 @@ class Establishment {
     this.coverUrl,
     this.galleryUrls = const [],
     this.coverLayoutMode = 'bento',
+    this.latitude,
+    this.longitude,
   });
 
   final String id;
@@ -76,6 +78,10 @@ class Establishment {
   final String? coverUrl;
   final List<String> galleryUrls;
   final String coverLayoutMode;
+
+  // ── Geo location (maps to schema `location` geometry<point>) ──
+  final double? latitude;
+  final double? longitude;
 
   /// Parse from SurrealDB JSON response.
   factory Establishment.fromJson(Map<String, dynamic> json) {
@@ -102,7 +108,26 @@ class Establishment {
               ?.cast<String>() ??
           const [],
       coverLayoutMode: json['cover_layout_mode'] as String? ?? 'bento',
+      latitude: _parseGeoLat(json['location']),
+      longitude: _parseGeoLng(json['location']),
     );
+  }
+
+  /// Extract latitude from SurrealDB `geometry<point>` GeoJSON.
+  /// Format: `{ type: "Point", coordinates: [lng, lat] }`
+  static double? _parseGeoLat(dynamic location) {
+    if (location is! Map<String, dynamic>) return null;
+    final coords = location['coordinates'] as List<dynamic>?;
+    if (coords == null || coords.length < 2) return null;
+    return (coords[1] as num?)?.toDouble();
+  }
+
+  /// Extract longitude from SurrealDB `geometry<point>` GeoJSON.
+  static double? _parseGeoLng(dynamic location) {
+    if (location is! Map<String, dynamic>) return null;
+    final coords = location['coordinates'] as List<dynamic>?;
+    if (coords == null || coords.length < 2) return null;
+    return (coords[0] as num?)?.toDouble();
   }
 
   /// Serialize to JSON for SurrealDB CREATE/UPDATE.
@@ -137,6 +162,14 @@ class Establishment {
     };
     json['cover_layout_mode'] = coverLayoutMode;
 
+    // Geo location — serialize as GeoJSON point
+    if (latitude != null && longitude != null) {
+      json['location'] = {
+        'type': 'Point',
+        'coordinates': [longitude, latitude],
+      };
+    }
+
     return json;
   }
 
@@ -159,6 +192,8 @@ class Establishment {
     String? Function()? coverUrl,
     List<String>? galleryUrls,
     String? coverLayoutMode,
+    double? Function()? latitude,
+    double? Function()? longitude,
   }) {
     return Establishment(
       id: id,
@@ -181,6 +216,8 @@ class Establishment {
       coverUrl: coverUrl != null ? coverUrl() : this.coverUrl,
       galleryUrls: galleryUrls ?? this.galleryUrls,
       coverLayoutMode: coverLayoutMode ?? this.coverLayoutMode,
+      latitude: latitude != null ? latitude() : this.latitude,
+      longitude: longitude != null ? longitude() : this.longitude,
     );
   }
 }
