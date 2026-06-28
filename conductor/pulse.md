@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-28 01:56
-**Session Focus:** EstablishmentPage mobile-first rebuild — shared widget foundation + marketplace test route
+**Last Updated:** 2026-06-28 02:11
+**Session Focus:** EstablishmentPage mobile-first rebuild — shared widget foundation + marketplace test route + data wiring discovery
 
 ## 🚀 Active Tracks
 
@@ -47,7 +47,12 @@
   - New: action buttons (Bestill time + Lagre), section shortcuts (anchor chips), services placeholder, events placeholder
 - **Marketplace wiring:** Added `establishment_ui` dep, `/establishment-test` route with mock House of the North data, nav button on home screen
 - **On-device verification:** Running on Galaxy S21 Ultra. User confirmed "Good base!" — needs bottom margin and polishing.
-- **Remaining:** Bottom margin, polish, BP preview adaptation, test updates
+- **Data wiring attempt:** Tried wiring marketplace to SurrealDB for real data (images, logo). Discovery:
+  - Marketplace can't use `bp_portal` — that's BP's service user, not a public access method.
+  - `companies/discovery` DB with `establishment_listing` exists in schema but has no data (MercuryEngine syncToDiscovery not built).
+  - **Pivot decision:** Polish the EstablishmentPage via **BP preview** instead. Same shared widget — BP already has the data connection. Marketplace data layer deferred to discovery service track.
+- **Provider reverted** — removed `establishment_provider.dart`, restored simple mock test screen.
+- **Remaining:** Bottom margin polish (via BP preview), BP `_buildPreviewData()` update, services section design, discovery service (future track)
 
 ### Session 2026-06-28 00:39 — SolarTheme Exploration (Saturday Night Side-Quest)
 
@@ -73,11 +78,11 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **EstablishmentPage polish** — bottom margin, spacing refinements, visual details. User confirmed foundation is good.
-2. 🔴 **BP preview adaptation** — update `_buildPreviewData()` to include new fields. Verify preview toggle still works.
+1. 🔴 **EstablishmentPage polish via BP preview** — bottom margin, spacing, visual details. BP already has real data (images, logo). Same shared widget applies to marketplace.
+2. 🔴 **BP `_buildPreviewData()` update** — include new model fields (section flags, openingStatus) so preview reflects full page.
 3. 🟡 **Services section design** — name, type-dependent rendering (restaurant vs venue vs store). Needs grill.
-4. 🟡 **Review Auth Service Phase 4** — consumer auth live in marketplace.
-5. 🟡 **SolarTheme Phase 2** — wire solar engine into real Marketplace shell.
-6. 🟡 **CRM `/grill` or `/new-track`** — 4 research docs digested.
+4. 🟡 **Discovery service track** — `companies/discovery` needs sync from company DBs. Required before marketplace can show real data. `/new-track` candidate.
+5. 🟡 **Review Auth Service Phase 4** — consumer auth live in marketplace.
+6. 🟡 **SolarTheme Phase 2** — wire solar engine into real Marketplace shell.
 7. 🟢 **E2E checklist** — user working through 45 scenarios gradually.
 8. 🟢 **Logo:** User is working on a logo — swap when ready.

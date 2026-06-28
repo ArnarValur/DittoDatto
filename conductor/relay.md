@@ -1,11 +1,11 @@
 # Relay — Cross-Session Handoff
 
-## 2026-06-28 01:56 — EstablishmentPage Mobile-First Rebuild
-- **Session:** Analyzed 4 Nuxt screenshots, rebuilt `establishment_ui` shared package (11 files). Single-scroll page: cover gallery + centered info bar + action buttons + anchor shortcut chips + conditional sections (services/events). Wired to marketplace `/establishment-test` route with mock data. Running on Galaxy S21 — user confirmed "Good base!"
+## 2026-06-28 02:12 — EstablishmentPage Mobile-First Rebuild
+- **Session:** Analyzed 4 Nuxt screenshots, rebuilt `establishment_ui` shared package (11 files). Single-scroll page: cover gallery + centered info bar + action buttons + anchor shortcut chips + conditional sections (services/events). Wired to marketplace `/establishment-test` route with mock data. Running on Galaxy S21 — user confirmed "Good base!" Attempted marketplace data wiring — discovered marketplace needs discovery layer (public DB), not bp_portal. Reverted provider, pivoted to BP preview path for polish.
 - **Tracks touched:** No formal track (extends graduated `bp_establishment_preview_20260625`)
-- **Status:** Foundation complete. Needs bottom margin polish, BP preview adaptation, test updates.
+- **Status:** Foundation complete. Marketplace mock route works. Real data polish → BP preview (already wired to SDB). Discovery service needed for marketplace real data.
 - **Decisions:** None
-- **Next:** (1) Bottom margin + polish. (2) BP `_buildPreviewData()` update. (3) Services section design grill (type-dependent). (4) Test updates.
+- **Next:** (1) Update BP `_buildPreviewData()` for new model fields → real data in mobile layout. (2) Bottom margin + visual polish via BP preview. (3) Services section design grill. (4) Discovery service `/new-track` for marketplace data layer.
 
 ## 2026-06-28 00:39 — SolarTheme Exploration (Saturday Night Side-Quest)
 - **Session:** Ported Nuxt SolarTheme to Flutter. Mini grill on DD theme foundation (typography, surfaces, atmosphere scope). Solar engine + star field in `ditto_design`, demo screen in marketplace running on device. Track created.

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 ///
 /// Uses mock data representing House of the North (venue in Drammen).
 /// This screen is temporary — will be replaced by a real data-driven
-/// route once the marketplace fetches establishments from SurrealDB.
+/// route once the marketplace discovery layer is built.
 class EstablishmentTestScreen extends StatelessWidget {
   const EstablishmentTestScreen({super.key});
 
