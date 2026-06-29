@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-29 19:38
-**Session Focus:** Business Portal bugfix session — 4 UI/data bugs
+**Last Updated:** 2026-06-30 00:28
+**Session Focus:** EstablishmentPage v2 redesign + Booking flow analysis
 
 ## 🚀 Active Tracks
 
@@ -13,14 +13,13 @@
 
 ## ✅ Recently Completed
 
-- **2026-06-29 19:38** — **BP bugfix session (4 fixes).** (1) Sidebar now shows company name from auth result instead of first establishment name — added `company_name` field to user schema, wired through admin repo → auth backend → token store → shell. (2) Removing last image no longer resurrects all images — `_mediaResolved` flag gates re-resolution. (3) Category is now a dropdown from discovery DB — `categoriesProvider` connects to `companies/discovery` via `bp_portal` VIEWER, `_GenereltSection` renders `DropdownButtonFormField` with Material icons. (4) Map marker uses fixed `DittoColors.moodyBlue` instead of theme-dependent primary. 75/75 integration tests. Deployed twice to Saturn :8003.
-- **2026-06-29 18:53** — **Stitch Design System Integration ("Moody Flutter").** Configured Stitch MCP server, audited current Flutter design system tokens, created `stitch-theme` branch, and updated `ditto_design` tokens/themes (switched light theme to Plus Jakarta Sans, dark theme to pure Inter, updated primary seed to `#3F51B5`, corrected light mode surfaces, and aligned border radius and spacing to Stitch tokens). All unit tests and static analysis pass cleanly. Deployed Admin Panel & Business Portal to Saturn, and Marketplace app to wired phone. E2E visually verified via screenshots.
-- **2026-06-29 17:29** — **Services Section track completed (Phases 3+4).** Built ServiceCard (3 booking-mode variants: standard/tableReservation/ticketSystem), ServiceGroupSection (collapsible ExpansionTile + UngroupedServiceSection fallback), replaced EstablishmentServicesSection placeholder (groups by ServiceGroup, sorts by sortOrder, filters inactive + soft-deleted, configurable icon/title). 23 new widget tests (95 total package). Fixed soft-delete ghost: marketplace debug query now filters `deleted_at IS NONE`. Both apps deployed (BP Saturn :8003, Marketplace phone). User E2E confirmed: services visible, deleted service hidden. Convergence roadmap written to `conductor/docs/mercury-engine/convergence-roadmap.md`.
-- **2026-06-29 11:57** — **Services Section Phases 1-2 complete.** Full data layer (Service/ServiceGroup models, formatPrice/formatDuration helpers, EstablishmentData extension, batch debug service). BP CRUD (service_group_repository, service_repository, Riverpod providers, ServicesScreen with grouped list, create/edit dialogs for both services and groups). Schema fix: `keywords`/`service_type` DEFAULT [] in company-blueprint.surql + live migration on Saturn. 22 model tests + 12 integration tests (75 total BP). Deployed to Saturn :8003.
-- **2026-06-28 17:03** — **Marketplace bottom nav fix.** Moved establishment route from top-level (outside shell = no bottom nav) into `StatefulShellRoute` home branch as child route. Fixed route path (`/` not `/home`). Gallery viewer + layouts confirmed working on phone with bottom nav visible.
-- **2026-06-28 16:55** — **Gallery layout modes + viewer.** Implemented 3 `CoverLayoutMode` variants (Bento Grid, Showcase, Spotlight) in shared `EstablishmentGallerySection`. Showcase auto-scrolls thumbnails vertically in a continuous loop (pauses on hover). Wired "Se bilder" pill to a full-screen `_GalleryViewerDialog` with swipeable `PageView`, arrow/keyboard nav, pinch-to-zoom, and image counter. 50 package + 72 BP widget tests green. Deployed 3× to Saturn :8003 + 1× to phone.
-- **2026-06-28 16:08** — **Marketplace debug data pipe.** Created `EstablishmentDebugService` + `FutureProvider.autoDispose` to fetch real establishment data from Hub (`company_dittodatto-as`). Replaced mock data in `EstablishmentTestScreen`. Updated AGENTS.md deployment rules (native vs web distinction). Deployed to phone via `flutter run -d R5CR61FGVPN`. House of the North page loads with live SurrealDB data.
-- **2026-06-28 13:28** — **EstablishmentPage desktop layout polish.** Gallery redesign: hero 50% + 2×2 thumbnails, 12px rounded corners, 8px gaps, max-width constrained (not full-bleed). Removed section shortcut chips (users scroll naturally). Viewport toggle (desktop/tablet/mobile) + theme toggle in preview top bar. Info bar spacing improvements. 72 widget + 41 package tests green. Deployed to Saturn :8003.
+- **2026-06-30 00:28** — **EstablishmentPage v2 native redesign.** Full page overhaul: SliverAppBar with transparent-to-solid collapsing toolbar + AnnotatedRegion for system status bar. Header refactored to inline Row (logo left, info right). Featured services section (hero card + seamless service list, secondaryContainer tint, no header label). Bottom nav evolved to glass-morphism (48px, icons only 23px, BackdropFilter blur). Theme toggle button in top bar. Removed full "Tjenester" section + Kontakt section. Dynamic bottom padding clears glass nav. 91/91 establishment_ui tests. Multiple deploys to phone. Ingested 5 Stitch booking flow screens and wrote analysis for next session.
+- **2026-06-29 19:38** — **BP bugfix session (4 fixes).** Sidebar company name, image deletion loop, category dropdown, map marker color. 75/75 integration tests. Deployed twice to Saturn :8003.
+- **2026-06-29 18:53** — **Stitch Design System Integration ("Moody Flutter").** Stitch MCP wired. Design tokens updated (Plus Jakarta Sans, #3F51B5 seed, spacing tokens). Deployed to Saturn + phone.
+- **2026-06-29 17:29** — **Services Section track completed (Phases 3+4).** ServiceCard (3 variants), ServiceGroupSection, EstablishmentServicesSection. 95 package tests. Deployed to Saturn + phone.
+- **2026-06-29 11:57** — **Services Section Phases 1-2 complete.** Data layer + BP CRUD. 75 total BP tests. Deployed to Saturn :8003.
+
+> 📦 Full history: `conductor/pulse-archive/2026-06-30.md`
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-09-pre-portal.md`
 
@@ -30,145 +29,32 @@
 
 ## 🧠 Session Memory
 
-### Session 2026-06-29 19:38 — BP Bugfix Session (4 fixes)
+### Session 2026-06-30 00:28 — EstablishmentPage v2 Native Redesign
 
-- **Bug 1 — Sidebar company name:** Establishment name was replacing company name in the shell sidebar. Root cause: `portal_shell.dart` used `establishments.first.name`. Fix: added `company_name` field to user schema (`users.surql`), set it during company creation/update in admin repo (`surreal_admin_repository.dart`), read it in auth profile query, persisted in `TokenStore`, surfaced via `companyNameProvider` (NotifierProvider). Shell now reads `companyNameProvider` with prettified slug fallback.
-- **Bug 2 — Image deletion loop:** Removing the last gallery image caused all images to reappear. Root cause: empty-check at build time re-triggered `_resolveMediaSelections` from DB state. Fix: added `_mediaResolved` bool flag — set `true` after first resolve, reset on establishment load. Re-resolve block gated on `!_mediaResolved`.
-- **Bug 3 — Category dropdown:** Category was a free-text `TextFormField`. Fix: created `category_providers.dart` with `FutureProvider` that opens a separate SurrealDB connection to `companies/discovery` using `bp_portal` VIEWER credentials. Returns `List<CategoryEntry>` with name + icon. `_GenereltSection` converted to `ConsumerWidget`, renders `DropdownButtonFormField` with Material icons via `resolveIcon()` helper. Added `bp_portal` VIEWER on discovery in seed script + Saturn live DB.
-- **Bug 4 — Map marker color:** Marker used `theme.colorScheme.primary` which changed between light/dark mode. Fixed to `DittoColors.moodyBlue` (constant).
-- **Infra:** Exposed `DittoAuth.backend` getter for discovery DB connection. Added `bp_portal` VIEWER on Saturn's discovery DB manually.
-- **Tests:** 75/75 BP integration tests passed. No regressions.
-- **Deploys:** 2× to Saturn :8003 (hash verified, smoke passed both times).
-- **User noted:** More bugs known but not urgent — deferred to next session.
+- **SliverAppBar collapsing toolbar:** Replaced static AppBar with `SliverAppBar` using transparent-to-solid transition. `AnnotatedRegion<SystemUiOverlayStyle>` handles status bar icons (light on cover, dark on scroll). Actions: back, refresh, theme toggle, profile — all as circular translucent icon buttons.
+- **Header refactor:** `EstablishmentInfoBar` — inline Row layout (logo left, name/category/address right). Merged action buttons (Bestill + Lagre) below. Pill-based status indicators.
+- **Featured services section:** Removed "Utvalgte tjenester" header. Now shows ALL services: hero card (first from sortOrder:0 group) + remaining services seamlessly. Subtle `secondaryContainer` tinted background on the section. Group label chip on hero card.
+- **Bottom nav glass-morphism:** `BackdropFilter` blur, `surface.withValues(alpha: 0.85)`, height 48px (was 80+), icons 23px, no labels. `extendBody: true` on Scaffold. Dynamic bottom padding on page to clear nav.
+- **Theme toggle:** `onThemeToggle` + `isDarkMode` added to `EstablishmentPage` (optional — BP preview unaffected). Wired to existing `isDarkModeProvider` in marketplace. Sun/moon icon in top bar.
+- **Removed:** Full "Tjenester" (services list) section, `EstablishmentContactSection` (Kontakt).
+- **Tests:** 91/91 establishment_ui tests passing.
+- **Deploys:** 6× to phone during iterative design review.
+- **User feedback:** Dark theme "really nice", light theme "a little sterile" (deferred). Top part approved. Bottom nav size approved.
+- **Booking flow analysis:** Ingested 5 Stitch booking screens (service selection, staff selection, date/time, review, payment). Wrote analysis artifact mapping data dependencies. User decision: build all 5 steps with mock data (no Stripe — mock payment screen). Staff = placeholder. Availability = placeholder until ME tomorrow.
 
-### Session 2026-06-29 18:53 — Stitch Design System Integration ("Moody Flutter")
-
-- **Stitch MCP setup:** Wired `stitch` MCP remote server at `https://stitch.googleapis.com/mcp` using API key `AQ.Ab8RN6...` in shared `mcp_config.json`. Listed projects/design systems/screens successfully.
-- **Design Tokens Audit:** Created comparison report (`theme_audit.md`) highlighting:
-  - Font: Outfit replaced with **Plus Jakarta Sans** for headlines (light theme).
-  - Seed Color: Updated `moodyBlue` from `#6F71CC` to `#3F51B5`.
-  - Light Surfaces: Adjusted background (`#F9F9FC`), container (`#EEEEF0`), high-container (`#E8E8EA`).
-  - Border Radius: Added `xs` (4px) and `full` (9999px); mapped default to `8px`.
-  - Spacing: Updated `md` to `16px` and added `compact` (12px) to prevent regressions.
-- **Theme updates:** Switched `DittoTheme.light` to use Plus Jakarta Sans headlines, and fixed `DittoTheme.dark` to use Inter across the board (resolved failing legacy tests).
-- **Deploys:**
-  - Business Portal: Deployed to Saturn `:8003` (smoke tests passed).
-  - Admin Panel: Deployed to Saturn `:8002` (smoke tests passed).
-  - Marketplace App: Deployed to wired phone (SM-G998B).
-  - Visually confirmed changes in headless browser screenshots.
-
-### Session 2026-06-29 17:29 — Services Phase 3+4 + MercuryEngine Roadmap
-
-- **Phase 3 (Marketplace Display) — all complete:**
-  - `ServiceCard` widget — 3 booking-mode variants (standard shows duration, tableReservation omits, ticketSystem shows "Billett" accent chip). Uses `formatPrice`/`formatDuration`. `Card.outlined` pattern. Optional leading icon.
-  - `ServiceGroupSection` — collapsible `ExpansionTile` groups, sorted alphabetically within group. `UngroupedServiceSection` fallback for `groupId == null`.
-  - `EstablishmentServicesSection` — full replacement of placeholder. Groups by `ServiceGroup`, sorts by `sortOrder`, filters `isActive == true AND deleted_at IS NONE`. Configurable `sectionIcon`/`sectionTitle` (no hardcoded icons per user request). Returns empty SliverToBoxAdapter when no active services.
-  - Barrel exports added for new widgets.
-  - 23 new widget tests covering all variants, grouping, collapse/expand, inactive filtering, empty states, icon configurability.
-
-- **Phase 4 (Verification + Deploy) — complete:**
-  - 95/95 package tests, 75/75 BP integration tests — zero regressions.
-  - BP deployed to Saturn :8003 (hash verified, smoke test passed).
-  - Marketplace deployed to phone (APK installed on SM-G998B).
-  - User E2E: created services in BP → visible on phone. Deleted service was visible (soft-delete ghost) → fixed query → redeployed → confirmed hidden.
-
-- **Bug fix: soft-delete ghost in marketplace**
-  - BP uses soft-delete (`UPDATE ... SET deleted_at = time::now()`).
-  - BP queries filter `WHERE deleted_at IS NONE` — correct.
-  - Marketplace debug service queries did NOT filter `deleted_at` — user spotted "demo" service appearing on phone but not in BP.
-  - Fixed: added `AND deleted_at IS NONE` to both service and service_group queries.
-  - **Stickered for later:** temporal delete logic (auto-purge after X days if no booking references).
-
-- **User feedback on design:**
-  - "No hardcoded icons" → made section icon/title configurable.
-  - MultiSelect checkboxes deferred to booking UX grill (tonight).
-  - Booking mode gatekeeping (preventing companies from selecting reservation/ticketing when not applicable) parked for when feature flags land.
-
-- **MercuryEngine convergence roadmap** written to `conductor/docs/mercury-engine/convergence-roadmap.md`:
-  - Dependency graph: MercuryEngine → Marketplace Booking UI + BP Bookings Tab.
-  - Sequencing: (1) Booking UX grill tonight, (2) MercuryEngine audit, (3) build outward, (4) BP Services tweaks anytime.
-  - Progressive rollout: standard → reservation → ticketing, using House of the North as demo establishment.
-
-### Session 2026-06-29 11:57 — Services Section Phase 1 + Phase 2
-
-- **Phase 1 (Data Layer) — all complete:**
-  - `Service` and `ServiceGroup` models in `packages/establishment_ui/` aligned with `company-blueprint.surql`.
-  - `formatPrice` (Norwegian `kr 450` / `Gratis`) and `formatDuration` (`30 min` / `1 t 30 min`) helpers.
-  - `EstablishmentData` extended with `services`/`serviceGroups` lists.
-  - `EstablishmentDebugService` batch query (establishment + services + groups in one RTT).
-  - 22 serialization/logic tests.
-
-- **Phase 2 (BP CRUD) — all complete:**
-  - `ServiceGroupRepository` + `ServiceRepository` — SurrealDB CRUD with `type::record()` pattern.
-  - Riverpod providers (`serviceGroupsProvider`, `servicesProvider`) — AsyncNotifier pattern matching establishments.
-  - `ServicesScreen` — grouped list view with edit/delete buttons, empty state, Norwegian labels.
-  - `ServiceGroupDialog` — create/edit with name, description, sortOrder, showOnBookingPanel, multiSelect toggles.
-  - `ServiceDialog` — create/edit with title, price (kr), duration presets, booking mode dropdown, group assignment, active toggle.
-  - 12 integration tests (5 group + 7 service) — CREATE/READ/UPDATE/DELETE.
-  - 75/75 total BP integration tests green.
-
-- **Schema fix discovered + applied:**
-  - `keywords` and `service_type` on `service` table had `TYPE array<string>` with no `DEFAULT` — caused `NONE` coercion errors on CREATE.
-  - Fixed in `company-blueprint.surql` (added `DEFAULT []`).
-  - Applied to live Saturn DB via `DEFINE FIELD OVERWRITE`.
-  - User confirmed service creation works after fix.
-
-- **Deploy:** BP deployed to Saturn :8003, hash verified, smoke test passed.
-
-- **SurrealQL note:** `type::thing()` is deprecated in SurrealDB v3 — use `type::record()` instead.
-
-### Session 2026-06-28 17:38 — Recon Audit + Services Grill + Track Creation
-
-- **Three recon agents dispatched** in parallel: MercuryEngine auditor, Legacy Nuxt services researcher, Noona API researcher.
-- **MercuryEngine audit:** 50 tests, 91% coverage, 30 days idle. **Critical schema drift found:** `rescheduled_from`/`rescheduled_to` fields missing from `company-blueprint.surql` — silent data loss on SCHEMAFULL tables. 3 unsynced relay entries.
-- **Nuxt legacy inventory:** Full service CRUD (596-line ServiceFormSlideover), ServiceGrid with composite multi-select group cards, complete booking flow (hold→confirm). 10 design patterns catalogued.
-- **Noona API research:** Two-tier API, 4-level service hierarchy vs DittoDatto's cleaner 2-level. CRM as "loyalty engine" (win-back, vouchers, favorites). DittoDatto has stronger multi-tenancy.
-- **Recon report artifact:** `recon_report.md` — full convergence analysis with dependency graphs and recommended sequencing.
-- **Services grill (`/grill services`):** Marketplace-first, grouped by ServiceGroup (collapsible), 3 booking-mode card variants, multi-select checkboxes + summary bar, models in `establishment_ui`, `kr 450` / `30 min` formatting. 3 glossary terms added (ServiceCard, ServiceSection, MultiSelectGroup). No ADRs — all natural extensions.
-- **Track created (`/new-track`):** `services_section_20260628` in new "services" domain (🟡 Careful). 4 phases. Includes basic BP services CRUD as Phase 2 (no seeding hack — real forms).
-- **Note:** Concurrent ticketing grill in another session produced ADR-0022 + ADR-0023 — got swept into our git commit. User flagged to be more careful with concurrent sessions.
-
-### Session 2026-06-28 17:30 — Ticketing & Events Domain Grill
-
-- **Deep-dive research** into all ticketing-related code, schemas, docs, and competitive research (Ticketmaster + Noona).
-- **Two systems clarified:** Events (`event_system` flag) = general event creation (public/private, visibility-only possible). Ticketing (`ticket_system` flag) = capacity-managed ticket sales via `bookingMode: ticketSystem`. `ticket_system` requires `event_system`.
-- **Core model decided:** ServiceGroup = Event container, Services = Ticket tiers (VIP, General, Standing). Simple events: 1 ServiceGroup + 1 Service. Complex events: 1 ServiceGroup + N Services. Total capacity = Σ child Service capacities. See **ADR-0022**.
-- **Feature flag independence:** ADR-0023 formalizes the two-flag model and dependency direction.
-- **Recurring events:** RFC 5545 `rrule` on ServiceGroup. Platform auto-creates next instance, notifies company user. Future: Datto automates.
-- **context.md updated:** ServiceGroup, Ticket, Event terms refined. Recurring Event added.
-- **Research artifacts:** `ticketing_deep_dive.md` (full codebase/docs audit), `ticketing_grill_brief.md` (decision summary).
-- **Finding:** `BOOKING_ENGINE.md` safety manual is a dead link in `project-context.md` — lives in `DittoDatto-old/`, not current repo.
-
-### Session 2026-06-28 16:55 — Gallery Layout Modes + Viewer
-
-- **3 cover layout modes** wired to `CoverLayoutMode` enum dispatch in `EstablishmentGallerySection.build()`. Wide viewports switch layout; mobile stays identical across all modes.
-  - **Bento Grid:** 1/2 hero + 2×2 thumbnail grid (was already built, now properly dispatched).
-  - **Showcase:** 3/4 hero cover + 1/4 auto-scrolling vertical strip. Thumbnails duplicated for seamless loop. `AnimationController` drives 30px/sec scroll. Pauses on hover/tap.
-  - **Spotlight:** Full-width single cover with rounded corners. "Se bilder" pill if extras exist.
-- **Gallery viewer dialog** (`_GalleryViewerDialog`): Full-screen `Dialog.fullscreen` with `PageView.builder`, `InteractiveViewer` (pinch-to-zoom), arrow navigation, keyboard support (←/→/Esc), image counter ("1 / 6"), close button. Wired to all "Se bilder" pills across all layouts + mobile.
-- **Removed dead `onViewPhotos` callback** — gallery section is now self-contained, opens the dialog itself.
-- **Tests:** 9 new layout mode tests + updated Showcase test for auto-scroll behavior. 50/50 package, 72/72 BP widget tests.
-- **Deploys:** 3× Saturn :8003 (iterating on auto-scroll + viewer), 1× phone `flutter run --release -d R5CR61FGVPN`.
-- **User confirmed** gallery works on device ✅.
-- **Bottom nav fix:** Establishment route was a top-level `GoRoute` (outside `StatefulShellRoute`) → moved inside home branch as child route. Home path is `/`, so sub-route resolves to `/establishment-test`. Redeployed to phone.
-
-### Session 2026-06-28 16:08 — Marketplace Debug Data Pipe
-
-- Created `EstablishmentDebugService` + `FutureProvider.autoDispose`. Replaced mock data. Deployed to phone.
-
-> 📦 Full history for earlier sessions: `conductor/pulse-archive/2026-06-28-pre-polish.md`
+> 📦 Full history for earlier sessions: `conductor/pulse-archive/2026-06-30.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Remaining BP bugs** — User knows of more issues. Start next session by asking.
-2. 🔴 **Booking UX grill** — "Bestill Time" flow design. What happens on tap? Steps? Service selection on landing vs behind button? MultiSelect? House of the North as demo.
-3. 🔴 **MercuryEngine audit + grill** — Cold 30+ days. Schema drift. Define API contract. Unblocks Marketplace booking + BP Bookings tab.
-4. 🟡 **BP Bookings tab** — depends on MercuryEngine API. Business sees incoming bookings.
-5. 🟡 **Schema hotfix** — `rescheduled_from`/`rescheduled_to` missing from `company-blueprint.surql`. Five-minute fix.
-6. 🟡 **Ticketing Phase 1** — Schema + data layer. Depends on MercuryEngine API contract.
-7. 🟡 **BP Services UX tweaks** — Independent, anytime. isActive badge, booking mode gatekeeping.
-8. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
-9. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
-10. 🟡 **Backfill company_name** — Existing users on Saturn lack `company_name`. Admin re-create or one-off SQL patch.
-11. 🟢 **Soft-delete temporal cleanup** — auto-purge logic for services after X days.
+1. 🔴 **Booking Flow UI (Steps 1–5)** — Open fresh session, `/new-track`. Build 5-step booking UI with mock data. Stitch screens at `conductor/docs/assets/bookingslides/`. Analysis at `booking_flow_analysis.md` (session artifact). No Stripe — mock payment. Staff + time slots = placeholder.
+2. 🔴 **MercuryEngine availability engine** — User wants to work on ME tomorrow for availability/time slots. Unblocks real booking step 3.
+3. 🔴 **Light theme polish** — User said light theme is "sterile". Revisit surface colors, contrast, warmth.
+4. 🟡 **Remaining BP bugs** — User knows of more issues.
+5. 🟡 **BP Bookings tab** — depends on MercuryEngine API.
+6. 🟡 **Schema hotfix** — `rescheduled_from`/`rescheduled_to` missing from `company-blueprint.surql`.
+7. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
+8. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
+9. 🟡 **Tag/chip system** — Stickered: amenity-style chips for restaurants/general info. Reusable across est pages, events.
+10. 🟡 **EstablishmentHoursSection** — Weekly hours table, current day highlighted. Needs structured schedule data.
+11. 🟢 **Soft-delete temporal cleanup** — auto-purge logic.
 12. 🟢 **CRM grill** — when booking flow exists.

@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-30 00:28 — EstablishmentPage v2 Native Redesign + Booking Analysis
+- **Session:** Full native EstablishmentPage redesign — SliverAppBar collapsing toolbar, glass-morphism bottom nav (48px, icons-only), featured services hero section, theme toggle. Ingested 5 Stitch booking screens and wrote flow analysis.
+- **Tracks touched:** marketplace (EstablishmentPage)
+- **Status:** Page v2 deployed to phone, user approved. Booking UI not started (analysis only).
+- **Decisions:** None
+- **Next:** Open fresh session → `/new-track` for Booking Flow UI (Steps 1–5). Build with mock data. ME availability engine tomorrow. Light theme polish deferred.
+
+---
+
 ## 2026-06-29 19:38 — BP Bugfix Session (4 fixes)
 - **Session:** Fixed 4 BP bugs: sidebar company name, image deletion loop, category dropdown (now from discovery DB with icons), map marker color. Added `company_name` to user schema + auth flow. Created `category_providers.dart` with `bp_portal` VIEWER on discovery DB.
 - **Tracks touched:** None (ad-hoc bugfixes)
