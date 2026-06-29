@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-29 18:53
-**Session Focus:** Stitch Design System Integration ("Moody Flutter" spec)
+**Last Updated:** 2026-06-29 19:38
+**Session Focus:** Business Portal bugfix session — 4 UI/data bugs
 
 ## 🚀 Active Tracks
 
@@ -13,6 +13,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-29 19:38** — **BP bugfix session (4 fixes).** (1) Sidebar now shows company name from auth result instead of first establishment name — added `company_name` field to user schema, wired through admin repo → auth backend → token store → shell. (2) Removing last image no longer resurrects all images — `_mediaResolved` flag gates re-resolution. (3) Category is now a dropdown from discovery DB — `categoriesProvider` connects to `companies/discovery` via `bp_portal` VIEWER, `_GenereltSection` renders `DropdownButtonFormField` with Material icons. (4) Map marker uses fixed `DittoColors.moodyBlue` instead of theme-dependent primary. 75/75 integration tests. Deployed twice to Saturn :8003.
 - **2026-06-29 18:53** — **Stitch Design System Integration ("Moody Flutter").** Configured Stitch MCP server, audited current Flutter design system tokens, created `stitch-theme` branch, and updated `ditto_design` tokens/themes (switched light theme to Plus Jakarta Sans, dark theme to pure Inter, updated primary seed to `#3F51B5`, corrected light mode surfaces, and aligned border radius and spacing to Stitch tokens). All unit tests and static analysis pass cleanly. Deployed Admin Panel & Business Portal to Saturn, and Marketplace app to wired phone. E2E visually verified via screenshots.
 - **2026-06-29 17:29** — **Services Section track completed (Phases 3+4).** Built ServiceCard (3 booking-mode variants: standard/tableReservation/ticketSystem), ServiceGroupSection (collapsible ExpansionTile + UngroupedServiceSection fallback), replaced EstablishmentServicesSection placeholder (groups by ServiceGroup, sorts by sortOrder, filters inactive + soft-deleted, configurable icon/title). 23 new widget tests (95 total package). Fixed soft-delete ghost: marketplace debug query now filters `deleted_at IS NONE`. Both apps deployed (BP Saturn :8003, Marketplace phone). User E2E confirmed: services visible, deleted service hidden. Convergence roadmap written to `conductor/docs/mercury-engine/convergence-roadmap.md`.
 - **2026-06-29 11:57** — **Services Section Phases 1-2 complete.** Full data layer (Service/ServiceGroup models, formatPrice/formatDuration helpers, EstablishmentData extension, batch debug service). BP CRUD (service_group_repository, service_repository, Riverpod providers, ServicesScreen with grouped list, create/edit dialogs for both services and groups). Schema fix: `keywords`/`service_type` DEFAULT [] in company-blueprint.surql + live migration on Saturn. 22 model tests + 12 integration tests (75 total BP). Deployed to Saturn :8003.
@@ -28,6 +29,17 @@
 - None active.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-29 19:38 — BP Bugfix Session (4 fixes)
+
+- **Bug 1 — Sidebar company name:** Establishment name was replacing company name in the shell sidebar. Root cause: `portal_shell.dart` used `establishments.first.name`. Fix: added `company_name` field to user schema (`users.surql`), set it during company creation/update in admin repo (`surreal_admin_repository.dart`), read it in auth profile query, persisted in `TokenStore`, surfaced via `companyNameProvider` (NotifierProvider). Shell now reads `companyNameProvider` with prettified slug fallback.
+- **Bug 2 — Image deletion loop:** Removing the last gallery image caused all images to reappear. Root cause: empty-check at build time re-triggered `_resolveMediaSelections` from DB state. Fix: added `_mediaResolved` bool flag — set `true` after first resolve, reset on establishment load. Re-resolve block gated on `!_mediaResolved`.
+- **Bug 3 — Category dropdown:** Category was a free-text `TextFormField`. Fix: created `category_providers.dart` with `FutureProvider` that opens a separate SurrealDB connection to `companies/discovery` using `bp_portal` VIEWER credentials. Returns `List<CategoryEntry>` with name + icon. `_GenereltSection` converted to `ConsumerWidget`, renders `DropdownButtonFormField` with Material icons via `resolveIcon()` helper. Added `bp_portal` VIEWER on discovery in seed script + Saturn live DB.
+- **Bug 4 — Map marker color:** Marker used `theme.colorScheme.primary` which changed between light/dark mode. Fixed to `DittoColors.moodyBlue` (constant).
+- **Infra:** Exposed `DittoAuth.backend` getter for discovery DB connection. Added `bp_portal` VIEWER on Saturn's discovery DB manually.
+- **Tests:** 75/75 BP integration tests passed. No regressions.
+- **Deploys:** 2× to Saturn :8003 (hash verified, smoke passed both times).
+- **User noted:** More bugs known but not urgent — deferred to next session.
 
 ### Session 2026-06-29 18:53 — Stitch Design System Integration ("Moody Flutter")
 
@@ -148,13 +160,15 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Booking UX grill** — "Bestill Time" flow design. What happens on tap? Steps? Service selection on landing vs behind button? MultiSelect? House of the North as demo.
-2. 🔴 **MercuryEngine audit + grill** — Cold 30+ days. Schema drift. Define API contract. Unblocks Marketplace booking + BP Bookings tab.
-3. 🟡 **BP Bookings tab** — depends on MercuryEngine API. Business sees incoming bookings.
-4. 🟡 **Schema hotfix** — `rescheduled_from`/`rescheduled_to` missing from `company-blueprint.surql`. Five-minute fix.
-5. 🟡 **Ticketing Phase 1** — Schema + data layer. Depends on MercuryEngine API contract.
-6. 🟡 **BP Services UX tweaks** — Independent, anytime. isActive badge, booking mode gatekeeping.
-7. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
-8. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
-9. 🟢 **Soft-delete temporal cleanup** — auto-purge logic for services after X days.
-10. 🟢 **CRM grill** — when booking flow exists.
+1. 🔴 **Remaining BP bugs** — User knows of more issues. Start next session by asking.
+2. 🔴 **Booking UX grill** — "Bestill Time" flow design. What happens on tap? Steps? Service selection on landing vs behind button? MultiSelect? House of the North as demo.
+3. 🔴 **MercuryEngine audit + grill** — Cold 30+ days. Schema drift. Define API contract. Unblocks Marketplace booking + BP Bookings tab.
+4. 🟡 **BP Bookings tab** — depends on MercuryEngine API. Business sees incoming bookings.
+5. 🟡 **Schema hotfix** — `rescheduled_from`/`rescheduled_to` missing from `company-blueprint.surql`. Five-minute fix.
+6. 🟡 **Ticketing Phase 1** — Schema + data layer. Depends on MercuryEngine API contract.
+7. 🟡 **BP Services UX tweaks** — Independent, anytime. isActive badge, booking mode gatekeeping.
+8. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
+9. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
+10. 🟡 **Backfill company_name** — Existing users on Saturn lack `company_name`. Admin re-create or one-off SQL patch.
+11. 🟢 **Soft-delete temporal cleanup** — auto-purge logic for services after X days.
+12. 🟢 **CRM grill** — when booking flow exists.

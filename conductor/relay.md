@@ -1,5 +1,12 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-29 19:38 — BP Bugfix Session (4 fixes)
+- **Session:** Fixed 4 BP bugs: sidebar company name, image deletion loop, category dropdown (now from discovery DB with icons), map marker color. Added `company_name` to user schema + auth flow. Created `category_providers.dart` with `bp_portal` VIEWER on discovery DB.
+- **Tracks touched:** None (ad-hoc bugfixes)
+- **Status:** All 4 bugs fixed. 75/75 integration tests. Deployed 2× to Saturn :8003. User confirmed dropdown works with icons. More bugs deferred to next session.
+- **Decisions:** None
+- **Next:** (1) Ask user about remaining known bugs. (2) Backfill `company_name` on Saturn's existing users. (3) Booking UX grill.
+
 ## 2026-06-29 18:53 — Stitch Design System Integration ("Moody Flutter")
 - **Session:** Wired Stitch MCP connection. Audited and applied Stitch "Moody Flutter" design tokens to the `ditto_design` package (updated colors, border radius, spacing, and switched light theme to Plus Jakarta Sans). Fixed failing theme tests. Deployed Admin Panel & Business Portal to Saturn, and Marketplace to phone.
 - **Tracks touched:** None (global package updates)
