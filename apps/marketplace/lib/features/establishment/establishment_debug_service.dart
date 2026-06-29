@@ -53,22 +53,44 @@ class EstablishmentDebugService {
     debugPrint('🔌 Debug pipe connected → company_$_companySlug');
   }
 
-  /// Fetch the first published establishment as [EstablishmentData].
+  /// Fetch the first published establishment as [EstablishmentData],
+  /// including its services and service groups.
   Future<EstablishmentData> fetch() async {
     await _ensureConnected();
 
+    // Batch query: establishment + its services + service groups.
     final result = await _db!.query(
-      'SELECT * FROM establishment WHERE is_published = true LIMIT 1',
+      '''
+      SELECT * FROM establishment WHERE is_published = true LIMIT 1;
+      SELECT * FROM service WHERE is_active = true AND deleted_at IS NONE ORDER BY title;
+      SELECT * FROM service_group WHERE deleted_at IS NONE ORDER BY sort_order;
+      ''',
     );
 
-    final row = _extractFirstRow(result);
+    final row = _extractRowFromStatement(result, 0);
     if (row == null) {
       throw StateError(
         'No published establishment found in company_$_companySlug',
       );
     }
 
-    return _mapToEstablishmentData(row);
+    final estId = row['id'] as String?;
+
+    // Parse services, filtering to this establishment.
+    final serviceRows = _extractAllRows(result, 1);
+    final services = serviceRows
+        .where((r) => _matchesEstablishment(r, estId))
+        .map((r) => Service.fromJson(r))
+        .toList();
+
+    // Parse service groups, filtering to this establishment.
+    final groupRows = _extractAllRows(result, 2);
+    final groups = groupRows
+        .where((r) => _matchesEstablishment(r, estId))
+        .map((r) => ServiceGroup.fromJson(r))
+        .toList();
+
+    return _mapToEstablishmentData(row, services: services, groups: groups);
   }
 
   /// Close the WebSocket connection.
@@ -80,8 +102,10 @@ class EstablishmentDebugService {
   // ── JSON → EstablishmentData mapping ─────────────────────────────────────
 
   static EstablishmentData _mapToEstablishmentData(
-    Map<String, dynamic> json,
-  ) {
+    Map<String, dynamic> json, {
+    List<Service> services = const [],
+    List<ServiceGroup> groups = const [],
+  }) {
     final images = json['images'] as Map<String, dynamic>? ?? {};
 
     return EstablishmentData(
@@ -107,7 +131,8 @@ class EstablishmentDebugService {
       ),
       latitude: _parseGeoLat(json['location']),
       longitude: _parseGeoLng(json['location']),
-      // TODO: Derive opening status from opening_schedule once implemented.
+      services: services,
+      serviceGroups: groups,
     );
   }
 
@@ -130,23 +155,61 @@ class EstablishmentDebugService {
 
   // ── SurrealDB result extraction ──────────────────────────────────────────
 
-  static Map<String, dynamic>? _extractFirstRow(dynamic result) {
-    if (result is! List || result.isEmpty) return null;
+  /// Check if a row's `establishment` field matches the target record ID.
+  static bool _matchesEstablishment(
+    Map<String, dynamic> row,
+    String? estId,
+  ) {
+    if (estId == null) return true;
+    final rowEst = row['establishment'];
+    if (rowEst is String) return rowEst == estId;
+    if (rowEst is Map) return rowEst['id'] == estId;
+    return true;
+  }
 
-    final first = result.first;
-    if (first is Map && first.containsKey('result')) {
-      final inner = first['result'];
-      if (inner is List && inner.isNotEmpty && inner.first is Map) {
-        return Map<String, dynamic>.from(inner.first as Map);
+  /// Extract the first row from a specific statement in a batch result.
+  static Map<String, dynamic>? _extractRowFromStatement(
+    dynamic result,
+    int statementIndex,
+  ) {
+    final rows = _extractAllRows(result, statementIndex);
+    return rows.isEmpty ? null : rows.first;
+  }
+
+  /// Extract all rows from a specific statement in a batch result.
+  static List<Map<String, dynamic>> _extractAllRows(
+    dynamic result,
+    int statementIndex,
+  ) {
+    if (result is! List || result.length <= statementIndex) return [];
+
+    final statement = result[statementIndex];
+
+    // SurrealDB SDK wraps each statement as { result: [...], status: 'OK' }
+    if (statement is Map && statement.containsKey('result')) {
+      final inner = statement['result'];
+      if (inner is List) {
+        return inner
+            .whereType<Map>()
+            .map((m) => Map<String, dynamic>.from(m))
+            .toList();
       }
-      return null;
+      return [];
     }
 
-    if (first is Map) {
-      return Map<String, dynamic>.from(first);
+    // Flat list — SDK might return rows directly.
+    if (statement is List) {
+      return statement
+          .whereType<Map>()
+          .map((m) => Map<String, dynamic>.from(m))
+          .toList();
     }
 
-    return null;
+    if (statement is Map) {
+      return [Map<String, dynamic>.from(statement)];
+    }
+
+    return [];
   }
 
   /// Derive the WebSocket URL from the browser's page origin.
