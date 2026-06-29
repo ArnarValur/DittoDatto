@@ -1,150 +1,190 @@
 ---
-version: alpha
-name: DittoDatto Design System
+name: DittoDatto
 colors:
-  primary: "#6F71CC"
-  surface-dark: "#0f1117"
-  sidebar-dark: "#141720"
-  surface-container-dark: "#161922"
-  surface-container-high-dark: "#1c1f2b"
-  surface-light: "#F8F9FD"
-  surface-container-light: "#EEEEF5"
-  surface-container-high-light: "#E4E1E9"
-  success: "#22c55e"
-  error: "#ef4444"
-  warning: "#f59e0b"
-  premium: "#3b82f6"
-  free: "#6b7280"
+  surface: '#f9f9fc'
+  surface-dim: '#dadadc'
+  surface-bright: '#f9f9fc'
+  surface-container-lowest: '#ffffff'
+  surface-container-low: '#f3f3f6'
+  surface-container: '#eeeef0'
+  surface-container-high: '#e8e8ea'
+  surface-container-highest: '#e2e2e5'
+  on-surface: '#1a1c1e'
+  on-surface-variant: '#454652'
+  inverse-surface: '#2f3133'
+  inverse-on-surface: '#f0f0f3'
+  outline: '#757684'
+  outline-variant: '#c5c5d4'
+  surface-tint: '#4355b9'
+  primary: '#24389c'
+  on-primary: '#ffffff'
+  primary-container: '#3f51b5'
+  on-primary-container: '#cacfff'
+  inverse-primary: '#bac3ff'
+  secondary: '#4d5a9c'
+  on-secondary: '#ffffff'
+  secondary-container: '#abb7ff'
+  on-secondary-container: '#394687'
+  tertiary: '#88003b'
+  on-tertiary: '#ffffff'
+  tertiary-container: '#b40050'
+  on-tertiary-container: '#ffc3ce'
+  error: '#ba1a1a'
+  on-error: '#ffffff'
+  error-container: '#ffdad6'
+  on-error-container: '#93000a'
+  primary-fixed: '#dee0ff'
+  primary-fixed-dim: '#bac3ff'
+  on-primary-fixed: '#00105c'
+  on-primary-fixed-variant: '#293ca0'
+  secondary-fixed: '#dee1ff'
+  secondary-fixed-dim: '#b9c3ff'
+  on-secondary-fixed: '#021355'
+  on-secondary-fixed-variant: '#354282'
+  tertiary-fixed: '#ffd9df'
+  tertiary-fixed-dim: '#ffb1c1'
+  on-tertiary-fixed: '#3f0018'
+  on-tertiary-fixed-variant: '#8f003f'
+  background: '#f9f9fc'
+  on-background: '#1a1c1e'
+  surface-variant: '#e2e2e5'
 typography:
-  headline:
-    fontFamily: Outfit
-    fontWeight: 600
-  body:
+  display-lg:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 48px
+    fontWeight: '700'
+    lineHeight: 56px
+    letterSpacing: -0.02em
+  headline-lg:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 32px
+    fontWeight: '600'
+    lineHeight: 40px
+  headline-lg-mobile:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 28px
+    fontWeight: '600'
+    lineHeight: 36px
+  headline-md:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 24px
+    fontWeight: '600'
+    lineHeight: 32px
+  body-lg:
     fontFamily: Inter
-    fontWeight: 400
-  label:
+    fontSize: 18px
+    fontWeight: '400'
+    lineHeight: 28px
+  body-md:
     fontFamily: Inter
-    fontWeight: 500
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 24px
+  label-md:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: '500'
+    lineHeight: 20px
+    letterSpacing: 0.01em
+  label-sm:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '600'
+    lineHeight: 16px
 rounded:
-  sm: 8px
-  md: 12px
-  lg: 16px
-  xl: 24px
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
 spacing:
+  unit: 4px
   xs: 4px
   sm: 8px
-  md: 12px
-  base: 16px
+  md: 16px
   lg: 24px
   xl: 32px
-components:
-  card:
-    rounded: "{rounded.md}"
-    elevation: 0
-  button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "#ffffff"
-    rounded: "{rounded.sm}"
-    padding: 14px
-  input-decoration:
-    rounded: "{rounded.sm}"
-    padding: 14px
+  gutter: 16px
+  margin-mobile: 20px
+  margin-desktop: 64px
 ---
 
-# DittoDatto Design System
+## Brand & Style
 
-## Overview
+The design system is built on a foundation of "Moody Blue" tones, designed to feel reliable yet expressive. It targets a mobile-first audience that appreciates the fluidity and structural integrity of the Flutter framework.
 
-DittoDatto’s visual identity is built on a modern, premium dark aesthetic for back-office administration (Admin Panel) and a clean, high-contrast light system derived from the Stitch Enterprise Slate guidelines for partner operations (Business Portal) and consumers (Public Marketplace).
-The entire system is powered by a shared foundation (`packages/ditto_design`) to ensure consistency across the admin, business, and marketplace apps.
+The aesthetic is **Corporate Modern with a Soft Edge**. It balances the systematic precision of Material Design with custom curves and deep tonal layering. The emotional response should be one of "composed energy"—professional enough for enterprise use, but tactile enough for consumer engagement. We utilize subtle gradients and elevations to guide the user's eye through complex information hierarchies without overwhelming them.
 
 ## Colors
 
-The system is built on a single accent anchor, **Moody Blue**, with hand-tuned surface grades for dark and light environments.
+The palette is rooted in the "Moody Blue" spectrum, utilizing a deep primary blue for structural elements and a softer secondary blue for accents and secondary actions.
 
-### Brand Anchor
+- **Primary (#3F51B5):** Used for key brand moments, primary buttons, and active states.
+- **Secondary (#7986CB):** Used for background tints, chips, and tonal buttons.
+- **Tertiary (#FF4081):** A high-contrast pink used sparingly for "Call to Action" (CTA) moments and notifications.
+- **Neutral:** A range of cool grays that transition into deep navies for the dark mode.
 
-- **Primary / Moody Blue (#6F71CC):** The key interaction and brand identifier. Used for active states, focal actions, and key brand touchpoints.
-
-### Dark Surface Grades
-
-Reproduces the sleek, low-noise administration interface.
-
-- **Surface Dark (#0f1117):** The default window background for pages and dialogs.
-- **Sidebar Background (#141720):** Used specifically for navigation sidebars and secondary side rails.
-- **Surface Container (#161922):** The standard card and surface container background.
-- **Surface Container High (#1c1f2b):** Used for elevated elements, hover states, and input fields.
-
-### Light Surface Grades (Stitch Enterprise Slate)
-
-Warm, highly readable layout foundation.
-
-- **Surface Light (#F8F9FD):** Clean, warm background for portals and pages.
-- **Surface Container Light (#EEEEF5):** The background for card lists, section separators, and input fields.
-- **Surface Container High Light (#E4E1E9):** High-contrast container layer for accents and interactive states.
-
-### Status & Utility Colors
-
-- **Success (#22c55e):** Positive states, confirmations, and active status indicators.
-- **Error (#ef4444):** Warnings, destructive actions, and invalid inputs.
-- **Warning (#f59e0b):** Temporary notices, cautions, or holds.
-- **Premium (#3b82f6):** Designates premium tiers and capabilities.
-- **Free (#6b7280):** Designates free tier or standard properties.
+The design system supports a full **Dark Mode** implementation. In dark mode, surfaces are shifted to deep navies rather than pure black to maintain the "Moody Blue" brand identity, ensuring that shadows and elevations remain visible and soft.
 
 ## Typography
 
-DittoDatto employs a strict "one platform, one voice" hierarchy:
+The typography system uses **Plus Jakarta Sans** for headlines to provide a friendly, modern character with its slightly rounded geometric forms. **Inter** is used for body and labels to ensure maximum legibility and a systematic, clean feel.
 
-- **Headlines & Titles:** Set in **Outfit** (Semi-Bold `600`) to project a clean, structural identity.
-- **Body & Labels:** Set in **Inter** (Regular `400` / Medium `500`) for high-legibility interface reading, data grids, and forms.
+- **Headlines:** Use tight letter spacing for large displays to maintain a cohesive visual block.
+- **Body:** Use Inter with standard leading to ensure comfortable reading in data-heavy screens like Profile or Establishment lists.
+- **Labels:** Use Inter Medium for UI controls (buttons, input labels) and Bold for small metadata to ensure they remain distinct at small sizes.
 
 ## Layout & Spacing
 
-A strict 4px spacing grid powers the layout rhythm. Spacing tokens are:
+This design system follows a **Fluid Grid** model based on an 8px rhythm (with 4px sub-units for fine-tuning).
 
-- **xs (4px):** Gaps between labels, micro-paddings, small icon margins.
-- **sm (8px):** Gaps within button components, small padding.
-- **md (12px):** Medium container padding, list item gaps.
-- **base (16px):** Standard page padding, main grid gap.
-- **lg (24px):** Large gap between major sections or headers.
-- **xl (32px):** Page margins for spacious viewports.
+- **Mobile:** Uses a 4-column grid with 20px side margins and 16px gutters.
+- **Desktop:** Scales to a 12-column grid with a maximum content width of 1200px, centered on the screen.
+- **Reflow:** Components like cards in the "Establishment" view should stack vertically on mobile and transition to a multi-column masonry or grid layout on larger screens.
 
-Responsive layouts utilize the `DittoDashboardShell` layout with Material 3 breakpoints represented in `DittoWindowClass`:
-
-- **Compact:** `< 600px` (drawers, single-column lists)
-- **Medium:** `600px – 839px` (collapsed side rails)
-- **Expanded:** `840px – 1199px` (expanded sidebars, side panels)
-- **Large:** `≥ 1200px` (fixed layouts, multi-pane views)
+Consistency in vertical rhythm is achieved by strictly adhering to the `md (16px)` and `lg (24px)` spacing units for section headers and component grouping.
 
 ## Elevation & Depth
 
-Depth is created using tonal layering rather than heavy drop shadows:
+Depth in this design system is communicated through **Tonal Layers** supplemented by **Ambient Shadows**.
 
-- **Level 0 (Background):** Base layer (`#0f1117` in Dark, `#ffffff` or `#F8F9FD` in Light).
-- **Level 1 (Containers):** Standard cards and navigation surfaces (`#161922` in Dark, `#F8F9FD`/`#EEEEF5` in Light).
-- **Level 2 (Overlays):** Dropdowns, dialogs, and text fields (`#1c1f2b` in Dark, `#E4E1E9` in Light).
-- **Accent Glow:** A subtle blue-purple glow (`rgba(111, 113, 204, 0.15)`) with a blur radius of 12px is used to indicate focus and active interactions.
+1. **Level 0 (Base):** The main background color.
+2. **Level 1 (Cards/Inputs):** A slight elevation using a soft, diffused shadow (Blur: 10px, Y: 4px, Opacity: 6% Primary Color).
+3. **Level 2 (Dropdowns/Modals):** A more pronounced shadow to indicate overlay (Blur: 20px, Y: 8px, Opacity: 12% Primary Color).
+
+In Dark Mode, elevation is primarily shown through "surface tinting"—higher elevation elements use a lighter shade of the navy neutral color rather than relying solely on shadows, which are less visible on dark backgrounds.
 
 ## Shapes
 
-We use rounded corners to soften the user interface, balancing structure and modern friendliness:
+The shape language is **Rounded (Level 2)**. This choice mirrors the friendly nature of the typography while maintaining enough structure for a professional application.
 
-- **sm (8px):** Applied to small buttons, text input fields, badges, and snackbars.
-- **md (12px):** The standard corner radius for cards and modal dialogs.
-- **lg (16px):** Applied to larger sections and container panels.
-- **xl (24px):** Used for large components and full-sheet sheets.
+- **Standard Elements:** 0.5rem (8px) radius for buttons and small input fields.
+- **Large Elements:** 1rem (16px) radius for cards and modal sheets.
+- **Full Radius:** Used exclusively for tags, avatars, and search bars to create a "pill" effect that stands out from the rectangular grid.
 
 ## Components
 
-- **Buttons (Elevated/Primary):** Uses `colors.primary` background and `white`/`onPrimary` text. Rounded corner `sm` (8px), horizontal padding of 24px, and vertical padding of 14px.
-- **Inputs:** 1px border (`white 10%` in Dark, `outline 30%` in Light) with 8px corner radius (`sm`), filled with container background, and padded at 16px horizontal / 14px vertical. Focused inputs get a 1.5px Moody Blue border.
-- **Cards:** Flat (0 elevation) with a 12px (`md`) corner radius and a 1px border outline (`white 6%` in Dark, `outlineVariant 50%` in Light).
-- **Dividers:** Thickness of 1px, colored using low-opacity dividers (`white 6%` in Dark, `outlineVariant 30%` in Light).
-- **AppBars:** Solid, flat color matching the container background with Inter 18px semi-bold titles.
+### Buttons
 
-## Do’s and Don’ts
+- **Primary:** Solid Primary Blue fill with White text. 8px border radius. Use Haptic feedback on press.
+- **Secondary:** Tonal fill (Secondary Blue at 15% opacity) with Primary Blue text.
+- **Outlined:** 1.5px border in Secondary Blue. No fill.
 
-- **Do** stick to Outfit for headlines and titles, and Inter for body text.
-- **Don't** add custom drop shadows to cards — rely on tonal values and thin borders.
-- **Do** use Moody Blue sparingly to highlight key interactive flows.
-- **Don't** mix rounded scales (e.g. putting a sharp 2px input inside a 12px card). Keep rounding to `sm` (8px) for controls and `md` (12px) for cards.
+### Input Fields
+
+- **Style:** Filled & Underlined or Outlined depending on context. The "Moody" style prefers a light gray fill with a 1px bottom border that transitions to a 2px Primary Blue border on focus.
+- **Icons:** Use 24px rounded icons centered vertically.
+
+### Cards
+
+- **Structure:** 16px padding, 16px border radius. Use Level 1 elevation.
+- **Content:** Headline-md for titles, body-md for descriptions.
+
+### Chips/Tags
+
+- **Style:** Pill-shaped (Full radius). Use tonal backgrounds based on category (e.g., Green for "Open," Red for "Closed").
+
+### Navigation
+
+- **Bottom Bar:** Use a blurred background effect (Backdrop Filter) with active icons tinted in Primary Blue. Labels should use `label-sm`.
