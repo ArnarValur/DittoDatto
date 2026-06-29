@@ -1,7 +1,7 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-29 17:29
-**Session Focus:** Services Section — Phase 3 (Marketplace Display) + Phase 4 (Verification + Deploy) + MercuryEngine convergence roadmap
+**Last Updated:** 2026-06-29 18:53
+**Session Focus:** Stitch Design System Integration ("Moody Flutter" spec)
 
 ## 🚀 Active Tracks
 
@@ -13,6 +13,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-29 18:53** — **Stitch Design System Integration ("Moody Flutter").** Configured Stitch MCP server, audited current Flutter design system tokens, created `stitch-theme` branch, and updated `ditto_design` tokens/themes (switched light theme to Plus Jakarta Sans, dark theme to pure Inter, updated primary seed to `#3F51B5`, corrected light mode surfaces, and aligned border radius and spacing to Stitch tokens). All unit tests and static analysis pass cleanly. Deployed Admin Panel & Business Portal to Saturn, and Marketplace app to wired phone. E2E visually verified via screenshots.
 - **2026-06-29 17:29** — **Services Section track completed (Phases 3+4).** Built ServiceCard (3 booking-mode variants: standard/tableReservation/ticketSystem), ServiceGroupSection (collapsible ExpansionTile + UngroupedServiceSection fallback), replaced EstablishmentServicesSection placeholder (groups by ServiceGroup, sorts by sortOrder, filters inactive + soft-deleted, configurable icon/title). 23 new widget tests (95 total package). Fixed soft-delete ghost: marketplace debug query now filters `deleted_at IS NONE`. Both apps deployed (BP Saturn :8003, Marketplace phone). User E2E confirmed: services visible, deleted service hidden. Convergence roadmap written to `conductor/docs/mercury-engine/convergence-roadmap.md`.
 - **2026-06-29 11:57** — **Services Section Phases 1-2 complete.** Full data layer (Service/ServiceGroup models, formatPrice/formatDuration helpers, EstablishmentData extension, batch debug service). BP CRUD (service_group_repository, service_repository, Riverpod providers, ServicesScreen with grouped list, create/edit dialogs for both services and groups). Schema fix: `keywords`/`service_type` DEFAULT [] in company-blueprint.surql + live migration on Saturn. 22 model tests + 12 integration tests (75 total BP). Deployed to Saturn :8003.
 - **2026-06-28 17:03** — **Marketplace bottom nav fix.** Moved establishment route from top-level (outside shell = no bottom nav) into `StatefulShellRoute` home branch as child route. Fixed route path (`/` not `/home`). Gallery viewer + layouts confirmed working on phone with bottom nav visible.
@@ -27,6 +28,22 @@
 - None active.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-29 18:53 — Stitch Design System Integration ("Moody Flutter")
+
+- **Stitch MCP setup:** Wired `stitch` MCP remote server at `https://stitch.googleapis.com/mcp` using API key `AQ.Ab8RN6...` in shared `mcp_config.json`. Listed projects/design systems/screens successfully.
+- **Design Tokens Audit:** Created comparison report (`theme_audit.md`) highlighting:
+  - Font: Outfit replaced with **Plus Jakarta Sans** for headlines (light theme).
+  - Seed Color: Updated `moodyBlue` from `#6F71CC` to `#3F51B5`.
+  - Light Surfaces: Adjusted background (`#F9F9FC`), container (`#EEEEF0`), high-container (`#E8E8EA`).
+  - Border Radius: Added `xs` (4px) and `full` (9999px); mapped default to `8px`.
+  - Spacing: Updated `md` to `16px` and added `compact` (12px) to prevent regressions.
+- **Theme updates:** Switched `DittoTheme.light` to use Plus Jakarta Sans headlines, and fixed `DittoTheme.dark` to use Inter across the board (resolved failing legacy tests).
+- **Deploys:**
+  - Business Portal: Deployed to Saturn `:8003` (smoke tests passed).
+  - Admin Panel: Deployed to Saturn `:8002` (smoke tests passed).
+  - Marketplace App: Deployed to wired phone (SM-G998B).
+  - Visually confirmed changes in headless browser screenshots.
 
 ### Session 2026-06-29 17:29 — Services Phase 3+4 + MercuryEngine Roadmap
 

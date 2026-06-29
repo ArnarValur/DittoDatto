@@ -6,10 +6,13 @@ abstract final class DittoSpacing {
   /// 8px — small gaps, icon padding.
   static const double sm = 8;
 
-  /// 12px — medium gaps, compact content.
-  static const double md = 12;
+  /// 12px — compact gaps.
+  static const double compact = 12;
 
-  /// 16px — base unit, default padding.
+  /// 16px — medium gaps, base unit.
+  static const double md = 16;
+
+  /// 16px — base unit, default padding (deprecated: use md).
   static const double base = 16;
 
   /// 24px — large gaps, section spacing.

@@ -23,18 +23,7 @@ abstract final class DittoTheme {
     );
 
     final baseDark = ThemeData(brightness: Brightness.dark).textTheme;
-    final headlineTheme = GoogleFonts.outfitTextTheme(baseDark);
-    final bodyTheme = GoogleFonts.interTextTheme(baseDark);
-
-    // Outfit for display/headline/title, Inter for body/label.
-    final textTheme = headlineTheme.copyWith(
-      bodyLarge: bodyTheme.bodyLarge,
-      bodyMedium: bodyTheme.bodyMedium,
-      bodySmall: bodyTheme.bodySmall,
-      labelLarge: bodyTheme.labelLarge,
-      labelMedium: bodyTheme.labelMedium,
-      labelSmall: bodyTheme.labelSmall,
-    );
+    final textTheme = GoogleFonts.interTextTheme(baseDark);
 
     return ThemeData(
       useMaterial3: true,
@@ -159,11 +148,11 @@ abstract final class DittoTheme {
       surfaceContainerHigh: DittoColors.surfaceContainerHighLight,
     );
     final baseLight = ThemeData(brightness: Brightness.light).textTheme;
-    final headlineTheme = GoogleFonts.outfitTextTheme(baseLight);
+    final headlineTheme = GoogleFonts.plusJakartaSansTextTheme(baseLight);
     final bodyTheme = GoogleFonts.interTextTheme(baseLight);
 
-    // Outfit for display/headline/title, Inter for body/label.
-    // Matches the grilled typography decision: one platform, one voice.
+    // Plus Jakarta Sans for display/headline/title, Inter for body/label.
+    // Matches the Stitch design system.
     final textTheme = headlineTheme.copyWith(
       bodyLarge: bodyTheme.bodyLarge,
       bodyMedium: bodyTheme.bodyMedium,

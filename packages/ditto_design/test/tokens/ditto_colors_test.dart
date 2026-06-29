@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('DittoColors', () {
     test('moodyBlue has correct hex value', () {
-      expect(DittoColors.moodyBlue, const Color(0xFF6F71CC));
+      expect(DittoColors.moodyBlue, const Color(0xFF3F51B5));
     });
 
     test('dark surface grades are ordered from darkest to lightest', () {

@@ -6,7 +6,8 @@ void main() {
     test('spacing values are correct', () {
       expect(DittoSpacing.xs, 4);
       expect(DittoSpacing.sm, 8);
-      expect(DittoSpacing.md, 12);
+      expect(DittoSpacing.compact, 12);
+      expect(DittoSpacing.md, 16);
       expect(DittoSpacing.base, 16);
       expect(DittoSpacing.lg, 24);
       expect(DittoSpacing.xl, 32);
@@ -16,8 +17,8 @@ void main() {
       final values = [
         DittoSpacing.xs,
         DittoSpacing.sm,
+        DittoSpacing.compact,
         DittoSpacing.md,
-        DittoSpacing.base,
         DittoSpacing.lg,
         DittoSpacing.xl,
       ];

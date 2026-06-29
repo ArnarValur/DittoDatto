@@ -113,37 +113,37 @@ void main() {
       expect(dark.colorScheme.primary, isNotNull);
     });
 
-    testWidgets('light theme uses Outfit for headlines', (tester) async {
+    testWidgets('light theme uses Plus Jakarta Sans for headlines', (tester) async {
       final theme = DittoTheme.light;
-      // Headlines (displayLarge, headlineLarge, titleLarge) should use Outfit.
+      // Headlines (displayLarge, headlineLarge, titleLarge) should use Plus Jakarta Sans.
       expect(
         theme.textTheme.headlineLarge?.fontFamily,
-        contains('Outfit'),
+        contains('PlusJakartaSans'),
       );
       expect(
         theme.textTheme.displayLarge?.fontFamily,
-        contains('Outfit'),
+        contains('PlusJakartaSans'),
       );
       expect(
         theme.textTheme.titleLarge?.fontFamily,
-        contains('Outfit'),
+        contains('PlusJakartaSans'),
       );
     });
 
-    testWidgets('light theme uses Manrope for body text', (tester) async {
+    testWidgets('light theme uses Inter for body text', (tester) async {
       final theme = DittoTheme.light;
-      // Body / label styles should use Manrope.
+      // Body / label styles should use Inter.
       expect(
         theme.textTheme.bodyLarge?.fontFamily,
-        contains('Manrope'),
+        contains('Inter'),
       );
       expect(
         theme.textTheme.bodyMedium?.fontFamily,
-        contains('Manrope'),
+        contains('Inter'),
       );
       expect(
         theme.textTheme.labelLarge?.fontFamily,
-        contains('Manrope'),
+        contains('Inter'),
       );
     });
 

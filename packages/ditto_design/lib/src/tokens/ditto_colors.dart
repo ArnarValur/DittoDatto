@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// dark surface grades extracted from the existing admin theme.
 abstract final class DittoColors {
   /// Primary seed — Moody Blue.
-  static const Color moodyBlue = Color(0xFF6F71CC);
+  static const Color moodyBlue = Color(0xFF3F51B5);
 
   // ── Dark surface grades ──
 
@@ -25,13 +25,13 @@ abstract final class DittoColors {
   // ── Light surface grades (Stitch Enterprise Slate) ──
 
   /// Light background surface — warm off-white.
-  static const Color surfaceLight = Color(0xFFF8F9FD);
+  static const Color surfaceLight = Color(0xFFF9F9FC);
 
   /// Light container surface.
-  static const Color surfaceContainerLight = Color(0xFFEEEEF5);
+  static const Color surfaceContainerLight = Color(0xFFEEEEF0);
 
   /// Light elevated container surface.
-  static const Color surfaceContainerHighLight = Color(0xFFE4E1E9);
+  static const Color surfaceContainerHighLight = Color(0xFFE8E8EA);
 
   // ── Status colors ──
 
@@ -39,7 +39,7 @@ abstract final class DittoColors {
   static const Color success = Color(0xFF22c55e);
 
   /// Error red.
-  static const Color error = Color(0xFFef4444);
+  static const Color error = Color(0xFFBA1A1A);
 
   /// Warning amber.
   static const Color warning = Color(0xFFf59e0b);

@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-29 18:53 — Stitch Design System Integration ("Moody Flutter")
+- **Session:** Wired Stitch MCP connection. Audited and applied Stitch "Moody Flutter" design tokens to the `ditto_design` package (updated colors, border radius, spacing, and switched light theme to Plus Jakarta Sans). Fixed failing theme tests. Deployed Admin Panel & Business Portal to Saturn, and Marketplace to phone.
+- **Tracks touched:** None (global package updates)
+- **Status:** All unit tests and static analysis passing. Deployed and verified via Chrome DevTools screenshots.
+- **Decisions:** None
+- **Key findings:** Outfit was replaced by Plus Jakarta Sans for light headlines. Mapped Stitch's border-radius default and xs tokens. Set `md` spacing to 16px and added `compact` (12px) to prevent layout regressions.
+- **Next:** (1) Verify new design system styles in each domain. (2) Booking UX grill (tonight). (3) MercuryEngine audit + grill.
+
 ## 2026-06-29 17:29 — Services Phase 3+4 Complete + MercuryEngine Roadmap
 - **Session:** Completed Services Section track (Phases 3+4). Built Marketplace service display widgets (ServiceCard × 3 variants, ServiceGroupSection, EstablishmentServicesSection). Fixed soft-delete ghost in marketplace queries. Deployed BP to Saturn + Marketplace to phone. User E2E verified. Wrote MercuryEngine convergence roadmap with sequencing decisions.
 - **Tracks touched:** `services_section_20260628` (completed)
