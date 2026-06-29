@@ -162,7 +162,7 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
               if (data.showServices)
                 _buildConstrainedSliver(
                   isWide: isWide,
-                  sliver: const EstablishmentServicesSection(),
+                  sliver: EstablishmentServicesSection(data: data),
                 ),
 
               // ── Events section ──────────────────────────────────────
