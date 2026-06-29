@@ -34,9 +34,9 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Grilled decisions:* Outfit+Inter typography ✅, Marketplace+BP preview surfaces ✅, gradient+stars atmosphere ✅, hue palette marinating
 
 - [ ] **Services Section — EstablishmentPage display + BP CRUD for service management**
-  - *Type:* feature | *Domain:* services | *Status:* **new**
+  - *Type:* feature | *Domain:* services | *Status:* **Phases 1-2 complete** (data layer + BP CRUD deployed to Saturn)
   - *Link:* [tracks/services/services_section_20260628/](./tracks/services/services_section_20260628/)
-  - *Phases:* 4 — (1) Data Layer (Dart models + DB queries), (2) BP Services CRUD (minimal), (3) Marketplace Display (ServiceCard + ServiceSection + MultiSelectGroup), (4) Verification + Deploy
+  - *Phases:* 4 — (1) Data Layer ✅, (2) BP Services CRUD ✅, (3) Marketplace Display, (4) Verification + Deploy
   - *Grilled decisions:* Grouped by ServiceGroup ✅, 3 booking-mode card variants ✅, multi-select checkboxes + summary bar ✅, models in establishment_ui ✅, kr/min formatting ✅
 
 - [ ] **Ticketing & Events — Event system + ticketSystem booking mode + recurring events**

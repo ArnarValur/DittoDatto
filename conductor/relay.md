@@ -1,5 +1,13 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-29 11:57 — Services Section Phase 1 + Phase 2
+- **Session:** Implemented full Services data layer (models, helpers, EstablishmentData extension, batch debug service, 22 tests). Built BP Services CRUD (2 repositories, Riverpod providers, ServicesScreen with grouped list, ServiceGroupDialog, ServiceDialog with price/duration/booking mode/group assignment, 12 integration tests). Fixed schema drift (keywords/service_type missing DEFAULT []). Deployed BP to Saturn :8003. Applied live schema migration via `DEFINE FIELD OVERWRITE`.
+- **Tracks touched:** `services_section_20260628` (Phases 1-2 complete)
+- **Status:** 75/75 BP integration tests green. Deployed and user-verified (groups + services create successfully after schema fix). Ticketing track now unblocked.
+- **Decisions:** None
+- **Key findings:** `type::thing()` deprecated in SurrealDB v3 → use `type::record()`. Array fields without DEFAULT on SCHEMAFULL tables cause `NONE` coercion errors on CREATE. Live schema changes require `DEFINE FIELD OVERWRITE` (not just `DEFINE FIELD`).
+- **Next:** (1) Seed service data via BP forms. (2) Services Phase 3 (Marketplace display). (3) Schema hotfix (rescheduled fields). (4) Ticketing Phase 1 (now unblocked).
+
 ## 2026-06-28 17:41 — Ticketing & Events Domain Grill + Track Creation
 - **Session:** Deep-dive research into all ticketing/event code, schemas, docs (Ticketmaster + Noona competitive research). Brainstormed domain model with user. Landed on ServiceGroup = Event container, Services = Ticket tiers. Two independent feature flags (event_system / ticket_system). Recurring events via RFC 5545 rrule. Created track `ticketing_events_20260628` in new "ticketing" domain.
 - **Tracks touched:** `ticketing_events_20260628` (created)

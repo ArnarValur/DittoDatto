@@ -7,43 +7,49 @@
 
 ## Phase 1: Data Layer — Dart Models + DB Queries
 
-- [ ] Task: Schema Gate — verify service + service_group tables in `company-blueprint.surql`
-    - [ ] Read schema, confirm all Dart model fields align
-    - [ ] Document any drift (ref: MercuryEngine audit found rescheduled_from/to drift)
-- [ ] Task: Create Service model in `packages/establishment_ui/`
-    - [ ] Write model serialization tests (fromJson/toJson round-trip)
-    - [ ] Implement Service model with fields: id, title, description, duration, price, currency, bookingMode, group, isActive
-- [ ] Task: Create ServiceGroup model in `packages/establishment_ui/`
-    - [ ] Write model serialization tests
-    - [ ] Implement ServiceGroup model with fields: id, name, description, sortOrder, showOnBookingPanel, multiSelect
-- [ ] Task: Extend EstablishmentData to include services + groups
-    - [ ] Add `List<ServiceGroup> serviceGroups` and `List<Service> services` fields
-    - [ ] Update fromJson to parse services and groups
-- [ ] Task: Extend EstablishmentDebugService to fetch services + groups
-    - [ ] Add SurrealQL queries: `SELECT * FROM service WHERE establishment = $est AND is_active = true`, `SELECT * FROM service_group WHERE establishment = $est`
-    - [ ] Wire into the existing fetch pipeline (batch query)
-- [ ] Task: Create format helpers
-    - [ ] `formatPrice(double price, String currency)` → `kr 450` / `Gratis`
-    - [ ] `formatDuration(int minutes)` → `30 min` / `1 t 30 min`
-    - [ ] Write unit tests for edge cases (0 price, 0 duration, >60 min, fractional prices)
+- [x] Task: Schema Gate — verify service + service_group tables in `company-blueprint.surql`
+    - [x] Read schema, confirm all Dart model fields align
+    - [x] Document any drift (ref: MercuryEngine audit found rescheduled_from/to drift)
+    - [x] **Fixed:** `keywords` and `service_type` missing `DEFAULT []` — added to schema
+- [x] Task: Create Service model in `packages/establishment_ui/`
+    - [x] Write model serialization tests (fromJson/toJson round-trip)
+    - [x] Implement Service model with fields: id, title, description, duration, price, currency, bookingMode, group, isActive
+- [x] Task: Create ServiceGroup model in `packages/establishment_ui/`
+    - [x] Write model serialization tests
+    - [x] Implement ServiceGroup model with fields: id, name, description, sortOrder, showOnBookingPanel, multiSelect
+- [x] Task: Extend EstablishmentData to include services + groups
+    - [x] Add `List<ServiceGroup> serviceGroups` and `List<Service> services` fields
+    - [x] Update fromJson to parse services and groups
+- [x] Task: Extend EstablishmentDebugService to fetch services + groups
+    - [x] Add SurrealQL queries: `SELECT * FROM service WHERE establishment = $est AND is_active = true`, `SELECT * FROM service_group WHERE establishment = $est`
+    - [x] Wire into the existing fetch pipeline (batch query)
+- [x] Task: Create format helpers
+    - [x] `formatPrice(double price, String currency)` → `kr 450` / `Gratis`
+    - [x] `formatDuration(int minutes)` → `30 min` / `1 t 30 min`
+    - [x] Write unit tests for edge cases (0 price, 0 duration, >60 min, fractional prices)
 
 ---
 
 ## Phase 2: BP Services CRUD (Minimal)
 
-- [ ] Task: Add "Tjenester" sidebar navigation item
-    - [ ] Add route `/services` to BP GoRouter
-    - [ ] Add sidebar icon + label (same pattern as Etablissementer)
-- [ ] Task: Build ServiceGroup CRUD
-    - [ ] Write integration tests for create/read/update/delete service_group
-    - [ ] Implement ServiceGroupRepository (SurrealDB queries)
-    - [ ] Build group list + create/edit dialog (name, description, sortOrder, multiSelect)
-- [ ] Task: Build Service CRUD
-    - [ ] Write integration tests for create/read/update/delete service
-    - [ ] Implement ServiceRepository (SurrealDB queries)
-    - [ ] Build service list view (grouped by group, showing title/price/duration/active badge)
-    - [ ] Build service create/edit dialog (title, description, duration presets, price, currency, bookingMode, group assignment, isActive toggle)
-    - [ ] Delete with confirmation
+- [x] Task: Add "Tjenester" sidebar navigation item
+    - [x] Add route `/services` to BP GoRouter *(pre-existed)*
+    - [x] Add sidebar icon + label *(pre-existed)*
+- [x] Task: Build ServiceGroup CRUD
+    - [x] Write integration tests for create/read/update/delete service_group (5 tests)
+    - [x] Implement ServiceGroupRepository (SurrealDB queries)
+    - [x] Build group list + create/edit dialog (name, description, sortOrder, multiSelect)
+- [x] Task: Build Service CRUD
+    - [x] Write integration tests for create/read/update/delete service (7 tests)
+    - [x] Implement ServiceRepository (SurrealDB queries)
+    - [x] Build service list view (grouped by group, showing title/price/duration/active badge)
+    - [x] Build service create/edit dialog (title, description, duration presets, price, currency, bookingMode, group assignment, isActive toggle)
+    - [x] Delete with confirmation
+- [x] Task: Deploy BP with services CRUD to Saturn
+    - [x] 75/75 integration tests green
+    - [x] Deployed to Saturn :8003, smoke test passed
+    - [x] Schema migration applied to live DB (`keywords`/`service_type` DEFAULT [])
+    - [x] User verified: groups create ✅, services create ✅ (after schema fix)
 - [ ] Task: Seed test data via BP
     - [ ] Create 2-3 service groups in House of the North via BP form
     - [ ] Create 5-8 services across groups (mix of standard + tableReservation modes)
