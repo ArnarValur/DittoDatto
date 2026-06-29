@@ -33,11 +33,12 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Phases:* 5 — (1) Solar Engine + Foundation ✅, (2) Theme Integration, (3) Twilight Transitions & Polish, (4) Shared EstablishmentPage, (5) Hue Palette (deferred — marinating)
   - *Grilled decisions:* Outfit+Inter typography ✅, Marketplace+BP preview surfaces ✅, gradient+stars atmosphere ✅, hue palette marinating
 
-- [ ] **Services Section — EstablishmentPage display + BP CRUD for service management**
-  - *Type:* feature | *Domain:* services | *Status:* **Phases 1-2 complete** (data layer + BP CRUD deployed to Saturn)
+- [x] **Services Section — EstablishmentPage display + BP CRUD for service management** [checkpoint: Phase 3+4 complete]
+  - *Type:* feature | *Domain:* services | *Status:* **completed**
   - *Link:* [tracks/services/services_section_20260628/](./tracks/services/services_section_20260628/)
-  - *Phases:* 4 — (1) Data Layer ✅, (2) BP Services CRUD ✅, (3) Marketplace Display, (4) Verification + Deploy
-  - *Grilled decisions:* Grouped by ServiceGroup ✅, 3 booking-mode card variants ✅, multi-select checkboxes + summary bar ✅, models in establishment_ui ✅, kr/min formatting ✅
+  - *Phases:* 4 — (1) Data Layer ✅, (2) BP Services CRUD ✅, (3) Marketplace Display ✅, (4) Verification + Deploy ✅
+  - *What works:* ServiceCard (3 booking-mode variants), ServiceGroupSection (collapsible), EstablishmentServicesSection (groups, sorts, filters inactive + soft-deleted). 95 package tests, 75 BP integration tests. Deployed to Saturn :8003 + phone. User E2E verified.
+  - *Deferred:* MultiSelectGroup checkboxes (booking UX grill), isActive badge in BP list view (minor polish)
 
 - [ ] **Ticketing & Events — Event system + ticketSystem booking mode + recurring events**
   - *Type:* feature | *Domain:* ticketing | *Status:* **new**

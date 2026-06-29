@@ -1,6 +1,14 @@
 # Relay — Cross-Session Handoff
 
-## 2026-06-29 11:57 — Services Section Phase 1 + Phase 2
+## 2026-06-29 17:29 — Services Phase 3+4 Complete + MercuryEngine Roadmap
+- **Session:** Completed Services Section track (Phases 3+4). Built Marketplace service display widgets (ServiceCard × 3 variants, ServiceGroupSection, EstablishmentServicesSection). Fixed soft-delete ghost in marketplace queries. Deployed BP to Saturn + Marketplace to phone. User E2E verified. Wrote MercuryEngine convergence roadmap with sequencing decisions.
+- **Tracks touched:** `services_section_20260628` (completed)
+- **Status:** Services track graduated. 95 package + 75 BP integration tests. Both surfaces deployed and verified.
+- **Decisions:** None
+- **Key findings:** Soft-delete services appear on marketplace but not BP (different query filters). Temporal delete cleanup needed (stickered). MercuryEngine is the critical path for booking UI + BP Bookings tab.
+- **Next:** (1) Booking UX grill (tonight). (2) MercuryEngine audit + grill. (3) BP Bookings tab. (4) BP Services UX tweaks.
+
+
 - **Session:** Implemented full Services data layer (models, helpers, EstablishmentData extension, batch debug service, 22 tests). Built BP Services CRUD (2 repositories, Riverpod providers, ServicesScreen with grouped list, ServiceGroupDialog, ServiceDialog with price/duration/booking mode/group assignment, 12 integration tests). Fixed schema drift (keywords/service_type missing DEFAULT []). Deployed BP to Saturn :8003. Applied live schema migration via `DEFINE FIELD OVERWRITE`.
 - **Tracks touched:** `services_section_20260628` (Phases 1-2 complete)
 - **Status:** 75/75 BP integration tests green. Deployed and user-verified (groups + services create successfully after schema fix). Ticketing track now unblocked.

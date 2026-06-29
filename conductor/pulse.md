@@ -1,18 +1,19 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-29 11:57
-**Session Focus:** Services Section — Phase 1 (Data Layer) + Phase 2 (BP CRUD) implementation + deploy
+**Last Updated:** 2026-06-29 17:29
+**Session Focus:** Services Section — Phase 3 (Marketplace Display) + Phase 4 (Verification + Deploy) + MercuryEngine convergence roadmap
 
 ## 🚀 Active Tracks
 
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
 - **SolarTheme** (`solar_theme_20260628`) — **Phase 1 complete.** Solar engine ported, star field + demo running on device. Phases 2-5 open.
 - **Map & Geocoding** (`map_and_geocoding_20260628`) — **Phases 1-6 complete.** Kartverket autocomplete + flutter_map live in Admin + BP on Saturn. Future: Marketplace discovery map, Sweden support.
-- **Services Section** (`services_section_20260628`) — **Phases 1-2 complete.** Data layer (models, helpers, batch query, 22 tests) + BP CRUD (repositories, providers, screen, dialogs, 12 integration tests). 75/75 BP integration tests green. Deployed to Saturn :8003. Schema fix applied to live DB. Remaining: seed data via UI, Marketplace display (Phase 3), verification (Phase 4).
+- **Services Section** (`services_section_20260628`) — **Completed.** All 4 phases done. ServiceCard (3 variants), ServiceGroupSection (collapsible), EstablishmentServicesSection (replaces placeholder). 95 package + 75 BP tests. Deployed to Saturn + phone. User E2E verified. MultiSelect deferred to booking UX grill.
 - **Ticketing & Events** (`ticketing_events_20260628`) — **New.** Track created. 5 phases. Depends on services track Phase 1–2 (now unblocked). ADR-0022 + ADR-0023.
 
 ## ✅ Recently Completed
 
+- **2026-06-29 17:29** — **Services Section track completed (Phases 3+4).** Built ServiceCard (3 booking-mode variants: standard/tableReservation/ticketSystem), ServiceGroupSection (collapsible ExpansionTile + UngroupedServiceSection fallback), replaced EstablishmentServicesSection placeholder (groups by ServiceGroup, sorts by sortOrder, filters inactive + soft-deleted, configurable icon/title). 23 new widget tests (95 total package). Fixed soft-delete ghost: marketplace debug query now filters `deleted_at IS NONE`. Both apps deployed (BP Saturn :8003, Marketplace phone). User E2E confirmed: services visible, deleted service hidden. Convergence roadmap written to `conductor/docs/mercury-engine/convergence-roadmap.md`.
 - **2026-06-29 11:57** — **Services Section Phases 1-2 complete.** Full data layer (Service/ServiceGroup models, formatPrice/formatDuration helpers, EstablishmentData extension, batch debug service). BP CRUD (service_group_repository, service_repository, Riverpod providers, ServicesScreen with grouped list, create/edit dialogs for both services and groups). Schema fix: `keywords`/`service_type` DEFAULT [] in company-blueprint.surql + live migration on Saturn. 22 model tests + 12 integration tests (75 total BP). Deployed to Saturn :8003.
 - **2026-06-28 17:03** — **Marketplace bottom nav fix.** Moved establishment route from top-level (outside shell = no bottom nav) into `StatefulShellRoute` home branch as child route. Fixed route path (`/` not `/home`). Gallery viewer + layouts confirmed working on phone with bottom nav visible.
 - **2026-06-28 16:55** — **Gallery layout modes + viewer.** Implemented 3 `CoverLayoutMode` variants (Bento Grid, Showcase, Spotlight) in shared `EstablishmentGallerySection`. Showcase auto-scrolls thumbnails vertically in a continuous loop (pauses on hover). Wired "Se bilder" pill to a full-screen `_GalleryViewerDialog` with swipeable `PageView`, arrow/keyboard nav, pinch-to-zoom, and image counter. 50 package + 72 BP widget tests green. Deployed 3× to Saturn :8003 + 1× to phone.
@@ -26,6 +27,38 @@
 - None active.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-29 17:29 — Services Phase 3+4 + MercuryEngine Roadmap
+
+- **Phase 3 (Marketplace Display) — all complete:**
+  - `ServiceCard` widget — 3 booking-mode variants (standard shows duration, tableReservation omits, ticketSystem shows "Billett" accent chip). Uses `formatPrice`/`formatDuration`. `Card.outlined` pattern. Optional leading icon.
+  - `ServiceGroupSection` — collapsible `ExpansionTile` groups, sorted alphabetically within group. `UngroupedServiceSection` fallback for `groupId == null`.
+  - `EstablishmentServicesSection` — full replacement of placeholder. Groups by `ServiceGroup`, sorts by `sortOrder`, filters `isActive == true AND deleted_at IS NONE`. Configurable `sectionIcon`/`sectionTitle` (no hardcoded icons per user request). Returns empty SliverToBoxAdapter when no active services.
+  - Barrel exports added for new widgets.
+  - 23 new widget tests covering all variants, grouping, collapse/expand, inactive filtering, empty states, icon configurability.
+
+- **Phase 4 (Verification + Deploy) — complete:**
+  - 95/95 package tests, 75/75 BP integration tests — zero regressions.
+  - BP deployed to Saturn :8003 (hash verified, smoke test passed).
+  - Marketplace deployed to phone (APK installed on SM-G998B).
+  - User E2E: created services in BP → visible on phone. Deleted service was visible (soft-delete ghost) → fixed query → redeployed → confirmed hidden.
+
+- **Bug fix: soft-delete ghost in marketplace**
+  - BP uses soft-delete (`UPDATE ... SET deleted_at = time::now()`).
+  - BP queries filter `WHERE deleted_at IS NONE` — correct.
+  - Marketplace debug service queries did NOT filter `deleted_at` — user spotted "demo" service appearing on phone but not in BP.
+  - Fixed: added `AND deleted_at IS NONE` to both service and service_group queries.
+  - **Stickered for later:** temporal delete logic (auto-purge after X days if no booking references).
+
+- **User feedback on design:**
+  - "No hardcoded icons" → made section icon/title configurable.
+  - MultiSelect checkboxes deferred to booking UX grill (tonight).
+  - Booking mode gatekeeping (preventing companies from selecting reservation/ticketing when not applicable) parked for when feature flags land.
+
+- **MercuryEngine convergence roadmap** written to `conductor/docs/mercury-engine/convergence-roadmap.md`:
+  - Dependency graph: MercuryEngine → Marketplace Booking UI + BP Bookings Tab.
+  - Sequencing: (1) Booking UX grill tonight, (2) MercuryEngine audit, (3) build outward, (4) BP Services tweaks anytime.
+  - Progressive rollout: standard → reservation → ticketing, using House of the North as demo establishment.
 
 ### Session 2026-06-29 11:57 — Services Section Phase 1 + Phase 2
 
@@ -98,12 +131,13 @@
 
 ## 📋 Next Session Suggestions
 
-1. 🟡 **Seed service data via BP** — Create 2-3 service groups + 5-8 services in House of the North via the live BP forms on Saturn. Manual E2E validation.
-2. 🟡 **Services section Phase 3** — Marketplace display: ServiceCard widget (3 booking-mode variants), ServiceSection (collapsible groups), MultiSelectGroup behavior. Track: `services_section_20260628`.
-3. 🔴 **Schema hotfix** — Add `rescheduled_from`/`rescheduled_to` to `company-blueprint.surql`. Five-minute fix, prevents compliance data loss.
-4. 🟡 **Ticketing Phase 1** — Schema extensions + data layer. Now unblocked (services Phase 1-2 done). Track: `ticketing_events_20260628`.
-5. 🟡 **MercuryEngine relay sync** — 3 ADR candidates + 4 glossary updates sitting unprocessed in its conductor.
-6. 🟡 **Discovery service track** — `companies/discovery` sync. `/new-track` candidate.
+1. 🔴 **Booking UX grill** — "Bestill Time" flow design. What happens on tap? Steps? Service selection on landing vs behind button? MultiSelect? House of the North as demo.
+2. 🔴 **MercuryEngine audit + grill** — Cold 30+ days. Schema drift. Define API contract. Unblocks Marketplace booking + BP Bookings tab.
+3. 🟡 **BP Bookings tab** — depends on MercuryEngine API. Business sees incoming bookings.
+4. 🟡 **Schema hotfix** — `rescheduled_from`/`rescheduled_to` missing from `company-blueprint.surql`. Five-minute fix.
+5. 🟡 **Ticketing Phase 1** — Schema + data layer. Depends on MercuryEngine API contract.
+6. 🟡 **BP Services UX tweaks** — Independent, anytime. isActive badge, booking mode gatekeeping.
 7. 🟡 **Auth Service Phase 4** — consumer auth in marketplace.
 8. 🟡 **SolarTheme Phase 2** — wire into real Marketplace shell.
-9. 🟢 **CRM grill** — When services + discovery are wired. Noona "loyalty engine" framing.
+9. 🟢 **Soft-delete temporal cleanup** — auto-purge logic for services after X days.
+10. 🟢 **CRM grill** — when booking flow exists.
