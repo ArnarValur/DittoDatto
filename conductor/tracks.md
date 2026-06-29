@@ -47,6 +47,13 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Depends on:* ADR-0022 (ServiceGroup = Event), ADR-0023 (Independent Feature Flags), `services_section_20260628` Phase 1–2
   - *Grilled decisions:* ServiceGroup = Event container ✅, Services = Ticket tiers ✅, independent event_system/ticket_system flags ✅, RFC 5545 rrule for recurrence ✅, auto-create + notify for recurring ✅
 
+- [ ] **Favorites Toggle — Wire the Lagre button on EstablishmentPage (toggle, persistence, auth gate)**
+  - *Type:* feature | *Domain:* marketplace | *Status:* **new**
+  - *Link:* [tracks/marketplace/favorites_toggle_20260630/](./tracks/marketplace/favorites_toggle_20260630/)
+  - *Phases:* 3 — (1) Data Layer, (2) UI Wiring + Auth Gate, (3) Verification + Deploy
+  - *Depends on:* Auth Service Phase 1–3 (✅ built), `favorite` schema in `users.surql` (✅ exists)
+  - *Deferred:* `favorites_count` counter sync, favorites list screen (profile polish), staff favorites
+
 - [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
   - *Type:* feature | *Domain:* auth-service | *Status:* **ready for Phase 4** (Marketplace consumer auth now live)
   - *Link:* [tracks/auth-service/auth_service_20260624/](./tracks/auth-service/auth_service_20260624/)
