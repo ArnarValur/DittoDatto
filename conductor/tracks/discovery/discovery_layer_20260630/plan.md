@@ -65,52 +65,58 @@
     - [ ] Category chip selection updates listings (deferred — needs provider mock harness)
     - [x] Empty state displayed when no results (via router test)
 
-## Phase 3 — Area Hierarchy + Geo Filtering
+## Phase 3 — Area Hierarchy + Geo Filtering ⏸️ DEFERRED
 
-- [ ] Task: Seed initial Drammen area hierarchy
-    - [ ] Research Kartverket API for bydel boundaries (GeoJSON polygons)
-    - [ ] Create Admin Panel Areas management screen (CRUD for areas)
-    - [ ] Seed: Viken (fylke) → Drammen (kommune) → bydeler
-- [ ] Task: Auto-detect area on PublishSync
-    - [ ] On sync, use establishment coordinates to determine area
-    - [ ] Point-in-polygon check against area boundaries
-    - [ ] Create `located_in` graph edge (listing → area)
-    - [ ] Fallback: use city name matching if no polygon match
-- [ ] Task: Area filter on Home screen
-    - [ ] Area dropdown or chip row (below categories or integrated)
-    - [ ] Filter listings by `located_in` relationship
-- [ ] Task: Write tests for Phase 3
-    - [ ] Area model tests
-    - [ ] Point-in-polygon detection tests
-    - [ ] Area filter on home screen tests
+> **Sticker:** Lean skip — only one listing in Drammen, area filtering adds no value yet.
+> `DiscoveryRepository.fetchListings(city:)` already supports city-based filtering.
+> Evolve to full polygon hierarchy + Admin CRUD when listing density justifies it.
+> Re-scope via `/grill` when needed: Kartverket bydel polygons, `located_in` graph edges, Admin Areas screen.
+
+- [~] Deferred — city filter infrastructure exists, full area hierarchy postponed
+    - [x] `fetchListings(city:)` already in DiscoveryRepository
+    - [ ] Kartverket bydel boundary GeoJSON polygons
+    - [ ] Admin Panel Areas management screen
+    - [ ] Point-in-polygon auto-detection on PublishSync
+    - [ ] `located_in` graph edge creation
+    - [ ] Area filter UI on Home screen
 
 ## Phase 4 — Two-Phase Detail Load (Replace Debug Pipe)
 
-- [ ] Task: Define `marketplace_reader` in blueprint
-    - [ ] Add DEFINE USER in `company-blueprint.surql` (VIEWER, SELECT only)
-    - [ ] Permissions: `establishment WHERE is_published=true`, `service WHERE is_active=true AND deleted_at IS NONE`, `service_group WHERE deleted_at IS NONE`
-    - [ ] Password via `MARKETPLACE_READER_PASS` dart-define
-- [ ] Task: Build detail fetch in `DiscoveryRepository`
-    - [ ] `fetchEstablishmentDetail(companySlug, establishmentSlug)` → connects to `company_{slug}` DB
-    - [ ] Returns full `EstablishmentData` (services, service groups, establishment info)
-    - [ ] On-demand DB connection (connect, query, disconnect)
-- [ ] Task: Wire detail load into Marketplace
-    - [ ] Listing card tap → fetch detail → navigate to EstablishmentPage
-    - [ ] Loading state during detail fetch
-    - [ ] Error handling (company DB unreachable, establishment not found)
-- [ ] Task: Remove debug pipe
-    - [ ] Delete `EstablishmentDebugService`
-    - [ ] Delete `establishment_providers.dart` (replace with discovery providers)
-    - [ ] Remove "Establishment Test" button from home screen
-    - [ ] Update `/booking` route to receive data from discovery flow
-- [ ] Task: Apply `marketplace_reader` to existing company DBs
-    - [ ] Migration script for House of the North (`company_dittodatto-as`)
-    - [ ] Update `test-db-seed.sh`
-- [ ] Task: Write tests for Phase 4
-    - [ ] Detail fetch returns full EstablishmentData
-    - [ ] Detail load → EstablishmentPage renders correctly
-    - [ ] Error states (DB down, establishment not found)
-    - [ ] Debug pipe fully removed (no references)
+> **Architecture pivot:** SurrealDB Sidekick consultation revealed NS-level VIEWER user
+> eliminates per-DB provisioning. `fn::get_storefront()` moves query logic server-side.
+> DEFINE API exists but NS auth doesn't work with it (SDB 3.1.2) — using WS + fn call.
+
+- [x] Task: NS-level marketplace reader (replaces per-DB user)
+    - [x] `DEFINE USER marketplace_reader ON NAMESPACE ROLES VIEWER` in `init.surql`
+    - [x] Added to `test-db-seed.sh`
+    - [x] Applied to Saturn production
+- [x] Task: Server-side storefront function
+    - [x] `fn::get_storefront()` in `company-blueprint.surql`
+    - [x] Returns `{ establishment, services, service_groups }`
+    - [x] Applied to `company_dittodatto-as` on Saturn
+- [x] Task: HTTP API endpoint (bonus)
+    - [x] `DEFINE API "/establishment" FOR get` in blueprint
+    - [x] Works with root auth, NS auth returns 401 (SDB 3.1.2 limitation)
+- [x] Task: Build `StorefrontService`
+    - [x] WS connect → signin(NS VIEWER) → use(company DB) → fn::get_storefront() → close
+    - [x] Maps response to `EstablishmentData`
+    - [x] ~50 lines (replaces 224-line debug service)
+- [x] Task: Build `EstablishmentDetailScreen`
+    - [x] Receives `companySlug` + `slug` from route params
+    - [x] FutureProvider.autoDispose.family for per-company fetch
+    - [x] Loading/error/data states with retry
+    - [x] Favorites + booking integration preserved
+- [x] Task: Wire dynamic route
+    - [x] `/establishment/:companySlug/:slug` in router
+    - [x] Listing card tap → `context.push('/establishment/${listing.companySlug}/${listing.slug}')`
+- [x] Task: Remove debug pipe
+    - [x] Deleted `establishment_debug_service.dart` (224 lines)
+    - [x] Deleted `establishment_providers.dart` (21 lines)
+    - [x] Deleted `establishment_test_screen.dart` (126 lines)
+- [x] Task: Verification
+    - [x] WS E2E test on Saturn (Python): signin → use → fn → data ✅
+    - [x] 0 analysis errors, 40/40 widget tests pass
+    - [x] Deployed to Galaxy S21 — House of the North loads from card tap ✅
 
 ## Phase 5 — Verification + Deploy
 

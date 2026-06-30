@@ -8,7 +8,7 @@ import 'package:mercury_client/mercury_client.dart';
 import 'auth_provider.dart';
 import '../features/auth/login_screen.dart';
 import '../features/booking/booking_screen.dart';
-import '../features/establishment/establishment_test_screen.dart';
+import '../features/establishment/establishment_detail_screen.dart';
 import '../features/solar_demo/solar_demo_screen.dart';
 import '../features/auth/signup_screen.dart';
 import '../features/home/home_screen.dart';
@@ -24,7 +24,7 @@ abstract final class MarketplaceRoutes {
   static const login = '/profile/login';
   static const signup = '/profile/signup';
   static const solarDemo = '/solar';
-  static const establishmentTest = '/establishment-test';
+  static const establishment = '/establishment';
   static const booking = '/booking';
 }
 
@@ -98,11 +98,18 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: MarketplaceRoutes.home,
                 builder: (context, state) => const HomeScreen(),
                 routes: [
-                  // Establishment page — inside the shell so bottom nav stays.
+                  // Establishment detail — dynamic route from discovery.
                   GoRoute(
-                    path: 'establishment-test',
-                    builder: (context, state) =>
-                        const EstablishmentTestScreen(),
+                    path: 'establishment/:companySlug/:slug',
+                    builder: (context, state) {
+                      final companySlug =
+                          state.pathParameters['companySlug']!;
+                      final slug = state.pathParameters['slug']!;
+                      return EstablishmentDetailScreen(
+                        companySlug: companySlug,
+                        slug: slug,
+                      );
+                    },
                   ),
                 ],
               ),

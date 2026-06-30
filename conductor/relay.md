@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-30 23:40 — Discovery Layer Phases 2 + 4 Complete
+- **Session:** Built Marketplace Home (DittoBar, category chips, listing cards). Consulted SurrealDB Sidekick — discovered NS-level VIEWER user eliminates per-DB provisioning. Built `fn::get_storefront()` server-side function. Replaced 371-line debug pipe with ~50-line `StorefrontService` (WS + fn call). Deployed to phone — House of the North loads.
+- **Tracks touched:** discovery_layer_20260630
+- **Status:** Phases 1-2 + 4 ✅. Phase 3 deferred (lean). Phase 5 (E2E verification) remains.
+- **Decisions:** None (NS VIEWER pattern documented in Pulse as operational discovery, ADR-0025 already covers two-phase load)
+- **Next:** (1) Discovery Phase 5: E2E multi-tenant verification. (2) Auth layer reconciliation with NS VIEWER pattern. (3) BP Bookings Backend.
+
+---
+
 ## 2026-06-30 22:06 — Discovery Layer Phase 1 Complete + Deployed
 - **Session:** Built `packages/discovery_service/` (3 models, DiscoveryRepository, ListingSyncService). Wired BP publish sync into establishment edit view. Fixed 3 deploy-time bugs (fire-and-forget auth, UPSERT WHERE, type::thing deprecation, source_id coercion). 24 unit + 5 integration tests. Deployed 3× to Saturn. User verified listing in Surrealist.
 - **Tracks touched:** discovery_layer_20260630

@@ -28,6 +28,13 @@ DEFINE USER IF NOT EXISTS mercury ON NAMESPACE PASSWORD 'CHANGE_ME_COMPANIES' RO
 USE NS users;
 DEFINE USER IF NOT EXISTS mercury ON NAMESPACE PASSWORD 'CHANGE_ME_USERS' ROLES OWNER;
 
+-- 5. Marketplace read-only access (ADR-0025 — Two-Phase Detail Load)
+-- NS-level VIEWER: can SELECT from any company DB + discovery DB.
+-- No per-database user provisioning needed.
+USE NS companies;
+DEFINE USER IF NOT EXISTS marketplace_reader ON NAMESPACE
+    PASSWORD 'marketplace-reader-pass' ROLES VIEWER;
+
 -- =============================================================================
 -- To apply schemas after init:
 --

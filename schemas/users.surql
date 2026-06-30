@@ -36,6 +36,7 @@ DEFINE FIELD is_onboarded      ON user TYPE bool                    DEFAULT fals
 DEFINE FIELD vipps_sub         ON user TYPE option<string>;
 DEFINE FIELD password_hash     ON user TYPE option<string>;
 DEFINE FIELD company_slug      ON user TYPE option<string>;
+DEFINE FIELD company_name      ON user TYPE option<string>;
 
 -- RBAC & Company Memberships
 DEFINE FIELD company_memberships ON user TYPE array<object>          DEFAULT [];
@@ -84,8 +85,13 @@ DEFINE TABLE favorited SCHEMAFULL TYPE RELATION FROM user TO user;
 -- Re-define as a regular table since cross-DB record links aren't possible:
 REMOVE TABLE favorited;
 
-DEFINE TABLE favorite SCHEMAFULL;
-DEFINE FIELD user              ON favorite TYPE record<user>;
+DEFINE TABLE favorite SCHEMAFULL
+  PERMISSIONS
+    FOR select, delete WHERE user = $auth.id
+    FOR create WHERE $auth.id != NONE
+    FOR update NONE;
+
+DEFINE FIELD user              ON favorite TYPE record<user>         VALUE $auth.id;
 DEFINE FIELD target_id         ON favorite TYPE string;
 DEFINE FIELD target_type       ON favorite TYPE string               DEFAULT 'store'
   ASSERT $value IN ['store', 'person'];

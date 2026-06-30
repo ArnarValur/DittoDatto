@@ -1,11 +1,11 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-30 22:06
-**Session Focus:** Discovery Layer Phase 1 — package scaffold, models, sync, BP wiring, deploy + verify
+**Last Updated:** 2026-06-30 23:40
+**Session Focus:** Discovery Layer Phases 2 + 4 — Home screen, DittoBar, SurrealDB native features, two-phase detail load
 
 ## 🚀 Active Tracks
 
-- **Discovery Layer** (`discovery_layer_20260630`) — **Phase 1 complete. Deployed to Saturn.** BP publish sync writes to `companies/discovery` on save. 24 package + 5 integration tests. Remaining phases: (2) Home Screen + DittoBar, (3) Areas + Geo, (4) Two-Phase Detail Load, (5) Verify + Deploy.
+- **Discovery Layer** (`discovery_layer_20260630`) — **Phases 1-2 + 4 complete.** Home screen with DittoBar BM25 search, category chips, EstablishmentListingCard deployed to phone. Two-phase detail load via NS VIEWER + `fn::get_storefront()` live. Remaining: Phase 3 (deferred), Phase 5 (E2E verification).
 - **Booking Flow UI** (`booking_flow_ui_20260630`) — **Phases 1–4 complete. Deployed to phone.** All 5 steps built: service selection (real data), staff (mock), date/time (mock calendar + slots), review (summary + MVA), payment placeholder. 18 unit tests. Remaining: visual polish, ME availability wiring.
 - **Favorites Toggle** (`favorites_toggle_20260630`) — **Phases 1–3 functional.** Toggle works on phone. Remaining: widget tests, `pendingFavorite` login-return flow, merge to develop.
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
@@ -16,6 +16,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-30 23:40** — **Discovery Layer Phases 2 + 4 complete.** Built Marketplace Home (DittoBar BM25, category chips, EstablishmentListingCard). Discovered SurrealDB NS-level VIEWER pattern — eliminated per-DB user provisioning. Built `fn::get_storefront()` server-side function + `DEFINE API "/establishment"`. Replaced 371-line debug pipe with ~50-line `StorefrontService`. Deployed to Galaxy S21 — House of the North loads from card tap.
 - **2026-06-30 22:06** — **Discovery Layer Phase 1 complete + deployed.** Created `packages/discovery_service/` (models, DiscoveryRepository, ListingSyncService). Wired BP publish sync into establishment edit view. Fixed 3 bugs during deploy verification: fire-and-forget auth (→ connect-use-close), `type::thing` → `type::record`, `source_id` record ref coercion (`<string>` cast). 24 package unit tests + 5 integration tests (real SurrealDB). Deployed 3× to Saturn, final verification: listing record visible in Surrealist.
 - **2026-06-30 20:33** — **Discovery Layer grilled + track created.** Full architecture interview: BP direct-write sync (ADR-0024), two-phase load (ADR-0025), `discovery_service` shared package (ADR-0026). 5 glossary terms added. 5-phase track spec + plan written. New `discovery` domain (🔴) registered.
 - **2026-06-30 19:32** — **Booking Flow UI deployed to phone.** Built complete `booking_ui` shared package (5 steps, BookingState model, BookingStepIndicator, BookingFlowPage shell). Wired `onBookTapped` callback through EstablishmentPage → EstablishmentInfoBar. Added `/booking` route to Marketplace router. 18 unit tests for BookingState + MockTimeSlot. User confirmed: "Looks very good... clean, clear and easy to navigate!"
@@ -33,6 +34,29 @@
 None.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-30 23:40 — Discovery Layer Phase 2 + 4 (Home + Detail Load)
+
+- **Phase 2 built:** Marketplace Home screen with DittoBar (BM25 full-text, 400ms debounce), category chip row ("Alle" + dynamic from discovery DB), EstablishmentListingCard (cover/logo, rating stars, city). Empty/error states. Shimmer loading. All wired via Riverpod providers + `DiscoveryRepository`.
+- **Phase 3 deferred:** Lean skip — city filter exists, full area hierarchy postponed until listing density justifies it.
+- **Phase 4 — SurrealDB native feature discovery:**
+  - Consulted Sidekick with 5 questions about SDB capabilities.
+  - **Key finding:** `DEFINE USER marketplace_reader ON NAMESPACE ROLES VIEWER` — one user covers ALL company DBs. No per-DB provisioning.
+  - Added `fn::get_storefront()` to company-blueprint.surql — every company DB gets it.
+  - Added `DEFINE API "/establishment"` as HTTP endpoint (bonus, NS auth doesn't work with it yet in SDB 3.1.2).
+  - Built `StorefrontService`: WS connect → signin(NS) → use(company DB) → fn::get_storefront() → close.
+- **Gotchas found:**
+  1. SurrealQL `--multi` flag treats `;` inside function blocks as statement terminators.
+  2. `DEFINE API` endpoints return 401 for NS-level users (SDB 3.1.2). Root works. Fell back to WS.
+  3. Dart SDK `signin(database:)` looks for DB-level user. For NS users: omit `database`, then `use(ns, db)`.
+  4. API response body must be string/bytes — use `encoding::json::encode()`.
+- **Files changed:**
+  - Schema: `company-blueprint.surql` (+fn +API), `init.surql` (+NS user), `test-db-seed.sh` (+NS user)
+  - Marketplace: `storefront_service.dart` (NEW), `establishment_detail_screen.dart` (NEW), router updated, home card tap wired
+  - Deleted: `establishment_debug_service.dart`, `establishment_providers.dart`, `establishment_test_screen.dart` (371 lines)
+- **Tests:** 0 analysis errors, 40/40 widget tests pass. WS E2E verified on Saturn.
+- **Deploy:** APK to Galaxy S21. House of the North loads from card tap ✅
+- **Auth layer note:** NS VIEWER pattern may simplify auth track. Document for reconciliation.
 
 ### Session 2026-06-30 22:06 — Discovery Layer Phase 1 Implementation
 
@@ -88,9 +112,9 @@ None.
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Discovery Layer Phase 2** — Marketplace Home Screen + DittoBar search. Wire `DiscoveryRepository` into Marketplace, build EstablishmentListingCard, category chips, BM25 search.
-2. 🔴 **BP Bookings Backend** — Build BP tab to receive/view bookings after ME processes them. Critical path for E2E booking flow.
-3. 🟡 **MercuryEngine Availability Wiring** — Replace mock time slots with real ME availability. Unblocks real booking creation.
-4. 🟡 **Favorites Toggle polish** — Widget tests, `pendingFavorite` flow, merge to develop.
-5. 🟡 **DittoBar Intelligence grill** — SearchEvent logging, keyword extraction, `predict.dittodatto.no` dashboard concept.
-6. 🟡 **Light theme polish** — User said light theme is "sterile."
+1. 🔴 **Discovery Layer Phase 5** — E2E verification: Admin creates company → BP publishes → listing appears → tap → detail loads → book. Multi-tenant test with 2nd company.
+2. 🔴 **Auth Layer Reconciliation** — Reconcile NS VIEWER `marketplace_reader` pattern with auth service track. May simplify credential management.
+3. 🟡 **BP Bookings Backend** — Build BP tab to receive/view bookings after ME processes them.
+4. 🟡 **MercuryEngine Availability Wiring** — Replace mock time slots with real ME availability.
+5. 🟡 **Favorites Toggle polish** — Widget tests, `pendingFavorite` flow, merge to develop.
+6. 🟡 **DittoBar Intelligence grill** — SearchEvent logging, keyword extraction, `predict.dittodatto.no` dashboard concept.

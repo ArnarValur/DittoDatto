@@ -70,6 +70,16 @@ USE NS companies DB discovery;
 DEFINE USER IF NOT EXISTS $BP_PORTAL_USER ON DATABASE PASSWORD '$BP_PORTAL_PASS' ROLES EDITOR;
 SQL
 
+# ─── NS-level marketplace reader (ADR-0025) ──────────────────────────────────
+# Single VIEWER user on the companies namespace — can SELECT from any company DB
+# and discovery DB. No per-DB user provisioning needed.
+MARKETPLACE_READER_PASS="${MARKETPLACE_READER_PASS:-marketplace-reader-pass}"
+echo "🔑 Creating marketplace_reader on companies namespace (VIEWER)..."
+$SURREAL_CMD <<SQL
+USE NS companies;
+DEFINE USER IF NOT EXISTS marketplace_reader ON NAMESPACE PASSWORD '$MARKETPLACE_READER_PASS' ROLES VIEWER;
+SQL
+
 # ─── NS-level user for users namespace (needed for RECORD ACCESS to work) ────
 # The seed script connects as root, but the RECORD ACCESS bp_auth definition
 # handles user authentication. We still need an NS user for the admin panel

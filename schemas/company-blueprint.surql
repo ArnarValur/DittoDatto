@@ -180,11 +180,11 @@ DEFINE FIELD cover_image       ON service TYPE option<string>;
 DEFINE FIELD gallery           ON service TYPE option<array<string>>;
 
 -- Taxonomy
-DEFINE FIELD service_type      ON service TYPE array<string>;
+DEFINE FIELD service_type      ON service TYPE array<string>         DEFAULT [];
 DEFINE FIELD subcategory       ON service TYPE option<string>;
 
 -- AI / Discovery
-DEFINE FIELD keywords          ON service TYPE array<string>;
+DEFINE FIELD keywords          ON service TYPE array<string>         DEFAULT [];
 DEFINE FIELD ai_description    ON service TYPE option<string>;
 DEFINE FIELD embedding         ON service TYPE option<array<float>>;
 
@@ -567,6 +567,45 @@ DEFINE TABLE relates_to SCHEMAFULL TYPE RELATION FROM entity TO entity;
 DEFINE FIELD relation_type     ON relates_to TYPE string;
 DEFINE FIELD weight            ON relates_to TYPE number             DEFAULT 1.0;
 DEFINE FIELD created_at        ON relates_to TYPE datetime           VALUE $value OR time::now();
+
+-- =============================================================================
+-- 8. MARKETPLACE STOREFRONT (ADR-0025 — Two-Phase Detail Load)
+-- =============================================================================
+-- Server-side query bundle for the Public Marketplace.
+-- Primary: Marketplace connects via WS, calls fn::get_storefront() directly.
+-- Bonus:   HTTP API at GET /api/companies/company_{slug}/establishment.
+-- Auth:    Namespace-level VIEWER user (marketplace_reader) — no per-DB users.
+
+-- ── Function: bundled read query ──────────────────────────────────────────────
+
+DEFINE FUNCTION fn::get_storefront() {
+    LET $est = SELECT * FROM establishment
+        WHERE is_published = true
+        LIMIT 1
+    ;
+    LET $svc = SELECT * FROM service
+        WHERE is_active = true AND deleted_at IS NONE
+        ORDER BY title
+    ;
+    LET $grp = SELECT * FROM service_group
+        WHERE deleted_at IS NONE
+        ORDER BY sort_order
+    ;
+    RETURN {
+        establishment: $est[0],
+        services: $svc,
+        service_groups: $grp
+    }
+};
+
+-- ── HTTP API endpoint ─────────────────────────────────────────────────────────
+
+DEFINE API "/establishment" FOR get THEN {
+    RETURN {
+        status: 200,
+        body: fn::get_storefront()
+    }
+};
 
 -- =============================================================================
 -- END OF COMPANY BLUEPRINT

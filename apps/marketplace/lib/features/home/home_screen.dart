@@ -168,9 +168,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _onListingTap(EstablishmentListing listing) {
-    // Phase 4 will replace this with two-phase detail load.
-    // For now, navigate to the debug establishment-test route.
-    context.push('/establishment-test');
+    context.push('/establishment/${listing.companySlug}/${listing.slug}');
   }
 }
 

@@ -7,25 +7,40 @@ import 'package:mercury_client/mercury_client.dart';
 import '../../core/auth_provider.dart';
 import '../../core/theme_provider.dart';
 import '../favorites/favorite_providers.dart';
-import 'establishment_providers.dart';
+import 'storefront_service.dart';
 
-/// Test screen wired to **real DB data** from House of the North.
+/// Provider that fetches full establishment detail via the SurrealDB HTTP API.
 ///
-/// Fetches live data via [establishmentDebugProvider]. The provider is
-/// `autoDispose` — navigating away closes the WebSocket, navigating back
-/// triggers a fresh fetch. So BP edits show up immediately.
-///
-/// Temporary — will be replaced by a proper discovery-driven route.
-class EstablishmentTestScreen extends ConsumerWidget {
-  const EstablishmentTestScreen({super.key});
+/// Keyed by `companySlug` — each company slug gets its own auto-disposed fetch.
+final establishmentDetailProvider = FutureProvider.autoDispose
+    .family<EstablishmentData, String>((ref, companySlug) async {
+  final service = StorefrontService();
+  return service.fetch(companySlug);
+});
 
-  /// The target ID used for favorites. Uses the establishment slug
-  /// (not full record ID) to avoid SurrealDB record-link coercion.
-  static const _targetId = 'house-of-the-north';
+/// Full establishment detail screen — driven by discovery layer.
+///
+/// Route: `/establishment/:companySlug/:slug`
+/// Fetches full data (establishment + services + service groups) from the
+/// company database via the `/establishment` HTTP API endpoint.
+///
+/// Replaces the old `EstablishmentTestScreen` (debug pipe).
+class EstablishmentDetailScreen extends ConsumerWidget {
+  const EstablishmentDetailScreen({
+    required this.companySlug,
+    required this.slug,
+    super.key,
+  });
+
+  /// Company slug (e.g. `dittodatto-as`). Used to call the correct company DB.
+  final String companySlug;
+
+  /// Establishment slug (e.g. `house-of-the-north`). Used as favorite target ID.
+  final String slug;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncData = ref.watch(establishmentDebugProvider);
+    final asyncData = ref.watch(establishmentDetailProvider(companySlug));
     final authState = ref.watch(authProvider);
     final isAuthenticated = switch (authState) {
       AsyncData(:final value) => value is Authenticated,
@@ -34,7 +49,7 @@ class EstablishmentTestScreen extends ConsumerWidget {
 
     // Only check favorite state when authenticated.
     final isFavorited = isAuthenticated
-        ? ref.watch(isFavoritedProvider(_targetId))
+        ? ref.watch(isFavoritedProvider(slug))
         : const AsyncData(false);
     final isFav = switch (isFavorited) {
       AsyncData(:final value) => value,
@@ -46,7 +61,7 @@ class EstablishmentTestScreen extends ConsumerWidget {
         body: Center(child: CircularProgressIndicator()),
       ),
       error: (error, stack) => Scaffold(
-        appBar: AppBar(title: const Text('Establishment Test')),
+        appBar: AppBar(title: const Text('Etablering')),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -71,8 +86,9 @@ class EstablishmentTestScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 24),
                 FilledButton.icon(
-                  onPressed: () =>
-                      ref.invalidate(establishmentDebugProvider),
+                  onPressed: () => ref.invalidate(
+                    establishmentDetailProvider(companySlug),
+                  ),
                   icon: const Icon(Icons.refresh),
                   label: const Text('Prøv igjen'),
                 ),
@@ -84,7 +100,8 @@ class EstablishmentTestScreen extends ConsumerWidget {
       data: (data) => EstablishmentPage(
         data: data,
         onBack: () => context.pop(),
-        onRefresh: () => ref.invalidate(establishmentDebugProvider),
+        onRefresh: () =>
+            ref.invalidate(establishmentDetailProvider(companySlug)),
         onThemeToggle: () => ref.read(isDarkModeProvider.notifier).toggle(),
         isDarkMode: ref.watch(isDarkModeProvider),
         isFavorited: isFav,
@@ -101,25 +118,22 @@ class EstablishmentTestScreen extends ConsumerWidget {
     };
 
     if (authState is! Authenticated) {
-      // Not logged in → navigate to login.
       context.go('/profile/login');
       return;
     }
 
-    // Authenticated → toggle favorite.
-    ref
-        .read(toggleFavoriteProvider.notifier)
-        .toggle(_targetId)
-        .catchError((Object e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Kunne ikke lagre favoritt: $e'),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-      return false;
-    });
+    ref.read(toggleFavoriteProvider.notifier).toggle(slug).catchError(
+      (Object e) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Kunne ikke lagre favoritt: $e'),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+        return false;
+      },
+    );
   }
 }

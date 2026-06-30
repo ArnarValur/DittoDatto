@@ -5,6 +5,7 @@ import 'package:mercury_client/mercury_client.dart';
 
 import '../../core/auth_provider.dart';
 import '../../core/theme_provider.dart';
+import '../favorites/favorite_providers.dart';
 
 /// Consumer profile screen — "Hei, {name}" + current date + sign out.
 class ProfileScreen extends ConsumerWidget {
@@ -107,6 +108,11 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
 
+                  const SizedBox(height: 32),
+
+                  // ── Favorites sticker ──────────────────────────
+                  _FavoritesSticker(),
+
                   const Spacer(),
 
                   // Sign out button.
@@ -144,3 +150,83 @@ class ProfileScreen extends ConsumerWidget {
     return '${parts.first[0]}${parts.last[0]}'.toUpperCase();
   }
 }
+
+/// Favorites sticker card for the profile page.
+///
+/// Shows heart icon + favorite count + "Lagrede steder" subtitle.
+/// Tapping is a no-op — full favorites list deferred to profile grill.
+class _FavoritesSticker extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final asyncCount = ref.watch(favoritesCountProvider);
+    final count = switch (asyncCount) {
+      AsyncData(:final value) => value,
+      _ => 0,
+    };
+
+    return Card(
+      elevation: 0,
+      color: colorScheme.surfaceContainerLow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+        ),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        // Stickered — no-op for now. Full list in profile grill.
+        onTap: () {},
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: colorScheme.error.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.favorite_rounded,
+                  color: colorScheme.error,
+                  size: 22,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Mine favoritter',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      count == 0
+                          ? 'Ingen lagrede steder ennå'
+                          : '$count lagrede steder',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
