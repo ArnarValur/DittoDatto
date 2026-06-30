@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:marketplace/core/auth_provider.dart';
 import 'package:marketplace/core/router.dart';
+import 'package:marketplace/features/home/discovery_providers.dart';
 import 'package:mercury_client/mercury_client.dart';
 import 'package:go_router/go_router.dart';
 
@@ -41,6 +42,9 @@ Widget _buildTestApp({required AuthState initialState}) {
   return ProviderScope(
     overrides: [
       authProvider.overrideWith(() => _MockAuthNotifier(initialState)),
+      // Provide empty discovery data so HomeScreen renders without WS.
+      listingsProvider.overrideWith((ref) async => []),
+      categoriesProvider.overrideWith((ref) async => []),
     ],
     child: Consumer(
       builder: (context, ref, _) {
@@ -69,8 +73,9 @@ void main() {
           .pumpWidget(_buildTestApp(initialState: const Unauthenticated()));
       await tester.pumpAndSettle();
 
+      // HomeScreen now shows discovery content — empty state when no listings.
       expect(
-          find.text('DittoBar og oppdagelse kommer snart'), findsOneWidget);
+          find.text('Ingen virksomheter funnet'), findsOneWidget);
     });
 
     testWidgets('unauthenticated at /bookings → sees BookingsScreen',

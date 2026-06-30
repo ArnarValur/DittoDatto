@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   booking_ui:
     path: ../../packages/booking_ui
+  discovery_service:
+    path: ../../packages/discovery_service
   ditto_auth:
     path: ../../packages/ditto_auth
   ditto_design:
