@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "producer": {
     "name": "saropa_lints",
-    "version": "14.2.4"
+    "version": "14.3.0"
   },
-  "generatedAt": "2026-06-27T03:52:05.286Z",
+  "generatedAt": "2026-06-30T21:53:33.692Z",
   "diagnostics": [
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:77",
@@ -28,7 +28,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:104",
@@ -52,7 +52,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:126",
@@ -76,7 +76,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:148",
@@ -100,7 +100,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     },
     {
       "id": "lints:prefer_const_constructors:apps/business-portal/test/integration/establishment_crud_test.dart:181",
@@ -124,7 +124,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     },
     {
       "id": "lints:todo:apps/admin/bin/sync_users.dart:10",
@@ -148,7 +148,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     },
     {
       "id": "lints:unnecessary_import:apps/admin/test/companies_form_test.dart:1",
@@ -172,7 +172,7 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     },
     {
       "id": "lints:todo:apps/admin/lib/core/providers.dart:18",
@@ -196,10 +196,10 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     },
     {
-      "id": "lints:unused_local_variable:apps/admin/lib/core/surreal_admin_repository.dart:502",
+      "id": "lints:unused_local_variable:apps/admin/lib/core/surreal_admin_repository.dart:508",
       "source": "lints",
       "severity": "warning",
       "category": "other",
@@ -207,7 +207,7 @@
       "ruleId": "unused_local_variable",
       "location": {
         "file": "apps/admin/lib/core/surreal_admin_repository.dart",
-        "line": 502
+        "line": 508
       },
       "fix": {
         "kind": "command",
@@ -220,7 +220,1495 @@
         ]
       },
       "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
-      "commitSha": "b64faa022e7d2c7b0804c48804123699fbd76b49"
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:dangling_library_doc_comments:packages/establishment_ui/lib/src/models/format_helpers.dart:1",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Dangling library doc comment.\nAdd a 'library' directive after the library comment.",
+      "ruleId": "dangling_library_doc_comments",
+      "location": {
+        "file": "packages/establishment_ui/lib/src/models/format_helpers.dart",
+        "line": 1
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "dangling_library_doc_comments"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:todo:packages/establishment_ui/lib/src/models/establishment_data.dart:142",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "TODO: Derive from opening_schedule when schedule parsing is implemented.",
+      "ruleId": "todo",
+      "location": {
+        "file": "packages/establishment_ui/lib/src/models/establishment_data.dart",
+        "line": 142
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "todo"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:todo:packages/establishment_ui/lib/src/models/establishment_data.dart:146",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "TODO: Derive from opening_schedule when schedule parsing is implemented.",
+      "ruleId": "todo",
+      "location": {
+        "file": "packages/establishment_ui/lib/src/models/establishment_data.dart",
+        "line": 146
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "todo"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:todo:packages/establishment_ui/lib/src/services/kartverket_service.dart:9",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "TODO: Norway-only for now. Explore Swedish address support in the near",
+      "ruleId": "todo",
+      "location": {
+        "file": "packages/establishment_ui/lib/src/services/kartverket_service.dart",
+        "line": 9
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "todo"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:todo:packages/establishment_ui/lib/src/sections/establishment_events_section.dart:4",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "TODO: Render upcoming events/tickets from establishment data",
+      "ruleId": "todo",
+      "location": {
+        "file": "packages/establishment_ui/lib/src/sections/establishment_events_section.dart",
+        "line": 4
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "todo"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:todo:packages/establishment_ui/lib/src/sections/establishment_action_buttons.dart:49",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "TODO: Wire to booking/favorites flow",
+      "ruleId": "todo",
+      "location": {
+        "file": "packages/establishment_ui/lib/src/sections/establishment_action_buttons.dart",
+        "line": 49
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "todo"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:107",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 107
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:115",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 115
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:121",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 121
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:130",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 130
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:141",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 141
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:147",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 147
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:156",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 156
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:166",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 166
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:176",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 176
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:191",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 191
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:214",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 214
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:308",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 308
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:327",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 327
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:345",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 345
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:363",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 363
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:380",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 380
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:397",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 397
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/establishment_ui/test/services_section_test.dart:417",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/establishment_ui/test/services_section_test.dart",
+        "line": 417
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:unnecessary_underscores:apps/business-portal/lib/features/establishments/establishment_edit_view.dart:488",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Unnecessary use of multiple underscores.\nTry using '_'.",
+      "ruleId": "unnecessary_underscores",
+      "location": {
+        "file": "apps/business-portal/lib/features/establishments/establishment_edit_view.dart",
+        "line": 488
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "unnecessary_underscores"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:33",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 33
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:39",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 39
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:44",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 44
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:51",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 51
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:53",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 53
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:59",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 59
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:61",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 61
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:65",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 65
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:67",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 67
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:72",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 72
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:75",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 75
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:80",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 80
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:avoid_print:apps/marketplace/test/integration/favorite_e2e_test.dart:83",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Don't invoke 'print' in production code.\nTry using a logging framework.",
+      "ruleId": "avoid_print",
+      "location": {
+        "file": "apps/marketplace/test/integration/favorite_e2e_test.dart",
+        "line": 83
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "avoid_print"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:deprecated_member_use:packages/booking_ui/lib/src/steps/service_selection_step.dart:269",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre.\nTry replacing the use of the deprecated member with the replacement.",
+      "ruleId": "deprecated_member_use",
+      "location": {
+        "file": "packages/booking_ui/lib/src/steps/service_selection_step.dart",
+        "line": 269
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "deprecated_member_use"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:deprecated_member_use:packages/booking_ui/lib/src/steps/service_selection_step.dart:270",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre.\nTry replacing the use of the deprecated member with the replacement.",
+      "ruleId": "deprecated_member_use",
+      "location": {
+        "file": "packages/booking_ui/lib/src/steps/service_selection_step.dart",
+        "line": 270
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "deprecated_member_use"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:unnecessary_underscores:packages/booking_ui/lib/src/steps/service_selection_step.dart:201",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Unnecessary use of multiple underscores.\nTry using '_'.",
+      "ruleId": "unnecessary_underscores",
+      "location": {
+        "file": "packages/booking_ui/lib/src/steps/service_selection_step.dart",
+        "line": 201
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "unnecessary_underscores"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:unnecessary_underscores:packages/booking_ui/lib/src/steps/service_selection_step.dart:201",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Unnecessary use of multiple underscores.\nTry using '_'.",
+      "ruleId": "unnecessary_underscores",
+      "location": {
+        "file": "packages/booking_ui/lib/src/steps/service_selection_step.dart",
+        "line": 201
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "unnecessary_underscores"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:deprecated_member_use:packages/booking_ui/lib/src/steps/staff_selection_step.dart:157",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre.\nTry replacing the use of the deprecated member with the replacement.",
+      "ruleId": "deprecated_member_use",
+      "location": {
+        "file": "packages/booking_ui/lib/src/steps/staff_selection_step.dart",
+        "line": 157
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "deprecated_member_use"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:deprecated_member_use:packages/booking_ui/lib/src/steps/staff_selection_step.dart:158",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre.\nTry replacing the use of the deprecated member with the replacement.",
+      "ruleId": "deprecated_member_use",
+      "location": {
+        "file": "packages/booking_ui/lib/src/steps/staff_selection_step.dart",
+        "line": 158
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "deprecated_member_use"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:deprecated_member_use:packages/booking_ui/lib/src/steps/staff_selection_step.dart:274",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre.\nTry replacing the use of the deprecated member with the replacement.",
+      "ruleId": "deprecated_member_use",
+      "location": {
+        "file": "packages/booking_ui/lib/src/steps/staff_selection_step.dart",
+        "line": 274
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "deprecated_member_use"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:deprecated_member_use:packages/booking_ui/lib/src/steps/staff_selection_step.dart:275",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre.\nTry replacing the use of the deprecated member with the replacement.",
+      "ruleId": "deprecated_member_use",
+      "location": {
+        "file": "packages/booking_ui/lib/src/steps/staff_selection_step.dart",
+        "line": 275
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "deprecated_member_use"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/establishment_listing_test.dart:88",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/establishment_listing_test.dart",
+        "line": 88
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/establishment_listing_test.dart:122",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/establishment_listing_test.dart",
+        "line": 122
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/establishment_listing_test.dart:137",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/establishment_listing_test.dart",
+        "line": 137
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/establishment_listing_test.dart:147",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/establishment_listing_test.dart",
+        "line": 147
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/establishment_listing_test.dart:161",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/establishment_listing_test.dart",
+        "line": 161
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/establishment_listing_test.dart:199",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/establishment_listing_test.dart",
+        "line": 199
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/establishment_listing_test.dart:204",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/establishment_listing_test.dart",
+        "line": 204
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/establishment_listing_test.dart:205",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/establishment_listing_test.dart",
+        "line": 205
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/discovery_models_test.dart:39",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/discovery_models_test.dart",
+        "line": 39
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/discovery_models_test.dart:48",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/discovery_models_test.dart",
+        "line": 48
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/discovery_models_test.dart:49",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/discovery_models_test.dart",
+        "line": 49
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/discovery_models_test.dart:90",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/discovery_models_test.dart",
+        "line": 90
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/discovery_models_test.dart:100",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/discovery_models_test.dart",
+        "line": 100
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/discovery_models_test.dart:114",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/discovery_models_test.dart",
+        "line": 114
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/discovery_models_test.dart:119",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/discovery_models_test.dart",
+        "line": 119
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
+    },
+    {
+      "id": "lints:prefer_const_constructors:packages/discovery_service/test/models/discovery_models_test.dart:120",
+      "source": "lints",
+      "severity": "info",
+      "category": "other",
+      "title": "Use 'const' with the constructor to improve performance.\nTry adding the 'const' keyword to the constructor invocation.",
+      "ruleId": "prefer_const_constructors",
+      "location": {
+        "file": "packages/discovery_service/test/models/discovery_models_test.dart",
+        "line": 120
+      },
+      "fix": {
+        "kind": "command",
+        "title": "Explain this rule",
+        "command": "saropaLints.explainRule",
+        "args": [
+          {
+            "ruleId": "prefer_const_constructors"
+          }
+        ]
+      },
+      "docUri": "https://github.com/saropa/saropa_lints/blob/main/ROADMAP.md",
+      "commitSha": "eb0233d9820445efb0cc596bc88940ab8c0e34af"
     }
   ]
 }

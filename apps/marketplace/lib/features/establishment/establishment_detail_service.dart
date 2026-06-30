@@ -3,13 +3,13 @@ import 'package:establishment_ui/establishment_ui.dart';
 import 'package:surrealdb/surrealdb.dart';
 
 /// Fetches full establishment detail from a company database via SurrealDB
-/// WebSocket + server-side `fn::get_storefront()` function.
+/// WebSocket + server-side `fn::get_establishment_detail()` function.
 ///
 /// Uses the namespace-level `marketplace_reader` VIEWER user (ADR-0025).
 /// No per-DB user provisioning needed — one credential covers all company DBs.
 ///
-/// Flow: connect → signin(NS user) → use(company DB) → fn::get_storefront() → close
-class StorefrontService {
+/// Flow: connect → signin(NS user) → use(company DB) → fn::get_establishment_detail() → close
+class EstablishmentDetailService {
   static const _surrealUrl = String.fromEnvironment('SURREAL_URL');
   static const _user = 'marketplace_reader';
   static const _pass = String.fromEnvironment(
@@ -18,7 +18,7 @@ class StorefrontService {
   );
 
   /// Fetch full [EstablishmentData] (establishment + services + service groups)
-  /// from `company_{companySlug}` via `fn::get_storefront()`.
+  /// from `company_{companySlug}` via `fn::get_establishment_detail()`.
   ///
   /// Opens a short-lived WS connection, queries, closes. No persistent state.
   Future<EstablishmentData> fetch(String companySlug) async {
@@ -41,7 +41,7 @@ class StorefrontService {
       await db.use('companies', 'company_$companySlug');
 
       // Call the server-side function — all query logic is in the DB.
-      final result = await db.query('RETURN fn::get_storefront()');
+      final result = await db.query('RETURN fn::get_establishment_detail()');
 
       return _mapResponse(result);
     } finally {
@@ -51,7 +51,7 @@ class StorefrontService {
 
   // ── Response mapping ─────────────────────────────────────────────────────
 
-  /// Map the fn::get_storefront() result → [EstablishmentData].
+  /// Map the fn::get_establishment_detail() result → [EstablishmentData].
   ///
   /// Expected shape:
   /// ```json
@@ -67,17 +67,17 @@ class StorefrontService {
       } else if (first is Map) {
         payload = Map<String, dynamic>.from(first);
       } else {
-        throw StorefrontException('Unexpected result format: $first');
+        throw EstablishmentDetailException('Unexpected result format: $first');
       }
     } else if (result is Map) {
       payload = Map<String, dynamic>.from(result);
     } else {
-      throw StorefrontException('Unexpected result type: ${result.runtimeType}');
+      throw EstablishmentDetailException('Unexpected result type: ${result.runtimeType}');
     }
 
     final estJson = payload['establishment'] as Map<String, dynamic>?;
     if (estJson == null) {
-      throw StorefrontException('No published establishment found');
+      throw EstablishmentDetailException('No published establishment found');
     }
 
     final images = estJson['images'] as Map<String, dynamic>? ?? {};
@@ -152,11 +152,11 @@ class StorefrontService {
   }
 }
 
-/// Exception thrown when a storefront fetch fails.
-class StorefrontException implements Exception {
-  StorefrontException(this.message);
+/// Exception thrown when an establishment detail fetch fails.
+class EstablishmentDetailException implements Exception {
+  EstablishmentDetailException(this.message);
   final String message;
 
   @override
-  String toString() => 'StorefrontException: $message';
+  String toString() => 'EstablishmentDetailException: $message';
 }

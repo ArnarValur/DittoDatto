@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'service.dart';
+import 'service_group.dart';
+
 /// Business type classification for establishments.
 ///
 /// Shared enum used by both Business Portal and Public Marketplace.
@@ -77,6 +80,8 @@ class EstablishmentData {
     this.isOpen,
     this.latitude,
     this.longitude,
+    this.serviceGroups = const [],
+    this.services = const [],
   });
 
   /// Establishment display name.
@@ -145,6 +150,12 @@ class EstablishmentData {
   /// GeoJSON format: `{ type: "Point", coordinates: [lng, lat] }`.
   final double? latitude;
 
+  /// Service groups for this establishment, sorted by [ServiceGroup.sortOrder].
+  final List<ServiceGroup> serviceGroups;
+
+  /// Services offered by this establishment.
+  final List<Service> services;
+
   /// Longitude from SurrealDB `location` `geometry<point>`.
   final double? longitude;
 
@@ -188,6 +199,8 @@ class EstablishmentData {
     bool? isOpen,
     double? latitude,
     double? longitude,
+    List<ServiceGroup>? serviceGroups,
+    List<Service>? services,
   }) {
     return EstablishmentData(
       name: name ?? this.name,
@@ -213,6 +226,8 @@ class EstablishmentData {
       isOpen: isOpen ?? this.isOpen,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
+      serviceGroups: serviceGroups ?? this.serviceGroups,
+      services: services ?? this.services,
     );
   }
 
@@ -221,10 +236,18 @@ class EstablishmentData {
     if (identical(this, other)) return true;
     if (other is! EstablishmentData) return false;
     if (runtimeType != other.runtimeType) return false;
-    // Deep-compare galleryUrls list
+    // Deep-compare lists
     if (galleryUrls.length != other.galleryUrls.length) return false;
     for (var i = 0; i < galleryUrls.length; i++) {
       if (galleryUrls[i] != other.galleryUrls[i]) return false;
+    }
+    if (serviceGroups.length != other.serviceGroups.length) return false;
+    for (var i = 0; i < serviceGroups.length; i++) {
+      if (serviceGroups[i] != other.serviceGroups[i]) return false;
+    }
+    if (services.length != other.services.length) return false;
+    for (var i = 0; i < services.length; i++) {
+      if (services[i] != other.services[i]) return false;
     }
     return name == other.name &&
         businessType == other.businessType &&
@@ -247,7 +270,8 @@ class EstablishmentData {
         openingStatus == other.openingStatus &&
         isOpen == other.isOpen &&
         latitude == other.latitude &&
-        longitude == other.longitude;
+        longitude == other.longitude &&
+        true; // serviceGroups + services compared above via deep-compare
   }
 
   @override
@@ -272,6 +296,13 @@ class EstablishmentData {
         showEvents,
         showStaff,
         // Object.hash supports up to 20 positional args; nest remaining.
-        Object.hash(openingStatus, isOpen, latitude, longitude),
+        Object.hash(
+          openingStatus,
+          isOpen,
+          latitude,
+          longitude,
+          Object.hashAll(serviceGroups),
+          Object.hashAll(services),
+        ),
       );
 }

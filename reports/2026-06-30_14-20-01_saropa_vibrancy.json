@@ -1,0 +1,37 @@
+{
+  "audit_metadata": {
+    "timestamp": "2026-06-30T12:20:01.584Z",
+    "flutter_version": "3.44.0",
+    "dart_version": "3.12.0",
+    "total_packages_scanned": 1,
+    "execution_time_ms": 4576
+  },
+  "summary": {
+    "total": 1,
+    "vibrant": 0,
+    "stable": 1,
+    "outdated": 0,
+    "abandoned": 0,
+    "end_of_life": 0
+  },
+  "packages": [
+    {
+      "name": "saropa_lints",
+      "installed_version": "13.12.2",
+      "latest_version": "14.3.0",
+      "status": "Stable",
+      "vibrancy_score": 55.1,
+      "pub_points": 130,
+      "stars": 8,
+      "is_discontinued": false,
+      "is_unlisted": false,
+      "pub_dev_url": "https://pub.dev/packages/saropa_lints",
+      "repository_url": "https://github.com/saropa/saropa_lints",
+      "license": "MIT",
+      "archive_size_bytes": 8798987,
+      "bloat_rating": 10,
+      "file_usage_count": 0,
+      "file_usages": []
+    }
+  ]
+}

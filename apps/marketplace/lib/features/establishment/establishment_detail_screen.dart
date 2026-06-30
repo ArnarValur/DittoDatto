@@ -7,14 +7,14 @@ import 'package:mercury_client/mercury_client.dart';
 import '../../core/auth_provider.dart';
 import '../../core/theme_provider.dart';
 import '../favorites/favorite_providers.dart';
-import 'storefront_service.dart';
+import 'establishment_detail_service.dart';
 
 /// Provider that fetches full establishment detail via the SurrealDB HTTP API.
 ///
 /// Keyed by `companySlug` — each company slug gets its own auto-disposed fetch.
 final establishmentDetailProvider = FutureProvider.autoDispose
     .family<EstablishmentData, String>((ref, companySlug) async {
-  final service = StorefrontService();
+  final service = EstablishmentDetailService();
   return service.fetch(companySlug);
 });
 

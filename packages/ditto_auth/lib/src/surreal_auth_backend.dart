@@ -54,7 +54,7 @@ class SurrealAuthBackend implements AuthBackend {
 
       // Query the authenticated user's profile.
       final profileResult = await usersDb.query(
-        r'SELECT name, role, company_slug FROM $auth',
+        r'SELECT name, role, company_slug, company_name FROM $auth',
       );
 
       final profile = extractFirstRow(profileResult);

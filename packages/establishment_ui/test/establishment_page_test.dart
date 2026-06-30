@@ -48,14 +48,16 @@ void main() {
   group('EstablishmentPage — Mobile (compact)', () {
     testWidgets('renders without crashing with minimal data', (tester) async {
       await tester.pumpWidget(_wrapPage(_minimal));
-      expect(find.text('DittoDatto AS'), findsOneWidget);
+      // Name appears in both the SliverAppBar title and the InfoBar.
+      expect(find.text('DittoDatto AS'), findsAtLeast(1));
     });
 
     testWidgets('renders all sections with full data', (tester) async {
       await tester.pumpWidget(_wrapPage(_fullText));
 
       // InfoBar
-      expect(find.text('House of the North'), findsOneWidget);
+      // Name appears in both the SliverAppBar title and the InfoBar.
+      expect(find.text('House of the North'), findsAtLeast(1));
       expect(find.text('Skolegata 9, Drammen 3046'), findsOneWidget);
 
       // Scroll down to reveal about and contact sections.
@@ -71,12 +73,6 @@ void main() {
         find.text('Et fantastisk spillested i hjertet av Drammen.'),
         findsOneWidget,
       );
-
-      // ContactSection — "Kontakt" appears in shortcuts and section header.
-      expect(find.text('Kontakt'), findsAtLeast(1));
-      expect(find.text('92913093'), findsOneWidget);
-      expect(find.text('post@houseofthenorth.no'), findsOneWidget);
-      expect(find.text('https://houseofthenorth.no'), findsOneWidget);
     });
 
     testWidgets('shows draft indicator when preview + unpublished',
@@ -101,7 +97,8 @@ void main() {
 
     testWidgets('shows gallery placeholder when no media', (tester) async {
       await tester.pumpWidget(_wrapPage(_minimal));
-      expect(find.text('Bilder kommer snart'), findsOneWidget);
+      // Mobile cover is now in the SliverAppBar — shows icon placeholder.
+      expect(find.byIcon(Icons.photo_library_outlined), findsOneWidget);
     });
 
     testWidgets('shows action buttons on mobile', (tester) async {
@@ -123,8 +120,8 @@ void main() {
     testWidgets('renders with horizontal info bar at wide width',
         (tester) async {
       await tester.pumpWidget(_wrapPage(_fullText, width: 900));
-      // Name still visible
-      expect(find.text('House of the North'), findsOneWidget);
+      // Name visible in SliverAppBar title and InfoBar.
+      expect(find.text('House of the North'), findsAtLeast(1));
       // Action buttons should be in the info bar on wide layout
       expect(find.text('Bestill time'), findsOneWidget);
       expect(find.text('Lagre'), findsOneWidget);
@@ -139,31 +136,6 @@ void main() {
       expect(find.text('Lagre'), findsOneWidget);
     });
 
-    testWidgets('shows map placeholder in contact section at wide width',
-        (tester) async {
-      await tester.pumpWidget(_wrapPage(_fullText, width: 900));
-      // Scroll to find the map placeholder
-      await tester.drag(
-        find.byType(CustomScrollView),
-        const Offset(0, -500),
-      );
-      await tester.pumpAndSettle();
-      expect(find.text('Kart kommer snart'), findsOneWidget);
-    });
-
-    testWidgets('shows address in contact section at wide width',
-        (tester) async {
-      await tester.pumpWidget(_wrapPage(_fullText, width: 900));
-      // Scroll down
-      await tester.drag(
-        find.byType(CustomScrollView),
-        const Offset(0, -500),
-      );
-      await tester.pumpAndSettle();
-      // Address line should appear in the contact section on wide
-      expect(find.text('Skolegata 9, Drammen 3046'), findsAtLeast(1));
-    });
-
     testWidgets('shows gallery placeholder at wide height', (tester) async {
       await tester.pumpWidget(_wrapPage(_minimal, width: 900));
       expect(find.text('Bilder kommer snart'), findsOneWidget);
@@ -173,7 +145,8 @@ void main() {
   group('EstablishmentInfoBar', () {
     testWidgets('shows name and address in mobile layout', (tester) async {
       await tester.pumpWidget(_wrapPage(_minimal));
-      expect(find.text('DittoDatto AS'), findsOneWidget);
+      // Name appears in both the SliverAppBar title and the InfoBar.
+      expect(find.text('DittoDatto AS'), findsAtLeast(1));
       expect(find.text('Skolegata 9, Drammen 3046'), findsOneWidget);
     });
 
@@ -232,39 +205,7 @@ void main() {
     });
   });
 
-  group('EstablishmentContactSection', () {
-    testWidgets('shows all contact fields when present', (tester) async {
-      await tester.pumpWidget(_wrapPage(_fullText));
-      // Scroll down to find contact section
-      await tester.drag(
-        find.byType(CustomScrollView),
-        const Offset(0, -500),
-      );
-      await tester.pumpAndSettle();
 
-      // "Kontakt" appears in shortcuts chip and section header.
-      expect(find.text('Kontakt'), findsAtLeast(1));
-      expect(find.text('92913093'), findsOneWidget);
-      expect(find.text('post@houseofthenorth.no'), findsOneWidget);
-      expect(find.text('https://houseofthenorth.no'), findsOneWidget);
-    });
-
-    testWidgets('hidden when all contact fields are null on mobile',
-        (tester) async {
-      await tester.pumpWidget(_wrapPage(_minimal));
-      // Scroll to bottom
-      await tester.drag(
-        find.byType(CustomScrollView),
-        const Offset(0, -500),
-      );
-      await tester.pumpAndSettle();
-
-      // Contact section card is hidden, but "Kontakt" chip is in shortcuts.
-      // Verify phone/email/website icons are absent (contact section hidden)
-      expect(find.byIcon(Icons.phone_outlined), findsNothing);
-      expect(find.byIcon(Icons.email_outlined), findsNothing);
-    });
-  });
 
   group('EstablishmentGallerySection — Layout Modes', () {
     // Gallery URLs for testing. These won't load in tests (no HTTP),

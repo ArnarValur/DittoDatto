@@ -36,6 +36,30 @@
           "grade": "B"
         }
       }
+    },
+    {
+      "timestamp": "2026-06-28T09:07:32.756Z",
+      "extensionVersion": "14.2.4",
+      "packages": {
+        "saropa_lints": {
+          "version": "13.12.2",
+          "score": 55.5,
+          "category": "stable",
+          "grade": "B"
+        }
+      }
+    },
+    {
+      "timestamp": "2026-06-30T12:20:01.590Z",
+      "extensionVersion": "14.3.0",
+      "packages": {
+        "saropa_lints": {
+          "version": "13.12.2",
+          "score": 55.1,
+          "category": "stable",
+          "grade": "B"
+        }
+      }
     }
   ]
 }

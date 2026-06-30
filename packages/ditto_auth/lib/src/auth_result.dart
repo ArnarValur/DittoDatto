@@ -10,6 +10,7 @@ class BusinessAuthResult {
     required this.name,
     required this.role,
     required this.companySlug,
+    this.companyName,
     required this.tenant,
   });
 
@@ -24,6 +25,9 @@ class BusinessAuthResult {
 
   /// Company slug (e.g. 'testcompany').
   final String companySlug;
+
+  /// Human-readable company name (e.g. 'Test Company AS').
+  final String? companyName;
 
   /// Authenticated tenant connection for CRUD operations.
   final TenantConnection tenant;

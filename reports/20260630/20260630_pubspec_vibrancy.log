@@ -1,0 +1,177 @@
+2026-06-30T12:19:57.009Z  [CACHE]  MISS flutter.releases
+2026-06-30T12:19:57.009Z  [API  ]  GET https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json
+2026-06-30T12:19:57.201Z  [API  ]  200 OK (192ms)
+2026-06-30T12:19:57.282Z  [INFO ]  Scan started — 1 packages
+2026-06-30T12:19:57.283Z  [INFO ]  [1/1] saropa_lints
+2026-06-30T12:19:57.283Z  [CACHE]  HIT  pub.info.saropa_lints
+2026-06-30T12:19:57.283Z  [CACHE]  MISS pub.metrics.saropa_lints
+2026-06-30T12:19:57.283Z  [API  ]  GET https://pub.dev/api/packages/saropa_lints/metrics
+2026-06-30T12:19:57.283Z  [API  ]  GET https://pub.dev/api/packages/saropa_lints/score
+2026-06-30T12:19:57.284Z  [CACHE]  HIT  pub.publisher.saropa_lints
+2026-06-30T12:19:57.284Z  [CACHE]  MISS pub.reverseDeps.saropa_lints
+2026-06-30T12:19:57.284Z  [API  ]  GET https://pub.dev/packages?q=dependency%3Asaropa_lints
+2026-06-30T12:19:57.642Z  [API  ]  200 OK (359ms)
+2026-06-30T12:19:57.642Z  [API  ]  200 OK (359ms)
+2026-06-30T12:19:57.643Z  [API  ]  200 OK (359ms)
+2026-06-30T12:19:57.650Z  [CACHE]  MISS gh.saropa.saropa_lints
+2026-06-30T12:19:57.650Z  [API  ]  GET https://api.github.com/repos/saropa/saropa_lints
+2026-06-30T12:19:57.650Z  [API  ]  GET https://api.github.com/repos/saropa/saropa_lints/issues?state=closed&since=2026-04-01T12:19:57.650Z&per_page=100
+2026-06-30T12:19:57.650Z  [API  ]  GET https://api.github.com/repos/saropa/saropa_lints/pulls?state=closed&per_page=100
+2026-06-30T12:19:57.650Z  [API  ]  GET https://api.github.com/repos/saropa/saropa_lints/issues?state=open&sort=comments&direction=desc&per_page=50
+2026-06-30T12:19:57.650Z  [API  ]  GET https://api.github.com/repos/saropa/saropa_lints/pulls?state=open&per_page=100
+2026-06-30T12:19:58.085Z  [API  ]  200 OK (435ms)
+2026-06-30T12:19:58.085Z  [API  ]  200 OK (435ms)
+2026-06-30T12:19:58.085Z  [API  ]  200 OK (435ms)
+2026-06-30T12:19:58.085Z  [API  ]  200 OK (435ms)
+2026-06-30T12:19:58.085Z  [API  ]  200 OK (435ms)
+2026-06-30T12:19:58.169Z  [CACHE]  MISS pub.archiveSize.saropa_lints
+2026-06-30T12:19:58.169Z  [API  ]  HEAD https://pub.dev/api/archives/saropa_lints-14.3.0.tar.gz
+2026-06-30T12:19:58.170Z  [CACHE]  MISS pub.tarball.vph78v
+2026-06-30T12:19:58.170Z  [API  ]  GET https://pub.dev/api/archives/saropa_lints-14.3.0.tar.gz
+2026-06-30T12:19:58.306Z  [API  ]  200 OK (137ms)
+2026-06-30T12:19:58.342Z  [API  ]  200 OK (172ms)
+2026-06-30T12:19:59.775Z  [SCORE]  saropa_lints → 55.1 (stable) [rv=31.5 eg=67.86301369863014 pop=40.705 pt=-5 pq=8.125]
+2026-06-30T12:20:00.124Z  [ERROR]  Blocker analysis skipped — CLI commands failed — pub outdated: Command failed: dart pub outdated --json --transitive
+Cannot specify both `--json` and `--transitive`
+The json report always includes transitive dependencies.
+
+Usage: dart pub outdated [options]
+-h, --help                         Print this usage information.
+    --[no-]dependency-overrides    Show resolutions with `dependency_overrides`.
+                                   (defaults to on)
+    --[no-]dev-dependencies        Take dev dependencies into account.
+                                   (defaults to on)
+    --json                         Output the results using a json format.
+    --[no-]prereleases             Include prereleases in latest version.
+    --[no-]show-all                Include dependencies that are already
+                                   fulfilling --mode.
+    --[no-]transitive              Show transitive dependencies.
+                                   (defaults to on)
+-C, --directory=<dir>              Run this in the directory <dir>.
+
+Run "dart help" to see global options.
+See https://dart.dev/tools/pub/cmd/pub-outdated for detailed documentation.
+
+2026-06-30T12:20:00.234Z  [CACHE]  MISS pub.archiveSize.analysis_server_plugin
+2026-06-30T12:20:00.234Z  [API  ]  GET https://pub.dev/api/packages/analysis_server_plugin
+2026-06-30T12:20:00.234Z  [CACHE]  MISS pub.archiveSize.analyzer
+2026-06-30T12:20:00.235Z  [API  ]  GET https://pub.dev/api/packages/analyzer
+2026-06-30T12:20:00.235Z  [CACHE]  MISS pub.archiveSize._fe_analyzer_shared
+2026-06-30T12:20:00.235Z  [API  ]  GET https://pub.dev/api/packages/_fe_analyzer_shared
+2026-06-30T12:20:00.235Z  [CACHE]  MISS pub.archiveSize.meta
+2026-06-30T12:20:00.235Z  [API  ]  GET https://pub.dev/api/packages/meta
+2026-06-30T12:20:00.236Z  [CACHE]  MISS pub.archiveSize.source_span
+2026-06-30T12:20:00.236Z  [API  ]  GET https://pub.dev/api/packages/source_span
+2026-06-30T12:20:00.237Z  [CACHE]  MISS pub.archiveSize.collection
+2026-06-30T12:20:00.237Z  [API  ]  GET https://pub.dev/api/packages/collection
+2026-06-30T12:20:00.237Z  [CACHE]  MISS pub.archiveSize.path
+2026-06-30T12:20:00.237Z  [API  ]  GET https://pub.dev/api/packages/path
+2026-06-30T12:20:00.238Z  [CACHE]  MISS pub.archiveSize.term_glyph
+2026-06-30T12:20:00.238Z  [API  ]  GET https://pub.dev/api/packages/term_glyph
+2026-06-30T12:20:00.239Z  [CACHE]  MISS pub.archiveSize.convert
+2026-06-30T12:20:00.239Z  [API  ]  GET https://pub.dev/api/packages/convert
+2026-06-30T12:20:00.239Z  [CACHE]  MISS pub.archiveSize.typed_data
+2026-06-30T12:20:00.239Z  [API  ]  GET https://pub.dev/api/packages/typed_data
+2026-06-30T12:20:00.240Z  [CACHE]  MISS pub.archiveSize.crypto
+2026-06-30T12:20:00.240Z  [API  ]  GET https://pub.dev/api/packages/crypto
+2026-06-30T12:20:00.241Z  [CACHE]  MISS pub.archiveSize.glob
+2026-06-30T12:20:00.241Z  [API  ]  GET https://pub.dev/api/packages/glob
+2026-06-30T12:20:00.241Z  [CACHE]  MISS pub.archiveSize.async
+2026-06-30T12:20:00.241Z  [API  ]  GET https://pub.dev/api/packages/async
+2026-06-30T12:20:00.242Z  [CACHE]  MISS pub.archiveSize.file
+2026-06-30T12:20:00.242Z  [API  ]  GET https://pub.dev/api/packages/file
+2026-06-30T12:20:00.242Z  [CACHE]  MISS pub.archiveSize.string_scanner
+2026-06-30T12:20:00.242Z  [API  ]  GET https://pub.dev/api/packages/string_scanner
+2026-06-30T12:20:00.243Z  [CACHE]  MISS pub.archiveSize.package_config
+2026-06-30T12:20:00.243Z  [API  ]  GET https://pub.dev/api/packages/package_config
+2026-06-30T12:20:00.243Z  [CACHE]  MISS pub.archiveSize.pub_semver
+2026-06-30T12:20:00.243Z  [API  ]  GET https://pub.dev/api/packages/pub_semver
+2026-06-30T12:20:00.244Z  [CACHE]  MISS pub.archiveSize.watcher
+2026-06-30T12:20:00.244Z  [API  ]  GET https://pub.dev/api/packages/watcher
+2026-06-30T12:20:00.245Z  [CACHE]  MISS pub.archiveSize.yaml
+2026-06-30T12:20:00.245Z  [API  ]  GET https://pub.dev/api/packages/yaml
+2026-06-30T12:20:00.245Z  [CACHE]  MISS pub.archiveSize.analyzer_plugin
+2026-06-30T12:20:00.245Z  [API  ]  GET https://pub.dev/api/packages/analyzer_plugin
+2026-06-30T12:20:00.246Z  [CACHE]  MISS pub.archiveSize.dart_style
+2026-06-30T12:20:00.246Z  [API  ]  GET https://pub.dev/api/packages/dart_style
+2026-06-30T12:20:00.246Z  [CACHE]  MISS pub.archiveSize.args
+2026-06-30T12:20:00.246Z  [API  ]  GET https://pub.dev/api/packages/args
+2026-06-30T12:20:00.247Z  [CACHE]  MISS pub.archiveSize.yaml_edit
+2026-06-30T12:20:00.247Z  [API  ]  GET https://pub.dev/api/packages/yaml_edit
+2026-06-30T12:20:00.385Z  [API  ]  200 OK (150ms)
+2026-06-30T12:20:00.388Z  [API  ]  HEAD https://pub.dev/api/archives/analyzer-14.0.0.tar.gz
+2026-06-30T12:20:00.390Z  [API  ]  200 OK (155ms)
+2026-06-30T12:20:00.393Z  [API  ]  HEAD https://pub.dev/api/archives/_fe_analyzer_shared-104.0.0.tar.gz
+2026-06-30T12:20:00.405Z  [API  ]  200 OK (17ms)
+2026-06-30T12:20:00.412Z  [API  ]  200 OK (19ms)
+2026-06-30T12:20:00.546Z  [API  ]  200 OK (302ms)
+2026-06-30T12:20:00.547Z  [API  ]  HEAD https://pub.dev/api/archives/watcher-1.2.1.tar.gz
+2026-06-30T12:20:00.554Z  [API  ]  200 OK (315ms)
+2026-06-30T12:20:00.554Z  [API  ]  200 OK (320ms)
+2026-06-30T12:20:00.555Z  [API  ]  200 OK (315ms)
+2026-06-30T12:20:00.555Z  [API  ]  HEAD https://pub.dev/api/archives/typed_data-1.4.0.tar.gz
+2026-06-30T12:20:00.556Z  [API  ]  HEAD https://pub.dev/api/archives/analysis_server_plugin-0.3.19.tar.gz
+2026-06-30T12:20:00.562Z  [API  ]  200 OK (323ms)
+2026-06-30T12:20:00.563Z  [API  ]  200 OK (317ms)
+2026-06-30T12:20:00.563Z  [API  ]  200 OK (321ms)
+2026-06-30T12:20:00.563Z  [API  ]  200 OK (318ms)
+2026-06-30T12:20:00.563Z  [API  ]  200 OK (316ms)
+2026-06-30T12:20:00.563Z  [API  ]  200 OK (317ms)
+2026-06-30T12:20:00.563Z  [API  ]  200 OK (321ms)
+2026-06-30T12:20:00.563Z  [API  ]  200 OK (320ms)
+2026-06-30T12:20:00.564Z  [API  ]  200 OK (328ms)
+2026-06-30T12:20:00.564Z  [API  ]  200 OK (321ms)
+2026-06-30T12:20:00.564Z  [API  ]  200 OK (327ms)
+2026-06-30T12:20:00.564Z  [API  ]  200 OK (327ms)
+2026-06-30T12:20:00.564Z  [API  ]  200 OK (323ms)
+2026-06-30T12:20:00.565Z  [API  ]  200 OK (327ms)
+2026-06-30T12:20:00.565Z  [API  ]  HEAD https://pub.dev/api/archives/convert-3.1.2.tar.gz
+2026-06-30T12:20:00.566Z  [API  ]  HEAD https://pub.dev/api/archives/yaml_edit-2.2.4.tar.gz
+2026-06-30T12:20:00.566Z  [API  ]  200 OK (331ms)
+2026-06-30T12:20:00.567Z  [API  ]  HEAD https://pub.dev/api/archives/term_glyph-1.2.2.tar.gz
+2026-06-30T12:20:00.568Z  [API  ]  HEAD https://pub.dev/api/archives/crypto-3.0.7.tar.gz
+2026-06-30T12:20:00.568Z  [API  ]  HEAD https://pub.dev/api/archives/string_scanner-1.4.1.tar.gz
+2026-06-30T12:20:00.569Z  [API  ]  HEAD https://pub.dev/api/archives/pub_semver-2.2.0.tar.gz
+2026-06-30T12:20:00.569Z  [API  ]  HEAD https://pub.dev/api/archives/package_config-3.0.0.tar.gz
+2026-06-30T12:20:00.570Z  [API  ]  HEAD https://pub.dev/api/archives/glob-2.1.3.tar.gz
+2026-06-30T12:20:00.571Z  [API  ]  HEAD https://pub.dev/api/archives/file-7.0.1.tar.gz
+2026-06-30T12:20:00.571Z  [API  ]  HEAD https://pub.dev/api/archives/collection-1.19.1.tar.gz
+2026-06-30T12:20:00.572Z  [API  ]  HEAD https://pub.dev/api/archives/source_span-1.10.2.tar.gz
+2026-06-30T12:20:00.573Z  [API  ]  200 OK (332ms)
+2026-06-30T12:20:00.573Z  [API  ]  200 OK (18ms)
+2026-06-30T12:20:00.574Z  [API  ]  HEAD https://pub.dev/api/archives/path-1.9.1.tar.gz
+2026-06-30T12:20:00.583Z  [API  ]  200 OK (18ms)
+2026-06-30T12:20:00.584Z  [API  ]  HEAD https://pub.dev/api/archives/yaml-3.1.3.tar.gz
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (26ms)
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (25ms)
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (23ms)
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (23ms)
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (24ms)
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (24ms)
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (22ms)
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (21ms)
+2026-06-30T12:20:00.592Z  [API  ]  200 OK (20ms)
+2026-06-30T12:20:00.593Z  [API  ]  200 OK (22ms)
+2026-06-30T12:20:00.594Z  [API  ]  HEAD https://pub.dev/api/archives/dart_style-3.1.9.tar.gz
+2026-06-30T12:20:00.601Z  [API  ]  HEAD https://pub.dev/api/archives/args-2.7.0.tar.gz
+2026-06-30T12:20:00.607Z  [API  ]  HEAD https://pub.dev/api/archives/async-2.13.1.tar.gz
+2026-06-30T12:20:00.614Z  [API  ]  HEAD https://pub.dev/api/archives/meta-1.18.3.tar.gz
+2026-06-30T12:20:00.640Z  [API  ]  200 OK (93ms)
+2026-06-30T12:20:00.669Z  [API  ]  200 OK (85ms)
+2026-06-30T12:20:00.672Z  [API  ]  200 OK (98ms)
+2026-06-30T12:20:00.677Z  [API  ]  200 OK (76ms)
+2026-06-30T12:20:00.681Z  [API  ]  200 OK (87ms)
+2026-06-30T12:20:00.686Z  [API  ]  200 OK (72ms)
+2026-06-30T12:20:00.691Z  [API  ]  200 OK (84ms)
+2026-06-30T12:20:00.759Z  [API  ]  200 OK (203ms)
+2026-06-30T12:20:00.851Z  [API  ]  200 OK (606ms)
+2026-06-30T12:20:00.852Z  [API  ]  HEAD https://pub.dev/api/archives/analyzer_plugin-0.14.13.tar.gz
+2026-06-30T12:20:01.044Z  [API  ]  200 OK (192ms)
+2026-06-30T12:20:01.049Z  [INFO ]  Dep graph: 1 direct, 23 transitive, 0 overrides
+2026-06-30T12:20:01.050Z  [CACHE]  MISS osv.vulns.saropa_lints.13.12.2
+2026-06-30T12:20:01.050Z  [API  ]  POST https://api.osv.dev/v1/querybatch
+2026-06-30T12:20:01.050Z  [CACHE]  MISS ghsa.vulns.saropa_lints.13.12.2
+2026-06-30T12:20:01.051Z  [API  ]  GET https://api.github.com/advisories?ecosystem=pub&package=saropa_lints&affects=13.12.2&per_page=100
+2026-06-30T12:20:01.270Z  [API  ]  200 OK (219ms)
+2026-06-30T12:20:01.430Z  [API  ]  200 OK (380ms)
+2026-06-30T12:20:01.591Z  [INFO ]  Scan complete — 4582ms — vibrant:0 stable:1 outdated:0 abandoned:0 eol:0

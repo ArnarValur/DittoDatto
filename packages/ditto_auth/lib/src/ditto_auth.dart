@@ -37,6 +37,10 @@ class DittoAuth {
   final AuthBackend _backend;
   final TokenStore _tokenStore;
 
+  /// The auth backend, for callers that need connection parameters
+  /// (e.g. opening a read-only discovery DB connection).
+  AuthBackend get backend => _backend;
+
   /// The active tenant connection (available after successful
   /// [businessSignin] or [tryRestoreBusiness]).
   TenantConnection? _activeTenant;
@@ -103,6 +107,7 @@ class DittoAuth {
     _activeTenant = tenant;
 
     final name = profile['name'] as String?;
+    final companyName = profile['company_name'] as String?;
 
     // Persist session for restore.
     await _tokenStore.saveBusinessSession(
@@ -112,6 +117,7 @@ class DittoAuth {
       slug: slug,
       name: name,
       role: role,
+      companyName: companyName,
     );
 
     return BusinessAuthResult(
@@ -119,6 +125,7 @@ class DittoAuth {
       name: name,
       role: role,
       companySlug: slug,
+      companyName: companyName,
       tenant: tenant,
     );
   }
@@ -160,6 +167,7 @@ class DittoAuth {
         name: stored.name,
         role: stored.role ?? 'business',
         companySlug: stored.slug,
+        companyName: stored.companyName,
         tenant: tenant,
       );
     } catch (e) {

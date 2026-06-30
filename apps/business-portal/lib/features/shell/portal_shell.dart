@@ -5,7 +5,7 @@ import 'package:mercury_client/mercury_client.dart';
 
 import '../../core/theme_provider.dart';
 import '../auth/auth_provider.dart';
-import '../establishments/establishment_providers.dart';
+
 
 /// Business Portal shell wrapping [DittoDashboardShell] with
 /// portal-specific navigation destinations, branding, and footer.
@@ -37,12 +37,13 @@ class PortalShell extends ConsumerWidget {
     final authState = ref.watch(authProvider).value;
     final connection = ref.watch(tenantConnectionProvider);
     final slug = connection?.slug;
-    final establishments = ref.watch(establishmentsProvider).value;
+
     final isDark = ref.watch(isDarkModeProvider);
 
-    final companyName = (establishments != null && establishments.isNotEmpty)
-        ? establishments.first.name
-        : (slug != null ? slug.replaceAll('-', ' ').toUpperCase() : 'DittoDatto');
+    final storedCompanyName = ref.watch(companyNameProvider);
+
+    final companyName = storedCompanyName
+        ?? (slug != null ? slug.replaceAll('-', ' ').toUpperCase() : 'DittoDatto');
 
     final userName = authState is Authenticated
         ? (authState.name ?? authState.email.split('@').first)

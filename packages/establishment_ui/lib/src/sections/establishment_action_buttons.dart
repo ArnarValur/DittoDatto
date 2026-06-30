@@ -15,11 +15,19 @@ class EstablishmentActionButtons extends StatelessWidget {
   const EstablishmentActionButtons({
     required this.data,
     required this.isPreview,
+    this.onFavoriteTapped,
+    this.isFavorited = false,
     super.key,
   });
 
   final EstablishmentData data;
   final bool isPreview;
+
+  /// Called when the user taps the Lagre (favorite) button.
+  final VoidCallback? onFavoriteTapped;
+
+  /// Whether the establishment is currently favorited.
+  final bool isFavorited;
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +57,15 @@ class EstablishmentActionButtons extends StatelessWidget {
           ),
           const SizedBox(width: DittoSpacing.sm),
           OutlinedButton.icon(
-            // TODO: Wire to booking/favorites flow
-            onPressed: null,
-            icon: const Icon(Icons.favorite_border_rounded),
+            onPressed: isPreview ? null : onFavoriteTapped,
+            icon: Icon(
+              isFavorited
+                  ? Icons.favorite_rounded
+                  : Icons.favorite_border_rounded,
+              color: isFavorited
+                  ? Theme.of(context).colorScheme.error
+                  : null,
+            ),
             label: const Text('Lagre'),
           ),
         ],

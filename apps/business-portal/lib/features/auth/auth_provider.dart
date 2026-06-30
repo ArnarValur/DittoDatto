@@ -39,6 +39,20 @@ final tenantConnectionProvider = Provider<TenantConnection?>((ref) {
   return ref.read(dittoAuthProvider).activeTenant;
 });
 
+/// Provider for the company name from the auth result.
+///
+/// Set during login / session restore. The shell reads this for the sidebar.
+final companyNameProvider =
+    NotifierProvider<CompanyNameNotifier, String?>(CompanyNameNotifier.new);
+
+/// Simple notifier to hold the authenticated company name.
+class CompanyNameNotifier extends Notifier<String?> {
+  @override
+  String? build() => null;
+
+  void set(String? name) => state = name;
+}
+
 /// Provider for the current auth state.
 ///
 /// Uses an [AsyncNotifier] to handle the async restore-on-startup correctly.
@@ -55,6 +69,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
   Future<AuthState> build() async {
     final result = await _dittoAuth.tryRestoreBusiness();
     if (result == null) return const Unauthenticated();
+    ref.read(companyNameProvider.notifier).set(result.companyName);
     return Authenticated(
       accessToken: result.companySlug,
       email: result.email,
@@ -72,6 +87,7 @@ class AuthNotifier extends AsyncNotifier<AuthState> {
         email: email,
         password: password,
       );
+      ref.read(companyNameProvider.notifier).set(result.companyName);
       state = AsyncData(Authenticated(
         accessToken: result.companySlug,
         email: result.email,

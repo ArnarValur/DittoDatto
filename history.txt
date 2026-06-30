@@ -1,6 +1,4 @@
 #V2
-DEFINE FIELD services          ON hold TYPE array<record<service>>;
-DEFINE FIELD staff             ON hold TYPE option<record<staff>>;
 DEFINE FIELD resource          ON hold TYPE option<record<resource>>;
 \nDEFINE FIELD date              ON hold TYPE string;
 DEFINE FIELD slot_time         ON hold TYPE string;
@@ -93,9 +91,11 @@ DEFINE FIELD weight            ON relates_to TYPE number             DEFAULT 1.0
 DEFINE FIELD created_at        ON relates_to TYPE datetime           VALUE $value OR time::now();
 USE NS companies DB company_testcompany;
 DEFINE USER IF NOT EXISTS bp_portal ON DATABASE PASSWORD 'test-portal-pass' ROLES EDITOR;
+USE NS companies DB discovery;
+DEFINE USER IF NOT EXISTS bp_portal ON DATABASE PASSWORD 'test-portal-pass' ROLES EDITOR;
 USE NS users;
 DEFINE USER IF NOT EXISTS testadmin ON NAMESPACE PASSWORD 'testadmin-pass' ROLES OWNER;
 USE NS companies;
 DEFINE USER IF NOT EXISTS testadmin ON NAMESPACE PASSWORD 'testadmin-pass' ROLES OWNER;
--- Business user: authenticates via RECORD ACCESS bp_auth.\n-- password_hash is argon2 hash of 'testbiz-pass'.\nCREATE user SET\n  name       = 'Test Business User',\n  email      = 'testbiz@dittodatto.no',\n  username   = 'testbiz',\n  password_hash = crypto::argon2::generate('testbiz-pass'),\n  role       = 'business',\n  company_slug = 'testcompany',\n  is_onboarded = true,\n  created_at = time::now(),\n  updated_at = time::now();
+-- Business user: authenticates via RECORD ACCESS bp_auth.\n-- password_hash is argon2 hash of 'testbiz-pass'.\nCREATE user SET\n  name       = 'Test Business User',\n  email      = 'testbiz@dittodatto.no',\n  username   = 'testbiz',\n  password_hash = crypto::argon2::generate('testbiz-pass'),\n  role       = 'business',\n  company_slug = 'testcompany',\n  company_name = 'Test Company AS',\n  is_onboarded = true,\n  created_at = time::now(),\n  updated_at = time::now();
 \n-- Customer user: should be rejected by BP role check.\nCREATE user SET\n  name       = 'Test Customer User',\n  email      = 'testcustomer@dittodatto.no',\n  username   = 'testcustomer',\n  password_hash = crypto::argon2::generate('testcustomer-pass'),\n  role       = 'customer',\n  company_slug = NONE,\n  is_onboarded = true,\n  created_at = time::now(),\n  updated_at = time::now();

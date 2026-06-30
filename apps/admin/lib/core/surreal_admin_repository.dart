@@ -242,14 +242,16 @@ class SurrealAdminRepository implements AdminRepository {
       ownerCompanies.add(createdCompany);
     }
     final allSlugs = ownerCompanies.map((c) => c.slug).join(', ');
+    final allNames = ownerCompanies.map((c) => c.name).join(', ');
 
     // Atomically connect the User profile with the new company slugs!
     await connection.users.use('users', 'users');
     await connection.users.query(
-      r'UPDATE type::record("user", $owner_id) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "business" END, company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
+      r'UPDATE type::record("user", $owner_id) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "business" END, company_slug = $slugs, company_name = $names, company_membership_ids = $comp_ids, company_memberships = $memberships',
       {
         'owner_id': company.ownerId,
         'slugs': allSlugs,
+        'names': allNames,
         'comp_ids': ownerCompanies.map((c) => c.id).toList(),
         'memberships': ownerCompanies.map((c) => {
           'company_id': c.id,
@@ -323,6 +325,7 @@ class SurrealAdminRepository implements AdminRepository {
       if (otherCompanies.isNotEmpty) {
         // The old owner still owns other companies. Update their primary slugs and memberships.
         final otherSlugs = otherCompanies.map((c) => c.slug).join(', ');
+        final otherNames = otherCompanies.map((c) => c.name).join(', ');
         final otherMemberships = otherCompanies.map((c) => {
           'company_id': c.id,
           'role': 'owner',
@@ -330,10 +333,11 @@ class SurrealAdminRepository implements AdminRepository {
         }).toList();
 
         await connection.users.query(
-          r'UPDATE type::record("user", $ownerId) SET company_slug = $next_slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
+          r'UPDATE type::record("user", $ownerId) SET company_slug = $next_slugs, company_name = $next_names, company_membership_ids = $comp_ids, company_memberships = $memberships',
           {
             'ownerId': oldOwnerId,
             'next_slugs': otherSlugs,
+            'next_names': otherNames,
             'comp_ids': otherCompanies.map((c) => c.id).toList(),
             'memberships': otherMemberships,
           },
@@ -341,7 +345,7 @@ class SurrealAdminRepository implements AdminRepository {
       } else {
         // The old owner owns no other companies. Revert them to customer, preserving administrative roles.
         await connection.users.query(
-          r'UPDATE type::record("user", $ownerId) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "customer" END, company_slug = none, company_membership_ids = [], company_memberships = []',
+          r'UPDATE type::record("user", $ownerId) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "customer" END, company_slug = none, company_name = none, company_membership_ids = [], company_memberships = []',
           {
             'ownerId': oldOwnerId,
           },
@@ -359,13 +363,15 @@ class SurrealAdminRepository implements AdminRepository {
         newOwnerCompanies.add(updatedCompany);
       }
       final newSlugs = newOwnerCompanies.map((c) => c.slug).join(', ');
+      final newNames = newOwnerCompanies.map((c) => c.name).join(', ');
 
       await connection.users.use('users', 'users');
       await connection.users.query(
-        r'UPDATE type::record("user", $owner_id) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "business" END, company_slug = $slugs, company_membership_ids = $comp_ids, company_memberships = $memberships',
+        r'UPDATE type::record("user", $owner_id) SET role = IF role = "admin" OR role = "super_admin" THEN role ELSE "business" END, company_slug = $slugs, company_name = $names, company_membership_ids = $comp_ids, company_memberships = $memberships',
         {
           'owner_id': updatedCompany.ownerId,
           'slugs': newSlugs,
+          'names': newNames,
           'comp_ids': newOwnerCompanies.map((c) => c.id).toList(),
           'memberships': newOwnerCompanies.map((c) => {
             'company_id': c.id,

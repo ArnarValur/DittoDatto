@@ -20,6 +20,7 @@ class TokenStore {
   static const _slugKey = 'ditto_auth_slug';
   static const _nameKey = 'ditto_auth_name';
   static const _roleKey = 'ditto_auth_role';
+  static const _companyNameKey = 'ditto_auth_company_name';
   static const _sessionTypeKey = 'ditto_auth_session_type';
   static const _userIdKey = 'ditto_auth_user_id';
 
@@ -32,6 +33,7 @@ class TokenStore {
     String? refreshToken,
     String? name,
     String? role,
+    String? companyName,
   }) async {
     await _writeAll({
       _sessionTypeKey: 'business',
@@ -42,6 +44,7 @@ class TokenStore {
       _refreshTokenKey: ?refreshToken,
       _nameKey: ?name,
       _roleKey: ?role,
+      _companyNameKey: ?companyName,
     });
   }
 
@@ -69,6 +72,7 @@ class TokenStore {
       slug: slug,
       name: await _read(_nameKey),
       role: await _read(_roleKey),
+      companyName: await _read(_companyNameKey),
     );
   }
 
@@ -118,6 +122,7 @@ class TokenStore {
       _slugKey,
       _nameKey,
       _roleKey,
+      _companyNameKey,
       _sessionTypeKey,
       _userIdKey,
     ]);
@@ -161,6 +166,7 @@ class StoredBusinessSession {
     required this.slug,
     this.name,
     this.role,
+    this.companyName,
   });
 
   final String usersToken;
@@ -170,6 +176,7 @@ class StoredBusinessSession {
   final String slug;
   final String? name;
   final String? role;
+  final String? companyName;
 }
 
 /// Data from a previously stored consumer session.

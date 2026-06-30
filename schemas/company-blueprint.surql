@@ -569,16 +569,16 @@ DEFINE FIELD weight            ON relates_to TYPE number             DEFAULT 1.0
 DEFINE FIELD created_at        ON relates_to TYPE datetime           VALUE $value OR time::now();
 
 -- =============================================================================
--- 8. MARKETPLACE STOREFRONT (ADR-0025 — Two-Phase Detail Load)
+-- 8. MARKETPLACE ESTABLISHMENT DETAIL (ADR-0025 — Two-Phase Detail Load)
 -- =============================================================================
 -- Server-side query bundle for the Public Marketplace.
--- Primary: Marketplace connects via WS, calls fn::get_storefront() directly.
+-- Primary: Marketplace connects via WS, calls fn::get_establishment_detail() directly.
 -- Bonus:   HTTP API at GET /api/companies/company_{slug}/establishment.
 -- Auth:    Namespace-level VIEWER user (marketplace_reader) — no per-DB users.
 
 -- ── Function: bundled read query ──────────────────────────────────────────────
 
-DEFINE FUNCTION fn::get_storefront() {
+DEFINE FUNCTION fn::get_establishment_detail() {
     LET $est = SELECT * FROM establishment
         WHERE is_published = true
         LIMIT 1
@@ -603,7 +603,7 @@ DEFINE FUNCTION fn::get_storefront() {
 DEFINE API "/establishment" FOR get THEN {
     RETURN {
         status: 200,
-        body: fn::get_storefront()
+        body: fn::get_establishment_detail()
     }
 };
 
