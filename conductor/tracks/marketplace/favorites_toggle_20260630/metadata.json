@@ -1,9 +1,10 @@
 {
   "track_id": "favorites_toggle_20260630",
   "type": "feature",
-  "status": "new",
+  "status": "blocked",
   "domain": "marketplace",
   "created_at": "2026-06-30T00:28:00+02:00",
-  "updated_at": "2026-06-30T00:28:00+02:00",
-  "description": "Wire the Lagre (Favorite) button on EstablishmentPage — toggle, persistence, auth gate"
+  "updated_at": "2026-06-30T13:14:00+02:00",
+  "description": "Wire the Lagre (Favorite) button on EstablishmentPage — toggle, persistence, auth gate",
+  "blocker": "SurrealDB 3.1.2 RECORD ACCESS CREATE returns empty results on Saturn"
 }

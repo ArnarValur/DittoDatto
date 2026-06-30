@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-30 13:14 — Favorites Toggle (BLOCKED on Saturn DB)
+- **Session:** Implemented favorites toggle data layer + UI wiring. Favorite model, repository, Riverpod providers, schema permissions, 3× Lagre button wiring, auth gate, profile sticker.
+- **Tracks touched:** favorites_toggle_20260630
+- **Status:** BLOCKED. Code complete, all tests pass locally (9 model + 9 repo + 91 UI + 75 BP). Fails on Saturn — SurrealDB 3.1.2 RECORD ACCESS CREATE returns empty results for consumer users. Even `PERMISSIONS FULL` doesn't help. Root cause: version behavior change between 3.0.5 (local) and 3.1.2 (Saturn).
+- **Decisions:** None
+- **Next:** Debug SurrealDB 3.1.2 RECORD ACCESS in fresh session. Consider upgrading local test DB to 3.1.2 to reproduce. Once fixed, run E2E against Saturn → deploy to phone.
+
+---
+
 ## 2026-06-30 00:28 — EstablishmentPage v2 Native Redesign + Booking Analysis
 - **Session:** Full native EstablishmentPage redesign — SliverAppBar collapsing toolbar, glass-morphism bottom nav (48px, icons-only), featured services hero section, theme toggle. Ingested 5 Stitch booking screens and wrote flow analysis.
 - **Tracks touched:** marketplace (EstablishmentPage)
