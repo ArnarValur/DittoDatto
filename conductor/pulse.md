@@ -1,6 +1,6 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-30 23:40
+**Last Updated:** 2026-07-01 00:02
 **Session Focus:** Discovery Layer Phases 2 + 4 — Home screen, DittoBar, SurrealDB native features, two-phase detail load
 
 ## 🚀 Active Tracks
@@ -57,6 +57,7 @@ None.
 - **Tests:** 0 analysis errors, 40/40 widget tests pass. WS E2E verified on Saturn.
 - **Deploy:** APK to Galaxy S21. House of the North loads from card tap ✅
 - **Auth layer note:** NS VIEWER pattern may simplify auth track. Document for reconciliation.
+- **Post-checkpoint fix:** Renamed all `storefront` → `establishment_detail` (function, service class, file, Saturn DB). "Storefront" was a made-up term — domain says "establishment." Redeployed + verified.
 
 ### Session 2026-06-30 22:06 — Discovery Layer Phase 1 Implementation
 

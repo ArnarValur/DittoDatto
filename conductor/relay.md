@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-07-01 00:02 — Rename storefront → establishment_detail
+- **Session:** Fixed domain naming: `fn::get_storefront()` → `fn::get_establishment_detail()`, `StorefrontService` → `EstablishmentDetailService`. Updated Saturn DB (remove + redefine). Redeployed to phone, verified.
+- **Tracks touched:** discovery_layer_20260630
+- **Status:** Naming cleanup complete. No functional changes.
+- **Decisions:** None
+- **Next:** Same as prior checkpoint.
+
+---
+
 ## 2026-06-30 23:40 — Discovery Layer Phases 2 + 4 Complete
 - **Session:** Built Marketplace Home (DittoBar, category chips, listing cards). Consulted SurrealDB Sidekick — discovered NS-level VIEWER user eliminates per-DB provisioning. Built `fn::get_storefront()` server-side function. Replaced 371-line debug pipe with ~50-line `StorefrontService` (WS + fn call). Deployed to phone — House of the North loads.
 - **Tracks touched:** discovery_layer_20260630
