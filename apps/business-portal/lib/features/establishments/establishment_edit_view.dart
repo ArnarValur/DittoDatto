@@ -11,6 +11,9 @@ import 'package:media_manager/media_manager.dart';
 
 import 'establishment_model.dart';
 import 'establishment_providers.dart';
+import 'category_providers.dart';
+import 'discovery_sync_provider.dart';
+import '../auth/auth_provider.dart';
 import '../media/media_providers.dart';
 
 /// Scrollspy edit view for a single Establishment.
@@ -66,6 +69,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   List<MediaItem> _selectedLogo = [];
   List<MediaItem> _selectedCover = [];
   List<MediaItem> _selectedGallery = [];
+  bool _mediaResolved = false;
 
   // ── Lokasjon geo state ──
   double? _latitude;
@@ -107,6 +111,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
     _selectedLogo = [];
     _selectedCover = [];
     _selectedGallery = [];
+    _mediaResolved = false;
   }
 
   /// Match saved establishment media URLs to [MediaItem] objects.
@@ -124,6 +129,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
           .where((m) => est.galleryUrls.contains(m.url))
           .toList();
     }
+    _mediaResolved = true;
   }
 
   /// Build an [EstablishmentData] from current form state for WYSIWYG preview.
@@ -197,6 +203,28 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
     );
 
     await ref.read(establishmentsProvider.notifier).updateEstablishment(updated);
+
+    // ── PublishSync: sync to discovery on save ──
+    if (_establishment != null) {
+      final companySlug = ref.read(tenantConnectionProvider)?.slug;
+      if (companySlug != null) {
+        if (updated.isPublished) {
+          await syncEstablishmentToDiscovery(
+            establishment: updated,
+            companySlug: companySlug,
+            ref: ref,
+          );
+        } else if (_establishment!.isPublished && !updated.isPublished) {
+          // Was published, now unpublished → deactivate.
+          await deactivateDiscoveryListing(
+            companySlug: companySlug,
+            establishmentSlug: updated.slug,
+            ref: ref,
+          );
+        }
+      }
+    }
+
     if (mounted) {
       setState(() => _saving = false);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -235,7 +263,10 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
 
         // Re-resolve media selections when media items load/change
         // (e.g. after initial load or after an upload).
-        if (_selectedLogo.isEmpty &&
+        // Only re-resolve if media hasn't been resolved yet — once resolved,
+        // empty lists mean the user intentionally cleared them.
+        if (!_mediaResolved &&
+            _selectedLogo.isEmpty &&
             _selectedCover.isEmpty &&
             _selectedGallery.isEmpty &&
             mediaItems.isNotEmpty &&
@@ -395,7 +426,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
 
 // ── Section 1: Generelt ──
 
-class _GenereltSection extends StatelessWidget {
+class _GenereltSection extends ConsumerWidget {
   const _GenereltSection({
     required this.nameController,
     required this.aboutController,
@@ -411,7 +442,9 @@ class _GenereltSection extends StatelessWidget {
   final ValueChanged<String?> onCategoryChanged;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categoriesAsync = ref.watch(categoriesProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -421,13 +454,45 @@ class _GenereltSection extends StatelessWidget {
         ),
         const SizedBox(height: DittoSpacing.base),
 
-        TextFormField(
-          initialValue: category,
-          decoration: const InputDecoration(
-            labelText: 'Kategori',
-            hintText: 'f.eks. Frisør, Pizza, Konsert',
+        categoriesAsync.when(
+          data: (categories) {
+            final names = categories.map((c) => c.name).toList();
+            return DropdownButtonFormField<String>(
+              initialValue: names.contains(category) ? category : null,
+              decoration: const InputDecoration(
+                labelText: 'Kategori',
+              ),
+              items: categories
+                  .map((c) => DropdownMenuItem(
+                        value: c.name,
+                        child: Row(
+                          children: [
+                            if (resolveIcon(c.icon) case final icon?)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 12),
+                                child: Icon(icon, size: 20),
+                              ),
+                            Text(c.name),
+                          ],
+                        ),
+                      ))
+                  .toList(),
+              onChanged: onCategoryChanged,
+            );
+          },
+          loading: () => DropdownButtonFormField<String>(
+            decoration: const InputDecoration(labelText: 'Kategori'),
+            items: const [],
+            onChanged: null,
           ),
-          onChanged: onCategoryChanged,
+          error: (_, __) => TextFormField(
+            initialValue: category,
+            decoration: const InputDecoration(
+              labelText: 'Kategori',
+              hintText: 'f.eks. Frisør, Pizza, Konsert',
+            ),
+            onChanged: onCategoryChanged,
+          ),
         ),
         const SizedBox(height: DittoSpacing.base),
 
@@ -694,9 +759,9 @@ class _LokasjonSectionState extends State<_LokasjonSection> {
                         point: LatLng(_lat!, _lng!),
                         width: 40,
                         height: 40,
-                        child: Icon(
+                        child: const Icon(
                           Icons.location_on,
-                          color: theme.colorScheme.primary,
+                          color: DittoColors.moodyBlue,
                           size: 40,
                         ),
                       ),

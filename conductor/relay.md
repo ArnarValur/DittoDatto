@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-30 22:06 — Discovery Layer Phase 1 Complete + Deployed
+- **Session:** Built `packages/discovery_service/` (3 models, DiscoveryRepository, ListingSyncService). Wired BP publish sync into establishment edit view. Fixed 3 deploy-time bugs (fire-and-forget auth, UPSERT WHERE, type::thing deprecation, source_id coercion). 24 unit + 5 integration tests. Deployed 3× to Saturn. User verified listing in Surrealist.
+- **Tracks touched:** discovery_layer_20260630
+- **Status:** Phase 1 ✅. Pipeline live: BP save → discovery DB write. Phase 2 (Home Screen + DittoBar) next.
+- **Decisions:** None
+- **Next:** (1) Discovery Phase 2: Marketplace Home Screen + DittoBar search. (2) BP Bookings Backend. (3) ME Availability Wiring.
+
+---
+
 ## 2026-06-30 20:33 — Discovery Layer Grill + Track Creation
 - **Session:** Grilled the Discovery domain end-to-end. Decided: BP direct-write sync (ADR-0024), two-phase load (ADR-0025), `discovery_service` shared package (ADR-0026). Added 5 glossary terms. Created `discovery_layer_20260630` track with 5-phase spec + plan. New `discovery` domain (🔴 Tread Carefully) registered.
 - **Tracks touched:** discovery_layer_20260630 (created)

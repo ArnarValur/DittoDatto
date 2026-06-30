@@ -10,6 +10,7 @@ workspace:
   - apps/business-portal
   - apps/marketplace
   - packages/booking_ui
+  - packages/discovery_service
   - packages/ditto_auth
   - packages/ditto_design
   - packages/establishment_ui

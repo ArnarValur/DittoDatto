@@ -1,11 +1,11 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-30 20:33
-**Session Focus:** Discovery Layer grill + track creation
+**Last Updated:** 2026-06-30 22:06
+**Session Focus:** Discovery Layer Phase 1 — package scaffold, models, sync, BP wiring, deploy + verify
 
 ## 🚀 Active Tracks
 
-- **Discovery Layer** (`discovery_layer_20260630`) — **New. Spec + plan written.** 5 phases: (1) Package + BP Publish Sync, (2) Home Screen + DittoBar, (3) Areas + Geo, (4) Two-Phase Detail Load, (5) Verify + Deploy. ADR-0024/25/26 recorded. Domain: 🔴 Tread Carefully.
+- **Discovery Layer** (`discovery_layer_20260630`) — **Phase 1 complete. Deployed to Saturn.** BP publish sync writes to `companies/discovery` on save. 24 package + 5 integration tests. Remaining phases: (2) Home Screen + DittoBar, (3) Areas + Geo, (4) Two-Phase Detail Load, (5) Verify + Deploy.
 - **Booking Flow UI** (`booking_flow_ui_20260630`) — **Phases 1–4 complete. Deployed to phone.** All 5 steps built: service selection (real data), staff (mock), date/time (mock calendar + slots), review (summary + MVA), payment placeholder. 18 unit tests. Remaining: visual polish, ME availability wiring.
 - **Favorites Toggle** (`favorites_toggle_20260630`) — **Phases 1–3 functional.** Toggle works on phone. Remaining: widget tests, `pendingFavorite` login-return flow, merge to develop.
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
@@ -16,6 +16,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-30 22:06** — **Discovery Layer Phase 1 complete + deployed.** Created `packages/discovery_service/` (models, DiscoveryRepository, ListingSyncService). Wired BP publish sync into establishment edit view. Fixed 3 bugs during deploy verification: fire-and-forget auth (→ connect-use-close), `type::thing` → `type::record`, `source_id` record ref coercion (`<string>` cast). 24 package unit tests + 5 integration tests (real SurrealDB). Deployed 3× to Saturn, final verification: listing record visible in Surrealist.
 - **2026-06-30 20:33** — **Discovery Layer grilled + track created.** Full architecture interview: BP direct-write sync (ADR-0024), two-phase load (ADR-0025), `discovery_service` shared package (ADR-0026). 5 glossary terms added. 5-phase track spec + plan written. New `discovery` domain (🔴) registered.
 - **2026-06-30 19:32** — **Booking Flow UI deployed to phone.** Built complete `booking_ui` shared package (5 steps, BookingState model, BookingStepIndicator, BookingFlowPage shell). Wired `onBookTapped` callback through EstablishmentPage → EstablishmentInfoBar. Added `/booking` route to Marketplace router. 18 unit tests for BookingState + MockTimeSlot. User confirmed: "Looks very good... clean, clear and easy to navigate!"
 - **2026-06-30 13:48** — **Favorites Toggle Saturn DB fix.** Root-caused `PERMISSIONS NONE`. Fixed via REMOVE + DEFINE + ALTER TABLE. Verified HTTP API + deployed to phone.
@@ -32,6 +33,20 @@
 None.
 
 ## 🧠 Session Memory
+
+### Session 2026-06-30 22:06 — Discovery Layer Phase 1 Implementation
+
+- **Package created:** `packages/discovery_service/` — barrel export, 3 models (EstablishmentListing, DiscoveryCategory, DiscoveryArea), DiscoveryRepository (read), ListingSyncService (write).
+- **BP wiring:** `discovery_sync_provider.dart` with connect-use-close pattern (not persistent connection). Hooked into `_save()` — sync on publish, deactivate on unpublish, re-sync on any update while published.
+- **DB changes:** bp_portal upgraded VIEWER → EDITOR on discovery DB (both test-db-seed.sh and Saturn production).
+- **Bugs caught during deploy:**
+  1. Fire-and-forget auth → anonymous access error. Fix: connect-use-close pattern (await signin before query).
+  2. `UPSERT ... WHERE` → silently creates nothing (no matching record). Fix: deterministic record ID via `type::record("table", $id)`.
+  3. `type::thing()` deprecated → SurrealDB suggests `type::record()`. Fixed.
+  4. `source_id` record ref coercion → schema expects string but `establishment:xxx` parses as record. Fix: `<string>` cast.
+- **Lesson learned:** Must run integration tests against real SurrealDB before deploying query changes. Added 5 integration tests to `packages/discovery_service/test/integration/`.
+- **Tests:** 24 unit + 5 integration (discovery_service), 72 widget + 75 integration (BP). All green.
+- **Deploy:** 3 deploys to Saturn, final hash `d147cdc7`. Verified listing record in Surrealist.
 
 ### Session 2026-06-30 20:33 — Discovery Layer Grill + Track
 
@@ -73,7 +88,7 @@ None.
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Discovery Layer Phase 1** — Create `discovery_service` package, build models + `ListingSyncService`, wire BP publish toggle. The next build step.
+1. 🔴 **Discovery Layer Phase 2** — Marketplace Home Screen + DittoBar search. Wire `DiscoveryRepository` into Marketplace, build EstablishmentListingCard, category chips, BM25 search.
 2. 🔴 **BP Bookings Backend** — Build BP tab to receive/view bookings after ME processes them. Critical path for E2E booking flow.
 3. 🟡 **MercuryEngine Availability Wiring** — Replace mock time slots with real ME availability. Unblocks real booking creation.
 4. 🟡 **Favorites Toggle polish** — Widget tests, `pendingFavorite` flow, merge to develop.

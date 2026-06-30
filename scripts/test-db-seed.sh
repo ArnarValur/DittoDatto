@@ -63,6 +63,13 @@ USE NS companies DB company_testcompany;
 DEFINE USER IF NOT EXISTS $BP_PORTAL_USER ON DATABASE PASSWORD '$BP_PORTAL_PASS' ROLES EDITOR;
 SQL
 
+# Also grant bp_portal EDITOR access to the discovery DB (for listing sync on publish).
+echo "🔑 Creating BP service user on discovery (EDITOR)..."
+$SURREAL_CMD <<SQL
+USE NS companies DB discovery;
+DEFINE USER IF NOT EXISTS $BP_PORTAL_USER ON DATABASE PASSWORD '$BP_PORTAL_PASS' ROLES EDITOR;
+SQL
+
 # ─── NS-level user for users namespace (needed for RECORD ACCESS to work) ────
 # The seed script connects as root, but the RECORD ACCESS bp_auth definition
 # handles user authentication. We still need an NS user for the admin panel
@@ -91,6 +98,7 @@ CREATE user SET
   password_hash = crypto::argon2::generate('testbiz-pass'),
   role       = 'business',
   company_slug = 'testcompany',
+  company_name = 'Test Company AS',
   is_onboarded = true,
   created_at = time::now(),
   updated_at = time::now();

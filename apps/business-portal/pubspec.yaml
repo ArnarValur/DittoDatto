@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   ditto_auth:
     path: ../../packages/ditto_auth
+  discovery_service:
+    path: ../../packages/discovery_service
   ditto_design:
     path: ../../packages/ditto_design
   establishment_ui:

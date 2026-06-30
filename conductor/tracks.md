@@ -28,10 +28,10 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 ## Active Tracks
 
-- [ ] **Discovery Layer — Publish pipeline, discovery_service package, Marketplace home screen, area auto-detection, two-phase detail load**
-  - *Type:* feature | *Domain:* discovery | *Status:* **new**
+- [~] **Discovery Layer — Publish pipeline, discovery_service package, Marketplace home screen, area auto-detection, two-phase detail load**
+  - *Type:* feature | *Domain:* discovery | *Status:* **Phase 1 complete, deployed to Saturn**
   - *Link:* [tracks/discovery/discovery_layer_20260630/](./tracks/discovery/discovery_layer_20260630/)
-  - *Phases:* 5 — (1) Package + Models + BP Publish Sync, (2) Home Screen + DittoBar Search, (3) Area Hierarchy + Geo Filtering, (4) Two-Phase Detail Load (replace debug pipe), (5) Verification + Deploy
+  - *Phases:* 5 — (1) Package + Models + BP Publish Sync ✅, (2) Home Screen + DittoBar Search, (3) Area Hierarchy + Geo Filtering, (4) Two-Phase Detail Load (replace debug pipe), (5) Verification + Deploy
   - *ADRs:* ADR-0024 (BP Direct-Write Sync), ADR-0025 (Two-Phase Load), ADR-0026 (Discovery Service Package)
   - *Depends on:* `establishment_ui` (✅), `ditto_auth` (✅), `ditto_design` (✅), Admin categories (✅), Kartverket geocoding (✅)
   - *Deferred:* SearchEvent/Zero-Result logging, vector search, ratings, map view, self-service signup
