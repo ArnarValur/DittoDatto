@@ -3,7 +3,7 @@
 > Domain glossary and ubiquitous language for **DittoDatto**.
 > Updated by `/grill` and `/new-track` sessions.
 >
-> **Last refined:** 2026-06-28
+> **Last refined:** 2026-06-30 (Discovery grill)
 
 ---
 
@@ -49,7 +49,11 @@
 | **Message**               | Single message within a MessageThread.                                                                                                                                 | comm                                  |
 | **Entity** (agent memory) | Graph-node representing an actor/object the agent has knowledge of.                                                                                                    | knowledge node                        |
 | **Fact** (agent memory)   | Graph-edge or attribute the agent has learned.                                                                                                                         | knowledge edge                        |
-
+| **`discovery_service`**   | Shared Dart package (`packages/discovery_service/`) containing `DiscoveryRepository` (reads from `companies/discovery`) and `ListingSyncService` (writes listings on publish). Consumed by Marketplace (reads) and BP (writes). | discovery package                     |
+| **`marketplace_reader`**  | A VIEWER-level SurrealDB service user defined in `company-blueprint.surql`. Grants Marketplace SELECT-only access to published establishments, active services, and service groups in company DBs for detail views. | public reader, read-only service user |
+| **PublishSync**           | The side-effect triggered when a business owner sets `is_published=true` in BP. BP writes/updates the denormalized `establishment_listing` in `companies/discovery` via `ListingSyncService`. Immediate, not eventually consistent. | publish trigger, sync-on-publish      |
+| **Two-Phase Load**        | Discovery architecture pattern: Home tab shows lightweight `EstablishmentListing` cards from `companies/discovery` (index phase). Tap → full `EstablishmentData` loaded from `company_{slug}` DB via `marketplace_reader` (detail phase). | index-then-detail                     |
+| **EstablishmentListingCard** | Consumer-facing compact card widget on the Home tab. Shows: cover/logo, name, category chip, rating stars, city/address. Tapping navigates to the full EstablishmentPage. | listing card, discovery card           |
 ### Conceptual entities (platform concepts, not DB tables)
 
 | Term                                  | Definition                                                                                                                                    | Also known as            |
