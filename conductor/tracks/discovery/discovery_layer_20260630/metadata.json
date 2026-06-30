@@ -1,0 +1,9 @@
+{
+  "track_id": "discovery_layer_20260630",
+  "type": "feature",
+  "status": "new",
+  "domain": "discovery",
+  "created_at": "2026-06-30T20:23:00+02:00",
+  "updated_at": "2026-06-30T20:28:00+02:00",
+  "description": "Discovery Layer — publish pipeline, discovery_service shared package, Marketplace home screen with DittoBar search, area auto-detection, two-phase detail load replacing debug pipe."
+}

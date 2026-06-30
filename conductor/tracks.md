@@ -22,10 +22,19 @@ All tracks organized by domain. Each track links to its dedicated folder.
 | **Geo Integration** | `packages/establishment_ui/` (services) | 🟢 Active | Kartverket + Nominatim + flutter_map. Cross-cutting: Admin, BP, Marketplace. |
 | **Services** | `packages/establishment_ui/` + `apps/*/features/services/` | 🟡 Careful | Service display + CRUD. Cross-cutting: Marketplace, BP, future booking flow. |
 | **Ticketing** | `packages/establishment_ui/` + `apps/*/features/events/` + `schemas/` | 🟡 Careful | Events + ticketSystem booking mode. ServiceGroup = Event (ADR-0022), independent flags (ADR-0023). Depends on Services domain. |
+| **Discovery** | `packages/discovery_service/` + `apps/marketplace/lib/features/home/` + BP publish wiring | 🔴 Tread Carefully | Cross-cutting: BP writes, Marketplace reads. Gateway for all consumer browsing. ADR-0024, ADR-0025, ADR-0026. |
 
 ---
 
 ## Active Tracks
+
+- [ ] **Discovery Layer — Publish pipeline, discovery_service package, Marketplace home screen, area auto-detection, two-phase detail load**
+  - *Type:* feature | *Domain:* discovery | *Status:* **new**
+  - *Link:* [tracks/discovery/discovery_layer_20260630/](./tracks/discovery/discovery_layer_20260630/)
+  - *Phases:* 5 — (1) Package + Models + BP Publish Sync, (2) Home Screen + DittoBar Search, (3) Area Hierarchy + Geo Filtering, (4) Two-Phase Detail Load (replace debug pipe), (5) Verification + Deploy
+  - *ADRs:* ADR-0024 (BP Direct-Write Sync), ADR-0025 (Two-Phase Load), ADR-0026 (Discovery Service Package)
+  - *Depends on:* `establishment_ui` (✅), `ditto_auth` (✅), `ditto_design` (✅), Admin categories (✅), Kartverket geocoding (✅)
+  - *Deferred:* SearchEvent/Zero-Result logging, vector search, ratings, map view, self-service signup
 
 - [ ] **SolarTheme — Time-of-day atmospheric theming (solar engine, star field, gradient sky)**
   - *Type:* feature | *Domain:* design-system | *Status:* **Phase 1 complete** (engine ported, demo running on device)
