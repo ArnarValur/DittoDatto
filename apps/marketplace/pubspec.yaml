@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  booking_ui:
+    path: ../../packages/booking_ui
   ditto_auth:
     path: ../../packages/ditto_auth
   ditto_design:

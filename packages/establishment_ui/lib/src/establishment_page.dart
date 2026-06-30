@@ -1,16 +1,15 @@
+
 import 'package:ditto_design/ditto_design.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'models/establishment_data.dart';
 import 'sections/establishment_about_grid.dart';
-import 'sections/establishment_action_buttons.dart';
-import 'sections/establishment_contact_section.dart';
 import 'sections/establishment_events_section.dart';
+import 'sections/establishment_featured_section.dart';
 import 'sections/establishment_gallery_section.dart';
 import 'sections/establishment_info_bar.dart';
 import 'sections/establishment_map_section.dart';
-
-import 'sections/establishment_services_section.dart';
 
 /// The main establishment storefront page widget.
 ///
@@ -27,13 +26,22 @@ import 'sections/establishment_services_section.dart';
 /// - **Public Marketplace** — customer-facing page
 ///
 /// Features:
+/// - Collapsing SliverAppBar with transparent → solid scroll transition
+/// - Visible system status bar with appropriate icon brightness
 /// - Conditional sections controlled by [EstablishmentData] visibility flags
-/// - Anchor shortcut chips for quick-scrolling to sections
 /// - Back-to-top FAB after scrolling 300px
 class EstablishmentPage extends StatefulWidget {
   const EstablishmentPage({
     required this.data,
     this.isPreview = false,
+    this.onBack,
+    this.onProfile,
+    this.onRefresh,
+    this.onThemeToggle,
+    this.isDarkMode = false,
+    this.onFavoriteTapped,
+    this.isFavorited = false,
+    this.onBookTapped,
     super.key,
   });
 
@@ -44,6 +52,32 @@ class EstablishmentPage extends StatefulWidget {
   /// When true, hides action buttons and shows a draft indicator
   /// for unpublished establishments.
   final bool isPreview;
+
+  /// Called when the back button is tapped.
+  final VoidCallback? onBack;
+
+  /// Called when the profile/avatar icon is tapped.
+  final VoidCallback? onProfile;
+
+  /// Called when the refresh action is triggered (debug only).
+  final VoidCallback? onRefresh;
+
+  /// Called when the theme toggle button is tapped.
+  /// When `null`, the toggle button is hidden.
+  final VoidCallback? onThemeToggle;
+
+  /// Whether the current theme is dark mode.
+  /// Controls which icon the toggle button shows.
+  final bool isDarkMode;
+
+  /// Called when the user taps the Lagre (favorite) button.
+  final VoidCallback? onFavoriteTapped;
+
+  /// Whether the establishment is currently favorited by the user.
+  final bool isFavorited;
+
+  /// Called when the user taps the "Bestill time" (Book) button.
+  final VoidCallback? onBookTapped;
 
   @override
   State<EstablishmentPage> createState() => _EstablishmentPageState();
@@ -61,6 +95,9 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
   /// Horizontal padding inside constrained area on wide viewports.
   static const _widePaddingH = DittoSpacing.lg;
 
+  /// Height of the mobile cover image.
+  static const _coverHeight = 300.0;
+
   @override
   void initState() {
     super.initState();
@@ -77,13 +114,23 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
 
   bool _showBackToTop = false;
 
+  /// Tracks how far the user has scrolled past the cover image.
+  /// 0.0 = at top (cover fully visible), 1.0 = scrolled past cover.
+  double _scrollProgress = 0.0;
+
   void _onScroll() {
-    final shouldShow = _scrollController.offset > 300;
+    final offset = _scrollController.offset;
+    final shouldShow = offset > 300;
     if (shouldShow != _showBackToTop) {
       setState(() => _showBackToTop = shouldShow);
     }
-  }
 
+    // Calculate scroll progress for app bar transition.
+    final progress = (offset / (_coverHeight - kToolbarHeight)).clamp(0.0, 1.0);
+    if ((progress - _scrollProgress).abs() > 0.01) {
+      setState(() => _scrollProgress = progress);
+    }
+  }
 
   void _scrollToTop() {
     _scrollController.animateTo(
@@ -95,121 +142,274 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: _showBackToTop
-          ? FloatingActionButton.small(
-              onPressed: _scrollToTop,
-              child: const Icon(Icons.keyboard_arrow_up),
-            )
-          : null,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final windowClass = DittoWindowClass.of(constraints.maxWidth);
-          final isWide = windowClass != DittoWindowClass.compact;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
-          return CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              // ── Draft banner ────────────────────────────────────────
-              _buildDraftBanner(context),
+    // Determine status bar brightness based on scroll position.
+    // Over the cover image: light icons. After scrolling: dark icons.
+    final statusBarBrightness = _scrollProgress > 0.5
+        ? Brightness.dark
+        : Brightness.light;
 
-              // ── Gallery ─────────────────────────────────────────────
-              EstablishmentGallerySection(data: data, isWide: isWide),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: statusBarBrightness,
+        statusBarBrightness: statusBarBrightness == Brightness.dark
+            ? Brightness.light  // iOS: light status bar = dark icons
+            : Brightness.dark,
+      ),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        floatingActionButton: _showBackToTop
+            ? FloatingActionButton.small(
+                onPressed: _scrollToTop,
+                child: const Icon(Icons.keyboard_arrow_up),
+              )
+            : null,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final windowClass = DittoWindowClass.of(constraints.maxWidth);
+            final isWide = windowClass != DittoWindowClass.compact;
 
-              // ── Spacing between gallery and content on wide ──────────
-              if (isWide)
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: DittoSpacing.xl),
-                ),
+            return CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                // ── Collapsing app bar ─────────────────────────────────
+                _buildSliverAppBar(theme, colorScheme, isWide),
 
-              // ── Constrained content area for wide viewports ─────────
-              // Everything below the gallery gets a max-width constraint.
-              SliverToBoxAdapter(
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: isWide
-                        ? const BoxConstraints(maxWidth: _maxContentWidth)
-                        : const BoxConstraints(),
-                    child: Padding(
-                      padding: isWide
-                          ? const EdgeInsets.symmetric(
-                              horizontal: _widePaddingH)
-                          : EdgeInsets.zero,
-                      child: Column(
-                        children: [
-                          // ── Info bar ──────────────────────────────────
-                          EstablishmentInfoBar(
-                            data: data,
-                            isWide: isWide,
-                            isPreview: isPreview,
-                          ),
+                // ── Draft banner ────────────────────────────────────────
+                _buildDraftBanner(context),
 
-                          // ── Action buttons (mobile only) ─────────────
-                          // On wide viewports, buttons are inside the info bar.
-                          if (!isWide)
-                            EstablishmentActionButtons(
-                              data: data,
-                              isPreview: isPreview,
-                            ),
-                        ],
+                // ── Gallery (wide only — mobile uses SliverAppBar) ──────
+                if (isWide)
+                  EstablishmentGallerySection(data: data, isWide: isWide),
+
+                // ── Spacing between gallery and content on wide ──────────
+                if (isWide)
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: DittoSpacing.xl),
+                  ),
+
+                // ── Info bar + action buttons ──────────────────────────
+                SliverToBoxAdapter(
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: isWide
+                          ? const BoxConstraints(maxWidth: _maxContentWidth)
+                          : const BoxConstraints(),
+                      child: Padding(
+                        padding: isWide
+                            ? const EdgeInsets.symmetric(
+                                horizontal: _widePaddingH)
+                            : EdgeInsets.zero,
+                        child: EstablishmentInfoBar(
+                          data: data,
+                          isWide: isWide,
+                          isPreview: isPreview,
+                          onFavoriteTapped: widget.onFavoriteTapped,
+                          isFavorited: widget.isFavorited,
+                          onBookTapped: widget.onBookTapped,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
 
-              // ── Services section ────────────────────────────────────
-              if (data.showServices)
-                _buildConstrainedSliver(
-                  isWide: isWide,
-                  sliver: EstablishmentServicesSection(data: data),
-                ),
-
-              // ── Events section ──────────────────────────────────────
-              if (data.showEvents)
-                _buildConstrainedSliver(
-                  isWide: isWide,
-                  sliver: const EstablishmentEventsSection(),
-                ),
-
-              // ── About section ───────────────────────────────────────
-              _buildConstrainedSliver(
-                isWide: isWide,
-                sliver: EstablishmentAboutGrid(data: data),
-              ),
-
-              // Spacing between sections
-              const SliverToBoxAdapter(
-                child: SizedBox(height: DittoSpacing.md),
-              ),
-
-              // ── Contact section ─────────────────────────────────────
-              _buildConstrainedSliver(
-                isWide: isWide,
-                sliver: EstablishmentContactSection(
-                  data: data,
-                  isWide: isWide,
-                ),
-              ),
-
-              // ── Map section ──────────────────────────────────────────
-              if (data.hasLocation)
-                _buildConstrainedSliver(
-                  isWide: isWide,
-                  sliver: EstablishmentMapSection(
-                    data: data,
+                // ── Featured services section ──────────────────────────
+                if (data.showServices)
+                  _buildConstrainedSliver(
                     isWide: isWide,
+                    sliver: EstablishmentFeaturedSection(data: data),
+                  ),
+
+                // ── Events section ──────────────────────────────────────
+                if (data.showEvents)
+                  _buildConstrainedSliver(
+                    isWide: isWide,
+                    sliver: const EstablishmentEventsSection(),
+                  ),
+
+                // ── About section ───────────────────────────────────────
+                _buildConstrainedSliver(
+                  isWide: isWide,
+                  sliver: EstablishmentAboutGrid(data: data),
+                ),
+
+                // ── Map section ──────────────────────────────────────────
+                if (data.hasLocation)
+                  _buildConstrainedSliver(
+                    isWide: isWide,
+                    sliver: EstablishmentMapSection(
+                      data: data,
+                      isWide: isWide,
+                    ),
+                  ),
+
+                // ── Bottom padding (clear the glass bottom nav) ─────
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: DittoSpacing.xl +
+                        MediaQuery.paddingOf(context).bottom +
+                        48, // nav bar height
                   ),
                 ),
-
-              // ── Bottom padding ──────────────────────────────────────
-              const SliverToBoxAdapter(
-                child: SizedBox(height: DittoSpacing.xl),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  /// Builds the collapsing SliverAppBar with transparent → solid transition.
+  ///
+  /// Over the cover: transparent with semi-transparent icon backgrounds.
+  /// Scrolled past cover: solid surface with establishment name.
+  Widget _buildSliverAppBar(
+    ThemeData theme,
+    ColorScheme colorScheme,
+    bool isWide,
+  ) {
+    final appBarColor = Color.lerp(
+      Colors.transparent,
+      colorScheme.surface,
+      _scrollProgress,
+    )!;
+
+    final iconBgColor = Color.lerp(
+      Colors.black38,
+      Colors.transparent,
+      _scrollProgress,
+    )!;
+
+    final titleOpacity = (_scrollProgress * 2 - 1).clamp(0.0, 1.0);
+
+    return SliverAppBar(
+      pinned: true,
+      floating: false,
+      expandedHeight: isWide ? 0 : _coverHeight,
+      backgroundColor: appBarColor,
+      surfaceTintColor: Colors.transparent,
+      elevation: _scrollProgress > 0.9 ? 1 : 0,
+      leading: _buildAppBarIcon(
+        icon: Icons.arrow_back_rounded,
+        onPressed: widget.onBack ?? () => Navigator.of(context).maybePop(),
+        iconBgColor: iconBgColor,
+        colorScheme: colorScheme,
+      ),
+      actions: [
+        if (widget.onRefresh != null)
+          _buildAppBarIcon(
+            icon: Icons.refresh_rounded,
+            onPressed: widget.onRefresh!,
+            iconBgColor: iconBgColor,
+            colorScheme: colorScheme,
+          ),
+        if (widget.onThemeToggle != null)
+          _buildAppBarIcon(
+            icon: widget.isDarkMode
+                ? Icons.light_mode_rounded
+                : Icons.dark_mode_rounded,
+            onPressed: widget.onThemeToggle!,
+            iconBgColor: iconBgColor,
+            colorScheme: colorScheme,
+          ),
+        _buildAppBarIcon(
+          icon: Icons.person_outline_rounded,
+          onPressed: widget.onProfile ?? () {},
+          iconBgColor: iconBgColor,
+          colorScheme: colorScheme,
+        ),
+        const SizedBox(width: DittoSpacing.xs),
+      ],
+      title: Opacity(
+        opacity: titleOpacity,
+        child: Text(
+          data.name,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      flexibleSpace: isWide
+          ? null
+          : FlexibleSpaceBar(
+              background: _buildCoverForAppBar(colorScheme),
+            ),
+    );
+  }
+
+  /// Builds an icon button for the app bar with a semi-transparent
+  /// circular background for contrast over cover images.
+  Widget _buildAppBarIcon({
+    required IconData icon,
+    required VoidCallback onPressed,
+    required Color iconBgColor,
+    required ColorScheme colorScheme,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: iconBgColor,
+        ),
+        child: IconButton(
+          icon: Icon(icon),
+          onPressed: onPressed,
+          color: _scrollProgress > 0.5
+              ? colorScheme.onSurface
+              : Colors.white,
+          iconSize: 22,
+        ),
+      ),
+    );
+  }
+
+  /// Builds the cover image for the SliverAppBar's FlexibleSpaceBar.
+  /// This replaces the old EstablishmentGallerySection for mobile.
+  Widget _buildCoverForAppBar(ColorScheme colorScheme) {
+    if (!data.hasMedia) {
+      return Container(
+        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+        child: Center(
+          child: Icon(
+            Icons.photo_library_outlined,
+            size: 48,
+            color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+          ),
+        ),
+      );
+    }
+
+    final coverUrl = data.coverUrl ?? data.galleryUrls.first;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Image.network(
+          coverUrl,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) => Container(
+            color: colorScheme.surfaceContainerHighest,
+            child: Icon(
+              Icons.broken_image_outlined,
+              size: 48,
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+        // Gradient overlay for status bar readability.
+        const DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.center,
+              colors: [Colors.black45, Colors.transparent],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

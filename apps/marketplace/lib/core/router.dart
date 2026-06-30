@@ -2,10 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:establishment_ui/establishment_ui.dart';
 import 'package:mercury_client/mercury_client.dart';
 
 import 'auth_provider.dart';
 import '../features/auth/login_screen.dart';
+import '../features/booking/booking_screen.dart';
 import '../features/establishment/establishment_test_screen.dart';
 import '../features/solar_demo/solar_demo_screen.dart';
 import '../features/auth/signup_screen.dart';
@@ -23,6 +25,7 @@ abstract final class MarketplaceRoutes {
   static const signup = '/profile/signup';
   static const solarDemo = '/solar';
   static const establishmentTest = '/establishment-test';
+  static const booking = '/booking';
 }
 
 /// Listenable that fires when authProvider changes.
@@ -74,6 +77,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: MarketplaceRoutes.solarDemo,
         builder: (context, state) => const SolarDemoScreen(),
+      ),
+      // Booking flow — full-screen, outside the shell (hides bottom nav).
+      GoRoute(
+        path: MarketplaceRoutes.booking,
+        builder: (context, state) {
+          final data = state.extra! as EstablishmentData;
+          return BookingScreen(data: data);
+        },
       ),
       // Main app shell — bottom nav always visible.
       StatefulShellRoute.indexedStack(
