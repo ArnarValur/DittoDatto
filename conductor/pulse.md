@@ -1,24 +1,25 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-30 13:48
-**Session Focus:** Favorites Toggle — Saturn DB fix + deploy
+**Last Updated:** 2026-06-30 19:32
+**Session Focus:** Booking Flow UI — 5-step journey built + deployed to phone
 
 ## 🚀 Active Tracks
 
-- **Favorites Toggle** (`favorites_toggle_20260630`) — **Phases 1–3 functional.** Toggle works on phone. Remaining: widget tests for filled/outline states, `pendingFavorite` login-return flow, auth gate integration test, merge to develop.
+- **Booking Flow UI** (`booking_flow_ui_20260630`) — **Phases 1–4 complete. Deployed to phone.** All 5 steps built: service selection (real data), staff (mock), date/time (mock calendar + slots), review (summary + MVA), payment placeholder. 18 unit tests. Remaining: visual polish, ME availability wiring.
+- **Favorites Toggle** (`favorites_toggle_20260630`) — **Phases 1–3 functional.** Toggle works on phone. Remaining: widget tests, `pendingFavorite` login-return flow, merge to develop.
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
 - **SolarTheme** (`solar_theme_20260628`) — **Phase 1 complete.** Solar engine ported, star field + demo running on device. Phases 2-5 open.
-- **Map & Geocoding** (`map_and_geocoding_20260628`) — **Phases 1-6 complete.** Kartverket autocomplete + flutter_map live in Admin + BP on Saturn. Future: Marketplace discovery map, Sweden support.
+- **Map & Geocoding** (`map_and_geocoding_20260628`) — **Phases 1-6 complete.** Kartverket autocomplete + flutter_map live in Admin + BP on Saturn.
 - **Services Section** (`services_section_20260628`) — **Completed.** All 4 phases done.
 - **Ticketing & Events** (`ticketing_events_20260628`) — **New.** Track created. 5 phases.
 
 ## ✅ Recently Completed
 
-- **2026-06-30 13:48** — **Favorites Toggle Saturn DB fix.** Root-caused `PERMISSIONS NONE` on Saturn's `favorite` table (left from prior debugging). Fixed via REMOVE TABLE + DEFINE TABLE + ALTER TABLE. Verified via HTTP API test + deployed to phone. User confirmed toggle works and verified data in SDB.
-- **2026-06-30 00:28** — **EstablishmentPage v2 native redesign.** Full page overhaul: SliverAppBar with transparent-to-solid collapsing toolbar + AnnotatedRegion for system status bar. Header refactored to inline Row (logo left, info right). Featured services section (hero card + seamless service list, secondaryContainer tint, no header label). Bottom nav evolved to glass-morphism (48px, icons only 23px, BackdropFilter blur). Theme toggle button in top bar. Removed full "Tjenester" section + Kontakt section. Dynamic bottom padding clears glass nav. 91/91 establishment_ui tests. Multiple deploys to phone. Ingested 5 Stitch booking flow screens and wrote analysis for next session.
-- **2026-06-29 19:38** — **BP bugfix session (4 fixes).** Sidebar company name, image deletion loop, category dropdown, map marker color. 75/75 integration tests. Deployed twice to Saturn :8003.
-- **2026-06-29 18:53** — **Stitch Design System Integration ("Moody Flutter").** Stitch MCP wired. Design tokens updated (Plus Jakarta Sans, #3F51B5 seed, spacing tokens). Deployed to Saturn + phone.
-- **2026-06-29 17:29** — **Services Section track completed (Phases 3+4).** ServiceCard (3 variants), ServiceGroupSection, EstablishmentServicesSection. 95 package tests. Deployed to Saturn + phone.
+- **2026-06-30 19:32** — **Booking Flow UI deployed to phone.** Built complete `booking_ui` shared package (5 steps, BookingState model, BookingStepIndicator, BookingFlowPage shell). Wired `onBookTapped` callback through EstablishmentPage → EstablishmentInfoBar. Added `/booking` route to Marketplace router. 18 unit tests for BookingState + MockTimeSlot. User confirmed: "Looks very good... clean, clear and easy to navigate!"
+- **2026-06-30 13:48** — **Favorites Toggle Saturn DB fix.** Root-caused `PERMISSIONS NONE`. Fixed via REMOVE + DEFINE + ALTER TABLE. Verified HTTP API + deployed to phone.
+- **2026-06-30 00:28** — **EstablishmentPage v2 native redesign.** SliverAppBar, glass-morphism bottom nav, featured services, theme toggle. Ingested 5 Stitch booking screens.
+- **2026-06-29 19:38** — **BP bugfix session (4 fixes).** Sidebar company name, image deletion loop, category dropdown, map marker color.
+- **2026-06-29 18:53** — **Stitch Design System Integration ("Moody Flutter").** Plus Jakarta Sans, #3F51B5 seed, spacing tokens.
 
 > 📦 Full history: `conductor/pulse-archive/2026-06-30.md`
 
@@ -30,30 +31,40 @@ None.
 
 ## 🧠 Session Memory
 
+### Session 2026-06-30 19:32 — Booking Flow UI Implementation
+
+- **Package created:** `packages/booking_ui/` — shared package with `booking_ui.dart` barrel, depends on `establishment_ui` + `ditto_design`.
+- **Models:** `BookingState` (immutable, `copyWith` helpers, computed `subtotal`/`taxAmount`/`totalPrice` with 25% MVA), `MockStaff` (3 demo entries), `MockTimeSlot` (date-seeded pseudo-random generation).
+- **Step widgets built (5/5):**
+  1. `ServiceSelectionStep` — real data from debug pipe, group filtering by `showOnBookingPanel`, respects `ServiceGroup.multiSelect` (radio vs checkbox).
+  2. `StaffSelectionStep` — "Ingen preferanse" default + 3 mock staff with ratings.
+  3. `DateTimeSelectionStep` — custom calendar (Norwegian month names, past-date greying), time slot chips (Morgen / Ettermiddag).
+  4. `ReviewStep` — summary cards (service/staff/time/location) with edit pencils, customer note field, MVA payment summary.
+  5. `PaymentPlaceholderStep` — disabled card form, "Betaling kommer snart" badge.
+- **Shell:** `BookingFlowPage` — manages `BookingState`, `AnimatedSwitcher` transitions, close confirmation dialog, back navigation preserves state.
+- **Stepper:** `BookingStepIndicator` — numbered circles (Stitch Step 1 style), checkmarks for completed, tap-to-jump-back on completed steps.
+- **Wiring:**
+  - Added `onBookTapped` callback to `EstablishmentInfoBar` + `EstablishmentPage` (replaces `onPressed: null` TODO).
+  - Added `/booking` as full-screen GoRoute (outside shell → no bottom nav) with `EstablishmentData` as extra.
+  - Added `booking_ui` to workspace `pubspec.yaml` + marketplace dependencies.
+- **Tests:** 18 unit tests (price calculation, multiSelect toggle, gate checks, staff display, time slot generation).
+- **Deploy:** Built release APK (20MB), installed on Galaxy S21. User walkthrough confirmed all 5 screens.
+- **User feedback:** "Looks very good... comparing with the old nuxt, this looks actually amazing... It's clean, clear and easy to navigate!"
+- **MercuryEngine:** User refreshed ME status/pulse in parallel session — ready for future wiring.
+
 ### Session 2026-06-30 13:48 — Favorites Toggle Saturn DB Fix
 
-- **Root cause:** `favorite` table on Saturn had `PERMISSIONS NONE` — left over from previous session's debugging that ran `DEFINE TABLE` without proper permissions clause.
-- **Fix:** `REMOVE TABLE favorite` → `DEFINE TABLE favorite SCHEMAFULL PERMISSIONS FULL` → re-defined all fields + indexes → `ALTER TABLE` for row-level permissions (`select/delete WHERE user = $auth.id`, `create WHERE $auth.id != NONE`, `update NONE`).
-- **Verification:** HTTP API test (signup → CREATE → SELECT → DELETE) confirmed full CRUD cycle works with RECORD ACCESS consumer users.
-- **Cleanup:** Removed debug/test user records from Saturn. Removed temp scripts.
-- **Deploy:** Marketplace app deployed to phone (`flutter run --release -d R5CR61FGVPN`). User confirmed Lagre button works and verified favorite data appears in SurrealDB.
-
-### Session 2026-06-30 13:14 — Favorites Toggle Implementation
-
-- **Data layer (Phase 1 ✅):** Created `Favorite` model (with structured SurrealDB ID support), `FavoriteRepository` (CRUD against `users/users`), Riverpod providers (`isFavoritedProvider`, `toggleFavoriteProvider`, `favoritesCountProvider`).
-- **Schema changes:** Added `PERMISSIONS` to `favorite` table (select/delete own, create when authed, no update). Added `VALUE $auth.id` on `user` field for auto-set. Applied to Saturn via docker exec.
-- **UI wiring (Phase 2 ✅):** Threaded `onFavoriteTapped` + `isFavorited` through `EstablishmentPage` → `EstablishmentInfoBar` → `EstablishmentActionButtons` (3 Lagre buttons total). Auth gate in `EstablishmentTestScreen` — unauthenticated taps redirect to login. Profile "Mine favoritter" sticker card with live count.
-- **Bug fixes during session:** `AsyncValue.value` → pattern matching (throws during loading in Riverpod 3.x). SurrealDB SDK coerces colon-containing strings to record links → changed `target_id` from `establishment:slug` to plain `slug`. `bindings` → positional `vars` parameter in SurrealDB Dart SDK.
-- **Tests:** 9/9 model unit tests, 9/9 repo integration tests (local), 91/91 establishment_ui widget tests, 75/75 BP regression tests.
-- **User decision:** Favorite counts belong in Discovery layer (not company DBs). Discovery will aggregate cross-namespace metrics when that layer is built.
-- **User decision:** `consumerDb` getter on DittoAuth is acceptable for dev/debug phase. Proper DB auth access will be re-grilled during Discovery grill.
+- **Root cause:** `favorite` table on Saturn had `PERMISSIONS NONE` — left over from previous session's debugging.
+- **Fix:** `REMOVE TABLE favorite` → `DEFINE TABLE favorite SCHEMAFULL PERMISSIONS FULL` → re-defined fields + indexes → `ALTER TABLE` for row-level permissions.
+- **Verification:** HTTP API test confirmed full CRUD. Deployed to phone. User confirmed toggle works.
 
 > 📦 Full history for earlier sessions: `conductor/pulse-archive/2026-06-30.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Booking Flow UI (Steps 1–5)** — Build 5-step booking UI with mock data.
-2. 🟡 **Favorites Toggle — remaining polish** — Widget tests for filled/outline states, `pendingFavorite` login-return flow, auth gate integration test, merge to develop.
-3. 🟡 **MercuryEngine availability engine** — Unblocks real booking step 3.
-4. 🟡 **Light theme polish** — User said light theme is "sterile".
-5. 🟡 **Profile page grill** — Deferred. Favorites sticker is placed, full profile design TBD.
+1. 🔴 **Discovery Layer + Multi-Tenant Login** — Enable login as other users, create establishments (hair salon, restaurant). Requires Discovery grill.
+2. 🔴 **BP Bookings Backend** — Build BP tab to receive/view bookings after ME processes them. Critical path for E2E booking flow.
+3. 🟡 **MercuryEngine Availability Wiring** — Replace mock time slots with real ME availability. Unblocks real booking creation.
+4. 🟡 **Favorites Toggle polish** — Widget tests, `pendingFavorite` flow, merge to develop.
+5. 🟡 **Light theme polish** — User said light theme is "sterile."
+6. 🟡 **Profile page grill** — Favorites sticker placed, full profile design TBD.

@@ -55,11 +55,11 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Deferred:* `favorites_count` counter sync, favorites list screen (profile polish), staff favorites
 
 - [ ] **Booking Flow UI — 5-step native booking journey (service → staff → time → review → payment)**
-  - *Type:* feature | *Domain:* marketplace | *Status:* **new**
+  - *Type:* feature | *Domain:* marketplace | *Status:* **Phases 1–4 complete, deployed to phone**
   - *Link:* [tracks/marketplace/booking_flow_ui_20260630/](./tracks/marketplace/booking_flow_ui_20260630/)
-  - *Phases:* 5 — (1) Package Scaffold + Navigation Shell, (2) Service Selection (Real Data), (3) Staff + Date/Time (Mock), (4) Review + Payment Placeholder, (5) Verification + Deploy
-  - *Data source:* Step 1 uses real House of the North services via debug pipe. Steps 2-3 mock. Step 5 visual-only placeholder.
-  - *Depends on:* `establishment_ui` (✅), `ditto_design` (✅), auth gate (✅)
+  - *Phases:* 5 — (1) Package Scaffold + Navigation Shell ✅, (2) Service Selection (Real Data) ✅, (3) Staff + Date/Time (Mock) ✅, (4) Review + Payment Placeholder ✅, (5) Visual Polish + E2E
+  - *New package:* `packages/booking_ui/` — shared, 18 unit tests. `onBookTapped` wired through EstablishmentPage.
+  - *Data source:* Step 1 uses real House of the North services. Steps 2-3 mock. Step 5 visual-only placeholder.
   - *Deferred:* ME availability engine, Vipps payment, booking writes, "My Bookings" tab
 
 - [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
