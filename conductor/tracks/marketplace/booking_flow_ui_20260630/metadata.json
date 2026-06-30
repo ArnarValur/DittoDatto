@@ -1,0 +1,9 @@
+{
+  "track_id": "booking_flow_ui_20260630",
+  "type": "feature",
+  "status": "new",
+  "domain": "marketplace",
+  "created_at": "2026-06-30T14:06:00+02:00",
+  "updated_at": "2026-06-30T14:06:00+02:00",
+  "description": "5-step native booking flow UI — service selection, staff, date/time, review, payment placeholder. Real data from House of the North via debug pipe. Shared booking_ui package."
+}
