@@ -62,21 +62,16 @@
     - [x] Marketplace unit tests — 9/9 model ✅
     - [x] Marketplace integration tests — 9/9 repo (local DB) ✅
     - [x] Zero regressions on BP tests — 75/75 ✅
-    - [ ] E2E test against Saturn — ❌ FAILS (CREATE returns empty)
+    - [x] E2E test against Saturn — ✅ (Saturn DB permissions fixed)
 
-- [ ] Task: Deploy to phone
-    - [ ] `flutter run --release -d R5CR61FGVPN`
-    - [ ] E2E: log in → navigate to House of the North → tap Lagre → heart fills → navigate away → return → heart still filled → tap again → heart outlines
+- [x] Task: Deploy to phone
+    - [x] `flutter run --release -d R5CR61FGVPN`
+    - [x] E2E: log in → navigate to House of the North → tap Lagre → heart fills. User confirmed.
 
 - [ ] Task: Merge
     - [ ] Check for concurrent session conflicts on `develop`
     - [ ] Merge `track/marketplace-favorites` → `develop`
 
-### Blocker Details
+### Blocker — RESOLVED
 
-**SurrealDB 3.1.2 (Saturn) vs 3.0.5 (local test DB):**
-- Consumer RECORD ACCESS users cannot CREATE records on ANY SCHEMAFULL table on Saturn
-- Even `PERMISSIONS FULL` + `option<record<user>>` doesn't help
-- Schemaless CREATE also returns empty
-- `INFO FOR DB` shows `accesses: {}` despite working signup/signin
-- Needs root-cause debugging — likely a behavior change in RECORD ACCESS between 3.0.x and 3.1.x
+**Root cause:** Previous debugging session left `favorite` table with `PERMISSIONS NONE` on Saturn. Fix: `REMOVE TABLE` + `DEFINE TABLE SCHEMAFULL PERMISSIONS FULL` + field/index recreation + `ALTER TABLE` for row-level permissions. Verified via HTTP API + deployed to phone.

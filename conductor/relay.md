@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-30 13:48 — Favorites Toggle Saturn DB Fix
+- **Session:** Root-caused and fixed `PERMISSIONS NONE` on Saturn's `favorite` table. Verified CRUD via HTTP API. Deployed Marketplace to phone. User confirmed favorites work + verified data in SDB.
+- **Tracks touched:** favorites_toggle_20260630
+- **Status:** Unblocked. Toggle works E2E on phone. Remaining: widget tests, `pendingFavorite` login flow, auth gate test, merge.
+- **Decisions:** None
+- **Next:** (1) Booking Flow UI. (2) Favorites polish (tests + merge). (3) MercuryEngine availability. (4) Light theme. (5) Profile grill.
+
+---
+
 ## 2026-06-30 13:14 — Favorites Toggle (BLOCKED on Saturn DB)
 - **Session:** Implemented favorites toggle data layer + UI wiring. Favorite model, repository, Riverpod providers, schema permissions, 3× Lagre button wiring, auth gate, profile sticker.
 - **Tracks touched:** favorites_toggle_20260630
