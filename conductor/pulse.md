@@ -1,10 +1,11 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-06-30 19:32
-**Session Focus:** Booking Flow UI — 5-step journey built + deployed to phone
+**Last Updated:** 2026-06-30 20:33
+**Session Focus:** Discovery Layer grill + track creation
 
 ## 🚀 Active Tracks
 
+- **Discovery Layer** (`discovery_layer_20260630`) — **New. Spec + plan written.** 5 phases: (1) Package + BP Publish Sync, (2) Home Screen + DittoBar, (3) Areas + Geo, (4) Two-Phase Detail Load, (5) Verify + Deploy. ADR-0024/25/26 recorded. Domain: 🔴 Tread Carefully.
 - **Booking Flow UI** (`booking_flow_ui_20260630`) — **Phases 1–4 complete. Deployed to phone.** All 5 steps built: service selection (real data), staff (mock), date/time (mock calendar + slots), review (summary + MVA), payment placeholder. 18 unit tests. Remaining: visual polish, ME availability wiring.
 - **Favorites Toggle** (`favorites_toggle_20260630`) — **Phases 1–3 functional.** Toggle works on phone. Remaining: widget tests, `pendingFavorite` login-return flow, merge to develop.
 - **Auth Service** (`auth_service_20260624`) — **Ready for Phase 4.** Phases 1-3 ✅. Marketplace consumer auth now live → Phase 4 unblocked.
@@ -15,6 +16,7 @@
 
 ## ✅ Recently Completed
 
+- **2026-06-30 20:33** — **Discovery Layer grilled + track created.** Full architecture interview: BP direct-write sync (ADR-0024), two-phase load (ADR-0025), `discovery_service` shared package (ADR-0026). 5 glossary terms added. 5-phase track spec + plan written. New `discovery` domain (🔴) registered.
 - **2026-06-30 19:32** — **Booking Flow UI deployed to phone.** Built complete `booking_ui` shared package (5 steps, BookingState model, BookingStepIndicator, BookingFlowPage shell). Wired `onBookTapped` callback through EstablishmentPage → EstablishmentInfoBar. Added `/booking` route to Marketplace router. 18 unit tests for BookingState + MockTimeSlot. User confirmed: "Looks very good... clean, clear and easy to navigate!"
 - **2026-06-30 13:48** — **Favorites Toggle Saturn DB fix.** Root-caused `PERMISSIONS NONE`. Fixed via REMOVE + DEFINE + ALTER TABLE. Verified HTTP API + deployed to phone.
 - **2026-06-30 00:28** — **EstablishmentPage v2 native redesign.** SliverAppBar, glass-morphism bottom nav, featured services, theme toggle. Ingested 5 Stitch booking screens.
@@ -31,6 +33,21 @@ None.
 
 ## 🧠 Session Memory
 
+### Session 2026-06-30 20:33 — Discovery Layer Grill + Track
+
+- **Grill focus:** General exploration of the Discovery domain — data pipeline, consumer surface, auth model.
+- **Architecture decided:**
+  - **BP direct-write** (ADR-0024): BP writes `establishment_listing` to `companies/discovery` on publish. `bp_portal` upgraded to EDITOR.
+  - **Two-phase load** (ADR-0025): Home tab reads lightweight listings from discovery. Tap → full detail from `company_{slug}` via `marketplace_reader` VIEWER user.
+  - **`discovery_service` package** (ADR-0026): shared Dart package with `DiscoveryRepository` (reads) + `ListingSyncService` (writes).
+- **Home screen design:** DittoBar search (BM25 full-text, Norwegian snowball) + category chips + EstablishmentListingCards.
+- **Area hierarchy:** Kartverket auto-detection from geocoded coordinates. Viken → Drammen → bydeler (Bragernes, Konnerud, Fjell, etc.).
+- **Credential model:** `marketplace_reader` password via `--dart-define=MARKETPLACE_READER_PASS=xxx`.
+- **Deferred:** SearchEvent/Zero-Result logging → separate DittoBar Intelligence grill. User has a vision for `predict.dittodatto.no` keyword extraction dashboard.
+- **Track created:** `discovery_layer_20260630` — 5 phases, spec + plan written.
+- **Glossary:** 5 terms added (`discovery_service`, `marketplace_reader`, `PublishSync`, `Two-Phase Load`, `EstablishmentListingCard`).
+- **Schema:** `discovery.surql` already fully designed (164 lines) — no schema work needed.
+
 ### Session 2026-06-30 19:32 — Booking Flow UI Implementation
 
 - **Package created:** `packages/booking_ui/` — shared package with `booking_ui.dart` barrel, depends on `establishment_ui` + `ditto_design`.
@@ -43,14 +60,8 @@ None.
   5. `PaymentPlaceholderStep` — disabled card form, "Betaling kommer snart" badge.
 - **Shell:** `BookingFlowPage` — manages `BookingState`, `AnimatedSwitcher` transitions, close confirmation dialog, back navigation preserves state.
 - **Stepper:** `BookingStepIndicator` — numbered circles (Stitch Step 1 style), checkmarks for completed, tap-to-jump-back on completed steps.
-- **Wiring:**
-  - Added `onBookTapped` callback to `EstablishmentInfoBar` + `EstablishmentPage` (replaces `onPressed: null` TODO).
-  - Added `/booking` as full-screen GoRoute (outside shell → no bottom nav) with `EstablishmentData` as extra.
-  - Added `booking_ui` to workspace `pubspec.yaml` + marketplace dependencies.
-- **Tests:** 18 unit tests (price calculation, multiSelect toggle, gate checks, staff display, time slot generation).
-- **Deploy:** Built release APK (20MB), installed on Galaxy S21. User walkthrough confirmed all 5 screens.
+- **Tests:** 18 unit tests. Deployed to Galaxy S21.
 - **User feedback:** "Looks very good... comparing with the old nuxt, this looks actually amazing... It's clean, clear and easy to navigate!"
-- **MercuryEngine:** User refreshed ME status/pulse in parallel session — ready for future wiring.
 
 ### Session 2026-06-30 13:48 — Favorites Toggle Saturn DB Fix
 
@@ -62,9 +73,9 @@ None.
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **Discovery Layer + Multi-Tenant Login** — Enable login as other users, create establishments (hair salon, restaurant). Requires Discovery grill.
+1. 🔴 **Discovery Layer Phase 1** — Create `discovery_service` package, build models + `ListingSyncService`, wire BP publish toggle. The next build step.
 2. 🔴 **BP Bookings Backend** — Build BP tab to receive/view bookings after ME processes them. Critical path for E2E booking flow.
 3. 🟡 **MercuryEngine Availability Wiring** — Replace mock time slots with real ME availability. Unblocks real booking creation.
 4. 🟡 **Favorites Toggle polish** — Widget tests, `pendingFavorite` flow, merge to develop.
-5. 🟡 **Light theme polish** — User said light theme is "sterile."
-6. 🟡 **Profile page grill** — Favorites sticker placed, full profile design TBD.
+5. 🟡 **DittoBar Intelligence grill** — SearchEvent logging, keyword extraction, `predict.dittodatto.no` dashboard concept.
+6. 🟡 **Light theme polish** — User said light theme is "sterile."

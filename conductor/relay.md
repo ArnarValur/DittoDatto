@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-06-30 20:33 — Discovery Layer Grill + Track Creation
+- **Session:** Grilled the Discovery domain end-to-end. Decided: BP direct-write sync (ADR-0024), two-phase load (ADR-0025), `discovery_service` shared package (ADR-0026). Added 5 glossary terms. Created `discovery_layer_20260630` track with 5-phase spec + plan. New `discovery` domain (🔴 Tread Carefully) registered.
+- **Tracks touched:** discovery_layer_20260630 (created)
+- **Status:** Track created with full spec + plan. Ready for Phase 1 implementation.
+- **Decisions:** ADR-0024 (BP Direct-Write Sync), ADR-0025 (Two-Phase Load), ADR-0026 (Discovery Service Package)
+- **Next:** (1) Discovery Layer Phase 1: `discovery_service` package + BP publish sync. (2) BP Bookings Backend. (3) ME Availability Wiring.
+
+---
+
 ## 2026-06-30 19:32 — Booking Flow UI Complete + Next Steps Discussion
 - **Session:** Built complete 5-step booking flow UI (`booking_ui` shared package). All step widgets + BookingFlowPage shell + BookingStepIndicator. Wired `onBookTapped` through EstablishmentPage. Added `/booking` route to Marketplace. 18 unit tests. Deployed to phone — user confirmed "looks amazing." Discussed roadmap: Discovery layer (multi-tenant login), BP bookings backend, ME availability wiring.
 - **Tracks touched:** booking_flow_ui_20260630
