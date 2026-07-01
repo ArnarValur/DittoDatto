@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-07-01 13:40 — Discovery Phase 5 Complete + BP Edit Audit
+- **Session:** Discovery Phase 5 E2E verified on phone (detail page, services, service groups, booking UI all working). Audited BP establishment edit page — found opening schedule (🔴), booking policy/config (🟡), social links (🟡) as gaps. User wants grill session to refine booking types vs establishment types, open-ended social links, and booking policy before implementation.
+- **Tracks touched:** discovery_layer_20260630 (Phase 5 done)
+- **Status:** Discovery Layer ready to graduate. BP edit page grill queued.
+- **Decisions:** None
+- **Next:** (1) `/grill` establishment configuration domain. (2) Opening hours editor. (3) BP delete operations. (4) MercuryEngine availability.
+
+---
+
 ## 2026-07-01 12:53 — Detail Page Debug + WS Timeout Hardening
 - **Session:** Debugged marketplace detail page hang. Root cause: phone not on Tailscale mesh → `db.wait()` with no timeout = infinite spinner. Confirmed DB is correct (function works, VIEWER can call it) via CLI `--auth-level namespace` and Dart SDK script. Added 10s timeouts + `AppEventLog` ring buffer to both `EstablishmentDetailService` and `_openDiscoveryDb()`. Detail screen now redirects to home with snackbar on connectivity failure. Applied `keywords`/`service_type` schema hotfix on `company_dream-on-as`. Deployed to phone. 40/40 widget tests.
 - **Tracks touched:** discovery_layer_20260630 (Phase 5 — bug resolved)
