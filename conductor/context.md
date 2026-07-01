@@ -3,7 +3,7 @@
 > Domain glossary and ubiquitous language for **DittoDatto**.
 > Updated by `/grill` and `/new-track` sessions.
 >
-> **Last refined:** 2026-06-30 (Discovery grill)
+> **Last refined:** 2026-07-01 (BP establishment config grill)
 
 ---
 
@@ -54,6 +54,11 @@
 | **PublishSync**           | The side-effect triggered when a business owner sets `is_published=true` in BP. BP writes/updates the denormalized `establishment_listing` in `companies/discovery` via `ListingSyncService`. Immediate, not eventually consistent. | publish trigger, sync-on-publish      |
 | **Two-Phase Load**        | Discovery architecture pattern: Home tab shows lightweight `EstablishmentListing` cards from `companies/discovery` (index phase). Tap → full `EstablishmentData` loaded from `company_{slug}` DB via `marketplace_reader` (detail phase). | index-then-detail                     |
 | **EstablishmentListingCard** | Consumer-facing compact card widget on the Home tab. Shows: cover/logo, name, category chip, rating stars, city/address. Tapping navigates to the full EstablishmentPage. | listing card, discovery card           |
+| **EstablishmentType**     | The archetype classification of an Establishment: `shop`, `restaurant`, or `venue`. Mutable after creation. Drives default booking mode and which config blocks are visible in BP. Does not constrain individual Services' booking modes. Replaces `booking_form_type` (ADR-0027). | business type, archetype              |
+| **Shop** (archetype)      | An establishment archetype for appointment-based businesses (salons, garages, clinics). Default booking mode: `standard`.                                                | appointment business                  |
+| **Restaurant** (archetype) | An establishment archetype for table-reservation businesses. Default booking mode: `tableReservation`. Unlocks `reservation_config` in BP.                              | dining establishment                  |
+| **Venue** (archetype)     | An establishment archetype for events and ticketed experiences. Default booking mode: `ticketSystem`. Requires `event_system` feature flag (ADR-0023).                   | event space                           |
+| **SocialLink**            | A `{platform, url}` pair on an Establishment. Known platforms with first-class icons in v1: `facebook`, `instagram`, `snapchat`, `tiktok`. Unknown platforms accepted with generic link icon. Replaces hardcoded `social_links.fb/ig/x` fields (ADR-0028). | external link                         |
 ### Conceptual entities (platform concepts, not DB tables)
 
 | Term                                  | Definition                                                                                                                                    | Also known as            |
