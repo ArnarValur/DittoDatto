@@ -28,6 +28,14 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 ## Active Tracks
 
+- [ ] **BP Establishment Config — Schema migration (establishment_type, social_links, large_party_handling) + Dart model + 4 new BP edit sections + Marketplace display**
+  - *Type:* feature | *Domain:* business-portal | *Status:* **new**
+  - *Link:* [tracks/business-portal/bp_establishment_config_20260701/](./tracks/business-portal/bp_establishment_config_20260701/)
+  - *Phases:* 4 — (1) Schema Migration + Dart Model Layer, (2) BP UI: Type + Hours + Social, (3) BP UI: Policy + Reservation Config, (4) Marketplace Display + Verification
+  - *ADRs:* ADR-0027 (EstablishmentType replaces booking_form_type), ADR-0028 (Social links flexible array), ADR-0029 (Large party notify + form)
+  - *Depends on:* `establishment_ui` (✅), `ditto_design` (✅), `discovery_service` (✅)
+  - *Deferred:* Split-shift hours, seasonal schedules, holiday/override management, push notifications (notify mode), large party request form
+
 - [~] **Discovery Layer — Publish pipeline, discovery_service package, Marketplace home screen, area auto-detection, two-phase detail load**
   - *Type:* feature | *Domain:* discovery | *Status:* **Phases 1-2+4 complete, Phase 5 in progress**
   - *Link:* [tracks/discovery/discovery_layer_20260630/](./tracks/discovery/discovery_layer_20260630/)
