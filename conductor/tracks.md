@@ -23,10 +23,19 @@ All tracks organized by domain. Each track links to its dedicated folder.
 | **Services** | `packages/establishment_ui/` + `apps/*/features/services/` | 🟡 Careful | Service display + CRUD. Cross-cutting: Marketplace, BP, future booking flow. |
 | **Ticketing** | `packages/establishment_ui/` + `apps/*/features/events/` + `schemas/` | 🟡 Careful | Events + ticketSystem booking mode. ServiceGroup = Event (ADR-0022), independent flags (ADR-0023). Depends on Services domain. |
 | **Discovery** | `packages/discovery_service/` + `apps/marketplace/lib/features/home/` + BP publish wiring | 🔴 Tread Carefully | Cross-cutting: BP writes, Marketplace reads. Gateway for all consumer browsing. ADR-0024, ADR-0025, ADR-0026. |
+| **Booking Integration** | `packages/booking_ui/` + `packages/mercury_client/` + `services/mercury-engine/` + `apps/marketplace/` | 🔴 Tread Carefully | Cross-cutting: ME API ↔ Flutter booking UI. Auth bridge (ADR-0032), BookingRepository, mock replacement. |
 
 ---
 
 ## Active Tracks
+
+- [ ] **ME ↔ Booking UI Wiring — Delegated Trust auth bridge, BookingRepository, replace booking_ui mocks, ME config alignment**
+  - *Type:* feature | *Domain:* booking-integration | *Status:* **new**
+  - *Link:* [tracks/booking-integration/me_booking_wiring_20260701/](./tracks/booking-integration/me_booking_wiring_20260701/)
+  - *Phases:* 5 — (1) Auth Bridge (Delegated Trust), (2) BookingRepository in mercury_client, (3) booking_ui Mock Replacement, (4) Marketplace Integration + Error Handling, (5) Verification + Deploy
+  - *ADRs:* ADR-0032 (Delegated Trust Auth Bridge)
+  - *Depends on:* ME 1.0 (✅), Booking Flow UI (✅), ditto_auth (✅), BP Establishment Config Phases 1–3 (✅), Discovery Layer (✅)
+  - *Deferred:* Vipps payment (v1.3), My Bookings tab, reservation/ticket verticals
 
 - [~] **BP Establishment Config — Schema migration (establishment_type, social_links, large_party_handling) + Dart model + 4 new BP edit sections + Marketplace display**
   - *Type:* feature | *Domain:* business-portal | *Status:* **Phases 1–3 complete, deployed**

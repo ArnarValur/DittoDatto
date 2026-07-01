@@ -1,0 +1,9 @@
+{
+  "track_id": "me_booking_wiring_20260701",
+  "type": "feature",
+  "status": "new",
+  "domain": "booking-integration",
+  "created_at": "2026-07-01T17:16:00+02:00",
+  "updated_at": "2026-07-01T17:16:00+02:00",
+  "description": "Wire Flutter booking UI to MercuryEngine API — Delegated Trust auth bridge, BookingRepository in mercury_client, replace booking_ui mocks with real data, ME reads company config (booking_policy, opening_schedule, reservation_config)"
+}
