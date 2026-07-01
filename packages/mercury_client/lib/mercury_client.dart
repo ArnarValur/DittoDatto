@@ -16,6 +16,7 @@ export 'src/exceptions.dart';
 
 // Models
 export 'src/models/admin_stats.dart';
+export 'src/models/booking.dart';
 export 'src/models/category.dart';
 export 'src/models/company.dart';
 export 'src/models/enums.dart';
@@ -25,3 +26,4 @@ export 'src/models/user.dart';
 
 // Repository
 export 'src/repository/admin_repository.dart';
+export 'src/repository/booking_repository.dart';
