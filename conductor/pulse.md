@@ -1,6 +1,6 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-07-01 12:53
+**Last Updated:** 2026-07-01 13:00
 **Session Focus:** Debug marketplace detail page hang + WS timeout hardening + schema hotfix
 
 ## 🚀 Active Tracks
@@ -45,9 +45,9 @@
   - 40/40 marketplace widget tests green.
   - Commit: `001540d`
 
-- **Schema hotfix on Dream On AS:**
+- **Schema hotfix on ALL company DBs:**
   - `keywords` and `service_type` fields on `service` table missing `DEFAULT []` (provisioned before blueprint fix).
-  - Applied `DEFINE FIELD OVERWRITE` on Saturn. Blueprint already correct.
+  - Applied `DEFINE FIELD OVERWRITE` on `company_dream-on-as`, `company_dittodatto-as`, `company_merkurial-studio`. Blueprint already correct — new DBs unaffected.
 
 - **Marketplace deployed to phone** with timeout fixes.
 

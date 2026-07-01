@@ -16,6 +16,7 @@
 5. **E2E Means E2E:** When testing forms, flows, or UI features end-to-end, **always go through the actual deployed application** (browser, Chrome DevTools MCP, or manual). Never substitute CLI inserts, raw SQL, or API calls — those test the database, not the application. CLI hacks hide form bugs, serialization mismatches, and UI state issues.
 6. **User Experience First:** Every decision should prioritize user experience
 7. **Non-Interactive & CI-Aware:** Prefer non-interactive commands. Use `CI=true` for watch-mode tools (tests, linters) to ensure single execution
+8. **Hotfixes & Patches:** You must inform the User if you are doing hotfixes or patches for singular entity, item or isolated error. If this fix only fixes one bug that is inherantly repreducable bug, then you need to report that situation.
 
 ---
 
