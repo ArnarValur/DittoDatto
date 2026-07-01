@@ -13,6 +13,10 @@ import 'establishment_model.dart';
 import 'establishment_providers.dart';
 import 'category_providers.dart';
 import 'discovery_sync_provider.dart';
+import 'opening_hours_section.dart';
+import 'opening_schedule.dart';
+import 'social_link.dart';
+import 'social_links_section.dart';
 import '../auth/auth_provider.dart';
 import '../media/media_providers.dart';
 
@@ -42,6 +46,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   final _bilderKey = GlobalKey();
   final _lokasjonKey = GlobalKey();
   final _kontaktKey = GlobalKey();
+  final _sosialeKey = GlobalKey();
+  final _apningstiderKey = GlobalKey();
   final _innstillingerKey = GlobalKey();
 
   // ── Generelt section controllers ──
@@ -63,6 +69,14 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   // ── Innstillinger section state ──
   bool _isPublished = false;
   bool _resourcesEnabled = false;
+
+  // ── Opening hours state ──
+  Map<String, OpeningDay> _openingSchedule = {
+    for (final key in weekdayKeys) key: OpeningDay.closed,
+  };
+
+  // ── Social links state ──
+  List<SocialLink> _socialLinks = [];
 
   // ── Bilder section state ──
   String _coverLayoutMode = 'bento';
@@ -112,6 +126,10 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
     _selectedCover = [];
     _selectedGallery = [];
     _mediaResolved = false;
+    _openingSchedule = est.openingSchedule ?? {
+      for (final key in weekdayKeys) key: OpeningDay.closed,
+    };
+    _socialLinks = List<SocialLink>.from(est.socialLinks);
   }
 
   /// Match saved establishment media URLs to [MediaItem] objects.
@@ -200,6 +218,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
       coverLayoutMode: _coverLayoutMode,
       latitude: () => _latitude,
       longitude: () => _longitude,
+      openingSchedule: () => _openingSchedule,
+      socialLinks: _socialLinks,
     );
 
     await ref.read(establishmentsProvider.notifier).updateEstablishment(updated);
@@ -289,6 +309,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               establishmentType: _establishmentType,
               category: _category,
               onCategoryChanged: (c) => setState(() => _category = c),
+              onTypeChanged: (t) => setState(() => _establishmentType = t),
             ),
           ),
           DittoScrollspySection(
@@ -337,6 +358,26 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
               phoneController: _phoneController,
               emailController: _emailController,
               websiteController: _websiteController,
+            ),
+          ),
+          DittoScrollspySection(
+            key: _sosialeKey,
+            label: 'Sosiale medier',
+            icon: Icons.share_rounded,
+            content: SocialLinksSection(
+              links: _socialLinks,
+              onLinksChanged: (links) =>
+                  setState(() => _socialLinks = links),
+            ),
+          ),
+          DittoScrollspySection(
+            key: _apningstiderKey,
+            label: 'Åpningstider',
+            icon: Icons.schedule_rounded,
+            content: OpeningHoursSection(
+              schedule: _openingSchedule,
+              onScheduleChanged: (schedule) =>
+                  setState(() => _openingSchedule = schedule),
             ),
           ),
           DittoScrollspySection(
@@ -433,6 +474,7 @@ class _GenereltSection extends ConsumerWidget {
     required this.establishmentType,
     this.category,
     required this.onCategoryChanged,
+    required this.onTypeChanged,
   });
 
   final TextEditingController nameController;
@@ -440,6 +482,7 @@ class _GenereltSection extends ConsumerWidget {
   final EstablishmentType establishmentType;
   final String? category;
   final ValueChanged<String?> onCategoryChanged;
+  final ValueChanged<EstablishmentType> onTypeChanged;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -451,6 +494,26 @@ class _GenereltSection extends ConsumerWidget {
         TextFormField(
           controller: nameController,
           decoration: const InputDecoration(labelText: 'Navn'),
+        ),
+        const SizedBox(height: DittoSpacing.base),
+
+        // Establishment type selector
+        Text(
+          'Virksomhetstype',
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        const SizedBox(height: DittoSpacing.xs),
+        SegmentedButton<EstablishmentType>(
+          segments: EstablishmentType.values
+              .map((t) => ButtonSegment(
+                    value: t,
+                    label: Text(t.label),
+                    icon: Icon(t.icon),
+                  ))
+              .toList(),
+          selected: {establishmentType},
+          onSelectionChanged: (selection) =>
+              onTypeChanged(selection.first),
         ),
         const SizedBox(height: DittoSpacing.base),
 
