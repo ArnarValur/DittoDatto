@@ -3,6 +3,8 @@ import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
 
 import '../models/booking_state.dart';
+import '../models/mock_staff.dart';
+import '../models/mock_time_slot.dart';
 import '../steps/date_time_selection_step.dart';
 import '../steps/payment_placeholder_step.dart';
 import '../steps/review_step.dart';
@@ -30,6 +32,9 @@ class BookingFlowPage extends StatefulWidget {
     super.key,
     required this.establishmentData,
     required this.onClose,
+    this.onFetchSlots,
+    this.staffList,
+    this.onConfirmBooking,
   });
 
   /// The establishment being booked — provides services, groups,
@@ -39,6 +44,26 @@ class BookingFlowPage extends StatefulWidget {
   /// Called when the user closes the booking flow (X button or
   /// back from Step 1).
   final VoidCallback onClose;
+
+  /// Optional callback to fetch real time slots from ME API.
+  ///
+  /// When null, falls back to [MockTimeSlot.generateForDate].
+  /// Signature: (date, serviceIds, staffId?) → List<MockTimeSlot>
+  final Future<List<MockTimeSlot>> Function(
+    DateTime date,
+    List<String> serviceIds,
+    String? staffId,
+  )? onFetchSlots;
+
+  /// Optional list of real staff members.
+  ///
+  /// When null, falls back to [MockStaff.demoStaff].
+  final List<MockStaff>? staffList;
+
+  /// Optional callback invoked when the user confirms (Step 5).
+  ///
+  /// Returns the booking ID on success, null on failure.
+  final Future<String?> Function(BookingState state)? onConfirmBooking;
 
   @override
   State<BookingFlowPage> createState() => _BookingFlowPageState();
@@ -165,12 +190,14 @@ class _BookingFlowPageState extends State<BookingFlowPage> {
           state: _state,
           onStateChanged: _updateState,
           onContinue: _nextStep,
+          staffList: widget.staffList,
         ),
       2 => DateTimeSelectionStep(
           key: const ValueKey('step-2'),
           state: _state,
           onStateChanged: _updateState,
           onContinue: _nextStep,
+          onFetchSlots: widget.onFetchSlots,
         ),
       3 => ReviewStep(
           key: const ValueKey('step-3'),

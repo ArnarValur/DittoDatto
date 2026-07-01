@@ -13,11 +13,15 @@ class StaffSelectionStep extends StatelessWidget {
     required this.state,
     required this.onStateChanged,
     required this.onContinue,
+    this.staffList,
   });
 
   final BookingState state;
   final ValueChanged<BookingState> onStateChanged;
   final VoidCallback onContinue;
+
+  /// Real staff list from API, or null to use mock data.
+  final List<MockStaff>? staffList;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,7 @@ class StaffSelectionStep extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Staff cards.
-                ...MockStaff.demoStaff.map(
+                ...( staffList ?? MockStaff.demoStaff).map(
                   (staff) => Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: _buildStaffCard(context, staff: staff),

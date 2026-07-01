@@ -54,6 +54,15 @@ class DittoAuth {
   /// The active consumer DB connection, if any.
   SurrealDB? get consumerDb => _consumerDb;
 
+  /// Retrieve the current consumer's SurrealDB JWT.
+  ///
+  /// Used by MercuryEngine client to pass the token as Bearer auth
+  /// (Delegated Trust — ADR-0032). Returns null if no session exists.
+  Future<String?> getConsumerToken() async {
+    final session = await _tokenStore.loadConsumerSession();
+    return session?.usersToken;
+  }
+
   // ── Business Portal Auth ──
 
   /// Two-phase business signin:

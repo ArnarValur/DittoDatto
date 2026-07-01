@@ -137,7 +137,10 @@ class EstablishmentDetailScreen extends ConsumerWidget {
         isDarkMode: ref.watch(isDarkModeProvider),
         isFavorited: isFav,
         onFavoriteTapped: () => _handleFavoriteTap(context, ref),
-        onBookTapped: () => context.push('/booking', extra: data),
+        onBookTapped: () => context.push(
+              '/booking',
+              extra: (data: data, companySlug: companySlug),
+            ),
       ),
     );
   }

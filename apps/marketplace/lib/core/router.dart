@@ -82,8 +82,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: MarketplaceRoutes.booking,
         builder: (context, state) {
-          final data = state.extra! as EstablishmentData;
-          return BookingScreen(data: data);
+          final extra = state.extra!
+              as ({EstablishmentData data, String companySlug});
+          return BookingScreen(
+            data: extra.data,
+            companySlug: extra.companySlug,
+          );
         },
       ),
       // Main app shell — bottom nav always visible.

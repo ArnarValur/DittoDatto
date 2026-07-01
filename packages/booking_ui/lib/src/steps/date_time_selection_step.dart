@@ -14,11 +14,20 @@ class DateTimeSelectionStep extends StatefulWidget {
     required this.state,
     required this.onStateChanged,
     required this.onContinue,
+    this.onFetchSlots,
   });
 
   final BookingState state;
   final ValueChanged<BookingState> onStateChanged;
   final VoidCallback onContinue;
+
+  /// Optional callback to fetch real time slots from ME API.
+  /// Falls back to [MockTimeSlot.generateForDate] when null.
+  final Future<List<MockTimeSlot>> Function(
+    DateTime date,
+    List<String> serviceIds,
+    String? staffId,
+  )? onFetchSlots;
 
   @override
   State<DateTimeSelectionStep> createState() => _DateTimeSelectionStepState();
@@ -27,6 +36,12 @@ class DateTimeSelectionStep extends StatefulWidget {
 class _DateTimeSelectionStepState extends State<DateTimeSelectionStep> {
   late DateTime _focusedMonth;
   final _today = DateUtils.dateOnly(DateTime.now());
+
+  /// Cached slots for the currently selected date.
+  List<MockTimeSlot>? _cachedSlots;
+  DateTime? _cachedSlotsDate;
+  bool _loadingSlots = false;
+  String? _slotsError;
 
   @override
   void initState() {
@@ -260,7 +275,91 @@ class _DateTimeSelectionStepState extends State<DateTimeSelectionStep> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
+    // Use cached slots if available for this date.
+    if (_cachedSlotsDate == date && _cachedSlots != null) {
+      return _buildSlotContent(context, date, _cachedSlots!);
+    }
+
+    // If we have an async fetcher, use it.
+    if (widget.onFetchSlots != null) {
+      if (_loadingSlots) {
+        return Container(
+          padding: const EdgeInsets.all(32),
+          child: Center(
+            child: CircularProgressIndicator(
+              color: colorScheme.primary,
+            ),
+          ),
+        );
+      }
+      if (_slotsError != null) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            _slotsError!,
+            style: TextStyle(color: colorScheme.error),
+          ),
+        );
+      }
+      // Trigger async fetch.
+      _fetchSlotsForDate(date);
+      return Container(
+        padding: const EdgeInsets.all(32),
+        child: Center(
+          child: CircularProgressIndicator(
+            color: colorScheme.primary,
+          ),
+        ),
+      );
+    }
+
+    // Fallback: mock slots.
     final slots = MockTimeSlot.generateForDate(date);
+    return _buildSlotContent(context, date, slots);
+  }
+
+  /// Fetch slots asynchronously and cache them.
+  Future<void> _fetchSlotsForDate(DateTime date) async {
+    if (_loadingSlots) return;
+    setState(() {
+      _loadingSlots = true;
+      _slotsError = null;
+    });
+    try {
+      final serviceIds = widget.state.selectedServices
+          .map((s) => s.id)
+          .toList();
+      final staffId = widget.state.selectedStaff?.id;
+      final slots = await widget.onFetchSlots!(
+        date,
+        serviceIds,
+        staffId,
+      );
+      if (mounted) {
+        setState(() {
+          _cachedSlots = slots;
+          _cachedSlotsDate = date;
+          _loadingSlots = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _slotsError = 'Kunne ikke laste tider: $e';
+          _loadingSlots = false;
+        });
+      }
+    }
+  }
+
+  Widget _buildSlotContent(
+    BuildContext context,
+    DateTime date,
+    List<MockTimeSlot> slots,
+  ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     final morningSlots =
         slots.where((s) => s.period == 'morning').toList();
     final afternoonSlots =
