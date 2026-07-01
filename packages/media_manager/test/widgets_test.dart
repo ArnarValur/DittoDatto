@@ -45,11 +45,11 @@ final sampleItems = [
 ];
 
 /// Dummy onUpload callback for tests.
-Future<void> noOpUpload({
+Future<List<MediaItem>> noOpUpload({
   required MediaCategory category,
   required List<({Uint8List bytes, String filename, String mimeType, int size})>
       files,
-}) async {}
+}) async => [];
 
 void main() {
   group('MediaPickerWidget', () {

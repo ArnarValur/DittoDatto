@@ -14,6 +14,10 @@ import 'media_support_widgets.dart';
 /// Opens as a dialog overlay. Shows a grid of existing media items with
 /// category filtering, search, and upload-from-within capability.
 ///
+/// [onUpload] must return the newly created [MediaItem]s so the modal can
+/// display them immediately (the dialog is a separate route and won't
+/// receive Riverpod state updates from the parent widget tree).
+///
 /// Returns the list of selected [MediaItem]s when confirmed.
 class MediaPickerModal extends StatefulWidget {
   const MediaPickerModal({
@@ -37,7 +41,10 @@ class MediaPickerModal extends StatefulWidget {
   final MediaUploadState uploadState;
 
   /// Called when the user uploads files from within the modal.
-  final Future<void> Function({
+  ///
+  /// Must return the newly created [MediaItem]s so the modal can add them
+  /// to its local items list for immediate display.
+  final Future<List<MediaItem>> Function({
     required MediaCategory category,
     required List<({Uint8List bytes, String filename, String mimeType, int size})>
         files,
@@ -59,7 +66,7 @@ class MediaPickerModal extends StatefulWidget {
     required List<MediaItem> items,
     required bool isLoading,
     required MediaUploadState uploadState,
-    required Future<void> Function({
+    required Future<List<MediaItem>> Function({
       required MediaCategory category,
       required List<({Uint8List bytes, String filename, String mimeType, int size})>
           files,
@@ -91,11 +98,16 @@ class _MediaPickerModalState extends State<MediaPickerModal> {
   late MediaCategory? _selectedCategory;
   late Set<String> _selectedIds;
 
+  /// Local copy of items that includes any newly uploaded ones.
+  /// The dialog is a separate route and won't receive Riverpod rebuilds.
+  late List<MediaItem> _localItems;
+
   @override
   void initState() {
     super.initState();
     _selectedCategory = widget.defaultCategory;
     _selectedIds = widget.initialSelection.map((m) => m.id).toSet();
+    _localItems = List.of(widget.items);
   }
 
   @override
@@ -105,7 +117,7 @@ class _MediaPickerModalState extends State<MediaPickerModal> {
   }
 
   List<MediaItem> get _filteredItems {
-    var items = widget.items;
+    var items = _localItems;
 
     if (_selectedCategory != null) {
       items = items.where((m) => m.category == _selectedCategory).toList();
@@ -123,7 +135,7 @@ class _MediaPickerModalState extends State<MediaPickerModal> {
   }
 
   List<MediaItem> get _selectedItems {
-    return widget.items.where((m) => _selectedIds.contains(m.id)).toList();
+    return _localItems.where((m) => _selectedIds.contains(m.id)).toList();
   }
 
   bool get _canSelectMore {
@@ -174,7 +186,14 @@ class _MediaPickerModalState extends State<MediaPickerModal> {
     if (files.isEmpty) return;
 
     final category = _selectedCategory ?? MediaCategory.general;
-    await widget.onUpload(category: category, files: files);
+    final newItems = await widget.onUpload(category: category, files: files);
+
+    // Merge newly uploaded items into local list so they appear immediately.
+    if (newItems.isNotEmpty) {
+      setState(() {
+        _localItems = [...newItems, ..._localItems];
+      });
+    }
   }
 
   @override

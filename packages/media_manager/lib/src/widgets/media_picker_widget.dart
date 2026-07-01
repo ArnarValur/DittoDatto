@@ -54,7 +54,8 @@ class MediaPickerWidget extends StatelessWidget {
   final MediaUploadState uploadState;
 
   /// Called when files are uploaded from within the modal.
-  final Future<void> Function({
+  /// Must return the newly created [MediaItem]s.
+  final Future<List<MediaItem>> Function({
     required MediaCategory category,
     required List<({Uint8List bytes, String filename, String mimeType, int size})>
         files,

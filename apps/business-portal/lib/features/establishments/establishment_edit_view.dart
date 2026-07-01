@@ -940,11 +940,11 @@ class _BilderSection extends StatelessWidget {
     final mediaItems = asyncMedia.value ?? [];
     final isLoading = asyncMedia.isLoading;
 
-    Future<void> handleUpload({
+    Future<List<MediaItem>> handleUpload({
       required MediaCategory category,
       required List<({Uint8List bytes, String filename, String mimeType, int size})> files,
     }) async {
-      await ref.read(mediaProvider.notifier).uploadMultiple(
+      return ref.read(mediaProvider.notifier).uploadMultiple(
             files: files,
             category: category,
           );
