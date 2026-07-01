@@ -1,5 +1,15 @@
 # Relay — Cross-Session Handoff
 
+## 2026-07-01 12:53 — Detail Page Debug + WS Timeout Hardening
+- **Session:** Debugged marketplace detail page hang. Root cause: phone not on Tailscale mesh → `db.wait()` with no timeout = infinite spinner. Confirmed DB is correct (function works, VIEWER can call it) via CLI `--auth-level namespace` and Dart SDK script. Added 10s timeouts + `AppEventLog` ring buffer to both `EstablishmentDetailService` and `_openDiscoveryDb()`. Detail screen now redirects to home with snackbar on connectivity failure. Applied `keywords`/`service_type` schema hotfix on `company_dream-on-as`. Deployed to phone. 40/40 widget tests.
+- **Tracks touched:** discovery_layer_20260630 (Phase 5 — bug resolved)
+- **Status:** Detail page working. Discovery Phase 5 E2E continues.
+- **Decisions:** None
+- **Next:** (1) Discovery Phase 5 E2E completion — verify detail page + card images + service creation on phone. (2) BP delete establishment. (3) ME availability wiring.
+- **Saturn root password:** `dittodatto_root` / found at `/srv/dittodatto/.env` on Saturn. Container name: `dittodatto-hub`.
+
+---
+
 ## 2026-07-01 12:25 — BP Bugfixes + Discovery Detail Page Hang
 - **Session:** Fixed 2 BP bugs: media picker state refresh (modal now merges uploaded items locally) + Kartverket autocomplete in "Ny virksomhet" dialog. Cleaned up 2 dead integration test files. Deployed BP to Saturn (54/54 integration + 72/72 widget tests). User did Discovery Phase 5 E2E — card shows on Marketplace but detail page hangs on tap. Investigated: `marketplace_reader` VIEWER auth failing. Could not access production SurrealDB root password from CLI — agent must find it autonomously next session.
 - **Tracks touched:** discovery_layer_20260630 (Phase 5 bug found), map_and_geocoding_20260628 (Kartverket in creation dialog)
