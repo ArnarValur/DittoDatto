@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-07-01 11:56 — Auth Reconciliation + Discovery Phase 5 E2E
+- **Session:** Auth credential audit via research agent. Switched marketplace discovery from `bp_portal` to `marketplace_reader` NS VIEWER. Deleted dead BP auth files (–413 lines). Updated deploy script. Graduated auth service track. User started Discovery Phase 5 E2E — recreating House of the North under correct company (Dream On AS). Found 2 BP gaps: no delete establishment, Kartverket autocomplete missing from creation dialog.
+- **Tracks touched:** auth_service_20260624 (graduated), discovery_layer_20260630 (status updated)
+- **Status:** Auth reconciliation complete. Discovery Phase 5 E2E in progress (user-driven).
+- **Decisions:** None (auth graduation is operational)
+- **Next:** (1) Finish Discovery Phase 5 E2E. (2) Wire Kartverket into "Ny virksomhet" dialog. (3) Add delete establishment to BP. (4) Deploy both apps after E2E passes.
+
+---
+
 ## 2026-07-01 00:02 — Rename storefront → establishment_detail
 - **Session:** Fixed domain naming: `fn::get_storefront()` → `fn::get_establishment_detail()`, `StorefrontService` → `EstablishmentDetailService`. Updated Saturn DB (remove + redefine). Redeployed to phone, verified.
 - **Tracks touched:** discovery_layer_20260630
