@@ -1,5 +1,15 @@
 # Relay — Cross-Session Handoff
 
+## 2026-07-01 12:25 — BP Bugfixes + Discovery Detail Page Hang
+- **Session:** Fixed 2 BP bugs: media picker state refresh (modal now merges uploaded items locally) + Kartverket autocomplete in "Ny virksomhet" dialog. Cleaned up 2 dead integration test files. Deployed BP to Saturn (54/54 integration + 72/72 widget tests). User did Discovery Phase 5 E2E — card shows on Marketplace but detail page hangs on tap. Investigated: `marketplace_reader` VIEWER auth failing. Could not access production SurrealDB root password from CLI — agent must find it autonomously next session.
+- **Tracks touched:** discovery_layer_20260630 (Phase 5 bug found), map_and_geocoding_20260628 (Kartverket in creation dialog)
+- **Status:** BP deployed with fixes. Detail page hang is OPEN BUG.
+- **Decisions:** None
+- **Next:** (1) 🔴 Debug detail page hang — find SurrealDB root password on Saturn, verify VIEWER→fn::get_establishment_detail() works, check company DB slug. (2) User re-save establishment with images → verify card images. (3) Add delete establishment to BP.
+- **⚠️ CRITICAL for next session:** The SurrealDB root password on Saturn was created by Hermes in a prior session. The agent must search Saturn filesystem (e.g. docker-compose, env files, .surreal_root_pass) or conversation history to find it. Do NOT ask the user.
+
+---
+
 ## 2026-07-01 11:56 — Auth Reconciliation + Discovery Phase 5 E2E
 - **Session:** Auth credential audit via research agent. Switched marketplace discovery from `bp_portal` to `marketplace_reader` NS VIEWER. Deleted dead BP auth files (–413 lines). Updated deploy script. Graduated auth service track. User started Discovery Phase 5 E2E — recreating House of the North under correct company (Dream On AS). Found 2 BP gaps: no delete establishment, Kartverket autocomplete missing from creation dialog.
 - **Tracks touched:** auth_service_20260624 (graduated), discovery_layer_20260630 (status updated)
