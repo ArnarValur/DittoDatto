@@ -1,6 +1,10 @@
 
+import 'dart:async';
+
 import 'package:establishment_ui/establishment_ui.dart';
 import 'package:surrealdb/surrealdb.dart';
+
+import '../../core/app_event_log.dart';
 
 /// Fetches full establishment detail from a company database via SurrealDB
 /// WebSocket + server-side `fn::get_establishment_detail()` function.
@@ -17,10 +21,14 @@ class EstablishmentDetailService {
     defaultValue: 'marketplace-reader-pass',
   );
 
+  /// Connection timeout for each WS operation.
+  static const _timeout = Duration(seconds: 10);
+
   /// Fetch full [EstablishmentData] (establishment + services + service groups)
   /// from `company_{companySlug}` via `fn::get_establishment_detail()`.
   ///
   /// Opens a short-lived WS connection, queries, closes. No persistent state.
+  /// Times out after [_timeout] per step — records failures in [AppEventLog].
   Future<EstablishmentData> fetch(String companySlug) async {
     final wsEndpoint =
         _surrealUrl.isNotEmpty ? _surrealUrl : _deriveWsUrl();
@@ -28,22 +36,39 @@ class EstablishmentDetailService {
     final db = SurrealDB(wsEndpoint);
     try {
       db.connect();
-      await db.wait();
+      await db.wait().timeout(_timeout);
 
       // Authenticate as NS-level VIEWER (no database — that makes it NS auth).
       await db.signin(
         user: _user,
         pass: _pass,
         namespace: 'companies',
-      );
+      ).timeout(_timeout);
 
       // Switch to the target company database.
-      await db.use('companies', 'company_$companySlug');
+      await db.use('companies', 'company_$companySlug').timeout(_timeout);
 
       // Call the server-side function — all query logic is in the DB.
-      final result = await db.query('RETURN fn::get_establishment_detail()');
+      final result = await db
+          .query('RETURN fn::get_establishment_detail()')
+          .timeout(_timeout);
 
       return _mapResponse(result);
+    } on TimeoutException {
+      AppEventLog.instance.record(AppEvent.connectionTimeout(
+        target: wsEndpoint,
+        context: 'EstablishmentDetailService.fetch($companySlug)',
+      ));
+      throw EstablishmentDetailException(
+        'Tilkoblingen tok for lang tid. Sjekk nettverkstilkoblingen din.',
+      );
+    } on Exception catch (e) {
+      AppEventLog.instance.record(AppEvent.connectionError(
+        target: wsEndpoint,
+        error: e,
+        context: 'EstablishmentDetailService.fetch($companySlug)',
+      ));
+      rethrow;
     } finally {
       db.close();
     }

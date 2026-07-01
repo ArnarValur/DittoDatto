@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mercury_client/mercury_client.dart';
 
+
 import '../../core/auth_provider.dart';
 import '../../core/theme_provider.dart';
 import '../favorites/favorite_providers.dart';
@@ -60,43 +61,73 @@ class EstablishmentDetailScreen extends ConsumerWidget {
       loading: () => const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       ),
-      error: (error, stack) => Scaffold(
-        appBar: AppBar(title: const Text('Etablering')),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.cloud_off_rounded,
-                  size: 48,
-                  color: Theme.of(context).colorScheme.error,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Kunne ikke laste etablering',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  error.toString(),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                const SizedBox(height: 24),
-                FilledButton.icon(
-                  onPressed: () => ref.invalidate(
-                    establishmentDetailProvider(companySlug),
+      error: (error, stack) {
+        // Connectivity errors → redirect home with snackbar.
+        if (error is EstablishmentDetailException) {
+          // Schedule the redirect for after the current build frame.
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) {
+              context.go('/');
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Row(
+                    children: [
+                      const Icon(Icons.wifi_off_rounded,
+                          color: Colors.white, size: 20),
+                      const SizedBox(width: 12),
+                      Expanded(child: Text(error.message)),
+                    ],
                   ),
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Prøv igjen'),
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 4),
                 ),
-              ],
+              );
+            }
+          });
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        // Non-connectivity errors → show retry screen.
+        return Scaffold(
+          appBar: AppBar(title: const Text('Etablering')),
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.cloud_off_rounded,
+                    size: 48,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Kunne ikke laste etablering',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    error.toString(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 24),
+                  FilledButton.icon(
+                    onPressed: () => ref.invalidate(
+                      establishmentDetailProvider(companySlug),
+                    ),
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Prøv igjen'),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
       data: (data) => EstablishmentPage(
         data: data,
         onBack: () => context.pop(),

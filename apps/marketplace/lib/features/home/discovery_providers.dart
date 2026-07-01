@@ -5,6 +5,8 @@ import 'package:discovery_service/discovery_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:surrealdb/surrealdb.dart';
 
+import '../../core/app_event_log.dart';
+
 /// WebSocket URL injected at build time via `--dart-define=SURREAL_URL=...`.
 const _surrealUrl = String.fromEnvironment('SURREAL_URL');
 
@@ -18,29 +20,50 @@ const _discoveryPass = String.fromEnvironment(
   defaultValue: 'marketplace-reader-pass',
 );
 
+/// Connection timeout for each WS operation.
+const _timeout = Duration(seconds: 10);
+
 // ── Helpers ────────────────────────────────────────────────────────────────
 
 /// Open a short-lived connection to `companies/discovery`.
 ///
 /// Connects, signs in at NS level, switches to discovery DB.
 /// Caller MUST close when done.
+/// Times out after [_timeout] per step — records failures in [AppEventLog].
 Future<SurrealDB> _openDiscoveryDb() async {
   final wsEndpoint = _surrealUrl.isNotEmpty
       ? _surrealUrl
       : SurrealAuthBackend.deriveWsUrl();
 
   final db = SurrealDB(wsEndpoint);
-  db.connect();
-  await db.wait();
+  try {
+    db.connect();
+    await db.wait().timeout(_timeout);
 
-  // NS-level signin (no database param) — VIEWER covers all DBs.
-  await db.signin(
-    user: _discoveryUser,
-    pass: _discoveryPass,
-    namespace: 'companies',
-  );
-  await db.use('companies', 'discovery');
-  return db;
+    // NS-level signin (no database param) — VIEWER covers all DBs.
+    await db.signin(
+      user: _discoveryUser,
+      pass: _discoveryPass,
+      namespace: 'companies',
+    ).timeout(_timeout);
+    await db.use('companies', 'discovery').timeout(_timeout);
+    return db;
+  } on TimeoutException {
+    db.close();
+    AppEventLog.instance.record(AppEvent.connectionTimeout(
+      target: wsEndpoint,
+      context: '_openDiscoveryDb',
+    ));
+    rethrow;
+  } on Exception catch (e) {
+    db.close();
+    AppEventLog.instance.record(AppEvent.connectionError(
+      target: wsEndpoint,
+      error: e,
+      context: '_openDiscoveryDb',
+    ));
+    rethrow;
+  }
 }
 
 /// Execute a read query against discovery DB with connect-use-close.
