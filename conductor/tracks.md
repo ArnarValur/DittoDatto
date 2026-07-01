@@ -29,9 +29,9 @@ All tracks organized by domain. Each track links to its dedicated folder.
 ## Active Tracks
 
 - [~] **Discovery Layer — Publish pipeline, discovery_service package, Marketplace home screen, area auto-detection, two-phase detail load**
-  - *Type:* feature | *Domain:* discovery | *Status:* **Phase 1 complete, deployed to Saturn**
+  - *Type:* feature | *Domain:* discovery | *Status:* **Phases 1-2+4 complete, Phase 5 in progress**
   - *Link:* [tracks/discovery/discovery_layer_20260630/](./tracks/discovery/discovery_layer_20260630/)
-  - *Phases:* 5 — (1) Package + Models + BP Publish Sync ✅, (2) Home Screen + DittoBar Search, (3) Area Hierarchy + Geo Filtering, (4) Two-Phase Detail Load (replace debug pipe), (5) Verification + Deploy
+  - *Phases:* 5 — (1) Package + Models + BP Publish Sync ✅, (2) Home Screen + DittoBar Search ✅, (3) Area Hierarchy + Geo Filtering ⏸️, (4) Two-Phase Detail Load ✅, (5) Verification + Deploy
   - *ADRs:* ADR-0024 (BP Direct-Write Sync), ADR-0025 (Two-Phase Load), ADR-0026 (Discovery Service Package)
   - *Depends on:* `establishment_ui` (✅), `ditto_auth` (✅), `ditto_design` (✅), Admin categories (✅), Kartverket geocoding (✅)
   - *Deferred:* SearchEvent/Zero-Result logging, vector search, ratings, map view, self-service signup
@@ -71,10 +71,12 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Data source:* Step 1 uses real House of the North services. Steps 2-3 mock. Step 5 visual-only placeholder.
   - *Deferred:* ME availability engine, Vipps payment, booking writes, "My Bookings" tab
 
-- [ ] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package**
-  - *Type:* feature | *Domain:* auth-service | *Status:* **ready for Phase 4** (Marketplace consumer auth now live)
+- [x] **Auth Service — SurrealDB-native auth consolidation + shared ditto_auth package** [graduated: auth-reconciliation]
+  - *Type:* feature | *Domain:* auth-service | *Status:* **completed**
   - *Link:* [tracks/auth-service/auth_service_20260624/](./tracks/auth-service/auth_service_20260624/)
-  - *Phases:* 4 — (1) Research & Design ✅, (2) ditto_auth Package + Schema ✅, (3) BP Migration ✅, (4) Marketplace Consumer Auth (unblocked)
+  - *Phases:* 4 — (1) Research & Design ✅, (2) ditto_auth Package + Schema ✅, (3) BP Migration ✅, (4) Marketplace Consumer Auth ✅
+  - *What works:* `ditto_auth` shared package (business + consumer flows), `consumer_auth` + `bp_auth` RECORD ACCESS, BP migrated, marketplace wired. 7 integration + 25 widget tests.
+  - *Deferred:* `bp_portal` PASSHASH hardening (blocked on backend intermediary architecture)
 
 - [x] **Media Manager Package — Extract media management into `packages/media_manager/` shared package** [checkpoint: `6c465c9`]
   - *Type:* feature | *Domain:* shared-packages | *Status:* complete

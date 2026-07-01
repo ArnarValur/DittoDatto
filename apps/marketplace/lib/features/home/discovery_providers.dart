@@ -10,18 +10,19 @@ const _surrealUrl = String.fromEnvironment('SURREAL_URL');
 
 /// Discovery read user credentials.
 ///
-/// In production, this will be a dedicated `marketplace_reader` user.
-/// For now, we use `bp_portal` which has EDITOR access (superset of read).
-const _discoveryUser =
-    String.fromEnvironment('DISCOVERY_USER', defaultValue: 'bp_portal');
-const _discoveryPass =
-    String.fromEnvironment('DISCOVERY_PASS', defaultValue: 'test-portal-pass');
+/// Uses the namespace-level `marketplace_reader` VIEWER user (same as
+/// EstablishmentDetailService). One credential covers all `companies/*` DBs.
+const _discoveryUser = 'marketplace_reader';
+const _discoveryPass = String.fromEnvironment(
+  'MARKETPLACE_READER_PASS',
+  defaultValue: 'marketplace-reader-pass',
+);
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 
 /// Open a short-lived connection to `companies/discovery`.
 ///
-/// Connects, signs in, and returns the [SurrealDB] instance.
+/// Connects, signs in at NS level, switches to discovery DB.
 /// Caller MUST close when done.
 Future<SurrealDB> _openDiscoveryDb() async {
   final wsEndpoint = _surrealUrl.isNotEmpty
@@ -32,12 +33,13 @@ Future<SurrealDB> _openDiscoveryDb() async {
   db.connect();
   await db.wait();
 
+  // NS-level signin (no database param) — VIEWER covers all DBs.
   await db.signin(
     user: _discoveryUser,
     pass: _discoveryPass,
     namespace: 'companies',
-    database: 'discovery',
   );
+  await db.use('companies', 'discovery');
   return db;
 }
 
