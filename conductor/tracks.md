@@ -29,12 +29,13 @@ All tracks organized by domain. Each track links to its dedicated folder.
 
 ## Active Tracks
 
-- [ ] **ME ↔ Booking UI Wiring — Delegated Trust auth bridge, BookingRepository, replace booking_ui mocks, ME config alignment**
-  - *Type:* feature | *Domain:* booking-integration | *Status:* **new**
+- [~] **ME ↔ Booking UI Wiring — Delegated Trust auth bridge, BookingRepository, replace booking_ui mocks, ME config alignment**
+  - *Type:* feature | *Domain:* booking-integration | *Status:* **in_progress — Phases 1–3 partial**
   - *Link:* [tracks/booking-integration/me_booking_wiring_20260701/](./tracks/booking-integration/me_booking_wiring_20260701/)
-  - *Phases:* 5 — (1) Auth Bridge (Delegated Trust), (2) BookingRepository in mercury_client, (3) booking_ui Mock Replacement, (4) Marketplace Integration + Error Handling, (5) Verification + Deploy
+  - *Phases:* 5 — (1) Auth Bridge ✅, (2) BookingRepository ✅, (3) Mock Replacement (partial — callback injection done, hold/confirm remaining), (4) Marketplace Integration (token passthrough ✅, error handling remaining), (5) Verification + Deploy
   - *ADRs:* ADR-0032 (Delegated Trust Auth Bridge)
   - *Depends on:* ME 1.0 (✅), Booking Flow UI (✅), ditto_auth (✅), BP Establishment Config Phases 1–3 (✅), Discovery Layer (✅)
+  - *E2E status:* Phone → ME API pipeline confirmed (clean 400 — ME config alignment needed)
   - *Deferred:* Vipps payment (v1.3), My Bookings tab, reservation/ticket verticals
 
 - [~] **BP Establishment Config — Schema migration (establishment_type, social_links, large_party_handling) + Dart model + 4 new BP edit sections + Marketplace display**

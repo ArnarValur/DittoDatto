@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-07-01 19:20 — ME ↔ Booking UI Wiring Phases 1–3 + Opening Hours
+- **Session:** Bridged ME child conductor with parent. Implemented Delegated Trust auth bridge (ADR-0032), BookingRepository (5 models, 6 methods, 13 tests), callback injection into booking_ui (async slot fetch, loading/error/cache), DittoAuth.getConsumerToken(). Added opening hours section + open/closed badge. Fixed establishment_type schema gap on 2 company DBs. Deployed to phone. E2E pipeline confirmed (phone → ME :8005 → clean 400).
+- **Tracks touched:** me_booking_wiring_20260701 (Phases 1–3 partial), bp_establishment_config_20260701 (Phase 4 complete — opening hours)
+- **Status:** Auth bridge ✅, BookingRepository ✅, callback injection ✅, token passthrough ✅. ME config alignment needed (ME can't read company DBs yet).
+- **Decisions:** ADR-0032 (Delegated Trust Auth Bridge)
+- **Next:** (1) ME config alignment — teach ME `/availability` to read from company DBs. (2) Hold/confirm wiring (Steps 4–5). (3) Staff CRUD + real staff list. (4) 401 refresh + timeout error handling.
+
+---
+
 ## 2026-07-01 16:50 — BP Establishment Config Phases 1–3 + Deploy
 - **Session:** Executed full BP Establishment Config track: schema migration (28 files), 4 new models, 5 new edit sections (type selector, opening hours, social links, booking policy, reservation config). Saturn data wiped + clean schema applied. BP deployed :8003. Marketplace redeployed to phone (fixed stale-code null crash).
 - **Tracks touched:** bp_establishment_config_20260701 (Phases 1–3 complete)
