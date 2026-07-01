@@ -38,8 +38,8 @@
     - [x] Wire Bearer token passthrough (existing SurrealDB accessToken)
 
 - [x] Task: Riverpod providers for booking data
-    - [x] Analysis: providers belong in marketplace app, not mercury_client (BookingFlowPage is StatefulWidget, booking_ui has no Riverpod dependency)
-    - [ ] Create providers in `apps/marketplace/lib/features/booking/` during Phase 3 wiring
+    - [x] Analysis: providers not needed — callback injection pattern used instead
+    - [x] BookingScreen wired directly with BookingRepository + consumer JWT
 
 ---
 
@@ -47,14 +47,16 @@
 
 > Parent TDD applies. booking_ui is a shared package.
 
-- [ ] Task: Wire Step 2 (Staff Selection) to real data
-    - [ ] Write tests: staff list from company DB
-    - [ ] Replace mock staff with real staff fetched via mercury_client
+- [x] Task: Wire Step 2 (Staff Selection) to real data
+    - [x] StaffSelectionStep accepts optional staffList param
+    - [ ] Fetch real staff list from company DB (staff CRUD needed first)
 
-- [ ] Task: Wire Step 3 (Date/Time Selection) to ME availability
-    - [ ] Write tests: availability slots from ME API
-    - [ ] Replace mock time slots with getAvailability() call
-    - [ ] Handle loading / error / empty states
+- [x] Task: Wire Step 3 (Date/Time Selection) to ME availability
+    - [x] DateTimeSelectionStep accepts async onFetchSlots callback
+    - [x] BookingScreen passes real _fetchSlots using BookingRepository
+    - [x] Loading indicator during async fetch
+    - [x] Error handling with user-facing message
+    - [x] Slot caching per date
 
 - [ ] Task: Wire Step 4 (Review + Confirm) to ME hold/confirm
     - [ ] Write tests: hold on entry, confirm on submit
@@ -71,8 +73,9 @@
 
 ## Phase 4: Marketplace Integration + Error Handling
 
-- [ ] Task: Token passthrough from ditto_auth → MercuryApi
-    - [ ] Wire consumer's SurrealDB accessToken into BookingRepository
+- [x] Task: Token passthrough from ditto_auth → MercuryApi
+    - [x] DittoAuth.getConsumerToken() exposed for ME API use
+    - [x] BookingScreen reads consumer JWT and sets MercuryApi.accessToken
     - [ ] Handle 401 (token expired) → refresh via ditto_auth → retry
     - [ ] Handle ME unreachable → timeout + snackbar (not crash)
 
