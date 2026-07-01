@@ -13,8 +13,12 @@ import 'establishment_model.dart';
 import 'establishment_providers.dart';
 import 'category_providers.dart';
 import 'discovery_sync_provider.dart';
+import 'booking_policy.dart';
+import 'booking_policy_section.dart';
 import 'opening_hours_section.dart';
 import 'opening_schedule.dart';
+import 'reservation_config.dart';
+import 'reservation_config_section.dart';
 import 'social_link.dart';
 import 'social_links_section.dart';
 import '../auth/auth_provider.dart';
@@ -48,6 +52,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   final _kontaktKey = GlobalKey();
   final _sosialeKey = GlobalKey();
   final _apningstiderKey = GlobalKey();
+  final _bookingPolicyKey = GlobalKey();
+  final _reservasjonKey = GlobalKey();
   final _innstillingerKey = GlobalKey();
 
   // ── Generelt section controllers ──
@@ -77,6 +83,12 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
 
   // ── Social links state ──
   List<SocialLink> _socialLinks = [];
+
+  // ── Booking policy state ──
+  BookingPolicy _bookingPolicy = BookingPolicy.defaults;
+
+  // ── Reservation config state ──
+  ReservationConfig _reservationConfig = ReservationConfig.defaults;
 
   // ── Bilder section state ──
   String _coverLayoutMode = 'bento';
@@ -130,6 +142,8 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
       for (final key in weekdayKeys) key: OpeningDay.closed,
     };
     _socialLinks = List<SocialLink>.from(est.socialLinks);
+    _bookingPolicy = est.bookingPolicy ?? BookingPolicy.defaults;
+    _reservationConfig = est.reservationConfig ?? ReservationConfig.defaults;
   }
 
   /// Match saved establishment media URLs to [MediaItem] objects.
@@ -220,6 +234,10 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
       longitude: () => _longitude,
       openingSchedule: () => _openingSchedule,
       socialLinks: _socialLinks,
+      bookingPolicy: () => _bookingPolicy,
+      reservationConfig: () => _establishmentType == EstablishmentType.restaurant
+          ? _reservationConfig
+          : null,
     );
 
     await ref.read(establishmentsProvider.notifier).updateEstablishment(updated);
@@ -380,6 +398,27 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
                   setState(() => _openingSchedule = schedule),
             ),
           ),
+          DittoScrollspySection(
+            key: _bookingPolicyKey,
+            label: 'Bookingpolicy',
+            icon: Icons.event_note_rounded,
+            content: BookingPolicySection(
+              policy: _bookingPolicy,
+              onPolicyChanged: (p) =>
+                  setState(() => _bookingPolicy = p),
+            ),
+          ),
+          if (_establishmentType == EstablishmentType.restaurant)
+            DittoScrollspySection(
+              key: _reservasjonKey,
+              label: 'Reservasjon',
+              icon: Icons.table_restaurant_rounded,
+              content: ReservationConfigSection(
+                config: _reservationConfig,
+                onConfigChanged: (c) =>
+                    setState(() => _reservationConfig = c),
+              ),
+            ),
           DittoScrollspySection(
             key: _innstillingerKey,
             label: 'Innstillinger',
