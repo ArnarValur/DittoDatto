@@ -1,5 +1,14 @@
 # Relay — Cross-Session Handoff
 
+## 2026-07-01 16:50 — BP Establishment Config Phases 1–3 + Deploy
+- **Session:** Executed full BP Establishment Config track: schema migration (28 files), 4 new models, 5 new edit sections (type selector, opening hours, social links, booking policy, reservation config). Saturn data wiped + clean schema applied. BP deployed :8003. Marketplace redeployed to phone (fixed stale-code null crash).
+- **Tracks touched:** bp_establishment_config_20260701 (Phases 1–3 complete)
+- **Status:** Phases 1–3 done + deployed. Phase 4 Marketplace display deferred to co-joined ME session.
+- **Decisions:** None (ADRs 0027–0029 already recorded by /new-track)
+- **Next:** Co-joined ME + BP session to wire booking engine → config fields. Auth token bridge decision. Marketplace opening hours + social links display.
+
+---
+
 ## 2026-07-01 13:40 — Discovery Phase 5 Complete + BP Edit Audit
 - **Session:** Discovery Phase 5 E2E verified on phone (detail page, services, service groups, booking UI all working). Audited BP establishment edit page — found opening schedule (🔴), booking policy/config (🟡), social links (🟡) as gaps. User wants grill session to refine booking types vs establishment types, open-ended social links, and booking policy before implementation.
 - **Tracks touched:** discovery_layer_20260630 (Phase 5 done)

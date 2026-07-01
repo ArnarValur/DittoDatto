@@ -1,10 +1,11 @@
 # Pulse — Current Project State
 
-**Last Updated:** 2026-07-01 13:40
-**Session Focus:** Discovery Phase 5 E2E completion + BP establishment edit page audit
+**Last Updated:** 2026-07-01 16:50
+**Session Focus:** BP Establishment Config — full track execution (Phases 1–3) + deployment
 
 ## 🚀 Active Tracks
 
+- **BP Establishment Config** (`bp_establishment_config_20260701`) — **Phases 1–3 COMPLETE. Deployed to Saturn + phone.** Schema migrated, 4 models built, 5 new BP edit sections wired. Phase 4 Marketplace display deferred to co-joined ME session.
 - **Discovery Layer** (`discovery_layer_20260630`) — **Phase 5 E2E COMPLETE.** Detail page, service groups, services, booking UI all verified on phone. Ready to graduate.
 - **Booking Flow UI** (`booking_flow_ui_20260630`) — **Phases 1–4 complete. Deployed to phone.** All 5 steps built. 18 unit tests. Remaining: visual polish, ME availability wiring.
 - **Favorites Toggle** (`favorites_toggle_20260630`) — **Phases 1–3 functional.** Toggle works on phone. Remaining: widget tests, `pendingFavorite` login-return flow, merge to develop.
@@ -14,13 +15,11 @@
 
 ## ✅ Recently Completed
 
+- **2026-07-01 16:50** — **BP Establishment Config Phases 1–3 complete + deployed.** 3 commits: schema migration (28 files), opening hours + social links + type selector (3 files), booking policy + reservation config (3 files). Saturn schema wiped + reapplied. BP deployed :8003, Marketplace redeployed to phone. 72 BP tests, 54 integration tests, 91 establishment_ui tests all green.
 - **2026-07-01 13:40** — **Discovery Phase 5 E2E complete.** Detail page works on phone (timeout fix deployed). Services + service groups created on Dream On AS, appear in booking UI. All 5 discovery phases done.
-- **2026-07-01 12:53** — **Marketplace WS timeout hardening.** Added 10s timeouts to all WS operations (detail service + discovery providers). Created `AppEventLog` ring buffer. Timeout → snackbar + redirect home. Schema hotfix (`keywords`/`service_type` DEFAULT []) on all 3 company DBs. 40/40 marketplace widget tests. Deployed to phone. Commit: `001540d`.
-- **2026-07-01 12:15** — **BP bugfixes deployed to Saturn.** (1) Media picker state refresh: `onUpload` now returns `List<MediaItem>`, modal merges locally. (2) Kartverket autocomplete wired into "Ny virksomhet" creation dialog. (3) Deleted 2 dead integration test files (old bespoke auth). 72/72 widget + 54/54 integration tests green. Deploy hash verified + smoke passed.
-- **2026-07-01 11:56** — **Auth reconciliation complete.** Switched marketplace discovery from `bp_portal` to `marketplace_reader` NS VIEWER. Deleted 2 dead BP auth files (–413 lines). Updated deploy script dart-defines. Graduated auth service track.
-- **2026-07-01 11:24** — **Auth Service track graduated.** Research agent confirmed all Phase 4 deliverables complete.
-- **2026-06-30 23:40** — **Discovery Layer Phases 2 + 4 complete.** Built Marketplace Home. Discovered SurrealDB NS-level VIEWER pattern. Built `fn::get_establishment_detail()`. Deployed to Galaxy S21.
-- **2026-06-30 22:06** — **Discovery Layer Phase 1 complete + deployed.** Created `packages/discovery_service/`. Wired BP publish sync.
+- **2026-07-01 12:53** — **Marketplace WS timeout hardening.** Added 10s timeouts to all WS operations. Created `AppEventLog` ring buffer. Commit: `001540d`.
+- **2026-07-01 12:15** — **BP bugfixes deployed to Saturn.** Media picker state refresh, Kartverket autocomplete in creation dialog. 72/72 widget + 54/54 integration tests green.
+- **2026-07-01 11:56** — **Auth reconciliation complete.** Switched marketplace discovery from `bp_portal` to `marketplace_reader` NS VIEWER.
 
 > 📦 Full history: `conductor/pulse-archive/2026-07-01.md`
 
@@ -32,48 +31,47 @@
 
 ## 🧠 Session Memory
 
+### Session 2026-07-01 16:50 — BP Establishment Config Full Track
+
+- **Track: `bp_establishment_config_20260701`** — Executed Phases 1–3 in a single session.
+
+- **Phase 1 (commit `91ec570`, 28 files):**
+  - Schema: `store_type` → `establishment_type`, removed `booking_form_type`, `social_links` → `array<object>`, `large_party_handling` updated.
+  - 4 new Dart models: `OpeningDay`, `BookingPolicy`, `SocialLink`, `ReservationConfig`.
+  - Unified `BusinessType` → `EstablishmentType` enum across 28 files (BP + establishment_ui).
+  - 133 tests passed (establishment_ui 91 + BP unit 25 + BP widget 17).
+
+- **Phase 2 (commit `e755ae9`, 3 files):**
+  - `SegmentedButton<EstablishmentType>` type selector in Generelt section.
+  - `OpeningHoursSection`: 7-day schedule with toggle, time pickers, copy-to-all.
+  - `SocialLinksSection`: dynamic list with platform dropdown, URL field, add/remove.
+  - 72 BP tests passed.
+
+- **Phase 3 (commit `781fa68`, 3 files):**
+  - `BookingPolicySection`: 9-field editor (steppers, toggles, segmented slot interval, confirmation message).
+  - `ReservationConfigSection`: restaurant-only (ADR-0027), 10 fields (max guests, large party radios, duration/buffer/capacity, auto-confirm).
+  - 72 BP tests passed.
+
+- **Saturn deployment:**
+  - Wiped `company_dream-on-as` data (establishment, media, services) + discovery listings.
+  - Removed old schema fields (`store_type`, `booking_form_type`, `social_links.fb/ig/x`).
+  - Reapplied clean schema. BP deployed to :8003 (hash verified + smoke OK).
+  - Marketplace redeployed to phone (fixed `Null is not subtype of String` crash from stale compiled code).
+
+- **Decisions (Pulse):**
+  - Wiped Saturn data instead of migration script — only one establishment, clean slate faster.
+  - Phase 4 Marketplace display (opening hours + social links) deferred to co-joined ME session.
+
 ### Session 2026-07-01 12:53 — Detail Page Debug + WS Timeout Hardening
 
-- **Detail page hang (RESOLVED):**
-  - Root cause: User's phone was not connected to Tailscale mesh. `db.wait()` had no timeout → infinite spinner.
-  - Confirmed DB side is 100% correct: function exists, VIEWER can call it, data returns. Tested via CLI (`--auth-level namespace`) and Dart SDK script.
-  - Saturn root password found autonomously at `/srv/dittodatto/.env` (user: `dittodatto_root`).
-
-- **WS timeout + event logging (NEW):**
-  - Added 10s timeout to all SurrealDB WS operations in `EstablishmentDetailService` and `_openDiscoveryDb()`.
-  - Created `AppEventLog` — in-memory ring buffer (100 events) for connectivity failures. Future hook for remote monitoring.
-  - Detail screen: `EstablishmentDetailException` → snackbar + redirect to home. Other errors → retry screen (unchanged).
-  - 40/40 marketplace widget tests green.
-  - Commit: `001540d`
-
-- **Schema hotfix on ALL company DBs:**
-  - `keywords` and `service_type` fields on `service` table missing `DEFAULT []` (provisioned before blueprint fix).
-  - Applied `DEFINE FIELD OVERWRITE` on `company_dream-on-as`, `company_dittodatto-as`, `company_merkurial-studio`. Blueprint already correct — new DBs unaffected.
-
-- **Marketplace deployed to phone** with timeout fixes.
-
-- **Discovery Phase 5 E2E COMPLETE:**
-  - User verified: detail page loads, services + service groups created, booking UI shows them.
-  - Minor reactivity issues noted (favorites toggle on redeploy) — deferred to User Profile track.
-
-- **BP Establishment Edit Page audit:**
-  - Full gap analysis: schema vs UI vs model.
-  - 🔴 **Opening schedule** — fully defined in schema (per-weekday open/close), zero Dart code.
-  - 🟡 **Booking policy** (8 subfields), **booking_form_type**, **reservation_config** (10 subfields) — all in schema, no model/UI.
-  - 🟡 **Social links** — schema hardcodes FB/IG/X only. User wants open-ended links.
-  - User observations: booking types need better distinction per establishment type, reservation_config is restaurant-specific, social links too constrained.
-  - **Decision: /grill session needed** before implementing. Domain needs refinement.
-
-### Session 2026-07-01 12:25 — BP Bugfixes + Discovery Phase 5 E2E Debugging
-
-- BP bugfixes (media picker + Kartverket autocomplete) + dead test cleanup. Detail page hang discovered.
+- Detail page hang resolved (Tailscale mesh). WS timeout + event logging added. Schema hotfix on 3 company DBs. Discovery Phase 5 E2E complete. BP audit → /grill → /new-track for establishment config.
 
 > 📦 Full history for earlier sessions: `conductor/pulse-archive/2026-07-01.md`
 
 ## 📋 Next Session Suggestions
 
-1. 🔴 **`/grill` — Establishment configuration domain** — Refine booking types vs establishment types, opening hours model, social links (open-ended), booking policy. Must precede implementation.
-2. 🟡 **Opening hours editor** — Build model + UI after grill locks the design.
+1. 🔴 **Co-joined ME + BP session** — Wire ME booking engine to read `booking_policy`, `opening_schedule`, `reservation_config` from company DB. Settle auth token bridge. Test one vertical slice (restaurant with full config).
+2. 🟡 **Marketplace opening hours + social links display** — `OpeningScheduleHelper.isOpenNow()`, status text, social link icons row. (Phase 4 remainder.)
 3. 🟡 **BP delete operations** — Delete establishment, services, companies.
-4. 🟡 **MercuryEngine availability** — Real time slots for booking flow.
+4. 🟡 **Discovery Layer graduation** — Phase 5 complete, move to Completed Tracks.
 5. 🟡 **Booking persistence** — Store bookings in company DB + notify business.

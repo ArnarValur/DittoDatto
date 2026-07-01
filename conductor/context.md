@@ -59,6 +59,9 @@
 | **Restaurant** (archetype) | An establishment archetype for table-reservation businesses. Default booking mode: `tableReservation`. Unlocks `reservation_config` in BP.                              | dining establishment                  |
 | **Venue** (archetype)     | An establishment archetype for events and ticketed experiences. Default booking mode: `ticketSystem`. Requires `event_system` feature flag (ADR-0023).                   | event space                           |
 | **SocialLink**            | A `{platform, url}` pair on an Establishment. Known platforms with first-class icons in v1: `facebook`, `instagram`, `snapchat`, `tiktok`. Unknown platforms accepted with generic link icon. Replaces hardcoded `social_links.fb/ig/x` fields (ADR-0028). | external link                         |
+| **Company Management** | Bounded context owning entity CRUD (establishments, services, staff, resources, schedules). Datto's domain. Operators and Datto write entity data; MercuryEngine and Discovery read it via shared kernel. SurrealDB is the integration point. | entity management |
+| **AvailabilityProbe** | A read-only exploratory availability query with zero state change. Supports agentic rescheduling — Ditto asks Datto 'what's open?' without creating a Hold. No slot lock, no timer, no commitment. | probe, availability check |
+| **PaymentGateway** | Abstract payment processing interface consumed by the booking lifecycle. MockPaymentGateway for 1.0; VippsPaymentGateway for 1.3. Dependency Inversion — booking logic never touches payment implementation details. | payment adapter |
 ### Conceptual entities (platform concepts, not DB tables)
 
 | Term                                  | Definition                                                                                                                                    | Also known as            |
