@@ -1,6 +1,7 @@
 @Tags(['integration'])
 library;
 
+import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:surrealdb/surrealdb.dart';
 
@@ -78,7 +79,7 @@ void main() {
         id: '',
         name: 'Test Butikk',
         slug: 'test-butikk',
-        businessType: BusinessType.store,
+        establishmentType: EstablishmentType.shop,
         address: 'Storgata 1',
         city: 'Drammen',
         zip: '3045',
@@ -94,7 +95,7 @@ void main() {
       );
       expect(rows, hasLength(1));
       expect(rows.first['name'], 'Test Butikk');
-      expect(rows.first['store_type'], 'store');
+      expect(rows.first['establishment_type'], 'shop');
       expect(rows.first['city'], 'Drammen');
       expect(rows.first['is_published'], false);
       expect(rows.first['is_active'], true);
@@ -105,7 +106,7 @@ void main() {
         id: '',
         name: 'Test Restaurant',
         slug: 'test-restaurant',
-        businessType: BusinessType.restaurant,
+        establishmentType: EstablishmentType.restaurant,
         address: 'Bragernes Torg 5',
         city: 'Drammen',
         zip: '3017',
@@ -119,7 +120,7 @@ void main() {
             'SELECT * FROM establishment WHERE slug = "test-restaurant"'),
       );
       expect(rows, hasLength(1));
-      expect(rows.first['store_type'], 'restaurant');
+      expect(rows.first['establishment_type'], 'restaurant');
     });
 
     test('creates a venue establishment', () async {
@@ -127,7 +128,7 @@ void main() {
         id: '',
         name: 'Test Spillested',
         slug: 'test-spillested',
-        businessType: BusinessType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Elvegata 10',
         city: 'Drammen',
         zip: '3045',
@@ -141,7 +142,7 @@ void main() {
             'SELECT * FROM establishment WHERE slug = "test-spillested"'),
       );
       expect(rows, hasLength(1));
-      expect(rows.first['store_type'], 'venue');
+      expect(rows.first['establishment_type'], 'venue');
     });
 
     test('creates establishment with all optional fields populated', () async {
@@ -149,7 +150,7 @@ void main() {
         id: '',
         name: 'Full Butikk',
         slug: 'full-butikk',
-        businessType: BusinessType.store,
+        establishmentType: EstablishmentType.shop,
         address: 'Kongens Gate 12',
         city: 'Drammen',
         zip: '3045',
@@ -182,7 +183,7 @@ void main() {
         id: '',
         name: 'Minimal Store',
         slug: 'minimal-store',
-        businessType: BusinessType.store,
+        establishmentType: EstablishmentType.shop,
         address: 'Testgata 1',
         city: 'Drammen',
         zip: '3045',
@@ -221,7 +222,7 @@ void main() {
         await db.create('establishment', {
           'name': name,
           'slug': slug,
-          'store_type': 'store',
+          'establishment_type': 'shop',
           'address': 'Gata $name',
           'city': 'Drammen',
           'zip': '3045',
@@ -242,7 +243,7 @@ void main() {
       await db.create('establishment', {
         'name': 'Round Trip',
         'slug': 'round-trip',
-        'store_type': 'restaurant',
+        'establishment_type': 'restaurant',
         'address': 'Rundgata 1',
         'city': 'Oslo',
         'zip': '0150',
@@ -265,7 +266,7 @@ void main() {
 
       final parsed = Establishment.fromJson(rows.first);
       expect(parsed.name, 'Round Trip');
-      expect(parsed.businessType, BusinessType.restaurant);
+      expect(parsed.establishmentType, EstablishmentType.restaurant);
       expect(parsed.city, 'Oslo');
       expect(parsed.category, 'Restaurant');
       expect(parsed.phone, '+4787654321');
@@ -279,7 +280,7 @@ void main() {
       await db.create('establishment', {
         'name': 'Before Update',
         'slug': 'update-test',
-        'store_type': 'store',
+        'establishment_type': 'shop',
         'address': 'Old Street 1',
         'city': 'Drammen',
         'zip': '3045',
@@ -322,7 +323,7 @@ void main() {
       expect(updatedRows.first['phone'], '+4799999999');
       // Verify untouched fields are preserved.
       expect(updatedRows.first['city'], 'Drammen');
-      expect(updatedRows.first['store_type'], 'store');
+      expect(updatedRows.first['establishment_type'], 'shop');
     });
   });
 
@@ -331,7 +332,7 @@ void main() {
       await db.create('establishment', {
         'name': 'To Delete',
         'slug': 'delete-me',
-        'store_type': 'store',
+        'establishment_type': 'shop',
         'address': 'Gone Street',
         'city': 'Drammen',
         'zip': '3045',
@@ -362,12 +363,12 @@ void main() {
   });
 
   group('Schema validation', () {
-    test('invalid store_type is rejected by ASSERT', () async {
+    test('invalid establishment_type is rejected by ASSERT', () async {
       expect(
         () => db.create('establishment', {
           'name': 'Bad Type',
           'slug': 'bad-type',
-          'store_type': 'invalid_type',
+          'establishment_type': 'invalid_type',
           'address': 'Nowhere',
           'city': 'Drammen',
           'zip': '3045',
@@ -384,7 +385,7 @@ void main() {
       final json = {
         'name': 'Unique Test',
         'slug': 'unique-slug',
-        'store_type': 'store',
+        'establishment_type': 'shop',
         'address': 'Singular Street',
         'city': 'Drammen',
         'zip': '3045',

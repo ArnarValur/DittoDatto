@@ -39,10 +39,9 @@ DEFINE FIELD location          ON establishment TYPE option<geometry<point>>;
 DEFINE FIELD phone             ON establishment TYPE option<string>;
 DEFINE FIELD email             ON establishment TYPE option<string>;
 DEFINE FIELD website           ON establishment TYPE option<string>;
-DEFINE FIELD social_links      ON establishment TYPE option<object>;
-DEFINE FIELD social_links.fb   ON establishment TYPE option<string>;
-DEFINE FIELD social_links.ig   ON establishment TYPE option<string>;
-DEFINE FIELD social_links.x    ON establishment TYPE option<string>;
+DEFINE FIELD social_links      ON establishment TYPE option<array<object>>;
+DEFINE FIELD social_links[*].platform ON establishment TYPE string;
+DEFINE FIELD social_links[*].url      ON establishment TYPE string;
 
 DEFINE FIELD about             ON establishment TYPE option<string>;
 
@@ -77,20 +76,19 @@ DEFINE FIELD booking_policy.booking_confirmation_message ON establishment TYPE o
 DEFINE FIELD booking_policy.no_show_fee_percent         ON establishment TYPE int     DEFAULT 0;
 
 -- Classification
-DEFINE FIELD store_type        ON establishment TYPE string          DEFAULT 'store'
-  ASSERT $value IN ['store', 'restaurant', 'venue'];
+DEFINE FIELD establishment_type ON establishment TYPE string          DEFAULT 'shop'
+  ASSERT $value IN ['shop', 'restaurant', 'venue'];
 DEFINE FIELD category          ON establishment TYPE option<string>;
 
 -- Feature flags
 DEFINE FIELD resources_enabled ON establishment TYPE bool            DEFAULT false;
-DEFINE FIELD booking_form_type ON establishment TYPE string          DEFAULT 'standard'
-  ASSERT $value IN ['standard', 'none', 'tableReservation', 'ticketSystem'];
+
 
 -- Reservation config (embedded, optional)
 DEFINE FIELD reservation_config ON establishment TYPE option<object>;
 DEFINE FIELD reservation_config.max_guests             ON establishment TYPE int     DEFAULT 8;
-DEFINE FIELD reservation_config.large_party_handling   ON establishment TYPE string  DEFAULT 'email'
-  ASSERT $value IN ['email', 'call', 'datto', 'disabled'];
+DEFINE FIELD reservation_config.large_party_handling   ON establishment TYPE string  DEFAULT 'notify'
+  ASSERT $value IN ['notify', 'email', 'call', 'form', 'disabled'];
 DEFINE FIELD reservation_config.large_party_contact    ON establishment TYPE option<string>;
 DEFINE FIELD reservation_config.default_duration       ON establishment TYPE int     DEFAULT 90;
 DEFINE FIELD reservation_config.slot_interval          ON establishment TYPE int     DEFAULT 30;

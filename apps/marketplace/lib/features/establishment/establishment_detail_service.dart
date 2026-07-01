@@ -123,8 +123,8 @@ class EstablishmentDetailService {
 
     return EstablishmentData(
       name: estJson['name'] as String,
-      businessType:
-          EstablishmentType.fromString(estJson['store_type'] as String),
+      establishmentType:
+          EstablishmentType.fromString(estJson['establishment_type'] as String? ?? 'shop'),
       address: estJson['address'] as String,
       city: estJson['city'] as String,
       zip: estJson['zip'] as String,

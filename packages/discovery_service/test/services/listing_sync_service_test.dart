@@ -13,7 +13,7 @@ void main() {
         'city': 'Drammen',
         'zip': '3015',
         'country': 'NO',
-        'store_type': 'store',
+        'establishment_type': 'shop',
         'category': 'skjonnhet',
         'location': {
           'type': 'Point',
@@ -42,7 +42,7 @@ void main() {
       expect(listing.city, 'Drammen');
       expect(listing.zip, '3015');
       expect(listing.country, 'NO');
-      expect(listing.storeType, 'store');
+      expect(listing.establishmentType, 'shop');
       expect(listing.category, 'skjonnhet');
       expect(listing.latitude, closeTo(59.7441, 0.001));
       expect(listing.longitude, closeTo(10.2045, 0.001));
@@ -59,7 +59,7 @@ void main() {
         'address': 'Street 1',
         'city': 'Oslo',
         'zip': '0001',
-        'store_type': 'restaurant',
+        'establishment_type': 'restaurant',
       };
 
       final listing = ListingSyncService.projectToListing(
@@ -73,7 +73,7 @@ void main() {
       expect(listing.logo, isNull);
       expect(listing.cover, isNull);
       expect(listing.category, isNull);
-      expect(listing.storeType, 'restaurant');
+      expect(listing.establishmentType, 'restaurant');
     });
 
     test('handles null images object', () {
@@ -110,7 +110,7 @@ void main() {
       expect(listing.city, '');
       expect(listing.zip, '');
       expect(listing.country, 'NO');
-      expect(listing.storeType, 'store');
+      expect(listing.establishmentType, 'shop');
     });
 
     test('projected listing toJson is valid for SurrealDB upsert', () {
@@ -122,7 +122,7 @@ void main() {
         'address': 'Street',
         'city': 'Drammen',
         'zip': '3015',
-        'store_type': 'venue',
+        'establishment_type': 'venue',
         'category': 'underholdning',
         'location': {
           'type': 'Point',
@@ -145,7 +145,7 @@ void main() {
       expect(json['source_id'], 'establishment:test');
       expect(json['name'], 'Test');
       expect(json['slug'], 'test');
-      expect(json['store_type'], 'venue');
+      expect(json['establishment_type'], 'venue');
 
       // Optional fields present.
       expect(json['about'], 'About text');

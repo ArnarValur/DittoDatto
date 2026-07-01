@@ -13,7 +13,7 @@ final _testEstablishment = Establishment.fromJson({
   'id': 'establishment:1',
   'name': 'Merkurial Studio',
   'slug': 'merkurial-studio',
-  'store_type': 'store',
+  'establishment_type': 'shop',
   'category': 'Teknologi',
   'address': 'Grønland 42',
   'city': 'Drammen',

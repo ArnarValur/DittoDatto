@@ -52,7 +52,7 @@ void main() {
         'city': 'Drammen',
         'zip': '3015',
         'country': 'NO',
-        'store_type': 'store',
+        'establishment_type': 'shop',
         'category': 'skjonnhet',
         'location': {
           'type': 'Point',
@@ -86,7 +86,7 @@ void main() {
       expect(listing['slug'], 'test-barbershop');
       expect(listing['about'], 'The best barbershop in town');
       expect(listing['city'], 'Drammen');
-      expect(listing['store_type'], 'store');
+      expect(listing['establishment_type'], 'shop');
       expect(listing['is_active'], true);
       expect(listing['logo'], 'https://example.com/logo.png');
       expect(listing['cover'], 'https://example.com/cover.jpg');
@@ -102,7 +102,7 @@ void main() {
         'address': 'Testgata 1',
         'city': 'Drammen',
         'zip': '3015',
-        'store_type': 'store',
+        'establishment_type': 'shop',
       };
 
       // First sync.
@@ -139,7 +139,7 @@ void main() {
           'address': 'X',
           'city': 'Y',
           'zip': '0000',
-          'store_type': 'store',
+          'establishment_type': 'shop',
         },
         companySlug: 'test-sync-co',
       );
@@ -180,7 +180,7 @@ void main() {
           'address': 'Street 1',
           'city': 'Drammen',
           'zip': '3015',
-          'store_type': 'restaurant',
+          'establishment_type': 'restaurant',
         },
         companySlug: 'test-sync-co',
       );
@@ -190,7 +190,7 @@ void main() {
       final match = listings.where((l) => l.companySlug == 'test-sync-co');
       expect(match, isNotEmpty);
       expect(match.first.name, 'Fetch Test Place');
-      expect(match.first.storeType, 'restaurant');
+      expect(match.first.establishmentType, 'restaurant');
     });
 
     test('fetchCategories returns admin-managed categories', () async {

@@ -69,7 +69,7 @@ void main() {
       r'''CREATE establishment CONTENT {
         name: "Test Salon",
         slug: "test-salon",
-        store_type: "store",
+        establishment_type: "shop",
         address: "Testgate 1",
         city: "Oslo",
         zip: "0150"

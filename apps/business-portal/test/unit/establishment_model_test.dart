@@ -1,27 +1,28 @@
+import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:business_portal/features/establishments/establishment_model.dart';
 
 void main() {
-  group('BusinessType', () {
+  group('EstablishmentType', () {
     test('has three values', () {
-      expect(BusinessType.values.length, 3);
+      expect(EstablishmentType.values.length, 3);
     });
 
-    test('has store, restaurant, and venue', () {
-      expect(BusinessType.values, contains(BusinessType.store));
-      expect(BusinessType.values, contains(BusinessType.restaurant));
-      expect(BusinessType.values, contains(BusinessType.venue));
+    test('has shop, restaurant, and venue', () {
+      expect(EstablishmentType.values, contains(EstablishmentType.shop));
+      expect(EstablishmentType.values, contains(EstablishmentType.restaurant));
+      expect(EstablishmentType.values, contains(EstablishmentType.venue));
     });
 
     test('label returns Norwegian display name', () {
-      expect(BusinessType.store.label, 'Butikk');
-      expect(BusinessType.restaurant.label, 'Restaurant');
-      expect(BusinessType.venue.label, 'Spillested');
+      expect(EstablishmentType.shop.label, 'Butikk');
+      expect(EstablishmentType.restaurant.label, 'Restaurant');
+      expect(EstablishmentType.venue.label, 'Spillested');
     });
 
     test('icon returns distinct icons', () {
-      final icons = BusinessType.values.map((e) => e.icon).toSet();
+      final icons = EstablishmentType.values.map((e) => e.icon).toSet();
       expect(icons.length, 3);
     });
   });
@@ -31,7 +32,7 @@ void main() {
       'id': 'establishment:abc123',
       'name': 'Merkurial Studio',
       'slug': 'merkurial-studio',
-      'store_type': 'store',
+      'establishment_type': 'shop',
       'category': 'Teknologi',
       'address': 'Grønland 42',
       'city': 'Drammen',
@@ -52,7 +53,7 @@ void main() {
       expect(est.id, 'establishment:abc123');
       expect(est.name, 'Merkurial Studio');
       expect(est.slug, 'merkurial-studio');
-      expect(est.businessType, BusinessType.store);
+      expect(est.establishmentType, EstablishmentType.shop);
       expect(est.category, 'Teknologi');
       expect(est.address, 'Grønland 42');
       expect(est.city, 'Drammen');
@@ -70,7 +71,7 @@ void main() {
         'id': 'establishment:min1',
         'name': 'Minimal',
         'slug': 'minimal',
-        'store_type': 'restaurant',
+        'establishment_type': 'restaurant',
         'address': 'Gate 1',
         'city': 'Oslo',
         'zip': '0001',
@@ -83,7 +84,7 @@ void main() {
       final est = Establishment.fromJson(minimalJson);
 
       expect(est.id, 'establishment:min1');
-      expect(est.businessType, BusinessType.restaurant);
+      expect(est.establishmentType, EstablishmentType.restaurant);
       expect(est.category, isNull);
       expect(est.phone, isNull);
       expect(est.email, isNull);
@@ -97,32 +98,32 @@ void main() {
       final json = est.toJson();
 
       expect(json['name'], 'Merkurial Studio');
-      expect(json['store_type'], 'store');
+      expect(json['establishment_type'], 'shop');
       expect(json['city'], 'Drammen');
       expect(json['is_published'], isTrue);
 
       // Round-trip: fromJson → toJson → fromJson should be identical.
       final roundTripped = Establishment.fromJson(json);
       expect(roundTripped.name, est.name);
-      expect(roundTripped.businessType, est.businessType);
+      expect(roundTripped.establishmentType, est.establishmentType);
       expect(roundTripped.city, est.city);
     });
 
-    test('businessType maps store_type string correctly', () {
+    test('establishmentType maps establishment_type string correctly', () {
       expect(
-        Establishment.fromJson({...sampleJson, 'store_type': 'store'})
-            .businessType,
-        BusinessType.store,
+        Establishment.fromJson({...sampleJson, 'establishment_type': 'shop'})
+            .establishmentType,
+        EstablishmentType.shop,
       );
       expect(
-        Establishment.fromJson({...sampleJson, 'store_type': 'restaurant'})
-            .businessType,
-        BusinessType.restaurant,
+        Establishment.fromJson({...sampleJson, 'establishment_type': 'restaurant'})
+            .establishmentType,
+        EstablishmentType.restaurant,
       );
       expect(
-        Establishment.fromJson({...sampleJson, 'store_type': 'venue'})
-            .businessType,
-        BusinessType.venue,
+        Establishment.fromJson({...sampleJson, 'establishment_type': 'venue'})
+            .establishmentType,
+        EstablishmentType.venue,
       );
     });
   });

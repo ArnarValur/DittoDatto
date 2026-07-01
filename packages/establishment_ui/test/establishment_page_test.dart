@@ -21,7 +21,7 @@ Widget _wrapPage(
 /// Minimal test data — only required fields.
 const _minimal = EstablishmentData(
   name: 'DittoDatto AS',
-  businessType: EstablishmentType.venue,
+  establishmentType: EstablishmentType.venue,
   address: 'Skolegata 9',
   city: 'Drammen',
   zip: '3046',
@@ -31,7 +31,7 @@ const _minimal = EstablishmentData(
 /// Used for most tests to avoid NetworkImage timer issues.
 const _fullText = EstablishmentData(
   name: 'House of the North',
-  businessType: EstablishmentType.venue,
+  establishmentType: EstablishmentType.venue,
   address: 'Skolegata 9',
   city: 'Drammen',
   zip: '3046',

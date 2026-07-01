@@ -241,7 +241,7 @@ class EstablishmentInfoBar extends StatelessWidget {
         if (data.category != null)
           _buildPill(
             label: data.category!,
-            icon: data.businessType.icon,
+            icon: data.establishmentType.icon,
             backgroundColor: colorScheme.secondaryContainer,
             foregroundColor: colorScheme.onSecondaryContainer,
             theme: theme,
@@ -375,7 +375,7 @@ class EstablishmentInfoBar extends StatelessWidget {
           : null,
       child: data.logoUrl == null
           ? Icon(
-              data.businessType.icon,
+              data.establishmentType.icon,
               size: radius * 0.9,
               color: colorScheme.onSecondaryContainer,
             )

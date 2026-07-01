@@ -18,7 +18,7 @@ class EstablishmentListing {
     this.longitude,
     this.logo,
     this.cover,
-    this.storeType = 'store',
+    this.establishmentType = 'shop',
     this.category,
     this.categoryRef,
     this.aggregateRating,
@@ -60,7 +60,7 @@ class EstablishmentListing {
   final String? cover;
 
   // ── Classification ──
-  final String storeType;
+  final String establishmentType;
   final String? category;
   final String? categoryRef;
 
@@ -91,7 +91,7 @@ class EstablishmentListing {
       longitude: _parseGeoLng(json['location']),
       logo: json['logo'] as String?,
       cover: json['cover'] as String?,
-      storeType: json['store_type'] as String? ?? 'store',
+      establishmentType: json['establishment_type'] as String? ?? 'shop',
       category: json['category'] as String?,
       categoryRef: json['category_ref'] as String?,
       aggregateRating: json['aggregate_rating'] != null
@@ -118,7 +118,7 @@ class EstablishmentListing {
       'city': city,
       'zip': zip,
       'country': country,
-      'store_type': storeType,
+      'establishment_type': establishmentType,
       'favorites_count': favoritesCount,
       'is_active': isActive,
       'keywords': keywords,

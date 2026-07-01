@@ -47,7 +47,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
   // ── Generelt section controllers ──
   final _nameController = TextEditingController();
   final _aboutController = TextEditingController();
-  BusinessType _businessType = BusinessType.store;
+  EstablishmentType _establishmentType = EstablishmentType.shop;
   String? _category;
 
   // ── Lokasjon section controllers ──
@@ -93,7 +93,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
     _establishment = est;
     _nameController.text = est.name;
     _aboutController.text = est.about ?? '';
-    _businessType = est.businessType;
+    _establishmentType = est.establishmentType;
     _category = est.category;
     _addressController.text = est.address;
     _cityController.text = est.city;
@@ -138,7 +138,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
       name: _nameController.text.trim().isEmpty
           ? 'Uten navn'
           : _nameController.text.trim(),
-      businessType: EstablishmentType.fromString(_businessType.name),
+      establishmentType: _establishmentType,
       address: _addressController.text.trim().isEmpty
           ? 'Ingen adresse'
           : _addressController.text.trim(),
@@ -180,7 +180,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
       about: _aboutController.text.trim().isEmpty
           ? null
           : _aboutController.text.trim(),
-      businessType: _businessType,
+      establishmentType: _establishmentType,
       category: _category,
       address: _addressController.text.trim(),
       city: _cityController.text.trim(),
@@ -286,7 +286,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
             content: _GenereltSection(
               nameController: _nameController,
               aboutController: _aboutController,
-              businessType: _businessType,
+              establishmentType: _establishmentType,
               category: _category,
               onCategoryChanged: (c) => setState(() => _category = c),
             ),
@@ -430,14 +430,14 @@ class _GenereltSection extends ConsumerWidget {
   const _GenereltSection({
     required this.nameController,
     required this.aboutController,
-    required this.businessType,
+    required this.establishmentType,
     this.category,
     required this.onCategoryChanged,
   });
 
   final TextEditingController nameController;
   final TextEditingController aboutController;
-  final BusinessType businessType;
+  final EstablishmentType establishmentType;
   final String? category;
   final ValueChanged<String?> onCategoryChanged;
 

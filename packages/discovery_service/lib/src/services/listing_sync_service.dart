@@ -46,7 +46,7 @@ class ListingSyncService {
             location     = $location,
             logo         = $logo,
             cover        = $cover,
-            store_type   = $store_type,
+            establishment_type = $establishment_type,
             category     = $category,
             category_ref = $category_ref,
             is_active    = true,
@@ -129,7 +129,7 @@ class ListingSyncService {
       longitude: lng,
       logo: images?['logo'] as String?,
       cover: images?['cover'] as String?,
-      storeType: data['store_type'] as String? ?? 'store',
+      establishmentType: data['establishment_type'] as String? ?? 'shop',
       category: data['category'] as String?,
       isActive: true,
     );

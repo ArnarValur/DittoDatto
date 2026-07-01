@@ -6,10 +6,10 @@ import 'service_group.dart';
 /// Business type classification for establishments.
 ///
 /// Shared enum used by both Business Portal and Public Marketplace.
-/// Maps to `store_type` in the SurrealDB schema:
-/// `ASSERT $value IN ['store', 'restaurant', 'venue']`.
+/// Maps to `establishment_type` in the SurrealDB schema:
+/// `ASSERT $value IN ['shop', 'restaurant', 'venue']`.
 enum EstablishmentType {
-  store('Butikk', Icons.storefront_rounded),
+  shop('Butikk', Icons.storefront_rounded),
   restaurant('Restaurant', Icons.restaurant_rounded),
   venue('Spillested', Icons.stadium_rounded);
 
@@ -21,12 +21,13 @@ enum EstablishmentType {
   /// Material icon for display.
   final IconData icon;
 
-  /// Parse from SurrealDB `store_type` string.
+  /// Parse from SurrealDB `establishment_type` string.
+  /// Also accepts legacy `'store'` for backward compatibility.
   static EstablishmentType fromString(String value) => switch (value) {
-        'store' => EstablishmentType.store,
+        'shop' || 'store' => EstablishmentType.shop,
         'restaurant' => EstablishmentType.restaurant,
         'venue' => EstablishmentType.venue,
-        _ => EstablishmentType.store,
+        _ => EstablishmentType.shop,
       };
 }
 
@@ -58,7 +59,7 @@ enum CoverLayoutMode {
 class EstablishmentData {
   const EstablishmentData({
     required this.name,
-    required this.businessType,
+    required this.establishmentType,
     required this.address,
     required this.city,
     required this.zip,
@@ -87,8 +88,8 @@ class EstablishmentData {
   /// Establishment display name.
   final String name;
 
-  /// Business classification (store, restaurant, venue).
-  final EstablishmentType businessType;
+  /// Business classification (shop, restaurant, venue).
+  final EstablishmentType establishmentType;
 
   /// Street address.
   final String address;
@@ -177,7 +178,7 @@ class EstablishmentData {
   /// Create a copy with overrides.
   EstablishmentData copyWith({
     String? name,
-    EstablishmentType? businessType,
+    EstablishmentType? establishmentType,
     String? address,
     String? city,
     String? zip,
@@ -204,7 +205,7 @@ class EstablishmentData {
   }) {
     return EstablishmentData(
       name: name ?? this.name,
-      businessType: businessType ?? this.businessType,
+      establishmentType: establishmentType ?? this.establishmentType,
       address: address ?? this.address,
       city: city ?? this.city,
       zip: zip ?? this.zip,
@@ -250,7 +251,7 @@ class EstablishmentData {
       if (services[i] != other.services[i]) return false;
     }
     return name == other.name &&
-        businessType == other.businessType &&
+        establishmentType == other.establishmentType &&
         address == other.address &&
         city == other.city &&
         zip == other.zip &&
@@ -277,7 +278,7 @@ class EstablishmentData {
   @override
   int get hashCode => Object.hash(
         name,
-        businessType,
+        establishmentType,
         address,
         city,
         zip,

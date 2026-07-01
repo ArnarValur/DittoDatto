@@ -76,7 +76,7 @@ DEFINE FIELD logo              ON establishment_listing TYPE option<string>;
 DEFINE FIELD cover             ON establishment_listing TYPE option<string>;
 
 -- Classification
-DEFINE FIELD store_type        ON establishment_listing TYPE string  DEFAULT 'store';
+DEFINE FIELD establishment_type ON establishment_listing TYPE string  DEFAULT 'shop';
 DEFINE FIELD category          ON establishment_listing TYPE option<string>;
 DEFINE FIELD category_ref      ON establishment_listing TYPE option<record<category>>;
 

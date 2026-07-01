@@ -259,7 +259,7 @@ void main() {
         (tester) async {
       final data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',
@@ -297,7 +297,7 @@ void main() {
     testWidgets('filters out inactive services', (tester) async {
       const data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',
@@ -316,7 +316,7 @@ void main() {
         (tester) async {
       const data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',
@@ -334,7 +334,7 @@ void main() {
     testWidgets('hides section when zero active services', (tester) async {
       const data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',
@@ -352,7 +352,7 @@ void main() {
     testWidgets('hides section when services list is empty', (tester) async {
       const data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',
@@ -369,7 +369,7 @@ void main() {
     testWidgets('renders section title', (tester) async {
       const data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',
@@ -386,7 +386,7 @@ void main() {
     testWidgets('uses custom section icon when provided', (tester) async {
       const data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',
@@ -406,7 +406,7 @@ void main() {
     testWidgets('omits icon when not provided', (tester) async {
       const data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',
@@ -426,7 +426,7 @@ void main() {
         (tester) async {
       final data = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Test 1',
         city: 'Oslo',
         zip: '0001',

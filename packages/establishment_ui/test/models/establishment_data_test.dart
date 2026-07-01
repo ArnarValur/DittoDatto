@@ -4,13 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('EstablishmentType', () {
     test('has correct Norwegian labels', () {
-      expect(EstablishmentType.store.label, 'Butikk');
+      expect(EstablishmentType.shop.label, 'Butikk');
       expect(EstablishmentType.restaurant.label, 'Restaurant');
       expect(EstablishmentType.venue.label, 'Spillested');
     });
 
     test('fromString parses valid values', () {
-      expect(EstablishmentType.fromString('store'), EstablishmentType.store);
+      expect(EstablishmentType.fromString('store'), EstablishmentType.shop);
       expect(
         EstablishmentType.fromString('restaurant'),
         EstablishmentType.restaurant,
@@ -19,8 +19,8 @@ void main() {
     });
 
     test('fromString defaults to store for unknown values', () {
-      expect(EstablishmentType.fromString('unknown'), EstablishmentType.store);
-      expect(EstablishmentType.fromString(''), EstablishmentType.store);
+      expect(EstablishmentType.fromString('unknown'), EstablishmentType.shop);
+      expect(EstablishmentType.fromString(''), EstablishmentType.shop);
     });
   });
 
@@ -31,7 +31,7 @@ void main() {
     setUp(() {
       minimal = const EstablishmentData(
         name: 'DittoDatto AS',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Skolegata 9',
         city: 'Drammen',
         zip: '3046',
@@ -39,7 +39,7 @@ void main() {
 
       full = const EstablishmentData(
         name: 'House of the North',
-        businessType: EstablishmentType.venue,
+        establishmentType: EstablishmentType.venue,
         address: 'Skolegata 9',
         city: 'Drammen',
         zip: '3046',
@@ -55,7 +55,7 @@ void main() {
 
     test('constructs with required fields and defaults', () {
       expect(minimal.name, 'DittoDatto AS');
-      expect(minimal.businessType, EstablishmentType.venue);
+      expect(minimal.establishmentType, EstablishmentType.venue);
       expect(minimal.address, 'Skolegata 9');
       expect(minimal.city, 'Drammen');
       expect(minimal.zip, '3046');
@@ -114,20 +114,20 @@ void main() {
       // Unchanged fields preserved
       expect(updated.address, 'Skolegata 9');
       expect(updated.city, 'Drammen');
-      expect(updated.businessType, EstablishmentType.venue);
+      expect(updated.establishmentType, EstablishmentType.venue);
     });
 
     test('equality works for identical data', () {
       const a = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.store,
+        establishmentType: EstablishmentType.shop,
         address: 'Addr',
         city: 'City',
         zip: '0000',
       );
       const b = EstablishmentData(
         name: 'Test',
-        businessType: EstablishmentType.store,
+        establishmentType: EstablishmentType.shop,
         address: 'Addr',
         city: 'City',
         zip: '0000',
@@ -140,14 +140,14 @@ void main() {
     test('equality fails for different data', () {
       const a = EstablishmentData(
         name: 'Test A',
-        businessType: EstablishmentType.store,
+        establishmentType: EstablishmentType.shop,
         address: 'Addr',
         city: 'City',
         zip: '0000',
       );
       const b = EstablishmentData(
         name: 'Test B',
-        businessType: EstablishmentType.store,
+        establishmentType: EstablishmentType.shop,
         address: 'Addr',
         city: 'City',
         zip: '0000',

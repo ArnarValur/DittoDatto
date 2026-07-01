@@ -1,4 +1,5 @@
 import 'package:ditto_design/ditto_design.dart';
+import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -123,7 +124,7 @@ void main() {
       expect(mock.lastCreated, isNotNull);
       expect(mock.lastCreated!.name, 'Test Butikk');
       expect(mock.lastCreated!.city, 'Oslo');
-      expect(mock.lastCreated!.businessType, BusinessType.store);
+      expect(mock.lastCreated!.establishmentType, EstablishmentType.shop);
     });
   });
 }

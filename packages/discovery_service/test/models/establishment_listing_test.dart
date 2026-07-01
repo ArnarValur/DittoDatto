@@ -21,7 +21,7 @@ void main() {
         },
         'logo': 'https://storage.example.com/logo.png',
         'cover': 'https://storage.example.com/cover.jpg',
-        'store_type': 'store',
+        'establishment_type': 'shop',
         'category': 'skjonnhet',
         'category_ref': 'category:skjonnhet',
         'aggregate_rating': {'average': 4.8, 'count': 42},
@@ -46,7 +46,7 @@ void main() {
       expect(listing.longitude, closeTo(10.2045, 0.001));
       expect(listing.logo, 'https://storage.example.com/logo.png');
       expect(listing.cover, 'https://storage.example.com/cover.jpg');
-      expect(listing.storeType, 'store');
+      expect(listing.establishmentType, 'shop');
       expect(listing.category, 'skjonnhet');
       expect(listing.categoryRef, 'category:skjonnhet');
       expect(listing.aggregateRating!.average, 4.8);
@@ -81,7 +81,7 @@ void main() {
       expect(listing.isActive, true);
       expect(listing.keywords, isEmpty);
       expect(listing.country, 'NO');
-      expect(listing.storeType, 'store');
+      expect(listing.establishmentType, 'shop');
     });
 
     test('toJson produces valid SurrealDB payload', () {
@@ -170,7 +170,7 @@ void main() {
         latitude: 59.74,
         longitude: 10.20,
         logo: 'logo.png',
-        storeType: 'restaurant',
+        establishmentType: 'restaurant',
         category: 'restaurant',
         keywords: ['mat', 'pizza'],
       );
@@ -180,7 +180,7 @@ void main() {
       expect(roundtripped.companySlug, original.companySlug);
       expect(roundtripped.name, original.name);
       expect(roundtripped.about, original.about);
-      expect(roundtripped.storeType, original.storeType);
+      expect(roundtripped.establishmentType, original.establishmentType);
       expect(roundtripped.category, original.category);
       expect(roundtripped.latitude, closeTo(original.latitude!, 0.001));
       expect(roundtripped.longitude, closeTo(original.longitude!, 0.001));

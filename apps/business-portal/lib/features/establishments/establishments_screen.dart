@@ -1,4 +1,5 @@
 import 'package:ditto_design/ditto_design.dart';
+import 'package:establishment_ui/establishment_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +27,7 @@ class _EstablishmentsScreenState extends ConsumerState<EstablishmentsScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
-  static const _tabs = [null, ...BusinessType.values];
+  static const _tabs = [null, ...EstablishmentType.values];
 
   @override
   void initState() {
@@ -41,12 +42,12 @@ class _EstablishmentsScreenState extends ConsumerState<EstablishmentsScreen>
     super.dispose();
   }
 
-  BusinessType? get _selectedType => _tabs[_tabController.index];
+  EstablishmentType? get _selectedType => _tabs[_tabController.index];
 
   List<Establishment> _filter(List<Establishment> all) {
     final type = _selectedType;
     if (type == null) return all;
-    return all.where((e) => e.businessType == type).toList();
+    return all.where((e) => e.establishmentType == type).toList();
   }
 
   @override
@@ -96,7 +97,7 @@ class _EstablishmentsScreenState extends ConsumerState<EstablishmentsScreen>
             tabAlignment: TabAlignment.start,
             tabs: [
               const Tab(text: 'Alle'),
-              ...BusinessType.values.map((t) => Tab(text: t.label)),
+              ...EstablishmentType.values.map((t) => Tab(text: t.label)),
             ],
           ),
 
@@ -203,7 +204,7 @@ class _EstablishmentCard extends StatelessWidget {
                       borderRadius: DittoBorderRadius.smallAll,
                     ),
                     child: Icon(
-                      establishment.businessType.icon,
+                      establishment.establishmentType.icon,
                       color: DittoColors.moodyBlue,
                       size: 20,
                     ),
@@ -242,7 +243,7 @@ class _EstablishmentCard extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    establishment.businessType.label,
+                    establishment.establishmentType.label,
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),

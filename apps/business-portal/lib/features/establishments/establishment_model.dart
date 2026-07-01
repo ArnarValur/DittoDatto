@@ -1,30 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:establishment_ui/establishment_ui.dart';
 
-/// Business type classification for an [Establishment].
-///
-/// Maps to `store_type` in the SurrealDB schema:
-/// `ASSERT $value IN ['store', 'restaurant', 'venue']`.
-enum BusinessType {
-  store('Butikk', Icons.storefront_rounded),
-  restaurant('Restaurant', Icons.restaurant_rounded),
-  venue('Spillested', Icons.stadium_rounded);
-
-  const BusinessType(this.label, this.icon);
-
-  /// Norwegian display label.
-  final String label;
-
-  /// Material icon for list/card display.
-  final IconData icon;
-
-  /// Parse from SurrealDB `store_type` string.
-  static BusinessType fromString(String value) => switch (value) {
-        'store' => BusinessType.store,
-        'restaurant' => BusinessType.restaurant,
-        'venue' => BusinessType.venue,
-        _ => BusinessType.store,
-      };
-}
+import 'booking_policy.dart';
+import 'opening_schedule.dart';
+import 'reservation_config.dart';
+import 'social_link.dart';
 
 /// An Establishment (business location) in the tenant database.
 ///
@@ -35,7 +14,7 @@ class Establishment {
     required this.id,
     required this.name,
     required this.slug,
-    required this.businessType,
+    required this.establishmentType,
     required this.address,
     required this.city,
     required this.zip,
@@ -54,12 +33,17 @@ class Establishment {
     this.coverLayoutMode = 'bento',
     this.latitude,
     this.longitude,
+    this.openingSchedule,
+    this.timezone = 'Europe/Oslo',
+    this.bookingPolicy,
+    this.socialLinks = const [],
+    this.reservationConfig,
   });
 
   final String id;
   final String name;
   final String slug;
-  final BusinessType businessType;
+  final EstablishmentType establishmentType;
   final String address;
   final String city;
   final String zip;
@@ -83,13 +67,20 @@ class Establishment {
   final double? latitude;
   final double? longitude;
 
+  // ── Config blocks (maps to schema embedded objects) ──
+  final Map<String, OpeningDay>? openingSchedule;
+  final String timezone;
+  final BookingPolicy? bookingPolicy;
+  final List<SocialLink> socialLinks;
+  final ReservationConfig? reservationConfig;
+
   /// Parse from SurrealDB JSON response.
   factory Establishment.fromJson(Map<String, dynamic> json) {
     return Establishment(
       id: json['id'] as String,
       name: json['name'] as String,
       slug: json['slug'] as String,
-      businessType: BusinessType.fromString(json['store_type'] as String),
+      establishmentType: EstablishmentType.fromString(json['establishment_type'] as String? ?? 'shop'),
       address: json['address'] as String,
       city: json['city'] as String,
       zip: json['zip'] as String,
@@ -110,6 +101,20 @@ class Establishment {
       coverLayoutMode: json['cover_layout_mode'] as String? ?? 'bento',
       latitude: _parseGeoLat(json['location']),
       longitude: _parseGeoLng(json['location']),
+      openingSchedule: json['opening_schedule'] != null
+          ? parseOpeningSchedule(
+              json['opening_schedule'] as Map<String, dynamic>)
+          : null,
+      timezone: json['timezone'] as String? ?? 'Europe/Oslo',
+      bookingPolicy: json['booking_policy'] != null
+          ? BookingPolicy.fromJson(
+              json['booking_policy'] as Map<String, dynamic>)
+          : null,
+      socialLinks: parseSocialLinks(json['social_links']),
+      reservationConfig: json['reservation_config'] != null
+          ? ReservationConfig.fromJson(
+              json['reservation_config'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -139,7 +144,7 @@ class Establishment {
       'id': id,
       'name': name,
       'slug': slug,
-      'store_type': businessType.name,
+      'establishment_type': establishmentType.name,
       'address': address,
       'city': city,
       'zip': zip,
@@ -170,6 +175,21 @@ class Establishment {
       };
     }
 
+    // Config blocks — only include when set
+    if (openingSchedule != null) {
+      json['opening_schedule'] = serializeOpeningSchedule(openingSchedule!);
+    }
+    json['timezone'] = timezone;
+    if (bookingPolicy != null) {
+      json['booking_policy'] = bookingPolicy!.toJson();
+    }
+    if (socialLinks.isNotEmpty) {
+      json['social_links'] = serializeSocialLinks(socialLinks);
+    }
+    if (reservationConfig != null) {
+      json['reservation_config'] = reservationConfig!.toJson();
+    }
+
     return json;
   }
 
@@ -177,7 +197,7 @@ class Establishment {
   Establishment copyWith({
     String? name,
     String? slug,
-    BusinessType? businessType,
+    EstablishmentType? establishmentType,
     String? address,
     String? city,
     String? zip,
@@ -194,12 +214,17 @@ class Establishment {
     String? coverLayoutMode,
     double? Function()? latitude,
     double? Function()? longitude,
+    Map<String, OpeningDay>? Function()? openingSchedule,
+    String? timezone,
+    BookingPolicy? Function()? bookingPolicy,
+    List<SocialLink>? socialLinks,
+    ReservationConfig? Function()? reservationConfig,
   }) {
     return Establishment(
       id: id,
       name: name ?? this.name,
       slug: slug ?? this.slug,
-      businessType: businessType ?? this.businessType,
+      establishmentType: establishmentType ?? this.establishmentType,
       address: address ?? this.address,
       city: city ?? this.city,
       zip: zip ?? this.zip,
@@ -218,6 +243,17 @@ class Establishment {
       coverLayoutMode: coverLayoutMode ?? this.coverLayoutMode,
       latitude: latitude != null ? latitude() : this.latitude,
       longitude: longitude != null ? longitude() : this.longitude,
+      openingSchedule: openingSchedule != null
+          ? openingSchedule()
+          : this.openingSchedule,
+      timezone: timezone ?? this.timezone,
+      bookingPolicy: bookingPolicy != null
+          ? bookingPolicy()
+          : this.bookingPolicy,
+      socialLinks: socialLinks ?? this.socialLinks,
+      reservationConfig: reservationConfig != null
+          ? reservationConfig()
+          : this.reservationConfig,
     );
   }
 }

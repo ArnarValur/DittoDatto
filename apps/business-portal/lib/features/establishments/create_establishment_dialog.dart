@@ -28,7 +28,7 @@ class _CreateEstablishmentDialogState
   final _addressController = TextEditingController();
   final _cityController = TextEditingController();
   final _zipController = TextEditingController();
-  BusinessType _selectedType = BusinessType.store;
+  EstablishmentType _selectedType = EstablishmentType.shop;
   bool _saving = false;
 
   // ── Kartverket autocomplete state ──
@@ -92,7 +92,7 @@ class _CreateEstablishmentDialogState
       id: '', // SurrealDB generates this
       name: _nameController.text.trim(),
       slug: slug,
-      businessType: _selectedType,
+      establishmentType: _selectedType,
       address: _addressController.text.trim(),
       city: _cityController.text.trim(),
       zip: _zipController.text.trim(),
@@ -146,8 +146,8 @@ class _CreateEstablishmentDialogState
                   style: theme.textTheme.labelLarge,
                 ),
                 const SizedBox(height: DittoSpacing.sm),
-                SegmentedButton<BusinessType>(
-                  segments: BusinessType.values
+                SegmentedButton<EstablishmentType>(
+                  segments: EstablishmentType.values
                       .map((t) => ButtonSegment(
                             value: t,
                             label: Text(t.label),
