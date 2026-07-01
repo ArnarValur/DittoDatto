@@ -8,6 +8,7 @@ import 'sections/establishment_about_grid.dart';
 import 'sections/establishment_events_section.dart';
 import 'sections/establishment_featured_section.dart';
 import 'sections/establishment_gallery_section.dart';
+import 'sections/establishment_hours_section.dart';
 import 'sections/establishment_info_bar.dart';
 import 'sections/establishment_map_section.dart';
 
@@ -244,6 +245,13 @@ class _EstablishmentPageState extends State<EstablishmentPage> {
                       data: data,
                       isWide: isWide,
                     ),
+                  ),
+
+                // ── Opening hours section ────────────────────────────────
+                if (data.hasOpeningSchedule)
+                  _buildConstrainedSliver(
+                    isWide: isWide,
+                    sliver: EstablishmentHoursSection(data: data),
                   ),
 
                 // ── Bottom padding (clear the glass bottom nav) ─────

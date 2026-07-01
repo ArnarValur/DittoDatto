@@ -198,6 +198,7 @@ class _EstablishmentEditViewState extends ConsumerState<EstablishmentEditView> {
       coverUrl: _selectedCover.isNotEmpty ? _selectedCover.first.url : null,
       galleryUrls: _selectedGallery.map((m) => m.url).toList(),
       coverLayoutMode: CoverLayoutMode.fromString(_coverLayoutMode),
+      openingSchedule: _openingSchedule,
       latitude: _latitude,
       longitude: _longitude,
     );

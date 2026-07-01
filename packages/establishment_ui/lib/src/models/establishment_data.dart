@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'opening_schedule.dart';
 import 'service.dart';
 import 'service_group.dart';
 
@@ -77,8 +78,8 @@ class EstablishmentData {
     this.showServices = true,
     this.showEvents = false,
     this.showStaff = false,
-    this.openingStatus,
-    this.isOpen,
+    this.openingSchedule,
+    this.timezone = 'Europe/Oslo',
     this.latitude,
     this.longitude,
     this.serviceGroups = const [],
@@ -139,13 +140,27 @@ class EstablishmentData {
   final bool showEvents;
   final bool showStaff;
 
-  /// Opening status display text (e.g. 'Stengt i dag', 'Åpent til 18:00').
-  /// TODO: Derive from opening_schedule when schedule parsing is implemented.
-  final String? openingStatus;
+  /// Parsed opening schedule — weekday key → [OpeningDay].
+  /// `null` when the establishment has no schedule configured.
+  final Map<String, OpeningDay>? openingSchedule;
 
-  /// Whether the establishment is currently open.
-  /// TODO: Derive from opening_schedule when schedule parsing is implemented.
-  final bool? isOpen;
+  /// IANA timezone identifier (e.g. 'Europe/Oslo').
+  final String timezone;
+
+  /// Whether the establishment is currently open, derived from
+  /// [openingSchedule] and the current time.
+  bool? get isOpen => isCurrentlyOpen(openingSchedule);
+
+  /// Opening status display text derived from schedule.
+  String? get openingStatus {
+    final open = isOpen;
+    if (open == null) return null;
+    return open ? 'Åpen nå' : 'Stengt';
+  }
+
+  /// Whether opening schedule data is available for display.
+  bool get hasOpeningSchedule =>
+      openingSchedule != null && openingSchedule!.isNotEmpty;
 
   /// Latitude from SurrealDB `location` `geometry<point>`.
   /// GeoJSON format: `{ type: "Point", coordinates: [lng, lat] }`.
@@ -196,8 +211,8 @@ class EstablishmentData {
     bool? showServices,
     bool? showEvents,
     bool? showStaff,
-    String? openingStatus,
-    bool? isOpen,
+    Map<String, OpeningDay>? openingSchedule,
+    String? timezone,
     double? latitude,
     double? longitude,
     List<ServiceGroup>? serviceGroups,
@@ -223,8 +238,8 @@ class EstablishmentData {
       showServices: showServices ?? this.showServices,
       showEvents: showEvents ?? this.showEvents,
       showStaff: showStaff ?? this.showStaff,
-      openingStatus: openingStatus ?? this.openingStatus,
-      isOpen: isOpen ?? this.isOpen,
+      openingSchedule: openingSchedule ?? this.openingSchedule,
+      timezone: timezone ?? this.timezone,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
       serviceGroups: serviceGroups ?? this.serviceGroups,
@@ -268,8 +283,7 @@ class EstablishmentData {
         showServices == other.showServices &&
         showEvents == other.showEvents &&
         showStaff == other.showStaff &&
-        openingStatus == other.openingStatus &&
-        isOpen == other.isOpen &&
+        timezone == other.timezone &&
         latitude == other.latitude &&
         longitude == other.longitude &&
         true; // serviceGroups + services compared above via deep-compare
@@ -298,8 +312,7 @@ class EstablishmentData {
         showStaff,
         // Object.hash supports up to 20 positional args; nest remaining.
         Object.hash(
-          openingStatus,
-          isOpen,
+          timezone,
           latitude,
           longitude,
           Object.hashAll(serviceGroups),

@@ -10,6 +10,7 @@ library;
 export 'src/models/establishment_data.dart';
 export 'src/models/format_helpers.dart';
 export 'src/models/norwegian_address.dart';
+export 'src/models/opening_schedule.dart';
 export 'src/models/service.dart';
 export 'src/models/service_group.dart';
 
@@ -18,6 +19,7 @@ export 'src/establishment_page.dart';
 
 // Sections
 export 'src/sections/establishment_gallery_section.dart';
+export 'src/sections/establishment_hours_section.dart';
 export 'src/sections/establishment_info_bar.dart';
 export 'src/sections/establishment_about_grid.dart';
 

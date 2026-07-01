@@ -142,6 +142,12 @@ class EstablishmentDetailService {
       coverLayoutMode: CoverLayoutMode.fromString(
         estJson['cover_layout_mode'] as String? ?? 'bento',
       ),
+      openingSchedule: estJson['opening_schedule'] != null
+          ? parseOpeningSchedule(
+              Map<String, dynamic>.from(
+                  estJson['opening_schedule'] as Map))
+          : null,
+      timezone: (estJson['timezone'] as String?) ?? 'Europe/Oslo',
       latitude: _parseGeoLat(estJson['location']),
       longitude: _parseGeoLng(estJson['location']),
       services: services,
