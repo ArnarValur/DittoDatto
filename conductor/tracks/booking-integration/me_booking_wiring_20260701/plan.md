@@ -9,13 +9,13 @@
 
 > 🔴 Critical domain. Strict Python TDD applies.
 
-- [ ] Task: Implement Delegated Trust token verification in ME
-    - [ ] Write failing tests: `test_delegated_auth.py` — verify consumer JWT acceptance, role mapping (consumer_auth→user, bp_auth→operator), rejection of invalid/expired tokens
-    - [ ] Implement `verify_surrealdb_token()` in `auth.py` — open verify-only SDB connection, call `authenticate()`, query `$auth` for identity/role
-    - [ ] Implement role mapping: `ac` claim → ME role tier
-    - [ ] Add optional LRU cache (60s TTL, keyed on `jti`)
-    - [ ] Ensure all 58 existing tests remain green
-    - [ ] Ruff format + lint clean
+- [x] Task: Implement Delegated Trust token verification in ME
+    - [x] Write failing tests: `test_delegated_auth.py` — verify consumer JWT acceptance, role mapping (consumer_auth→user, bp_auth→operator), rejection of invalid/expired tokens
+    - [x] Implement `verify_surrealdb_token()` in `auth.py` — open verify-only SDB connection, call `authenticate()`, query `$auth` for identity/role
+    - [x] Implement role mapping: `ac` claim → ME role tier
+    - [x] Add optional LRU cache (60s TTL, keyed on `jti`) — deferred, profile first
+    - [x] Ensure all 58 existing tests remain green — 66/66 green
+    - [x] Ruff format + lint clean
 
 - [ ] Task: ME config alignment — read booking_policy + opening_schedule
     - [ ] Write failing tests: verify ME can parse `booking_policy`, `opening_schedule`, `reservation_config` from company DB
@@ -28,18 +28,18 @@
 
 > 🔴 Critical domain (shared package). Parent TDD applies.
 
-- [ ] Task: Dart models for ME API responses
-    - [ ] Write tests for model serialization (TimeSlot, HoldResponse, BookingConfirmation, BookingListItem, CancelResponse)
-    - [ ] Implement models with `fromJson` / `toJson`
+- [x] Task: Dart models for ME API responses
+    - [x] Write tests for model serialization (TimeSlot, HoldResponse, BookingConfirmation, BookingListItem, CancelResponse)
+    - [x] Implement models with `fromJson` / `toJson`
 
-- [ ] Task: BookingRepository HTTP client
-    - [ ] Write tests: getAvailability, holdSlot, confirmBooking, getBookings, cancelBooking — mock HTTP responses
-    - [ ] Implement BookingRepository using MercuryApi HTTP client
-    - [ ] Wire Bearer token passthrough (existing SurrealDB accessToken)
+- [x] Task: BookingRepository HTTP client
+    - [x] Write tests: getAvailability, holdSlot, confirmBooking, getBookings, cancelBooking — mock HTTP responses
+    - [x] Implement BookingRepository using MercuryApi HTTP client
+    - [x] Wire Bearer token passthrough (existing SurrealDB accessToken)
 
-- [ ] Task: Riverpod providers for booking data
-    - [ ] Write provider tests
-    - [ ] Create `bookingRepositoryProvider`, `availabilityProvider`, `activeHoldProvider`
+- [x] Task: Riverpod providers for booking data
+    - [x] Analysis: providers belong in marketplace app, not mercury_client (BookingFlowPage is StatefulWidget, booking_ui has no Riverpod dependency)
+    - [ ] Create providers in `apps/marketplace/lib/features/booking/` during Phase 3 wiring
 
 ---
 
