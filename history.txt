@@ -1,8 +1,4 @@
 #V2
-DEFINE FIELD resource          ON hold TYPE option<record<resource>>;
-\nDEFINE FIELD date              ON hold TYPE string;
-DEFINE FIELD slot_time         ON hold TYPE string;
-DEFINE FIELD duration          ON hold TYPE int;
 \nDEFINE FIELD expires_at        ON hold TYPE datetime;
 DEFINE FIELD created_at        ON hold TYPE datetime                VALUE $value OR time::now();
 \nDEFINE FIELD payment_status    ON hold TYPE option<string>\n  ASSERT $value IN ['pending', 'initiated', 'failed'] OR $value IS NONE;
@@ -89,10 +85,14 @@ DEFINE FIELD created_at        ON fact TYPE datetime                 VALUE $valu
 DEFINE FIELD relation_type     ON relates_to TYPE string;
 DEFINE FIELD weight            ON relates_to TYPE number             DEFAULT 1.0;
 DEFINE FIELD created_at        ON relates_to TYPE datetime           VALUE $value OR time::now();
+\n-- =============================================================================\n-- 8. MARKETPLACE ESTABLISHMENT DETAIL (ADR-0025 — Two-Phase Detail Load)\n-- =============================================================================\n-- Server-side query bundle for the Public Marketplace.\n-- Primary: Marketplace connects via WS, calls fn::get_establishment_detail() directly.\n-- Bonus:   HTTP API at GET /api/companies/company_{slug}/establishment.\n-- Auth:    Namespace-level VIEWER user (marketplace_reader) — no per-DB users.\n\n-- ── Function: bundled read query ──────────────────────────────────────────────\n\nDEFINE FUNCTION fn::get_establishment_detail() {\n    LET $est = SELECT * FROM establishment\n        WHERE is_published = true\n        LIMIT 1\n    ;    LET $svc = SELECT * FROM service\n        WHERE is_active = true AND deleted_at IS NONE\n        ORDER BY title\n    ;    LET $grp = SELECT * FROM service_group\n        WHERE deleted_at IS NONE\n        ORDER BY sort_order\n    ;    RETURN {\n        establishment: $est[0],\n        services: $svc,\n        service_groups: $grp\n    }\n};
+\n-- ── HTTP API endpoint ─────────────────────────────────────────────────────────\n\nDEFINE API "/establishment" FOR get THEN {\n    RETURN {\n        status: 200,\n        body: fn::get_establishment_detail()\n    }\n};
 USE NS companies DB company_testcompany;
 DEFINE USER IF NOT EXISTS bp_portal ON DATABASE PASSWORD 'test-portal-pass' ROLES EDITOR;
 USE NS companies DB discovery;
 DEFINE USER IF NOT EXISTS bp_portal ON DATABASE PASSWORD 'test-portal-pass' ROLES EDITOR;
+USE NS companies;
+DEFINE USER IF NOT EXISTS marketplace_reader ON NAMESPACE PASSWORD 'marketplace-reader-pass' ROLES VIEWER;
 USE NS users;
 DEFINE USER IF NOT EXISTS testadmin ON NAMESPACE PASSWORD 'testadmin-pass' ROLES OWNER;
 USE NS companies;

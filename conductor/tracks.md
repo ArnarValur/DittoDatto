@@ -36,13 +36,13 @@ All tracks organized by domain. Each track links to its dedicated folder.
   - *Depends on:* `establishment_ui` (✅), `ditto_design` (✅), `discovery_service` (✅)
   - *Deferred:* Split-shift hours, seasonal schedules, holiday/override management, push notifications (notify mode), large party request form, Marketplace opening hours + social links display (→ co-joined ME session)
 
-- [~] **Discovery Layer — Publish pipeline, discovery_service package, Marketplace home screen, area auto-detection, two-phase detail load**
-  - *Type:* feature | *Domain:* discovery | *Status:* **Phases 1-2+4 complete, Phase 5 in progress**
+- [x] **Discovery Layer — Publish pipeline, discovery_service package, Marketplace home screen, area auto-detection, two-phase detail load** [graduated: Phase 5 E2E complete]
+  - *Type:* feature | *Domain:* discovery | *Status:* **completed**
   - *Link:* [tracks/discovery/discovery_layer_20260630/](./tracks/discovery/discovery_layer_20260630/)
-  - *Phases:* 5 — (1) Package + Models + BP Publish Sync ✅, (2) Home Screen + DittoBar Search ✅, (3) Area Hierarchy + Geo Filtering ⏸️, (4) Two-Phase Detail Load ✅, (5) Verification + Deploy
+  - *Phases:* 5 — (1) Package + Models + BP Publish Sync ✅, (2) Home Screen + DittoBar Search ✅, (3) Area Hierarchy + Geo Filtering ⏸️, (4) Two-Phase Detail Load ✅, (5) Verification + Deploy ✅
   - *ADRs:* ADR-0024 (BP Direct-Write Sync), ADR-0025 (Two-Phase Load), ADR-0026 (Discovery Service Package)
-  - *Depends on:* `establishment_ui` (✅), `ditto_auth` (✅), `ditto_design` (✅), Admin categories (✅), Kartverket geocoding (✅)
-  - *Deferred:* SearchEvent/Zero-Result logging, vector search, ratings, map view, self-service signup
+  - *What works:* Publish sync from BP → discovery DB. Home tab with DittoBar, category chips, listing cards. Detail page with two-phase load (NS VIEWER → fn::get_establishment_detail). All deployed and E2E verified on phone.
+  - *Deferred:* Phase 3 (Area Hierarchy + Geo Filtering), SearchEvent/Zero-Result logging, vector search, ratings, map view, self-service signup
 
 - [ ] **SolarTheme — Time-of-day atmospheric theming (solar engine, star field, gradient sky)**
   - *Type:* feature | *Domain:* design-system | *Status:* **Phase 1 complete** (engine ported, demo running on device)
